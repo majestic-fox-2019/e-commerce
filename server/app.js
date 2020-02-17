@@ -8,4 +8,8 @@ app.use(express.json());
 
 app.use('/users', userRoute);
 
+app.use((err, res, req, next) => {
+    res.status(500).json(err);
+});
+
 module.exports = app;

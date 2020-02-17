@@ -7,8 +7,15 @@ class UserController {
         //     .findOne({email})
     }
 
-    static register() {
-        
+    static register(req, res, next) {
+        const {email, password} = req.body;
+        User
+            .create({email, password})
+            .then((result) => {
+                res.status(201).json(result);
+            }).catch((err) => {
+                next(err);
+            });        
     }
 }
 

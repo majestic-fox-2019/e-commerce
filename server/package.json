@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon start.js",
-    "test": "NODE_ENV=test jest --testTimeout=10000",
-    "create_test_db": "NODE_ENV=test sequelize db:create"
+    "test": "NODE_ENV=test npm run reset_test_db && jest --testTimeout=10000",
+    "create_test_db": "NODE_ENV=test sequelize db:create",
+    "reset_test_db": "sequelize db:migrate:undo:all && sequelize db:migrate"
   },
   "keywords": [],
   "author": "",
