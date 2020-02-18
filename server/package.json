@@ -11,7 +11,7 @@
     "seed-admin": "npx sequelize-cli db:seed --seed 20200217074629-admins",
     "migrate": "npx sequelize-cli db:migrate && npm run seed-admin",
     "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
-    "test": "NODE_ENV=test jest --testTimeout=10000",
+    "test": "NODE_ENV=test jest .set1.spec && jest .set2.spec && jest .set3.spec && jest .set4.spec --testTimeout=10000 --runInBand",
     "pretest": "NODE_ENV=test npm run migrate:reset"
   },
   "keywords": [],

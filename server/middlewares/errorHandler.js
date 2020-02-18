@@ -1,5 +1,5 @@
 module.exports = function(err, req, res, next) {
-  //   console.log(err)
+  // console.log(err)
   if (err.name == 'SequelizeValidationError') {
     let errors = []
     err.errors.forEach((error) => {
@@ -7,6 +7,10 @@ module.exports = function(err, req, res, next) {
     })
     res.status(400).json({
       msg: errors
+    })
+  } else if (err.name == 'SequelizeDatabaseError') {
+    res.status(400).json({
+      msg: `Wrong category format, value either 'Desktop', 'Laptop', 'Keyboard', 'Monitor', 'Mouse'`
     })
   } else if (err.name == 'SequelizeUniqueConstraintError') {
     res.status(400).json({

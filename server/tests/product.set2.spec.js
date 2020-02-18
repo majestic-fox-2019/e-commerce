@@ -12,13 +12,14 @@ let product = {
   price: 13000000,
   stock: 10,
   description: 'Macbook Donk',
+  category: 'Laptop',
   image_url: 'https://static.bmdstatic.com/pk/product/medium/5a5425323ba7a.jpg'
 }
 
 const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6IkFkbWluMSIsImVtYWlsIjoiYWRtaW4xQG1haWwuY29tIn0.aHJY9rKD-IKPDbaIfbAC69NIq0reWdX59nX24S36FHY'
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6IkFkbWluMSIsImVtYWlsIjoiYWRtaW4xQG1haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZX0.9YWcy3G_mWUjoXWnLiXHboPBkTyA_eNMyfBEmR29B_4'
 
-const nonAdminToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJ1c2VybmFtZSI6InRlc3RlcjEyMyIsImVtYWlsIjoidGVzdEBtYWlsLmNvbSJ9.QNGQMKqzOt7gw_JrBzFXUUSzwDhevMvYTgqYJZRG-lw`
+const nonAdminToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJ0ZXN0ZXIxMjMiLCJlbWFpbCI6InRlc3RAbWFpbC5jb20iLCJpc0FkbWluIjpmYWxzZX0.pIn0WXDNprufg6K8VEhOUjRVMfjycHp0oTSwV21HwGs`
 
 describe('Create product', () => {
   it('On Success should return', (done) => {
@@ -228,6 +229,7 @@ describe('Delete product from list', () => {
     price: 20000000,
     stock: 5,
     description: 'Macbook Pro Donk',
+    category: 'Laptop',
     image_url:
       'https://static.bmdstatic.com/pk/product/medium/5dcbdac614ea8.jpg',
     UserId: 1

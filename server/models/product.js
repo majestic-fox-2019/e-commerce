@@ -48,6 +48,10 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       },
+      category: {
+        type: DataTypes.ENUM,
+        values: ['Desktop', 'Laptop', 'Keyboard', 'Monitor', 'Mouse']
+      },
       image_url: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -71,6 +75,9 @@ module.exports = (sequelize, DataTypes) => {
   )
   Product.associate = function(models) {
     // associations can be defined here
+    Product.belongsTo(models.User)
+    Product.hasMany(models.Transaction)
+    Product.hasMany(models.Cart)
   }
   return Product
 }

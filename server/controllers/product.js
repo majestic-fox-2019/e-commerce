@@ -7,6 +7,7 @@ class Controller {
       price: req.body.price,
       stock: req.body.stock,
       description: req.body.description,
+      category: req.body.category,
       image_url: req.body.image_url,
       UserId: req.userInfo.id
     }
