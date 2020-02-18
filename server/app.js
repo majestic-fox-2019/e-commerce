@@ -8,8 +8,12 @@ app.use(express.json());
 
 app.use('/users', userRoute);
 
-app.use((err, res, req, next) => {
-    res.status(500).json(err);
+app.use((err, req, res, next) => {
+    if (err.message.length > 0) {
+        res.status(400).json({error: err.message});
+    }else{
+        res.status(500).json(err);
+    }
 });
 
 module.exports = app;

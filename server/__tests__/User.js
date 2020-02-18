@@ -2,7 +2,7 @@ const app       = require('../app');
 
 const supertest = require('supertest');
 const request   = supertest(app);
-const {compare}    = require('../helpers/hash');
+const {compare} = require('../helpers/hash');
 
 describe('/users', function() {
     it('POST /register', async done => {
@@ -20,6 +20,32 @@ describe('/users', function() {
             
             done();
     });
+
+    it('POST /register fails with empty invalid email', async () => {
+        let reqBody = {
+            email: " asdsad ",
+            password: "stop tipu tipu"
+        }
+        const response = await request
+            .post('/users/register')
+            .send(reqBody)
+
+            expect(response.status).toBe(400);
+    });
+
+    it('POST /register fails with empty invalid email', async () => {
+        let reqBody = {
+            email: "",
+            password: "stop tipu tipu"
+        }
+        const response = await request
+            .post('/users/register')
+            .send(reqBody)
+
+            expect(response.status).toBe(400);
+    });
+
+
     
     // it('POST /login', async done => {
     //     let reqBody = {
