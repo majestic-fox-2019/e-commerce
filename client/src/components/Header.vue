@@ -27,22 +27,23 @@
       <v-spacer></v-spacer>
 
       <div class="d-inline-flex">
-        <v-btn
-          text
-        >
-          <router-link to="/ebooks">
+        <router-link to="/ebooks">
+          <v-btn
+            text
+          >
             <v-icon>mdi-notebook-outline</v-icon>
             <span class="ml-2 menu-text">Ebooks</span>
+          </v-btn>
         </router-link>
-        </v-btn>
-        <v-btn
-          text
-        >
-          <router-link to="/tutorials">
-             <v-icon>mdi-library-video</v-icon>
-             <span class="ml-2 menu-text">Tutorials</span>
-          </router-link>
-        </v-btn>
+        <router-link to="/tutorials">
+          <v-btn
+            text
+          >
+            <v-icon>mdi-library-video</v-icon>
+            <span class="ml-2 menu-text">Tutorials</span>
+          </v-btn>
+        </router-link>
+
       </div>
 
       <v-spacer></v-spacer>
