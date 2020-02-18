@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         isEmail: true,
         notNull: {
@@ -53,11 +54,13 @@ module.exports = (sequelize, DataTypes) => {
       beforeCreate: (user, option) => {
         let hash = bcrypt.hashSync(user.password, 10)
         user.password = hash
+        user.role = 'user'
       }
     }
   });
   User.associate = function (models) {
     // associations can be defined here
+    User.belongsToMany(models.Product, { through: models.UserProduct })
   };
   return User;
 };

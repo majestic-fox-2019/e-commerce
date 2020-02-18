@@ -1,10 +1,16 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const UserProduct = sequelize.define('UserProduct', {
+
+  const { Model } = sequelize.Sequelize
+
+  class UserProduct extends Model { }
+
+  UserProduct.init({
     UserId: DataTypes.INTEGER,
     ProductId: DataTypes.INTEGER
-  }, {});
-  UserProduct.associate = function(models) {
+  }, { sequelize })
+
+  UserProduct.associate = function (models) {
     // associations can be defined here
   };
   return UserProduct;

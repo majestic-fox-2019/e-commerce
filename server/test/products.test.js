@@ -16,7 +16,7 @@ describe('POST /products', () => {
     request(app)
       .post('/products')
       .send(product)
-      .set('token', token)
+      // .set('token', token)
       .expect(201)
       .then(res => {
         console.log(res.body, '< success post products')

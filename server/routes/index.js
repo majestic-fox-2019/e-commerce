@@ -1,10 +1,12 @@
 var express = require('express')
 var router = express.Router()
 const productRoutes = require('./products')
-const userRoutes = require('./user')
+const registerRoute = require('./register')
+const loginRoute = require('./login')
 const authentication = require('../middlewares/authentication')
 
-router.use('/user', userRoutes)
+router.use('/register', registerRoute)
+router.use('/login', loginRoute)
 
 router.use(authentication)
 

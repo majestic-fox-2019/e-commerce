@@ -34,8 +34,8 @@ class UserController {
         if (result) {
           const compare = bcrypt.compareSync(user.password, result.password)
           if (compare) {
-            const token = jwt.sign({ id: result.id, email: result.email }, 'process.env.JWT_TOKEN')
-            res.status(200).json({ token: token })
+            const token = jwt.sign({ id: result.id, email: result.email, role: result.role }, 'process.env.JWT_TOKEN')
+            res.status(200).json(token)
           } else {
             let msg = {
               statusCode: 404,

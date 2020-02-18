@@ -7,7 +7,7 @@
     "dev": "nodemon app.js",
     "migrate": "sequelize db:migrate",
     "migrate:reset": "sequelize db:migrate:undo:all && npm run migrate",
-    "test": "NODE_ENV=test jest --detectOpenHandles || exit 0",
+    "test": "NODE_ENV=test jest --detectOpenHandles --verbose --silent || exit 0",
     "pretest": "NODE_ENV=test npm run migrate:reset",
     "db_testing": "NODE_ENV=test sequelize db:create",
     "db_dev": "NODE_ENV=development sequelize db:create"

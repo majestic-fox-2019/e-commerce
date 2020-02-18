@@ -1,0 +1,2 @@
+const { UserProduct } = require('../models')
+
