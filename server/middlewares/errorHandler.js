@@ -18,7 +18,6 @@ module.exports = (err, req, res, next) => {
     code = 500
     errors.push('Internal server error')
   }
-
   res.status(code).json({
     code: code,
     err: errors

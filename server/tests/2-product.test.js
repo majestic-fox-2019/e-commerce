@@ -48,22 +48,6 @@ describe('PATCH /users/create-shop', () => {
   })
 })
 
-describe('GET /products', () => {
-  it('should return array result', done => {
-    request(app)
-      .get('/products')
-      .expect(200)
-      .end((err, res) => {
-        if (err) {
-          done(err)
-        } else {
-          expect(Array.isArray(res.body)).toBe(true)
-          done()
-        }
-      })
-  })
-})
-
 describe('POST /products', () => {
   it('should return object result and status 201', done => {
     const data = {
@@ -110,6 +94,61 @@ describe('POST /products', () => {
         } else {
           expect(Array.isArray(res.body.err)).toBe(true)
           expect(res.body.err[0]).toEqual('You are not authorized')
+          done()
+        }
+      })
+  })
+})
+
+describe('GET /products', () => {
+  it('should return array result', done => {
+    request(app)
+      .get('/products')
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          expect(Array.isArray(res.body)).toBe(true)
+          done()
+        }
+      })
+  })
+})
+
+describe('GET /products/category/:category', () => {
+  it('should return array result by category', done => {
+    request(app)
+      .get('/products/categories/Baju')
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          expect(Array.isArray(res.body)).toBe(true)
+          done()
+        }
+      })
+  })
+})
+
+describe('GET /products/:id', () => {
+  it('should return single detail products object', done => {
+    request(app)
+      .get('/products/1')
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          expect(typeof res.body).toBe('object')
+          expect(res.body).toHaveProperty('name')
+          expect(res.body).toHaveProperty('description')
+          expect(res.body).toHaveProperty('price')
+          expect(res.body).toHaveProperty('stocks')
+          expect(res.body).toHaveProperty('image_url')
+          expect(res.body).toHaveProperty('category')
+          expect(res.body).toHaveProperty('UserId')
           done()
         }
       })

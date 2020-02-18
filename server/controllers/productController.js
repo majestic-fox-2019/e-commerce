@@ -11,6 +11,24 @@ class ProductController {
       })
   }
 
+  static getByCategories(req, res, next) {
+    const category = req.params.category
+    console.log(category)
+    Product.findAll({ where: { category: category } })
+      .then(results => {
+        res.status(200).json(results)
+      })
+      .catch(next)
+  }
+
+  static getOneDetail(req, res, next) {
+    Product.findOne({ where: { id: req.params.id } })
+      .then(result => {
+        res.status(200).json(result)
+      })
+      .catch(next)
+  }
+
   static createNew(req, res, next) {
     const data = {
       name: req.body.name,
@@ -29,7 +47,6 @@ class ProductController {
         })
       })
       .catch(err => {
-        console.log(err)
         next(err)
       })
   }
