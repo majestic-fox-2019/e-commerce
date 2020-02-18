@@ -1,7 +1,7 @@
 <template>
     <v-app-bar
       app
-      color="primary"
+      color="#007eb8"
       dark
     >
       <div class="d-flex align-center">
@@ -27,7 +27,7 @@
       <v-spacer></v-spacer>
 
       <div class="d-inline-flex">
-        <router-link to="/ebooks">
+        <router-link :to="{name: 'ebooks'}">
           <v-btn
             text
           >
@@ -35,7 +35,7 @@
             <span class="ml-2 menu-text">Ebooks</span>
           </v-btn>
         </router-link>
-        <router-link to="/tutorials">
+        <router-link :to="{name: 'tutorials'}">
           <v-btn
             text
           >

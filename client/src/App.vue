@@ -1,6 +1,9 @@
 <template>
   <v-app>
     <Header />
+    <Login
+      v-if="isLogin == null"
+    />
     <v-content>
       <router-view></router-view>
       <!-- <Home/> -->
@@ -10,18 +13,19 @@
 
 <script>
 import Header from './components/Header.vue';
-// import Home from './components/Home.vue';
+import Login from './components/Login.vue';
 
 export default {
   name: 'App',
-
+  data() {
+    return {
+      isLogin: localStorage.getItem('token'),
+    };
+  },
   components: {
     Header,
-    // Home,
+    Login,
   },
 
-  data: () => ({
-    //
-  }),
 };
 </script>
