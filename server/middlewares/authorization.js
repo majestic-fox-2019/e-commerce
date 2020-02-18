@@ -1,13 +1,19 @@
-const { User, Product } = require('../models')
+const { User, Product, Cart } = require('../models')
 const jwt = require('jsonwebtoken')
 
-function createAdminAuth(req, res, next){
-    if(req.body.role !== 'admin'){
+function createAdminAuth(req, res, next) {
+    if (req.body.role !== 'admin') {
         next()
-    } else if(req.body.role == 'admin') {
-        let data = jwt.verify(req.headers.token, JWT_SECRET)
-        if(data.role !== 'admin') {
-            throw ({
+    } else if (req.body.role == 'admin') {
+        if(!req.headers.token){
+            next({
+                statusCode: 401,
+                message: 'unauthorized access'
+            })
+        }
+        let data = jwt.verify(req.headers.token, process.env.JWT_SECRET)
+        if (data.role !== 'admin') {
+            next({
                 statusCode: 401,
                 message: 'unauthorized access'
             })
@@ -20,6 +26,7 @@ function createAdminAuth(req, res, next){
 
 function addProductAuth(req, res, next) {
     if (req.loggedUser.role == 'admin') {
+        req.body.admin = true
         next()
     } else {
         User.findOne({
@@ -27,17 +34,16 @@ function addProductAuth(req, res, next) {
                 id: req.loggedUser.id
             }
         })
-        .then(userData => {
-            if (userData.shopName) {
-                next()
-            } else {
-                throw ({
-                    statusCode: 400,
-                    message: 'To start selling items, please create a shop first'
-                })
-            }
-        })
-    
+            .then(userData => {
+                if (userData.shopName) {
+                    next()
+                } else {
+                    throw ({
+                        statusCode: 400,
+                        message: 'To start selling items, please create a shop first'
+                    })
+                }
+            })
             .catch(err => {
                 next(err)
             })
@@ -51,42 +57,101 @@ function editProductAuth(req, res, next) {
             id: req.params.id
         }
     })
-    .then(productInfo => {
-        productData = productInfo
-        return User.findOne({
-            where: {
-                id: productInfo.UserId
+        .then(productInfo => {
+            productData = productInfo
+            return User.findOne({
+                where: {
+                    id: productInfo.UserId
+                }
+            })
+        })
+        .then(userInfo => {
+            if (userInfo.role == 'admin' && req.loggedUser.role == 'admin') {
+                next()
+            } else if (userInfo.role !== 'admin' && req.loggedUser.id !== productData.UserId) {
+                throw ({
+                    statusCode: 401,
+                    message: 'You are unauthorized to edit this product'
+                })
+            } else {
+                next()
             }
         })
-    })
-    .then(userInfo => {
-        if(userInfo.role == 'admin' && req.loggedUser.role == 'admin'){
-            next()
-        } else if (userInfo.role !== 'admin' && req.loggedUser.id !== productData.UserId) {
-            throw ({
-                statusCode: 401,
-                message: 'You are unauthorized to edit this product'
-            })
-        } else {
-            next()
-        }
-    })
-    .catch(err => {
-        next(err)
-    })
+        .catch(err => {
+            next(err)
+        })
 }
 
-function productDeleteAuth(req, res, next){
+function productDeleteAuth(req, res, next) {
     Product.findOne({
         where: {
             id: req.params.id
         }
     })
-    .then(productInfo => {
-        if(req.loggedUser.role !== 'admin' && productInfo.UserId !== req.loggedUser.id) {
+        .then(productInfo => {
+            if (req.loggedUser.role !== 'admin' && productInfo.UserId !== req.loggedUser.id) {
+                throw ({
+                    statusCode: 401,
+                    message: 'You are unauthorized to edit this product'
+                })
+            } else {
+                next()
+            }
+        })
+        .catch(err => {
+            next(err)
+        })
+}
+
+function addToCartAuth(req, res, next) {
+    if (req.loggedUser.role == 'admin') {
+        throw ({
+            statusCode: 403,
+            message: 'You are unauthorized to do this action'
+        })
+    } else {
+        Product.findOne({
+            where: {
+                id: req.body.ProductId
+            }
+        })
+            .then(productInfo => {
+                if (productInfo.UserId == req.loggedUser.id) {
+                    throw ({
+                        statusCode: 400,
+                        message: 'You cannot make transaction with your own product'
+                    })
+                } else if (productInfo.stock < req.body.qty) {
+                    throw ({
+                        statusCode: 400,
+                        message: `We're sorry the current stock is insufficient`
+                    })
+                } else {
+                    next()
+                }
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+}
+
+function deliveryConfirmAuth(req, res, next){
+    Cart.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(cartData => {
+        if(!cartData) {
+            throw({
+                statusCode: 404,
+                message: 'Invalid Cart'
+            })
+        } else if(cartData.UserId !== req.loggedUser.id) {
             throw({
                 statusCode: 401,
-                message: 'You are unauthorized to edit this product'
+                message: 'You are unauthorized to edit this cart'
             })
         } else {
             next()
@@ -102,5 +167,7 @@ module.exports = {
     addProductAuth,
     editProductAuth,
     productDeleteAuth,
-    createAdminAuth
+    createAdminAuth,
+    addToCartAuth,
+    deliveryConfirmAuth
 }

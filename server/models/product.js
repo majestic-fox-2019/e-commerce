@@ -88,6 +88,9 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Please fill in all fields'
         }
       }
+    },
+    official: {
+      type: DataTypes.BOOLEAN
     }
   },{ 
     sequelize
@@ -96,6 +99,10 @@ module.exports = (sequelize, DataTypes) => {
   Product.associate = function(models) {
     // associations can be defined here
     Product.belongsTo(models.User)
+    Product.belongsToMany(models.User, { through: models.Cart })
+    Product.belongsToMany(models.User, { through: models.Purchase })
+    Product.belongsToMany(models.User, { through: models.Income })
+    // Product.belongsTo(models.Income)
   };
   return Product;
 };

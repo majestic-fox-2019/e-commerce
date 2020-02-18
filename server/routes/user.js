@@ -7,6 +7,12 @@ router.post('/register', createAdminAuth, controller.register)
 
 router.post('/login', controller.login)
 
-router.patch('/shop', authentication, controller.registerShop)
+router.use(authentication)
+
+router.patch('/shop', controller.registerShop)
+
+router.get('/purchases', controller.getPurchases)
+
+router.get('/incomes', controller.getIncomes)
 
 module.exports = router

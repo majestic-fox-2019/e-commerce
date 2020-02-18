@@ -18,7 +18,8 @@ class ProductController {
             stock,
             img_url,
             category,
-            UserId: req.loggedUser.id
+            UserId: req.loggedUser.id,
+            official: req.body.admin || false
         })
         .then(newProduct => {
             res.status(201).json(newProduct)

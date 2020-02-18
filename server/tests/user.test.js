@@ -254,7 +254,7 @@ describe('PATCH /users/shop (SUCCESS)', () => {
 })
 
 describe('PATCH /users/shop (ERROR: invalid edit shopName)', () => {
-    it('should return status(400) with the message: You cannot change you shop name', (done) => {
+    it('should return status(400) with the message: You cannot change your shop name', (done) => {
         request(app)
             .patch('/user/shop')
             .send({
@@ -264,7 +264,7 @@ describe('PATCH /users/shop (ERROR: invalid edit shopName)', () => {
             .end((err, res) => {
                 if(err) done(err)
                 expect(res.body).toHaveProperty('msg')
-                expect(res.body.msg).toBe('You cannot change you shop name')
+                expect(res.body.msg).toBe('You cannot change your shop name')
                 done()
             })
     })
