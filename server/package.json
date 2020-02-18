@@ -2,9 +2,13 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-dev": "nodemon app.js",
+    "migrate": "sequelize db:migrate",
+    "migrate:reset": "sequelize db:migrate:undo:all && npm run migrate",
+    "test": "NODE_ENV=test jest --forceExit ",
+    "pretest": "NODE_ENV=test npm run migrate:reset"
   },
   "keywords": [],
   "author": "",
@@ -13,12 +17,21 @@
     "bcrypt": "^3.0.8",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "http-errors": "^1.7.3",
     "jsonwebtoken": "^8.5.1",
     "pg": "^7.18.1",
     "sequelize": "^5.21.4"
   },
   "devDependencies": {
+    "cross-env": "^7.0.0",
     "dotenv": "^8.2.0",
-    "jest": "^25.1.0"
+    "jest": "^25.1.0",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
