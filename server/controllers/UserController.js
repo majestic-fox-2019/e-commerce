@@ -1,5 +1,6 @@
-const User      = require('../models').User;
-const {compare} = require('../helpers/hash');
+const User              = require('../models').User;
+const {compare}         = require('../helpers/hash');
+const {generateToken}   = require('../helpers/webtoken');
 class UserController {
     static login(req, res, next) {
         const {email, password} = req.body;
@@ -9,7 +10,7 @@ class UserController {
             })
             .then(user => {
                 if (user && compare(password, user.password)) {
-                    let token = "asldksal";
+                    let token = generateToken({email});
                     res.status(200).json({token})
                 }else{
                     throw{
@@ -21,8 +22,6 @@ class UserController {
             .catch(err => {
                 next(err);
             })
-
-        res.status(200).json({token: "asdsatest", email});
     }
 
     static register(req, res, next) {
