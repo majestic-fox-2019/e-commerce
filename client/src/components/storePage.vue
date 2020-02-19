@@ -22,61 +22,13 @@
                     </a>
 
                 </li>
+            </ul>
+            <ul class="category" v-for="(category, i) in getCategories()" :key="i">
                 <li class="has-subnav">
                     <a href="#">
                        <i class="fa fa-list fa-2x"></i>
                         <span class="nav-text">
-                            Forms
-                        </span>
-                    </a>
-
-                </li>
-                <li class="has-subnav">
-                    <a href="#">
-                       <i class="fa fa-folder-open fa-2x"></i>
-                        <span class="nav-text">
-                            Pages
-                        </span>
-                    </a>
-
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-bar-chart-o fa-2x"></i>
-                        <span class="nav-text">
-                            Graphs and Statistics
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-font fa-2x"></i>
-                        <span class="nav-text">
-                           Quotes
-                        </span>
-                    </a>
-                </li>
-                <li>
-                   <a href="#">
-                       <i class="fa fa-table fa-2x"></i>
-                        <span class="nav-text">
-                            Tables
-                        </span>
-                    </a>
-                </li>
-                <li>
-                   <a href="#">
-                        <i class="fa fa-map-marker fa-2x"></i>
-                        <span class="nav-text">
-                            Maps
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                       <i class="fa fa-info fa-2x"></i>
-                        <span class="nav-text">
-                            Documentation
+                            {{category.name}}
                         </span>
                     </a>
                 </li>
@@ -104,6 +56,12 @@ export default {
   components: {
     navbar,
   },
+  methods: {
+    getCategories() {
+      console.log();
+      return this.$store.state.categories;
+    },
+  },
 };
 </script>
 
@@ -122,8 +80,6 @@ text-align: center;
 vertical-align: middle;
 font-size:20px;
 }
-
-
 .main-menu:hover,nav.main-menu.expanded {
 width:250px;
 overflow:visible;

@@ -1,4 +1,6 @@
 <template>
+<!-- eslint-disable max-len -->
+
   <form v-on:submit.prevent="updateProduct">
       <div class="form-group">
         <label for="name">Name</label>
@@ -18,12 +20,9 @@
       </div>
     <div class="form-group">
       <label for="exampleFormControlSelect1">Category</label>
-      <select class="form-control" v-model="formUpdate.CategoryId">
-        <option value="1">Face</option>
-        <option value="2">Lips</option>
-        <option value="3">Eye</option>
-        <option value="4">Brows</option>
-      </select>
+      <select class="form-control" v-model="formUpdate.CategoryId" >
+            <option v-for="(category, i) in getCategories()" :key="i" :value=category.id>{{category.name}}</option>
+          </select>
     </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
@@ -48,6 +47,10 @@ export default {
     };
   },
   methods: {
+    getCategories() {
+      console.log();
+      return this.$store.state.categories;
+    },
     updateProduct() {
       return axios({
         method: 'put',

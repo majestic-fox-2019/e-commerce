@@ -15,7 +15,7 @@
   <tbody v-for="(product, i) in getProducts()" :key="i">
     <tr>
       <th scope="row">{{i+1}}</th>
-      <td><router-link :to="{name: 'detailProduct', params: {id: product.id}}">{{product.name}}</router-link></td>
+      <td><router-link class="name" :to="{name: 'detailProduct', params: {id: product.id}}">{{product.name}}</router-link></td>
       <td>{{product.price}}</td>
       <td>{{product.stock}}</td>
       <td>{{product.Category.name}}</td>
@@ -136,5 +136,14 @@ button {
 }
 i {
   cursor: pointer;
+}
+.name {
+  color: black;
+  cursor: pointer;
+}
+.name:hover{
+  font-size: 105%;
+  box-shadow: 20px;
+  text-shadow: 200px;
 }
 </style>

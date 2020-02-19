@@ -7,7 +7,9 @@
       <div class="card">
       <h5 class="card-header">{{product.name}}</h5>
         <div class="card-body">
-          <img :src="product.image" alt="">
+          <div class="image">
+          <pic-zoom :url="product.image" :scale="2"></pic-zoom>
+          </div>
           <h5 class="card-title">Rp. {{product.price}}</h5>
           <p class="card-text">Stock: {{product.stock}}</p>
           <button class="btn btn-warning"><i class="fas fa-edit" @click="isUpdate = true">Edit</i></button>
@@ -29,6 +31,7 @@
 
 <script>
 import axios from 'axios';
+import PicZoom from 'vue-piczoom';
 import updateForm from './updateForm.vue';
 
 const server = 'http://localhost:3000';
@@ -36,6 +39,7 @@ const server = 'http://localhost:3000';
 export default {
   components: {
     updateForm,
+    PicZoom,
   },
   data() {
     return {
@@ -95,7 +99,7 @@ export default {
 button {
   margin: 5px;
 }
-img {
+.image {
   height: 200px;
   width: 50%;
 }
