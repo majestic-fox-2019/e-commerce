@@ -5,12 +5,13 @@ const Cart = require('../models').Cart
 class ControllerProduct{ 
   //ADMIN ONLY
   static createProduct(req, res, next) {
-    let {name, stock, category, image_url, price} = req.body
-    Product.create({name, stock, category, image_url, price})
+    let {name, stock, category, image_url, price, description} = req.body
+    Product.create({name, stock, category, image_url, price, description})
     .then(data => {
       res.status(201).json(data)
     })
     .catch(err => {
+      console.log(err)
       next(err)
     })
   }
@@ -31,11 +32,11 @@ class ControllerProduct{
   }
 
   static updateProduct(req, res, next) {
-    let {name, stock, category, image_url, price} = req.body
-    Product.update({name, stock, category, image_url, price}, {where:{id:req.params.id}, returning: true})
+    let {name, stock, category, image_url, price, description} = req.body
+    Product.update({name, stock, category, image_url, price, description}, {where:{id:req.params.id}, returning: true})
     .then(product => {
       console.log(product)
-      res.status(201).json(product)
+      res.status(201).json(product[1])
     })
     .catch(err => {
       next(err)
@@ -53,24 +54,36 @@ class ControllerProduct{
     })
   }
 
-  static addToCart(req, res, next) {
-    let user
+  static detailProduct(req, res, next) {
     let product
-    User.findOne({include: [Product], where: {id: req.user}})
-    .then(data => {
-      user = data
-      return Product.findOne({where:{id:req.params.id}})
-    })
+    Product.findOne({where:{id:req.params.id}})
     .then(data => {
       product = data
-      if(product.stock - req.body.jumlah < 1) {
+      res.status(201).json(product)
+    })
+    .catch(err => {
+      console.log(err)
+      next(err)
+    })
+  }
+
+  static addToCart(req, res, next) {
+    let user
+    let product   
+    Product.findOne({where:{id:req.params.id}})  
+    .then(data => {
+      product = data
+      if(product.stock - req.body.stock < 0) {
         next({code:401, message: "sorry we were out of stocks!"})
       } else {
-        product.stock = product.stock - req.body.jumlah
-        return Cart.create({UserId:user.id, ProductId:product.id})
+        return Cart.create({UserId:req.user, ProductId:product.id, total:req.body.stock})
       }
     })
     .then(data => {
+      return User.findOne({include: [Product], where: {id: req.user}})
+    })
+    .then(data => {
+      user = data
       res.status(201).json(user)
     })
     .catch(err => {
@@ -79,7 +92,90 @@ class ControllerProduct{
   }
 
   static removeFrommCart(req, res, next) {
+    let product
+    let user
+   User.findOne({include:[Product], where: {id: req.user}})
+   .then(data => {
+     user = data
+     return Product.findOne({where:{id:req.params.id}})
+   })
+  .then(data => {
+    product = data
+    user.Products.forEach(el => {
+     return Cart.destroy({where: {UserId:user.id, ProductId: product.id}})
+    })
+  })
+  .then(data => {
+    res.status(201).json(data)
+  })
+    .catch(err => {
+      next(err)
+    })
+  }
 
+  static updateFromCart(req, res, next) {
+    let stock = req.body.stock
+    let product
+    Product.findOne({where:{id:req.params.id}})
+    .then(data => {
+      product = data
+      if(product.stock - stock < 0){
+        next({code: 400, message: "sorry, not avaible stock!"})
+      } else {
+        let cartObj = {
+          UserId: req.user,
+          ProductId: req.params.id,
+          total: stock
+        }
+        return Cart.update(cartObj, {where: {UserId:user.id, ProductId: product.id}})
+      }
+    })
+    .then(data => {
+      res.status(201).json(data)
+    })
+    .catch(err => {
+      next(err)
+    })
+  }
+
+  static checkOut(req, res, next) {
+    let user
+    let product
+    let cart
+    User.findOne({include:[Product], where:{id:req.user}})
+    .then(data => {
+      user = data
+      return Product.findOne({where:{id:req.params.id}})
+    })
+    .then(data => {
+      product = data
+      return Cart.findOne({where: {UserId:user.id, ProductId: product.id}})
+    })
+    .then(data => {
+      cart = data
+      product.stock = product.stock - cart.total
+      return Product.update(product, {where:{id:req.params.id}})
+    })
+    .then(data => {
+      return Cart.destroy({where: {UserId:user.id, ProductId: product.id}})
+    })
+    .then(data => {
+      res.status(201).json(data)
+    })
+    .catch(err => {
+      next(err)
+    })
+
+  }
+
+  static categoriSplit(req, res, next) {
+    Product.findAll({where:{category: req.params.category}})
+    .then(products => {
+      res.status(201).json(products)
+    })
+    .catch(err => {
+      next(err)
+    })
   }
 }
 

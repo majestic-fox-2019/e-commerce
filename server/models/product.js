@@ -31,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {msg: "category product must be filled"},
         notEmpty: {msg: "category product must be filled"}
       }, allowNull: false
-    }
+    },
+    description: DataTypes.STRING
   }, {sequelize})
 
   Product.associate = function(models) {

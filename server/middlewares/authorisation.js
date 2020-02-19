@@ -29,10 +29,12 @@ function authorisationProduct(req, res, next) {
       next()
     } else {
       next({code: 401, message: "user not allowed to do this task"})
+      console.log("masuk else")
     }
   })
   .catch(err => {
     next({code: 401, message: "user not allowed to do this task"})
+    console.log(err)
   })
 }
 

@@ -9,16 +9,24 @@ routes.post('/register', userController.register)
 routes.post('/login', userController.login)
 
 
-routes.get('/home', productController.showProducts) // show all product
-routes.use(authentication)
-routes.use(authorisationRole)
-routes.post('/admin', productController.createProduct)
-routes.delete('/admin/:id', productController.deleteProduct)
-routes.put('/admin/:id', productController.updateProduct)
-
-routes.use(authorisationProduct)
+routes.get('/home', productController.showProducts)                   // show all product
+routes.get('/home/:category', productController.categoriSplit)
 routes.get('/products/:id', productController.detailProduct)
+
+routes.use(authentication)                                            // cek token
+
 routes.post('/products/:id', productController.addToCart)
+
+routes.post('/admin' ,authorisationRole, productController.createProduct)
+routes.delete('/admin/:id', authorisationRole, productController.deleteProduct)
+routes.put('/admin/:id', authorisationRole, productController.updateProduct)
+
+routes.use(authorisationProduct)                                     // cek UserId di product   
+
+routes.delete('/products/:id', productController.removeFrommCart)
+routes.put('/products/:id', productController.updateFromCart)
+routes.patch('/products/:id', productController.checkOut)
+
 
 
 module.exports = routes

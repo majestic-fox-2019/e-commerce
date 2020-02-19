@@ -13,7 +13,7 @@ describe('POST /register', function() {
       email: "dila@gmail.com",
       address:"jalan tanah kusir 2",
       phone_number:"08211691270",
-      role:"consument"
+      role:"admin"
     })
     console.log(res.body)
     expect(res.statusCode).toEqual(201)
@@ -25,6 +25,8 @@ describe('POST /register', function() {
     expect(res.body.role).toEqual(input.role)
   })
 })
+
+
 
 describe('POST /login', function () {
   it('should logged in user', async () => {
@@ -51,7 +53,7 @@ describe('POST /admin', function() {
           image_url:"http://gambar-aloe",
           price: 99000,
           stock: 100,
-          category: "normal type"
+          category: "normal"
         })
         console.log(res.body.name)
         expect(res.statusCode).toEqual(201)
@@ -63,15 +65,15 @@ describe('POST /admin', function() {
   })
 })
 
-describe('DELETE /admin/1', function() {
-  it('should delete product', async () => {
-    const res = await request(app)
-    .delete('/admin/1')
-    .set("token", tokenAdaadain)
-    expect(res.statusCode).toEqual(201)
-    expect(res.body.id).toEqual(1)
-  })
-})
+// describe('DELETE /admin/1', function() {
+//   it('should delete product', async () => {
+//     const res = await request(app)
+//     .delete('/admin/1')
+//     .set("token", tokenAdaadain)
+//     expect(res.statusCode).toEqual(201)
+//     expect(res.body.id).toEqual(1)
+//   })
+// })
 
 describe('PUT /admin/1', function() {
   it('should edit product', async () => {
@@ -83,11 +85,38 @@ describe('PUT /admin/1', function() {
       image_url:"http://gambar-aloe",
       price: 99000,
       stock: 100,
-      category: "normal type"
+      category: "normal"
     })
     expect(res.statusCode).toEqual(201)
-    // expect(res.req).toEqual(input.name)
+    expect(res.body[0].name).toEqual(input.name)
+    expect(res.body[0].image_url).toEqual(input.image_url)
+    expect(res.body[0].price).toEqual(input.price)
+    expect(res.body[0].stock).toEqual(input.stock)
+    expect(res.body[0].category).toEqual(input.category)
   })
 })
 
+describe('GET /home', function() {
+  it('should show all products', async () => {
+    const res = await request(app)
+    .get('/home')
+    expect(res.statusCode).toEqual(201)
+  })
+})
+
+describe('GET /home/normal', function() {
+  it('should show all products by category', async () => {
+    const res = await request(app)
+    .get('/home/normal')
+    expect(res.statusCode).toEqual(201)
+  })
+})
+
+describe('GET /products/1', function() {
+  it('should show detail one product', async () => {
+    const res = await request (app)
+    .get('/products/1')
+    expect(res.statusCode).toEqual(201)
+  })
+})
 

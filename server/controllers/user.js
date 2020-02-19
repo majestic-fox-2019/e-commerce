@@ -5,13 +5,14 @@ const bcrypt = require('bcrypt')
 class ControllerUser {
   static register(req, res, next) {
     let {name, email, password, phone_number, address, role} = req.body
-    role = "consument"
+    // role = "consument"
     User.create({name, email, password, phone_number, address, role})
     .then(user => {
       res.status(201).json(user)
       // res.status(201).send("berhasil")
     })
     .catch(err => {
+      console.log(err)
       next(err)
     })
   }
@@ -34,6 +35,7 @@ class ControllerUser {
       }
     })
     .catch(err => {
+      console.log(err)
       next(err)
     })
   }
