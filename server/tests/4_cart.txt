@@ -1,0 +1,89 @@
+const request = require("supertest")
+const app = require("../app")
+const Product = require("../models").Product
+
+var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxOTI5ODEzfQ.kweAGZEUj4za-OkZtqKid6jzMHDDbejLvpUHh3AJXoE"
+
+var idNya
+beforeAll(() => {
+    Product.create({
+        name: "tas tote",
+        stock: 2,
+        image_url: "tote.com",
+        price: 200000,
+        category: "Accessories",
+        description: "masih bagus dan cantik",
+        UserId: 2
+    })
+        .then(beforeNya => {
+            idNya = beforeNya.id
+            // console.log(idNya, "<<<<< ini idnya")
+        })
+        .catch(err => {
+        })
+})
+describe("POST /carts/:idProduct", function () {
+    it("should return an object with status code 201", (done) => {
+        request(app)
+            .post(`/carts/2`)
+            .set({ token: token })
+            .send({ qty: 2 })
+            .expect(201)
+            .end((err, res) => {
+                if (err) {
+                    console.log(err)
+                    done()
+                } else {
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body).toHaveProperty("ProductId")
+                    expect(res.body).toHaveProperty("qty")
+                    expect(res.body).toHaveProperty("UserId")
+                    expect(res.body).toHaveProperty("status")
+                    expect(res.body).toHaveProperty("totalPrice")
+                    expect(res.body.qty).toBe(2)
+                    expect(res.body.status).toBe("unpaid")
+                    expect(res.body.totalPrice).toBe(400000)
+
+                    done()
+                }
+            })
+
+    })
+})
+
+describe("GET /carts/mine", function () {
+    it("should return an object with status code 200", (done) => {
+        request(app)
+            .get("/carts/mine")
+            .set({ token: token })
+            .expect(200)
+            .end((err, res) => {
+                if (err) {
+                    console.log(err)
+                    done()
+
+                } else {
+                    expect(typeof res.body).toBe("object")
+                    done()
+                }
+            })
+    })
+})
+
+describe("PUT /carts/:idCart", function () {
+    it("should return an object with status code 200", (done) => {
+        request(app)
+            .put("/carts/2")
+            .set({ token: token })
+            .expect(200)
+            .end((err, res) => {
+                if (err) {
+                    console.log(err)
+                    done()
+
+                } else {
+                    done()
+                }
+            })
+    })
+})

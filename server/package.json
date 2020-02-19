@@ -1,0 +1,38 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon app.js",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+    "test": "NODE_ENV=test jest --forceExit ",
+    "pretest": "NODE_ENV=test npm run migrate:reset",
+    "createTes": "NODE_ENV=test sequelize db:create",
+    "migrateTes": "NODE_ENV=test sequelize db:migrate",
+    "undoTes": "NODE_ENV=test sequelize db:migrate:undo:all",
+    "seedTes": "NODE_ENV=test sequelize db:seed:all"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.620.0",
+    "bcrypt": "^3.0.8",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^7.18.1",
+    "sequelize": "^5.21.4",
+    "unggah": "^2.1.0"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0",
+    "supertest": "^4.0.2"
+  }
+}

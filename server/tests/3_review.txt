@@ -1,0 +1,82 @@
+const request = require("supertest")
+const app = require("../app")
+const Product = require("../models").Product
+
+var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxOTI5ODEzfQ.kweAGZEUj4za-OkZtqKid6jzMHDDbejLvpUHh3AJXoE"
+
+beforeAll(() => {
+    Product.create({
+        name: "wedges",
+        stock: 2,
+        image_url: "wedge.com",
+        price: 200000,
+        category: "Shoes",
+        description: "masih bagus dan cantik",
+        UserId: 1
+    })
+        .then(beforeNya => {
+
+        })
+        .catch(err => {
+        })
+})
+
+
+describe("POST /reviews/:idProduct", function () {
+    it("should return an object with status code 201", (done) => {
+
+        request(app)
+            .post("/reviews/2")
+            .set({ token: token })
+            .send({
+                rating: 3,
+                review: "boleh lah"
+            })
+            .expect(201)
+            .end((err, res) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body).toHaveProperty("ratingProductLast")
+                    done()
+                }
+            })
+    })
+    it("should return an object with status code 401 if token is not set", (done) => {
+
+        request(app)
+            .post("/reviews/2")
+            .send({
+                rating: 3,
+                review: "boleh lah"
+            })
+            .expect(400)
+            .end((err, res) => {
+                if (err) {
+                    console.log(err)
+                    done()
+                } else {
+                    done()
+                }
+            })
+    })
+})
+
+describe("GET /reviews/:idProduct", function () {
+    it("should return an object with status code 200", (done) => {
+        request(app)
+            .get("/reviews/2")
+            .expect(200)
+            .end((err, res) => {
+                if (err) {
+                    console.log(err)
+                    done()
+                } else {
+                    expect(typeof res.body).toBe("object")
+
+                    done()
+                }
+            })
+    })
+})
