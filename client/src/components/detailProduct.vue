@@ -51,6 +51,9 @@ export default {
       return axios({
         method: 'get',
         url: `${server}/products/${this.$route.params.id}`,
+        headers: {
+          token: localStorage.token,
+        },
       })
         .then((result) => {
           this.product = result.data;
@@ -67,6 +70,9 @@ export default {
       return axios({
         method: 'delete',
         url: `${server}/products/${this.$route.params.id}`,
+        headers: {
+          token: localStorage.token,
+        },
       })
         .then((result) => {
           this.product = result.data;

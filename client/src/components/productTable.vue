@@ -1,6 +1,5 @@
 <template>
 <!-- eslint-disable max-len -->
-
 <div class= container>
    <h3><i class="fas fa-plus" data-toggle="modal" data-target="#addProduct"></i>PRODUCTS</h3>
   <table class="table">
@@ -23,7 +22,6 @@
     </tr>
   </tbody>
 </table>
-
 <!-- Modal -->
 <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="addProductLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -54,11 +52,8 @@
           </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Category</label>
-          <select class="form-control" v-model="formAdd.CategoryId">
-            <option value="1">Face</option>
-            <option value="2">Lips</option>
-            <option value="3">Eye</option>
-            <option value="4">Brows</option>
+          <select class="form-control" v-model="formAdd.CategoryId" >
+            <option v-for="(category, i) in getCategories()" :key="i" :value=category.id>{{category.name}}</option>
           </select>
         </div>
           <button type="submit" class="btn btn-primary">Submit</button>
@@ -91,15 +86,25 @@ export default {
   created() {
     this.$store.dispatch('allProducts');
   },
+  mounted() {
+    this.$store.dispatch('allCategories');
+  },
   methods: {
     getProducts() {
       return this.$store.state.products;
     },
+    getCategories() {
+      console.log();
+      return this.$store.state.categories;
+    },
     addProduct() {
       console.log(this.formAdd, '< ini formnya');
-      return axios({
+      axios({
         method: 'post',
         url: `${server}/products`,
+        headers: {
+          token: localStorage.token,
+        },
         data: {
           name: this.formAdd.name,
           image: this.formAdd.image,

@@ -52,6 +52,9 @@ export default {
       return axios({
         method: 'put',
         url: `${server}/products/${this.$route.params.id}`,
+        headers: {
+          token: localStorage.token,
+        },
         data: this.formUpdate,
       })
         .then((result) => {
