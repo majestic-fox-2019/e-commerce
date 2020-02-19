@@ -124,7 +124,6 @@ export default {
       {
         text: 'Name',
         align: 'left',
-        sortable: false,
         value: 'name',
       },
       { text: 'Unit Price', value: 'price' },
@@ -193,20 +192,22 @@ export default {
     },
 
     deleteItem() {
-      this.deletedIndex = this.ebooks.indexOf(this.deleteItem);
-      this.$store.state.superagent
-        .delete(`${this.$store.state.url_backend}/products/${this.deletedItem.id}`)
-        .set('accesstoken', this.$store.state.isLogin)
-        .end((err, res) => {
-          if (err) {
-            this.message = res.body.error;
-          } else {
-            this.ebooks.splice(this.deletedIndex, 1);
-            this.message = res.body;
-          }
-          this.alert = true;
-          this.dialog_delete = false;
-        });
+      if (this.deletedItem.id) {
+        this.deletedIndex = this.ebooks.indexOf(this.deleteItem);
+        this.$store.state.superagent
+          .delete(`${this.$store.state.url_backend}/products/${this.deletedItem.id}`)
+          .set('accesstoken', this.$store.state.isLogin)
+          .end((err, res) => {
+            if (err) {
+              this.message = res ? res.body.error : err;
+            } else {
+              this.ebooks.splice(this.deletedIndex, 1);
+              this.message = res.body;
+            }
+            this.alert = true;
+            this.dialog_delete = false;
+          });
+      }
     },
 
     close() {
@@ -220,9 +221,35 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.ebooks[this.editedIndex], this.editedItem);
+        if (this.editedItem.id) {
+          this.$store.state.superagent
+            .put(`${this.$store.state.url_backend}/products/${this.editedItem.id}`)
+            .set('accesstoken', this.$store.state.isLogin)
+            .send(this.editedItem)
+            .end((err, res) => {
+              if (err) {
+                this.message = res ? res.body.error : err;
+              } else {
+                this.message = res.body;
+                Object.assign(this.ebooks[this.editedIndex], this.editedItem);
+              }
+              this.alert = true;
+            });
+        }
       } else {
-        this.ebooks.push(this.editedItem);
+        this.$store.state.superagent
+          .post(`${this.$store.state.url_backend}/products`)
+          .set('accesstoken', this.$store.state.isLogin)
+          .send(this.editedItem)
+          .end((err, res) => {
+            if (err) {
+              this.message = res ? res.body.error : err;
+            } else {
+              this.message = res.body;
+              this.ebooks.push(this.editedItem);
+            }
+            this.alert = true;
+          });
       }
       this.close();
     },

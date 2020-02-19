@@ -12,11 +12,34 @@ class ProductController {
     }
 
     static add(req, res, next) {
-
+        const {name, image_url, price, stock} = req.body;
+        Product
+            .create({name, image_url, price, stock})
+            .then(() => {
+                res.status(201).json("Product has been added!");
+            })
+            .catch(err => {
+                next(err);
+            });
     }
 
     static edit(req, res, next) {
-        
+        const {name, image_url, price, stock} = req.body;
+        Product
+            .update(
+                {name, image_url, price, stock},
+                {
+                    where: {
+                        id: Number(req.params.id)
+                    }
+                }
+            )
+            .then(() => {
+                res.status(200).json("Product has been updated!");
+            })
+            .catch(err => {
+                next(err);
+            });
     }
 
     static delete(req, res, next) {
