@@ -31,7 +31,7 @@ class userController{
             if(user){
                 if(bcrypt.compareSync(password, user.password)){
                     let token = jwt.sign({email:user.email,id:user.id},"ini rahasia")
-                    res.status(201).json({token:token,id:user.id})
+                    res.status(201).json({token:token,id:user.id,role:user.role})
                 }
                 else{
                     let msg= {

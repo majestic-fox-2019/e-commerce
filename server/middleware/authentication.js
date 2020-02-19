@@ -7,7 +7,6 @@ module.exports = function(req,res,next){
         req.user = user
         next()
     } catch (error) {
-        console.log('masukkkni')
         res.status(404).json({message:"token invalid"})
     }
 }

@@ -4,15 +4,13 @@
     "password": "Milala08",
     "database": "e-commerce_dev",
     "host": "localhost",
-    "dialect": "postgres",
-    "operatorsAliases": false
+    "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
     "password": "Milala08",
     "database": "e-commerce_test",
     "host": "localhost",
-    "dialect": "postgres",
-    "operatorsAliases": false
+    "dialect": "postgres"
   }
 }

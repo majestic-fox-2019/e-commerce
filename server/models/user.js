@@ -44,6 +44,9 @@ module.exports = (sequelize, DataTypes) => {
             msg:"password must be filled"
           }
         }},
+      role:{
+        type:DataTypes.STRING
+      }
   },{sequelize,hooks:{
     beforeCreate:function(user,options){
       let hash = bcrypt.hashSync(user.password, 10);

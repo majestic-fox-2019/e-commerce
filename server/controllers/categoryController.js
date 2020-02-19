@@ -1,14 +1,10 @@
-const {Product,Category} = require('../models')
+const {Category} = require('../models/index')
 
-class ProductController{
-    static createProduct(req,res,next){
-        Product
+class CategoryController{
+    static createCategory(req,res,next){
+        Category
         .create({
             name:req.body.name,
-            image_url:req.body.image_url,
-            price:req.body.price,
-            stock:req.body.stock,
-            CategoryId:req.body.CategoryId
         })
         .then(data=>{
             res.status(201).json(data)
@@ -21,37 +17,21 @@ class ProductController{
         })
     }
 
-    static getProduct(req,res,next){
-        Product
-        .findAll({include:Category})
+    static getCategory(req,res,next){
+        Category
+        .findAll()
         .then(data=>{
             res.status(200).json(data)
         })
         .catch(err=>{
-            next(err)
+            rnext(err)
         })
     }
 
-    static findOne(req,res,next){
-        Product
-        .findOne({where:{id:req.params.id}})
-        .then(data=>{
-            if(data){
-                res.status(200).json(data)
-            }
-        })
-        .catch(err=>{
-            next(err)
-        })
-    }
-
-    static updateProduct(req,res,next){
-        Product
+    static updateCategory(req,res,next){
+        Category
         .update(
-            {name:req.body.name,
-            image_url:req.body.image_url,
-            price:req.body.price,
-            stock:req.body.stock
+            {name:req.body.name
         },
             {
             where: { id: req.params.id},
@@ -79,12 +59,12 @@ class ProductController{
         })
     }
 
-    static deleteProduct(req,res,next){
-        Product
+    static deleteCategory(req,res,next){
+        Category
         .findOne({where:{id:req.params.id}})
         .then(data=>{
             if(data){
-                return Product.destroy({where:{id:req.params.id}})
+                return Task.destroy({where:{id:req.params.id}})
             }
             else{
                 let msg= {
@@ -95,7 +75,7 @@ class ProductController{
             }
         })
         .then(data=>{
-                res.status(200).json(data)
+                res.status(200).json(isi)
             
         })
         .catch(err=>{
@@ -104,4 +84,4 @@ class ProductController{
     }
 }
 
-module.exports = ProductController
+module.exports = CategoryController
