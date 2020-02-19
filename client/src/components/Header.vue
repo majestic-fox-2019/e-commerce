@@ -50,15 +50,46 @@
 
       <v-btn
         text
+        v-if="isLogin == false"
+        @click="register"
       >
-        <span class="mr-2">Login</span>
-        <v-icon>mdi-login-variant</v-icon>
+        <span class="mr-2">Register</span>
+        <v-icon>mdi-account-plus</v-icon>
+      </v-btn>
+      <v-btn
+        text
+        v-if="isLogin != false"
+        @click="logout"
+      >
+        <span class="mr-2">Logout</span>
+        <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
 </template>
 <script>
 export default {
-
+  methods: {
+    register() {
+      if (this.$route.name !== 'register') {
+        this.$router.push({ name: 'register' });
+      }
+    },
+    login() {
+      if (this.$route.name !== 'login') {
+        this.$router.push({ name: 'login' });
+      }
+    },
+    logout() {
+      localStorage.removeItem('token');
+      this.$store.commit('setIsLogin', false);
+      this.login();
+    },
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+  },
 };
 </script>
 <style scoped>

@@ -52,7 +52,7 @@
             </v-card-text>
             <v-card-actions>
             <v-spacer />
-            <v-btn color="primary">Login</v-btn>
+            <v-btn color="primary" @click="login">Login</v-btn>
             </v-card-actions>
         </v-card>
         </v-col>
@@ -63,6 +63,13 @@
 export default {
   props: {
     source: String,
+  },
+  methods: {
+    login() {
+      localStorage.setItem('token', 'something is here');
+      this.$store.commit('setIsLogin', true);
+      this.$router.push({ name: 'home' });
+    },
   },
 };
 </script>

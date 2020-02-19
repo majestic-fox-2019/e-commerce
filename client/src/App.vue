@@ -19,13 +19,19 @@ export default {
   name: 'App',
   data() {
     return {
-      isLogin: localStorage.getItem('token'),
     };
   },
   components: {
     Header,
     Login,
   },
-
+  created() {
+    console.log(this);
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+  },
 };
 </script>
