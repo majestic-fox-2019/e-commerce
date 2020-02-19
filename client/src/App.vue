@@ -1,15 +1,15 @@
 <template>
   <v-app>
     <Header />
-    <v-content v-if="isLogin != null">
+    <v-content>
       <Login
-        v-if="isLogin == null && !isShowRegister"
+        v-if="!isLogin && !isShowRegister"
       />
       <Register
         v-if="isShowRegister"
       />
 
-      <router-view v-if="!isLogin && !isShowRegister"></router-view>
+      <router-view v-if="isLogin && !isShowRegister"></router-view>
       <!-- <Home/> -->
     </v-content>
   </v-app>
