@@ -1,4 +1,8 @@
-const userRoute = require('./routes/userRoute');
+const authenticated     = require('./middlewares/authentication');
+const error_handling    = require('./middlewares/error_handling');
+
+const userRoute         = require('./routes/userRoute');
+const productRoute      = require('./routes/productRoute');
 
 const express   = require('express');
 const app       = express();
@@ -13,13 +17,9 @@ app.use(cors());
 
 
 app.use('/users', userRoute);
+app.use(authenticated);
+app.use('/products', productRoute);
 
-app.use((err, req, res, next) => {
-    if (err.message.length > 0) {
-        res.status(400).json({error: err.message});
-    }else{
-        res.status(500).json(err);
-    }
-});
+app.use(error_handling);
 
 module.exports = app;

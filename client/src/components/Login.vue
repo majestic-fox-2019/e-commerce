@@ -70,8 +70,6 @@
     </v-container>
 </template>
 <script>
-const superagent = require('superagent');
-
 export default {
   props: {
     source: String,
@@ -86,7 +84,7 @@ export default {
   },
   methods: {
     login() {
-      superagent
+      this.$store.state.superagent
         .post(`${this.$store.state.url_backend}/users/login`)
         .send({
           email: this.email,

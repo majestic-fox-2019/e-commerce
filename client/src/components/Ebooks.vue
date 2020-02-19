@@ -127,14 +127,20 @@ export default {
 
   methods: {
     initialize() {
-      this.ebooks = [
-        {
-          name: 'Frozen Yogurt',
-          price: 10000,
-          stock: 120,
-          image_url: 'http://www.google.com',
-        },
-      ];
+      console.log('melawan');
+      this.$store.state.superagent
+        .get(`${this.$store.state.url_backend}/products`)
+        .set('accesstoken', localStorage.getItem('token'))
+        .end((err, res) => {
+          if (err) {
+            console.log(res.body.error);
+            this.alert = true;
+            this.message = res.body.error;
+          } else {
+            console.log(res.body);
+            this.ebooks = res.body;
+          }
+        });
     },
 
     editItem(item) {

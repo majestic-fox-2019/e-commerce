@@ -89,7 +89,7 @@ export default {
 </script>
 <style scoped>
     .menu-text{
-        color: white;
-        text-decoration: none;
+      color: white;
+      text-decoration: none;
     }
 </style>

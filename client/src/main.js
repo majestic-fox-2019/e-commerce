@@ -7,6 +7,8 @@ import vuetify from './plugins/vuetify';
 
 import routes from './routes';
 
+const superagent = require('superagent');
+
 Vue.config.productionTip = false;
 Vue.use(VueRouter).use(Vuex);
 
@@ -44,6 +46,7 @@ const store = new Vuex.Store({
   state: {
     isLogin: localStorage.getItem('token'),
     url_backend: 'http://localhost:3000',
+    superagent,
   },
   mutations: {
     setIsLogin(state, isLogin) {
