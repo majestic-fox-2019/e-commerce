@@ -8,10 +8,11 @@ const token = jwt.sign({ email: 'user@gmail.com' }, 'process.env.JWT_TOKEN')
 describe('POST /products', () => {
   it('should create new product', (done) => {
     let product = {
-      name: 'key chain',
+      name: 'Eye Shadow',
       image: 'http://url',
       price: 30000,
-      stock: 23
+      stock: 23,
+      CategoryId: 3
     }
     request(app)
       .post('/products')
@@ -24,6 +25,7 @@ describe('POST /products', () => {
         expect(res.body.image).toEqual(product.image)
         expect(res.body.price).toEqual(product.price)
         expect(res.body.stock).toEqual(product.stock)
+        expect(res.body.CategoryId).toEqual(product.CategoryId)
         done()
       })
       .catch(err => {

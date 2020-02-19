@@ -2,10 +2,10 @@ const { Product } = require('../models')
 
 class ProductController {
   static createProduct(req, res, next) {
-    let { name, image, price, stock } = req.body
+    let { name, image, price, stock, CategoryId } = req.body
     Product
       .create({
-        name, image, price, stock
+        name, image, price, stock, CategoryId
       })
       .then(product => {
         res.status(201).json(product);
@@ -43,7 +43,8 @@ class ProductController {
       name: req.body.name,
       image: req.body.image,
       price: req.body.price,
-      stock: req.body.stock
+      stock: req.body.stock,
+      CategoryId: req.body.CategoryId
     }
     let id = req.params.id
 
