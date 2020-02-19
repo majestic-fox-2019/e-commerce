@@ -29,7 +29,7 @@ router.beforeEach((to, from, next) => {
         name: 'login',
       });
     }
-  } else if (to.path === '/login' && token) {
+  } else if (['/login', '/register'].includes(to.path) && token) {
     next({
       name: 'home',
     });

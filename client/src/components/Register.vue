@@ -31,7 +31,7 @@
                     dark
                     flat
                 >
-                    <v-toolbar-title>Login</v-toolbar-title>
+                    <v-toolbar-title>Register</v-toolbar-title>
                     <v-spacer />
                 </v-toolbar>
                 <v-card-text>
@@ -55,13 +55,13 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer />
-                    <v-btn color="secondary" @click="register">
+                    <v-btn color="secondary" @click="login">
                         <v-icon>mdi-keyboard-backspace</v-icon>
-                        Register
+                        Goto Form Login
                     </v-btn>
-                    <v-btn color="primary" @click="login">
-                        Login
-                        <v-icon>mdi-account-check</v-icon>
+                    <v-btn color="primary" @click="register">
+                        Register
+                        <v-icon>mdi-account-plus</v-icon>
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -85,27 +85,29 @@ export default {
     };
   },
   methods: {
-    login() {
+    register() {
       superagent
-        .post('http://localhost:3000/users/login')
+        .post('http://localhost:3000/users/register')
         .send({
           email: this.email,
           password: this.password,
         })
         .end((err, res) => {
           if (err) {
-            this.alert = true;
             this.message = res.body.error;
           } else {
-            localStorage.setItem('token', res.body.token);
-            this.$store.commit('setIsLogin', true);
-            this.$router.push({ name: 'home' });
+            this.message = 'User has been added';
+            setTimeout(() => {
+              this.$store.commit('setIsLogin', true);
+              this.$router.push({ name: 'login' });
+            }, 3000);
           }
+          this.alert = true;
         });
     },
-    register() {
-      if (this.$route.name !== 'register') {
-        this.$router.push({ name: 'register' });
+    login() {
+      if (this.$route.name !== 'login') {
+        this.$router.push({ name: 'login' });
       }
     },
   },

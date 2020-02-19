@@ -2,6 +2,7 @@ import Ebooks from './components/Ebooks.vue';
 import Tutorials from './components/Tutorials.vue';
 import Login from './components/Login.vue';
 import Home from './components/Home.vue';
+import Register from './components/Register.vue';
 
 export default [
   {
@@ -26,5 +27,10 @@ export default [
     path: '/login',
     component: Login,
     name: 'login',
+  },
+  {
+    path: '/register',
+    component: Register,
+    name: 'register',
   },
 ];

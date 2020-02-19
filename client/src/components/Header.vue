@@ -46,19 +46,10 @@
 
       </div>
 
-      <v-spacer></v-spacer>
 
       <v-btn
         text
-        v-if="isLogin == false"
-        @click="register"
-      >
-        <span class="mr-2">Register</span>
-        <v-icon>mdi-account-plus</v-icon>
-      </v-btn>
-      <v-btn
-        text
-        v-if="isLogin != false"
+        v-if="isLogin"
         @click="logout"
       >
         <span class="mr-2">Logout</span>
@@ -69,11 +60,6 @@
 <script>
 export default {
   methods: {
-    register() {
-      if (this.$route.name !== 'register') {
-        this.$router.push({ name: 'register' });
-      }
-    },
     login() {
       if (this.$route.name !== 'login') {
         this.$router.push({ name: 'login' });
