@@ -26,7 +26,7 @@ function createAdminAuth(req, res, next) {
 
 function addProductAuth(req, res, next) {
     if (req.loggedUser.role == 'admin') {
-        req.body.admin = true
+        req.admin = true
         next()
     } else {
         User.findOne({

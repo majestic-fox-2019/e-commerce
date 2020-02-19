@@ -185,6 +185,28 @@ class UserController {
             })
     }
 
+    static getUserInfo(req, res, next) {
+        User.findOne({
+            where: {
+                id: req.loggedUser.id
+            }
+        })
+        .then(userData => {
+            let userInfo = {
+                id: userData.id,
+                name: userData.name,
+                email: userData.email,
+                address: userData.address,
+                phone: userData.phone,
+                role: userData.role
+            }
+            res.status(200).json(userInfo)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
 }
 
 module.exports = UserController

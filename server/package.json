@@ -13,12 +13,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.621.0",
     "bcrypt": "^3.0.8",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "pg": "^7.18.1",
-    "sequelize": "^5.21.4"
+    "sequelize": "^5.21.4",
+    "unggah": "^2.1.0"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",

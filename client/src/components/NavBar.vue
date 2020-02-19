@@ -1,34 +1,50 @@
 <template>
   <div class="navBar">
-        <img src="../assets/shopLogo.png" alt="Shop Logo" id="NavLogo">
+        <img @click="homeRoute" src="../assets/shopLogo.png" alt="Shop Logo" id="NavLogo">
       <div class="searchBar">
           <div class="search-wrapper">
             <input type="text" id="searchProd" placeholder="Search Products. . .">
           </div>
       </div>
       <div class="right-button" style="z-index:2;">
-          <b-button v-if="!$store.state.userInfo">login</b-button>
-          <div id="afterLoginMenu">
-              <div id="cartMenu">
+          <SignInButton v-if="!$store.state.userInfo"></SignInButton>
+          <div v-if="$store.state.loading.userInfo" style="display: flex; justify-content: space-around;" class="pt-3">
+              <div>
+                  <b-spinner type="grow" label="Spinning"></b-spinner>
+              </div>
+              <div>
+                  <b-spinner type="grow" label="Spinning"></b-spinner>
+              </div>
+          </div>
+          <div v-if="$store.state.userInfo && !$store.state.loading.userInfo" id="afterLoginMenu">
+              <div id="cartMenu" v-if="$store.state.userInfo.role !== 'admin'">
                 <p href="" style="margin:0;padding:0;" class="mx-3"><i class="fas fa-shopping-cart"></i></p>
             </div>
           <div class="dropdown">
                 <button class="dropbtn"><i class="fas fa-user"></i></button>
                 <div class="dropdown-content">
-                    <p style="font-size:1em;text-align:center;margin:0;padding:0;" v-if="$store.state.userInfo">USER NAME</p>
-                    <a href="#" style="font-size:1.7em;" v-if="$store.state.userInfo"><i class="fas fa-store"></i> SHOP NAME</a>
-                    <hr style="border-top:1px solid black;height:0.1vh;" v-if="$store.state.userInfo">
-                    <div class="dropMenu mb-3">
+                    <h4 style="text-align:center;margin:0;padding:0;">{{$store.state.userInfo.name}}</h4>
+                    <a href="#" style="font-size:1.7em;" v-if="$store.state.userInfo.shopName"><i class="fas fa-store"></i>{{$store.state.userInfo.shopName}}</a>
+                    <div v-if="!$store.state.userInfo.shopName && $store.state.userInfo.role !== 'admin'" class="dropMenu my-3 custMenu">
+                        <h4><i class="fas fa-plus-circle"></i></h4>
+                        <h4>Register Shop</h4>
+                    </div>
+                    <hr style="border-top:1px solid black;height:0.1vh;">
+                    <div v-if="$store.state.userInfo.shopName" class="dropMenu mb-3 custMenu">
                         <h4><i class="fas fa-chart-bar"></i></h4>
                         <h4>Income Statement</h4>
                     </div>
-                    <div class="dropMenu mb-3" v-if="$store.state.userInfo.role !== 'admin'">
+                    <div class="dropMenu mb-3 custMenu" v-if="$store.state.userInfo.role !== 'admin'">
                         <h4><i class="fas fa-money-check-alt"></i></h4>
                         <h4>Purchase History</h4>
                     </div>
-                    <div class="dropMenu mb-3" v-if="$store.state.userInfo.role == 'admin'">
+                    <div class="dropMenu mb-3 custMenu" @click="toAdmin" v-if="$store.state.userInfo.role == 'admin'">
                         <h4><i class="fas fa-user-shield"></i></h4>
                         <h4>Admin Site</h4>
+                    </div>
+                    <div class="dropMenu mb-3 custMenu" @click="logout">
+                        <h4><i class="fas fa-power-off"></i></h4>
+                        <h4>Logout</h4>
                     </div>
                 </div>
             </div>
@@ -38,12 +54,31 @@
 </template>
 
 <script>
+import SignInButton from './signInButton'
 export default {
-  name: 'NavBar'
+  name: 'NavBar',
+  components: {
+    SignInButton
+  },
+  methods: {
+    homeRoute () {
+      this.$router.push('/home')
+    },
+    logout () {
+      this.$store.dispatch('logout')
+    },
+    toAdmin () {
+      this.$router.push('/admin')
+    }
+  }
 }
 </script>
 
 <style scoped>
+.custMenu:hover {
+    background: #a8a8a8;
+    cursor: pointer;
+}
 .dropMenu {
     display: flex;
     justify-content: space-around;
@@ -97,6 +132,7 @@ export default {
 #NavLogo {
     height: 100%;
     margin-left: 1%;
+    cursor: pointer;
 }
 .dropbtn {
   width: 125%;

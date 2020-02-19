@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import router from '../router'
+import Swal from 'sweetalert2'
 
 Vue.use(Vuex)
 
@@ -28,13 +30,29 @@ export default new Vuex.Store({
         img: 'https://v2shop.s3-ap-southeast-1.amazonaws.com/laptop.png'
       }
     ],
-    userInfo: true,
+    userInfo: null,
     baseUrl: 'http://localhost:3000',
-    displayProducts: null
+    displayProducts: null,
+    loading: {
+      userInfo: false,
+      productTable: false
+    }
   },
   mutations: {
     SET_DISPLAY_PRODUCTS (state, payload) {
       state.displayProducts = payload
+    },
+    SET_USERINFO (state, payload) {
+      state.userInfo = payload
+    },
+    SET_LOGOUT (state) {
+      state.userInfo = null
+    },
+    SET_LOADING_USERINFO (state) {
+      state.loading.userInfo = true
+    },
+    SET_UNLOAD_USERINFO (state) {
+      state.loading.userInfo = false
     }
   },
   actions: {
@@ -48,6 +66,155 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
+        })
+    },
+    login (state, payload) {
+      axios({
+        method: 'post',
+        url: this.state.baseUrl + '/user/login',
+        data: payload
+      })
+        .then(({ data }) => {
+          Swal.fire(
+            'Logged In!',
+            'You have successfully logged in as ' + data.userInfo.name,
+            'success'
+          )
+          localStorage.setItem('token', data.token)
+          this.commit('SET_USERINFO', data.userInfo)
+          router.push('/home')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    register (state, payload) {
+      axios({
+        method: 'post',
+        url: this.state.baseUrl + '/user/register',
+        data: payload
+      })
+        .then(({ data }) => {
+          Swal.fire(
+            'Registration Successful!',
+            'You have successfully registered and logged in as ' + data.userInfo.name,
+            'success'
+          )
+          localStorage.setItem('token', data.token)
+          this.commit('SET_USERINFO', data.userInfo)
+          router.push('/home')
+        })
+    },
+    logout (state) {
+      localStorage.clear()
+      this.commit('SET_LOGOUT')
+      router.push('/home')
+    },
+    fetchUserData (state, payload) {
+      this.commit('SET_LOADING_USERINFO')
+      axios({
+        url: this.state.baseUrl + '/user/userInfo',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          this.commit('SET_USERINFO', data)
+          this.commit('SET_UNLOAD_USERINFO')
+          if (payload && data.role !== 'admin') {
+            router.push('/home')
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    addProduct (state, payload) {
+      const data = new FormData()
+      data.append('name', payload.name)
+      data.append('img_url', payload.img_url)
+      data.append('desc', payload.description)
+      data.append('price', payload.price)
+      data.append('stock', payload.stock)
+      data.append('category', payload.category)
+      axios({
+        method: 'post',
+        url: this.state.baseUrl + '/products',
+        data: data,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          Swal.fire(
+            'Add Product Success',
+            'You have successfully added a product',
+            'success'
+          )
+          this.dispatch('fetchMainProducts')
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err
+          })
+        })
+    },
+    editProduct (state, payload) {
+      const data2 = new FormData()
+      data2.append('name', payload.name)
+      data2.append('img_url', payload.img_url)
+      data2.append('desc', payload.description)
+      data2.append('price', payload.price)
+      data2.append('stock', payload.stock)
+      data2.append('category', payload.category)
+      axios({
+        method: 'put',
+        url: this.state.baseUrl + '/products/' + payload.id,
+        data: data2,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          Swal.fire(
+            'Edit Product Success',
+            'You have successfully edited a product',
+            'success'
+          )
+          this.dispatch('fetchMainProducts')
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err
+          })
+        })
+    },
+    deleteProduct (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/products/' + payload,
+        method: 'delete',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          Swal.fire(
+            'Deleted!',
+            'Your product has been deleted.',
+            'success'
+          )
+          this.dispatch('fetchMainProducts')
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err
+          })
         })
     }
   }

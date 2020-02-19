@@ -2,10 +2,29 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import ProductList from '../views/ProductList.vue'
+import Admin from '../views/Admin.vue'
+import AdminProductMenu from '../views/AdminProductMenu.vue'
+import Register from '../views/Register.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
+    children: [
+      {
+        path: '/admin/products',
+        component: AdminProductMenu
+      }
+    ]
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
   {
     path: '/',
     name: 'Home',

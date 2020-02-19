@@ -9,6 +9,8 @@ router.post('/login', controller.login)
 
 router.use(authentication)
 
+router.get('/userInfo', controller.getUserInfo)
+
 router.patch('/shop', controller.registerShop)
 
 router.get('/purchases', controller.getPurchases)

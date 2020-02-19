@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Please fill in all fields'
         },
         isIn: {
-          args: [['Handphone', 'Laptop', 'Smartwatch', 'Drone', 'Headphone']],
+          args: [['Handphones', 'Laptops', 'Smartwatches', 'Drones', 'Headphones']],
           msg: 'Invalid category'
         }
       }

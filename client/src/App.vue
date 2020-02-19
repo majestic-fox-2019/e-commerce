@@ -12,6 +12,9 @@ export default {
     NavBar
   },
   created () {
+    if (localStorage.getItem('token')) {
+      this.$store.dispatch('fetchUserData')
+    }
     this.$store.dispatch('fetchMainProducts')
   }
 }
