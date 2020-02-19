@@ -20,7 +20,18 @@ class ProductController {
     }
 
     static delete(req, res, next) {
-
+        Product
+            .destroy({
+                where: {
+                    id: Number(req.params.id)
+                }
+            })
+            .then(() => {
+                res.status(200).json("Product has been deleted!");
+            })
+            .catch(err => {
+                next(err);
+            })
     }
 }
 

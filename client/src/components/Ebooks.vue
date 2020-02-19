@@ -33,20 +33,17 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols='12' sm='6' md='4'>
-                    <v-text-field v-model='editedItem.name' label='Dessert name'></v-text-field>
+                  <v-col cols='12' sm='6' md='12'>
+                    <v-text-field v-model='editedItem.name' label='Title'></v-text-field>
                   </v-col>
-                  <v-col cols='12' sm='6' md='4'>
-                    <v-text-field v-model='editedItem.calories' label='Calories'></v-text-field>
+                  <v-col cols='12' sm='6' md='6'>
+                    <v-text-field v-model='editedItem.price' label='Unit Price'></v-text-field>
                   </v-col>
-                  <v-col cols='12' sm='6' md='4'>
-                    <v-text-field v-model='editedItem.fat' label='Fat (g)'></v-text-field>
+                  <v-col cols='12' sm='6' md='6'>
+                    <v-text-field v-model='editedItem.stock' label='Stock'></v-text-field>
                   </v-col>
-                  <v-col cols='12' sm='6' md='4'>
-                    <v-text-field v-model='editedItem.carbs' label='Carbs (g)'></v-text-field>
-                  </v-col>
-                  <v-col cols='12' sm='6' md='4'>
-                    <v-text-field v-model='editedItem.protein' label='Protein (g)'></v-text-field>
+                  <v-col cols='12' sm='6' md='12'>
+                    <v-text-field v-model='editedItem.image_url' label='Image Url'></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -59,13 +56,54 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-dialog
+          v-model="dialog_delete"
+          max-width="300"
+        >
+          <v-card>
+            <v-card-title class="headline">Confirm delete product</v-card-title>
+            <v-card-text>
+              Are you sure you want to delete this product?
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="dialog_delete = false"
+              >
+                NO
+              </v-btn>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="deleteItem"
+              >
+                YES
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-snackbar
+            v-model="alert"
+            :top="true"
+        >
+            {{ message }}
+            <v-btn
+                color="primary"
+                text
+                @click="alert = false"
+            >
+                Close
+            </v-btn>
+      </v-snackbar>
       </v-toolbar>
     </template>
     <template v-slot:item.action='{ item }'>
       <v-icon small class='mr-2' @click='editItem(item)'>
         edit
       </v-icon>
-      <v-icon small @click='deleteItem(item)'>
+      <v-icon small @click='dialog_delete = true; deletedItem = item;'>
         delete
       </v-icon>
     </template>
@@ -77,8 +115,11 @@
 <script>
 export default {
   data: () => ({
+    alert: false,
+    message: '',
     search: '',
     dialog: false,
+    dialog_delete: false,
     headers: [
       {
         text: 'Name',
@@ -95,23 +136,28 @@ export default {
     editedIndex: -1,
     editedItem: {
       name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      price: 0,
+      stock: 0,
+      image_url: '',
     },
     defaultItem: {
       name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      price: 0,
+      stock: 0,
+      image_url: '',
+    },
+    deletedIndex: -1,
+    deletedItem: {
+      name: '',
+      price: 0,
+      stock: 0,
+      image_url: '',
     },
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
+      return this.editedIndex === -1 ? 'Add Ebook' : 'Edit Ebook';
     },
   },
 
@@ -127,17 +173,14 @@ export default {
 
   methods: {
     initialize() {
-      console.log('melawan');
       this.$store.state.superagent
         .get(`${this.$store.state.url_backend}/products`)
-        .set('accesstoken', localStorage.getItem('token'))
+        .set('accesstoken', this.$store.state.isLogin)
         .end((err, res) => {
           if (err) {
-            console.log(res.body.error);
             this.alert = true;
-            this.message = res.body.error;
+            this.message = res ? res.body.error : err;
           } else {
-            console.log(res.body);
             this.ebooks = res.body;
           }
         });
@@ -149,10 +192,22 @@ export default {
       this.dialog = true;
     },
 
-    // deleteItem(item) {
-    // //   const index = this.ebooks.indexOf(item);
-    // //   confirm('Are you sure you want to delete this item?') && this.ebooks.splice(index, 1);
-    // },
+    deleteItem() {
+      this.deletedIndex = this.ebooks.indexOf(this.deleteItem);
+      this.$store.state.superagent
+        .delete(`${this.$store.state.url_backend}/products/${this.deletedItem.id}`)
+        .set('accesstoken', this.$store.state.isLogin)
+        .end((err, res) => {
+          if (err) {
+            this.message = res.body.error;
+          } else {
+            this.ebooks.splice(this.deletedIndex, 1);
+            this.message = res.body;
+          }
+          this.alert = true;
+          this.dialog_delete = false;
+        });
+    },
 
     close() {
       this.dialog = false;
