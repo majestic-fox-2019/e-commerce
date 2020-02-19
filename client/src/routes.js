@@ -1,10 +1,14 @@
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 import Ebooks from './components/Ebooks.vue';
 import Tutorials from './components/Tutorials.vue';
 import Login from './components/Login.vue';
 import Home from './components/Home.vue';
 import Register from './components/Register.vue';
 
-export default [
+Vue.use(VueRouter);
+
+const routes = [
   {
     path: '/',
     component: Home,
@@ -34,3 +38,35 @@ export default [
     name: 'register',
   },
 ];
+
+// Vue Router Config
+const router = new VueRouter({
+  mode: 'history',
+  routes,
+  linkActiveClass: 'active',
+});
+// End Router Config
+
+// Redirect before login
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+  if (to.meta.requiresAuth) {
+    if (token) {
+      next();
+    } else {
+      next({
+        name: 'login',
+      });
+    }
+  } else if (['/login', '/register'].includes(to.path) && token) {
+    next({
+      name: 'home',
+    });
+  } else {
+    next();
+  }
+});
+// End Redirect
+
+
+export default router;

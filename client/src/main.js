@@ -1,62 +1,10 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
-import Vuex from 'vuex';
-
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
-
-import routes from './routes';
-
-const superagent = require('superagent');
+import store from './vuex/main';
+import router from './routes';
 
 Vue.config.productionTip = false;
-Vue.use(VueRouter).use(Vuex);
-
-// Vue Router Config
-const router = new VueRouter({
-  mode: 'history',
-  routes,
-  linkActiveClass: 'active',
-});
-// End Router Config
-
-// Redirect before login
-router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('token');
-  if (to.meta.requiresAuth) {
-    if (token) {
-      next();
-    } else {
-      next({
-        name: 'login',
-      });
-    }
-  } else if (['/login', '/register'].includes(to.path) && token) {
-    next({
-      name: 'home',
-    });
-  } else {
-    next();
-  }
-});
-// End Redirect
-
-// Vuex
-const store = new Vuex.Store({
-  state: {
-    isLogin: localStorage.getItem('token'),
-    url_backend: 'http://localhost:3000',
-    superagent,
-  },
-  mutations: {
-    setIsLogin(state, isLogin) {
-      state.isLogin = isLogin;
-    },
-  },
-});
-// console.log('store di main.js');
-// console.log(store);
-// End Vuex
 
 new Vue({
   vuetify,
