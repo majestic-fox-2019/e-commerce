@@ -87,7 +87,7 @@ export default {
   methods: {
     register() {
       superagent
-        .post('http://localhost:3000/users/register')
+        .post(`${this.$store.state.url_backend}/users/register`)
         .send({
           email: this.email,
           password: this.password,

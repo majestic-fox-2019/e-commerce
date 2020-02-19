@@ -16,12 +16,16 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: {
           args: true,
           msg: "Invalid email format, e.g: onesinus231@gmail.com"
-        }
+        },
+        isExist: function(value) {
+          return User.count({ where: { email: value } })
+            .then(count => {
+              if (count != 0) {
+                throw new Error('Email is already exist.');
+              }
+          });
+        },
       },
-      unique: {
-        args: true,
-        msg: 'Email address already exist!'
-      }
     },
     password: DataTypes.STRING,
     role: DataTypes.STRING

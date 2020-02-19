@@ -43,6 +43,7 @@ router.beforeEach((to, from, next) => {
 const store = new Vuex.Store({
   state: {
     isLogin: localStorage.getItem('token'),
+    url_backend: 'http://localhost:3000',
   },
   mutations: {
     setIsLogin(state, isLogin) {

@@ -27,6 +27,15 @@
       <v-spacer></v-spacer>
 
       <div class="d-inline-flex">
+        <router-link :to="{name: 'home'}">
+          <v-btn
+            text
+            v-if="isLogin"
+          >
+            <v-icon>mdi-home-outline</v-icon>
+            <span class="ml-2 menu-text">Home</span>
+          </v-btn>
+        </router-link>
         <router-link :to="{name: 'ebooks'}">
           <v-btn
             text
@@ -52,8 +61,8 @@
         v-if="isLogin"
         @click="logout"
       >
-        <span class="mr-2">Logout</span>
         <v-icon>mdi-logout</v-icon>
+        <span class="mr-2">Logout</span>
       </v-btn>
     </v-app-bar>
 </template>

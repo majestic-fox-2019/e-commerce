@@ -87,7 +87,7 @@ export default {
   methods: {
     login() {
       superagent
-        .post('http://localhost:3000/users/login')
+        .post(`${this.$store.state.url_backend}/users/login`)
         .send({
           email: this.email,
           password: this.password,
