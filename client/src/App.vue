@@ -4,7 +4,7 @@
     <Login
       v-if="isLogin == null"
     />
-    <v-content>
+    <v-content v-if="isLogin != null">
       <router-view></router-view>
       <!-- <Home/> -->
     </v-content>
