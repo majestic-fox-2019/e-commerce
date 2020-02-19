@@ -16,7 +16,13 @@ class UserController {
     User.create(regisUser)
     .then(user => {
       // console.log(user)
-      res.status(201).json(user)
+      let data = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
+      res.status(201).json({user, token : jwt.createToken(data)})
     })
     .catch(error => {
       next(error)
@@ -25,14 +31,16 @@ class UserController {
 
   static login(req, res, next){
     let userEmail = {
-      email: req.body.email
+      where: {
+        email: req.body.email
+      }
     }
-
     User.findOne(userEmail)
     .then(user => {
       if (!user){
         throw createError(404, {message: "User Not Found"})
       } else {
+        console.log(user.password, req.body.password, '<ASADASSAD')
         if (bcrypt.checkPassword(req.body.password, user.password)){
           let data = {
             id: user.id,
@@ -40,7 +48,7 @@ class UserController {
             email: user.email,
             role: user.role
           }
-          res.status(200).json({token : jwt.createToken(data)})
+          res.status(200).json({data, token : jwt.createToken(data)})
         } else {
           throw createError(400, {message: "Email / Password Wrong"})
         }

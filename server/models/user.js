@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: 'Name is empty'
-        }
+        },
+        notNull: {
+          args: true,
+          msg: 'Name is empty'
+        },
       }
     },
     email: {
@@ -24,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
+          args: true,
+          msg: 'Email is empty'
+        },
+        notNull: {
           args: true,
           msg: 'Email is empty'
         },
@@ -44,7 +52,11 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: 'Password is empty'
-        }
+        },
+        notNull: {
+          args: true,
+          msg: 'Password is empty'
+        },
       }
     },
     role: {
