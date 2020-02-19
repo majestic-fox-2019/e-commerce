@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
+        isIn: {
+          args: [['Active', 'CheckedOut']],
+          msg: 'Invalid status'
+        },
         notNull: {
           msg: 'Please fill in all fields'
         },

@@ -20,7 +20,7 @@ class CartController {
             } else {
                 return Cart.create({
                     ProductId,
-                    status: 'active',
+                    status: 'Active',
                     qty,
                     UserId: req.loggedUser.id
                 })

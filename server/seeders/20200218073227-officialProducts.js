@@ -69,7 +69,7 @@ module.exports = {
   createdAt: new Date(),
   updatedAt: new Date()
 },{
-  name: 'Macbook Pro 2019 13inch',
+  name: 'Macbook Pro 2019',
   desc: 'Apple Macbook pro series',
   price: 25000000,
   stock: 3,

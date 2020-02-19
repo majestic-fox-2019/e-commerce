@@ -36,7 +36,7 @@ beforeAll((done) => {
                 price: 10000,
                 stock: 5,
                 img_url: 'https://images.anandtech.com/doci/15482/Galaxy-S20-S20-5G_678x452.jpg',
-                category: 'handphone'
+                category: 'Handphone'
             }
         })
     request(app)
@@ -127,7 +127,7 @@ describe('POST /products (ERROR: no shop)', () => {
                 price: 10000,
                 stock: 5,
                 img_url: 'https://images.anandtech.com/doci/15482/Galaxy-S20-S20-5G_678x452.jpg',
-                category: 'handphone'
+                category: 'Handphone'
             })
             .expect(400)
             .end((err, res) => {
@@ -203,7 +203,7 @@ describe('GET /products/:id (ERROR: invalid product)', () => {
 describe('GET /products/category/:category (SUCCESS)', () => {
     it('should return an array of objects with product details filtered by category', (done) => {
         request(app)
-            .get('/products/categories/handphone')
+            .get('/products/categories/Handphone')
             .expect(200)
             .end((err, res) => {
                 if(err) done(err)
@@ -245,7 +245,7 @@ describe('PUT /products/:id (SUCCESS)', () => {
                 price: 10000,
                 stock: 5,
                 img_url: 'https://images.anandtech.com/doci/15482/Galaxy-S20-S20-5G_678x452.jpg',
-                category: 'handphone'
+                category: 'Handphone'
             })
             .set('token', token)
             .end((err, res) => {
@@ -279,7 +279,7 @@ describe('PUT /products/:id (ERROR: unauthorized edit)', () => {
                 price: 10000,
                 stock: 5,
                 img_url: 'https://images.anandtech.com/doci/15482/Galaxy-S20-S20-5G_678x452.jpg',
-                category: 'handphone'
+                category: 'Handphone'
             })
             .set('token', invalidToken)
             .end((err, res) => {

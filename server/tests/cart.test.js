@@ -14,7 +14,7 @@ let productData = {
     price: 10000,
     stock: 5,
     img_url: 'https://images.anandtech.com/doci/15482/Galaxy-S20-S20-5G_678x452.jpg',
-    category: 'handphone'
+    category: 'Handphone'
 }
 
 let userData = {
@@ -83,7 +83,7 @@ describe('POST /cart (SUCCESS)', () => {
                 expect(res.body).toHaveProperty('paid_date')
                 expect(res.body).toHaveProperty('qty')
                 expect(res.body.UserId).toEqual(userInfo2.id)
-                expect(res.body.status).toBe('active')
+                expect(res.body.status).toBe('Active')
                 expect(res.body.paid_date).toBe(null)
                 expect(res.body.qty).toBe(2)
                 expect(res.body.ProductId).toBe(productInfo.id)
@@ -133,7 +133,6 @@ describe('POST /cart (ERROR: invalid action)', () => {
 // End of Add to Cart Tests
 
 // See Cart Tests
-// Start Here!!!
 describe('GET /cart (SUCCESS)', () => {
     it('should return an array of Objects with product details', (done) => {
         request(app)
@@ -149,7 +148,7 @@ describe('GET /cart (SUCCESS)', () => {
                 expect(res.body[0]).toHaveProperty('qty')
                 expect(res.body[0]).toHaveProperty('paid_date')
                 expect(res.body[0]).toHaveProperty('status')
-                expect(res.body[0].status).toBe('active')
+                expect(res.body[0].status).toBe('Active')
                 expect(res.body[0].UserId).toBe(userInfo2.id)
                 expect(res.body[0].paid_date).toBe(null)
                 expect(res.body[0].Product).toHaveProperty('name')
