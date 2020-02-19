@@ -5,7 +5,7 @@ const isAdmin = require('../middlewares/isAdmin')
 
 router.get('/', productController.showProduct)
 
-router.use(isAdmin)
+// router.use(isAdmin)
 
 router.post('/', productController.createProduct)
 router.get('/:id', productController.showOneProduct)

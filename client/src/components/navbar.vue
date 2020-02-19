@@ -6,7 +6,11 @@
           <ul class="navbar-nav mr-auto">
             <li class="nav-link">Fulfill your needs</li>
           </ul>
+          <div v-if="isLogin">
           <router-link to='/login' class="btn btn-light">Login Here or </router-link>
+          <router-link to='/register' class="btn btn-dark">Sign Up now! </router-link>
+          </div>
+          <button class="btn btn-danger">Logout</button>
         </div>
       </nav>
     </div>
@@ -14,7 +18,11 @@
 
 <script>
 export default {
-
+  data() {
+    return {
+      isLogin: false,
+    };
+  },
 };
 </script>
 

@@ -2,15 +2,19 @@
   <div>
   <div class="cont">
   <div class="form sign-in">
-    <h2>Welcome admin,</h2>
+    <h2>Welcome!</h2>
     <form v-on:submit.prevent="login">
     <label>
+      <span>Name</span>
+      <input type="text" v-model="formRegister.name" />
+    </label>
+    <label>
       <span>Email</span>
-      <input type="email" v-model="formLogin.email" />
+      <input type="email" v-model="formRegister.email" />
     </label>
     <label>
       <span>Password</span>
-      <input type="password" v-model="formLogin.password" />
+      <input type="password" v-model="formRegister.password" />
     </label>
     <button type="submit" class="submit">Sign In</button>
     <button type="button" class="fb-btn">Connect with <span>Google</span></button>
@@ -22,8 +26,8 @@
         <h2>Face UP <i class="fas fa-angle-double-up"></i></h2>
         <p>Aim to offer a quick and reliable service affordable prices and friendly!</p>
       </div>
-       <div class="img__btn">
-        <span class="m--up"><router-link to='/register'> Sign Up</router-link></span>
+      <div class="img__btn">
+       <router-link to='loginPage'> <span class="m--up"> Sign In </span></router-link>
       </div>
     </div>
   </div>
@@ -39,22 +43,23 @@ const server = 'http://localhost:3000';
 export default {
   data() {
     return {
-      formLogin: {
+      formRegister: {
+        name: null,
         email: null,
         password: null,
       },
     };
   },
   methods: {
-    login() {
+    register() {
       axios({
         method: 'post',
-        url: `${server}/login`,
-        data: this.formLogin,
+        url: `${server}/register`,
+        data: this.formRegister,
       })
         .then((result) => {
           console.log(result.data);
-          localStorage.setItem('token', result.data);
+          // localStorage.setItem('token', result.data);
           this.$router.push({ path: '/home' });
         })
         .catch((err) => {

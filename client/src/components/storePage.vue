@@ -1,21 +1,23 @@
 <template>
 <!-- eslint-disable max-len -->
+<div>
+  <navbar></navbar>
   <nav class="main-menu">
             <ul>
                 <li>
-                    <a href="http://justinfarrow.com">
+                    <a>
                         <i class="fa fa-home fa-2x"></i>
                         <span class="nav-text">
-                            Dashboard
+                           <router-link to='/home'>Dashboard</router-link>
                         </span>
                     </a>
 
                 </li>
                 <li class="has-subnav">
-                    <a href="#">
+                    <a>
                         <i class="fa fa-laptop fa-2x"></i>
                         <span class="nav-text">
-                            Stars Components
+                            <router-link to='/stock'>Stock</router-link>
                         </span>
                     </a>
 
@@ -91,11 +93,17 @@
                 </li>
             </ul>
         </nav>
+    <router-view></router-view>
+</div>
 </template>
 
 <script>
-export default {
+import navbar from './navbar.vue';
 
+export default {
+  components: {
+    navbar,
+  },
 };
 </script>
 

@@ -8,7 +8,7 @@ const authentication = require('../middlewares/authentication')
 router.use('/register', registerRoute)
 router.use('/login', loginRoute)
 
-router.use(authentication)
+// router.use(authentication)
 
 router.use('/products', productRoutes)
 
