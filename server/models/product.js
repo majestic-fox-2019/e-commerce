@@ -4,7 +4,15 @@ module.exports = (sequelize, DataTypes) => {
   class Product extends Model{}
 
   Product.init({
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Product\'s name cannot be empty!'
+        }
+      }
+    },
     image_url: DataTypes.STRING,
     price: DataTypes.INTEGER,
     stock: DataTypes.INTEGER

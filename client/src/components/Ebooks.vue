@@ -23,6 +23,19 @@
 
         <v-spacer></v-spacer>
         <v-dialog v-model='dialog' max-width='500px'>
+          <v-snackbar
+              v-model="alert_modal"
+              :top="true"
+          >
+              {{ message_modal }}
+              <v-btn
+                  color="primary"
+                  text
+                  @click="alert_modal = false"
+              >
+                  Close
+              </v-btn>
+          </v-snackbar>
           <template v-slot:activator='{ on }'>
             <v-btn color='primary' dark class='mb-2' v-on='on'>Add Ebook</v-btn>
           </template>
@@ -35,7 +48,7 @@
               <v-container>
                 <v-row>
                   <v-col cols='12' sm='6' md='12'>
-                    <v-text-field v-model='editedItem.name' label='Title'></v-text-field>
+                    <v-text-field v-model='editedItem.name' label='Name'></v-text-field>
                   </v-col>
                   <v-col cols='12' sm='6' md='6'>
                     <v-text-field v-model='editedItem.price' label='Unit Price'></v-text-field>
@@ -97,7 +110,7 @@
             >
                 Close
             </v-btn>
-      </v-snackbar>
+        </v-snackbar>
       </v-toolbar>
     </template>
     <template v-slot:item.action='{ item }'>
@@ -118,6 +131,8 @@ export default {
   data: () => ({
     alert: false,
     message: '',
+    alert_modal: false,
+    message_modal: '',
     search: '',
     dialog: false,
     dialog_delete: false,
@@ -234,6 +249,7 @@ export default {
               } else {
                 this.message = res.body;
                 Object.assign(this.ebooks[this.editedIndex], this.editedItem);
+                this.close();
               }
               this.alert = true;
             });
@@ -245,17 +261,16 @@ export default {
           .send(this.editedItem)
           .end((err, res) => {
             if (err) {
-              this.message = res ? res.body.error : err;
+              this.message_modal = res ? res.body.error : err;
             } else {
-              this.message = res.body.message;
+              this.message_modal = res.body.message;
               this.editedItem.id = res.body.product.id;
-              console.log(this.editedItem);
               this.ebooks.push(this.editedItem);
+              this.close();
             }
-            this.alert = true;
+            this.alert_modal = true;
           });
       }
-      this.close();
     },
   },
 };
