@@ -222,6 +222,7 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
+        console.log(this.editedItem);
         if (this.editedItem.id) {
           this.$store.state.superagent
             .put(`${this.$store.state.url_backend}/products/${this.editedItem.id}`)
@@ -246,7 +247,9 @@ export default {
             if (err) {
               this.message = res ? res.body.error : err;
             } else {
-              this.message = res.body;
+              this.message = res.body.message;
+              this.editedItem.id = res.body.product.id;
+              console.log(this.editedItem);
               this.ebooks.push(this.editedItem);
             }
             this.alert = true;

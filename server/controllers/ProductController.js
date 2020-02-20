@@ -15,8 +15,8 @@ class ProductController {
         const {name, image_url, price, stock} = req.body;
         Product
             .create({name, image_url, price, stock})
-            .then(() => {
-                res.status(201).json("Product has been added!");
+            .then((product) => {
+                res.status(201).json({product, message: "Product has been added!"});
             })
             .catch(err => {
                 next(err);
