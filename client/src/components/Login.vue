@@ -96,7 +96,7 @@ export default {
             this.message = res.body.error;
           } else {
             localStorage.setItem('token', res.body.token);
-            this.$store.commit('setIsLogin', true);
+            this.$store.commit('setIsLogin', res.body.token);
             this.$router.push({ name: 'home' });
           }
         });

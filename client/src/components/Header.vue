@@ -32,7 +32,7 @@
             text
             v-if="isLogin"
           >
-            <v-icon>mdi-home-outline</v-icon>
+            <v-icon>mdi-home</v-icon>
             <span class="ml-2 menu-text">Home</span>
           </v-btn>
         </router-link>
@@ -40,7 +40,7 @@
           <v-btn
             text
           >
-            <v-icon>mdi-notebook-outline</v-icon>
+            <v-icon>mdi-notebook</v-icon>
             <span class="ml-2 menu-text">Ebooks</span>
           </v-btn>
         </router-link>
@@ -52,10 +52,15 @@
             <span class="ml-2 menu-text">Tutorials</span>
           </v-btn>
         </router-link>
-
+        <router-link :to="{name: 'users'}">
+          <v-btn
+            text
+          >
+            <v-icon>mdi-account-details</v-icon>
+            <span class="ml-2 menu-text">User</span>
+          </v-btn>
+        </router-link>
       </div>
-
-
       <v-btn
         text
         v-if="isLogin"

@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers='headers'
-    :items='ebooks'
+    :items='users'
     :search="search"
     sort-by='name'
     :itemsPerPage='8'
@@ -9,7 +9,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat color='white'>
-        <v-toolbar-title>Ebooks</v-toolbar-title>
+        <v-toolbar-title>Users</v-toolbar-title>
         <v-divider class='mx-4' inset vertical></v-divider>
         <v-card-title>
             <v-spacer></v-spacer>
@@ -37,7 +37,7 @@
               </v-btn>
           </v-snackbar>
           <template v-slot:activator='{ on }'>
-            <v-btn color='primary' dark class='mb-2' v-on='on'>Add Ebook</v-btn>
+            <v-btn color='primary' dark class='mb-2' v-on='on'>Add User</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -48,16 +48,26 @@
               <v-container>
                 <v-row>
                   <v-col cols='12' sm='6' md='12'>
-                    <v-text-field v-model='editedItem.name' label='Name'></v-text-field>
-                  </v-col>
-                  <v-col cols='12' sm='6' md='6'>
-                    <v-text-field v-model='editedItem.price' label='Unit Price'></v-text-field>
-                  </v-col>
-                  <v-col cols='12' sm='6' md='6'>
-                    <v-text-field v-model='editedItem.stock' label='Total Pages'></v-text-field>
+                    <v-text-field
+                        v-model='editedItem.email'
+                        label='Email'>
+                    </v-text-field>
                   </v-col>
                   <v-col cols='12' sm='6' md='12'>
-                    <v-text-field v-model='editedItem.image_url' label='Image Url'></v-text-field>
+                    <v-text-field
+                        type='password'
+                        v-model='editedItem.password'
+                        label='Password'>
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols='12' sm='6' md='12'>
+                       <v-autocomplete
+                            ref="role"
+                            v-model="editedItem.role"
+                            :items="roles"
+                            label="Role"
+                            placeholder="Select Role..."
+                        ></v-autocomplete>
                   </v-col>
                 </v-row>
               </v-container>
@@ -138,41 +148,37 @@ export default {
     dialog_delete: false,
     headers: [
       {
-        text: 'Name',
+        text: 'Email',
         align: 'left',
-        value: 'name',
+        value: 'email',
       },
-      { text: 'Unit Price', value: 'price' },
-      { text: 'Total Pages', value: 'stock' },
-      { text: 'Image Url', value: 'image_url' },
+      { text: 'Role', value: 'role' },
       { text: 'Actions', value: 'action', sortable: false },
     ],
-    ebooks: [],
+    roles: ['Admin', 'User'],
+    users: [],
     editedIndex: -1,
     editedItem: {
-      name: '',
-      price: 0,
-      stock: 0,
-      image_url: '',
+      email: '',
+      password: '',
+      role: '',
     },
     defaultItem: {
-      name: '',
-      price: 0,
-      stock: 0,
-      image_url: '',
+      email: '',
+      password: '',
+      role: '',
     },
     deletedIndex: -1,
     deletedItem: {
-      name: '',
-      price: 0,
-      stock: 0,
-      image_url: '',
+      email: '',
+      password: '',
+      role: '',
     },
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'Add Ebook' : 'Edit Ebook';
+      return this.editedIndex === -1 ? 'Add User' : 'Edit User';
     },
   },
 
@@ -189,27 +195,27 @@ export default {
   methods: {
     initialize() {
       this.$store.state.superagent
-        .get(`${this.$store.state.url_backend}/products`)
+        .get(`${this.$store.state.url_backend}/users`)
         .set('accesstoken', this.$store.state.isLogin)
         .end((err, res) => {
           if (err) {
             this.alert = true;
             this.message = res ? res.body.error : err;
           } else {
-            this.ebooks = res.body;
+            this.users = res.body;
           }
         });
     },
 
     editItem(item) {
-      this.editedIndex = this.ebooks.indexOf(item);
+      this.editedIndex = this.users.indexOf(item);
       this.editedItem = { ...item };
       this.dialog = true;
     },
 
     deleteItem() {
       if (this.deletedItem.id) {
-        this.deletedIndex = this.ebooks.indexOf(this.deletedItem);
+        this.deletedIndex = this.users.indexOf(this.deletedItem);
         this.$store.state.superagent
           .delete(`${this.$store.state.url_backend}/products/${this.deletedItem.id}`)
           .set('accesstoken', this.$store.state.isLogin)
@@ -220,7 +226,7 @@ export default {
               this.alert = true;
               this.dialog_delete = false;
 
-              this.ebooks.splice(this.deletedIndex, 1);
+              this.users.splice(this.deletedIndex, 1);
               this.message = res.body;
             }
           });
@@ -249,7 +255,7 @@ export default {
                 this.message = res ? res.body.error : err;
               } else {
                 this.message = res.body;
-                Object.assign(this.ebooks[this.editedIndex], this.editedItem);
+                Object.assign(this.users[this.editedIndex], this.editedItem);
                 this.close();
               }
               this.alert = true;
@@ -266,7 +272,7 @@ export default {
             } else {
               this.message_modal = res.body.message;
               this.editedItem.id = res.body.product.id;
-              this.ebooks.push(this.editedItem);
+              this.users.push(this.editedItem);
               this.close();
             }
             this.alert_modal = true;

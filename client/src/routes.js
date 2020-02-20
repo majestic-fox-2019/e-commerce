@@ -5,10 +5,21 @@ import Tutorials from './components/Tutorials.vue';
 import Login from './components/Login.vue';
 import Home from './components/Home.vue';
 import Register from './components/Register.vue';
+import Users from './components/Users.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: '/login',
+    component: Login,
+    name: 'login',
+  },
+  {
+    path: '/register',
+    component: Register,
+    name: 'register',
+  },
   {
     path: '/',
     component: Home,
@@ -28,14 +39,10 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/login',
-    component: Login,
-    name: 'login',
-  },
-  {
-    path: '/register',
-    component: Register,
-    name: 'register',
+    path: '/users',
+    component: Users,
+    name: 'users',
+    meta: { requiresAuth: true },
   },
 ];
 

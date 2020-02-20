@@ -98,7 +98,6 @@ export default {
           } else {
             this.message = 'User has been added';
             setTimeout(() => {
-              this.$store.commit('setIsLogin', true);
               this.$router.push({ name: 'login' });
             }, 3000);
           }
