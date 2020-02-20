@@ -3,7 +3,8 @@
     :headers='headers'
     :items='ebooks'
     :search="search"
-    sort-by='calories'
+    sort-by='name'
+    :itemsPerPage='8'
     class='elevation-1'
   >
     <template v-slot:top>
