@@ -32,12 +32,10 @@ module.exports = (sequelize, DataTypes) => {
 
     },
     imageurl: DataTypes.STRING,
-    UserId: DataTypes.INTEGER
   },{sequelize})
 
 
   Product.associate = function(models) {
-    Product.belongsTo(models.User)
     // associations can be defined here
   };
   return Product;

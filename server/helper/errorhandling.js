@@ -1,7 +1,7 @@
 
 
 module.exports = (err, req, res, next) => {
-  console.log(err,'aaaa')
+  
   switch (err.name) {
       case 'SequelizeValidationError': {
         const temp = []

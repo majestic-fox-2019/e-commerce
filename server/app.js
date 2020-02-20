@@ -17,7 +17,7 @@ app
   .use(express.json())
   .use('/',indexRoute)
 
-  // .use(errorHandling)
+  .use(errorHandling)
 
 
 

@@ -35,6 +35,9 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg: "password cannot be empty" },
         notEmpty: { msg: "password cannot be empty" }
       }
+    },
+    role : {
+      type : DataTypes.STRING
     }
   },{
     sequelize,
@@ -42,13 +45,13 @@ module.exports = (sequelize, DataTypes) => {
       beforeCreate: (instance,options)=>{
         const hash = bcrypt.hashSync(instance.password,salt);
         instance.password = hash
+        instance.role = "user"
       }
     }
     })
 
 
   User.associate = function(models) {
-    User.hasMany(models.Product)
     // associations can be defined here
   };
   return User;

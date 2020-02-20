@@ -15,7 +15,6 @@ class UserConttroller {
         email: req.body.email,
         password : req.body.password
       }
-      console.log(data)
       User.findOne({
         where : {
           email : data.email
@@ -45,7 +44,7 @@ class UserConttroller {
       email: req.body.email,
       password : req.body.password
     }
-   
+    console.log(data)
     User
     .findOne({
       where: 
@@ -61,7 +60,7 @@ class UserConttroller {
             id: result.id,
             email : result.email
           }
-          res.status(200).json({token: jwt.sign(newObj, process.env.SECRET_CODE)})
+          res.status(200).json({token: jwt.sign(newObj, process.env.SECRET_CODE), role: result.role})
         }else{
           res.status(404).json({message : 'email or password wrong'})
       
@@ -69,7 +68,6 @@ class UserConttroller {
       }
     })
     .catch(err=>{
-      console.log("MASUK ERROR")
       next(err)
     })
   }
