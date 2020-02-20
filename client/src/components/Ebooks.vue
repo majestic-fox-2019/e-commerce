@@ -54,7 +54,7 @@
                     <v-text-field v-model='editedItem.price' label='Unit Price'></v-text-field>
                   </v-col>
                   <v-col cols='12' sm='6' md='6'>
-                    <v-text-field v-model='editedItem.stock' label='Stock'></v-text-field>
+                    <v-text-field v-model='editedItem.stock' label='Total Pages'></v-text-field>
                   </v-col>
                   <v-col cols='12' sm='6' md='12'>
                     <v-text-field v-model='editedItem.image_url' label='Image Url'></v-text-field>
@@ -143,7 +143,7 @@ export default {
         value: 'name',
       },
       { text: 'Unit Price', value: 'price' },
-      { text: 'Stock', value: 'stock' },
+      { text: 'Total Pages', value: 'stock' },
       { text: 'Image Url', value: 'image_url' },
       { text: 'Actions', value: 'action', sortable: false },
     ],
@@ -209,7 +209,7 @@ export default {
 
     deleteItem() {
       if (this.deletedItem.id) {
-        this.deletedIndex = this.ebooks.indexOf(this.deleteItem);
+        this.deletedIndex = this.ebooks.indexOf(this.deletedItem);
         this.$store.state.superagent
           .delete(`${this.$store.state.url_backend}/products/${this.deletedItem.id}`)
           .set('accesstoken', this.$store.state.isLogin)
@@ -217,11 +217,12 @@ export default {
             if (err) {
               this.message = res ? res.body.error : err;
             } else {
+              this.alert = true;
+              this.dialog_delete = false;
+
               this.ebooks.splice(this.deletedIndex, 1);
               this.message = res.body;
             }
-            this.alert = true;
-            this.dialog_delete = false;
           });
       }
     },
