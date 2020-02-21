@@ -7,7 +7,7 @@ function authenticated(req, res, next){
         next();
     } catch (error) {
         next({
-            statusCode: 400,
+            statusCode: 401,
             message: error
         });
     }

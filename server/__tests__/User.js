@@ -33,7 +33,7 @@ describe('/users', function() {
             expect(response.status).toBe(400);
     });
 
-    it('POST /register fails with empty invalid email', async () => {
+    it('POST /register fails with empty email', async () => {
         let reqBody = {
             email: "",
             password: "stop tipu tipu"
@@ -45,23 +45,60 @@ describe('/users', function() {
             expect(response.status).toBe(400);
     });
 
+    it('POST /register success with empty password', async () => {
+        let reqBody = {
+            email: "mantul@gmail.com",
+            password: ""
+        }
+        const response = await request
+            .post('/users/register')
+            .send(reqBody)
 
+            expect(response.status).toBe(201);
+    });
     
-    // it('POST /login', async done => {
-    //     let reqBody = {
-    //         email: "kodekite@gmail.com",
-    //         password: "123"
-    //     }
-    //     const response = await request
-    //         .post('/users/login')
-    //         .send(reqBody)
+    it('POST /login with exist account', async done => {
+        let reqBody = {
+            email: "kodekite@gmail.com",
+            password: "123"
+        }
+        const response = await request
+            .post('/users/login')
+            .send(reqBody)
       
-    //         expect(response.status).toBe(200);
-    //         expect(response.body.token).not.toBe(undefined);
-    //         expect(response.body.email).toBe(reqBody.email);
+            expect(response.status).toBe(200);
+            expect(response.body.token).not.toBe(undefined);
             
-    //         done();
-    // });
+            done();
+    });
 
+    it('POST /login with doesn\'n exists account', async done => {
+        let reqBody = {
+            email: "cubluk@gmail.com",
+            password: "123"
+        }
+        const response = await request
+            .post('/users/login')
+            .send(reqBody)
+      
+            expect(response.status).toBe(404);
+            expect(response.body.token).toBe(undefined);
+            
+            done();
+    });
 
+    it('POST /login with empty email', async done => {
+        let reqBody = {
+            email: "",
+            password: "123"
+        }
+        const response = await request
+            .post('/users/login')
+            .send(reqBody)
+      
+            expect(response.status).toBe(404);
+            expect(response.body.token).toBe(undefined);
+            
+            done();
+    });
   });
