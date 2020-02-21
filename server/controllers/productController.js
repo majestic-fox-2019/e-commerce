@@ -112,4 +112,20 @@ module.exports = class {
         next(err)
       })
   }
+
+  static findByCategory(req, res, next) {
+    let { category } = req.params
+    Product.findAll({
+      where: {
+        category
+      }
+    })
+      .then(result => {
+        res.status(200).json(result)
+      })
+      .catch(err => {
+        err.status = 400
+        next(err)
+      })
+  }
 }
