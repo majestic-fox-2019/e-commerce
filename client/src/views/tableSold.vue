@@ -1,12 +1,11 @@
 <template>
-  <Table :data="loadData"></Table>
+<div>
+</div>
 </template>
 <script>
-import Table from '@/components/table.vue';
 
 export default {
   components: {
-    Table,
   },
   data() {
     return {

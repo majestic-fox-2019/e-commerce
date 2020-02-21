@@ -16,7 +16,8 @@
               <td>{{el.name}}</td>
               <td>{{el.stock}}</td>
               <td>{{formatnumber(el.price)}}</td>
-              <button type="button" class="btn btn-primary">detail</button>
+              <a @click="selectedData(el)"><span><i class="fa fa-edit fa-lg p-3"></i>
+              </span> Detail</a>
             </tr>
           </tbody>
         </table>
@@ -26,11 +27,19 @@
 <script>
 export default {
   name: 'addTable',
+  data() {
+    return {
+      selected: '',
+    };
+  },
   props: ['data'],
   methods: {
     formatnumber(int) {
       const num = new Intl.NumberFormat().format(int);
       return `Rp. ${num}`;
+    },
+    selectedData(selected) {
+      this.$emit('selected-data', selected);
     },
   },
 };

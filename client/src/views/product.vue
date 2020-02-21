@@ -8,30 +8,40 @@
   </div>
    <div class="d-flex">
      <div class="col-8">
-       <tableProduct :data="loadData" ></tableProduct>
+       <tableProduct @selected-data="selectedData" :data="loadData" ></tableProduct>
      </div>
      <div class="col-4">
-       <cardProduct></cardProduct>
-    </div>
+       <cardproduct @empty-selected="emptyselectedData"
+       @show-edit="showEditForm" :datadetail='selecteddata'></cardproduct>
+     </div>
   </div>
  <formproduct @cancle="showfrom" @close="showfrom" v-if="show"></formproduct>
+ <formedit :dataedit="selecteditdata"
+ @close-form="showEditForm" @cancle-edit="showEditForm"
+ @empty-selected="emptyselectedData"
+ v-if="showedit" ></formedit>
 </div>
 </template>
 <script>
-import tableProduct from '@/components/table.vue';
-import cardProduct from '@/components/cardProduct.vue';
+import tableProduct from '@/components/tableproduct.vue';
 import formproduct from '@/components/form.vue';
+import cardproduct from '@/components/cardProduct.vue';
+import formedit from '@/components/formedit.vue';
 
 export default {
   components: {
     tableProduct,
-    cardProduct,
     formproduct,
+    cardproduct,
+    formedit,
   },
   data() {
     return {
       show: false,
+      showedit: false,
+      selecteditdata: '',
       allProduct: '',
+      selecteddata: '',
     };
   },
   created() {
@@ -45,6 +55,16 @@ export default {
   methods: {
     showfrom() {
       this.show = !this.show;
+    },
+    showEditForm(obj) {
+      this.showedit = !this.showedit;
+      this.selecteditdata = obj;
+    },
+    selectedData(obj) {
+      this.selecteddata = obj;
+    },
+    emptyselectedData() {
+      this.selecteddata = false;
     },
   },
 };

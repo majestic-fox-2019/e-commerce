@@ -8,7 +8,7 @@ module.exports = (err, req, res, next) => {
         err.errors.forEach(error => {
             temp.push(error.message)
         })
-          res.status(400).json(allerror({ message: temp }))
+          res.status(400).json({ message: temp })
           break
       }
 

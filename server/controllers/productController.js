@@ -67,8 +67,6 @@ class ProductController{
         returning : true
       })
       .then(result=>{
-        
-        console.log(result[1])
         res.status(200).json(data)
       })
       .catch(err=>{

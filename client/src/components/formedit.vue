@@ -1,12 +1,11 @@
 <template>
 <div class="back">
   <div class="formadd">
-    <div class="d-flex justify-content-between">
-    <h5>Add New Item</h5>
+      <div class="d-flex justify-content-between">
+      <h5>Add New Item</h5>
     <a @click="cancle"><i class="fa fa-remove p-4" style="font-size:36px;color:grey"></i>
     </a>
-    </div>
-    <form @submit.prevent="postData">
+    </div>    <form @submit.prevent="putData">
       <div class="form-group">
         <label for="nama">Product Name</label>
         <input type="text" v-model="name" id="name"
@@ -25,7 +24,7 @@
 
        <div class="form-group">
         <label for="imgurl">Image Url</label>
-        <input type="text" id="image" v-model="imgurl"
+        <input type="text" id="image" v-model="imageurl"
         class="form-control" placeholder="image url" />
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
@@ -36,32 +35,35 @@
 
 <script>
 export default {
-  name: 'form',
+  name: 'formedit',
+  props: ['dataedit'],
   data() {
     return {
-      name: '',
-      stock: '',
-      price: '',
-      imgurl: '',
+      id: this.dataedit.id,
+      name: this.dataedit.name,
+      stock: this.dataedit.stock,
+      price: this.dataedit.price,
+      imageurl: this.dataedit.imageurl,
     };
   },
   methods: {
-    postData() {
+    putData() {
       const data = {
         name: this.name,
         stock: this.stock,
         price: this.price,
-        imageurl: this.imgurl,
+        imageurl: this.imageurl,
       };
       this.$axios({
-        method: 'POST',
-        url: '/product',
+        method: 'PUT',
+        url: `/product/${this.dataedit.id}`,
         headers: { token: localStorage.token },
         data,
       })
         .then(() => {
           this.$store.dispatch('loadData');
-          this.$emit('close');
+          this.$emit('close-form');
+          this.$emit('empty-selected');
         })
         .catch((err) => {
           console.log(err);
@@ -69,7 +71,7 @@ export default {
     },
 
     cancle() {
-      this.$emit('cancle');
+      this.$emit('cancle-edit');
     },
 
   },

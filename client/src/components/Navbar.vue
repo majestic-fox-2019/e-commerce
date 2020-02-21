@@ -3,24 +3,18 @@
     <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Left</a>
+                <a class="nav-link" href="#">Admin Control</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="//codeply.com">Codeply</a>
+                <a class="nav-link" href="">Client View</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#">Card View</a>
             </li>
         </ul>
     </div>
     <div class="mx-auto order-0">
-        <a class="navbar-brand mx-auto" href="#">Navbar 2</a>
+        <a class="navbar-brand mx-auto" href="#">Bike-Commerce</a>
         <button class="navbar-toggler" type="button"
         data-toggle="collapse" data-target=".dual-collapse2">
             <span class="navbar-toggler-icon"></span>

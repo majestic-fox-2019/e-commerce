@@ -87,7 +87,7 @@ background: #42ae68;
 }
 .admin-control{
   height: 4em;
-  background-color: #4aba70;
+  background-color: #074e88;
 }
 .list{
   text-align: left;
@@ -95,6 +95,13 @@ background: #42ae68;
 }
 .card{
   width: 80%;
+}
+.card img{
+  object-fit: cover;
+  height: 300px;
+}
+.card-body .btn {
+  color:  white;
 }
 .table .btn{
   margin: 20px;
