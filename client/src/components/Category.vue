@@ -3,16 +3,16 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
       <div class="container">
         <div>
-        <a class="nav-item nav-link active touch-cursor" style="font-family: 'Pacifico', cursive; color:#90F0B4" @click="goFilter('dry')">Dry </a>
+        <a class="nav-item nav-link active touch-cursor" style="font-family: 'Pacifico', cursive; " @click="goFilter('dry')">Dry </a>
         </div>
         <div>
-        <a class="nav-item nav-link active touch-cursor" style="font-family: 'Pacifico', cursive; color:#90F0B4" @click="goFilter('oily')">Oily</a>
+        <a class="nav-item nav-link active touch-cursor" style="font-family: 'Pacifico', cursive; " @click="goFilter('oily')">Oily</a>
         </div>
         <div>
-        <a class="nav-item nav-link active touch-cursor" style="font-family: 'Pacifico', cursive; color:#90F0B4" @click="goFilter('normal')">Normal</a>
+        <a class="nav-item nav-link active touch-cursor" style="font-family: 'Pacifico', cursive; " @click="goFilter('normal')">Normal</a>
         </div>
         <div>
-        <a class="nav-item nav-link active touch-cursor" style="font-family: 'Pacifico', cursive; color:#90F0B4" @click="goFilter('combination')">Combination</a>
+        <a class="nav-item nav-link active touch-cursor" style="font-family: 'Pacifico', cursive; " @click="goFilter('combination')">Combination</a>
         </div>
       </div>
 </nav>
@@ -26,7 +26,7 @@ export default {
   methods: {
     goFilter(category) {
       console.log(category)
-      this.$router.push(`/filter/${category}`)
+      this.$router.push({name: "zFilter", params: {category}})
     }
   }
 }

@@ -15,7 +15,7 @@
       </h2>
       <h4>for {{dataDetail.category}} skin type</h4>
       <p>{{dataDetail.description}}</p>
-      <p>Price: {{dataDetail.price}}</p>
+      <p>Price: {{priceFixed}}</p>
       <p>Stocks: {{dataDetail.stock}}</p> 
         <div>
           <button type="button" class="btn btn-light"  data-toggle="modal"  data-placement="right" title="Edit Product" data-target="#modalEdit"><i class="far fa-edit"></i></button>
@@ -78,10 +78,13 @@
 
           <div class="form-group row">
             <label for="editimage" class="col-sm-2 col-form-label">Image</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="editimage" placeholder="image" v-model="imageEdit">
-            </div>
+            <form  enctype="multipart/form-data">
+              <input type="file" name="file" v-on:change="getImage" />
+            </form><br>
           </div>
+            <div v-if="preview" class="text-center">
+              <img :src="preview" alt="Image Preview" width="300" height="300"> 
+            </div>
  
           <button type="submit" class="btn btn-primary">Edit</button>
         </form>
@@ -113,7 +116,8 @@ export default {
       priceEdit: null,
       imageEdit: null,
       dataDetail: null,
-      modalEdit:true
+      modalEdit:true,
+      preview:null
     }
   },
   methods: {
@@ -141,26 +145,30 @@ export default {
       })
     },
     editProduct(){
-      console.log(" masuk ga ");
-      
       let id = this.$route.params.id
+      const fd = new FormData()
+      fd.append('name', this.nameEdit)
+      fd.append('price', this.priceEdit)
+      fd.append('stock', this.stockEdit)
+      fd.append('image_url', this.imageEdit)
+      fd.append('description', this.descEdit)
+      fd.append('category', this.categoryEdit)
       axios({
         url: `http://localhost:3000/admin/${id}`,
         method:"PUT",
-        data: {
-          name: this.nameEdit,
-          stock: this.stockEdit,
-          price: this.priceEdit,
-          image_url: this.imageEdit,
-          description: this.descEdit,
-          category: this.categoryEdit
-        },
+        data: fd,
         headers: {
           token: localStorage.getItem("token")
         }
       })
       .then(res => {
          window.$('#modalEdit').modal('hide')
+         Swal.fire({
+          icon: 'success',
+          title: 'Product edited!',
+          showConfirmButton: false,
+          timer: 1500
+        })
         this.$router.push('/admin')
         console.log(res,"berhasil")
       })
@@ -212,10 +220,22 @@ export default {
               })
           }
       })  
+    },
+    getImage(e) {
+      console.log(e.target.files)
+      this.imageEdit = e.target.files[0]
+      this.preview = URL.createObjectURL(e.target.files[0])
     }
   },
   mounted(){
     this.getDetail()
+  },
+  computed: {
+    priceFixed(){
+      let result = 'Rp. '
+      result += (this.dataDetail.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+      return result
+    }
   }
 }
 </script>

@@ -3,10 +3,11 @@ const productController = require('../controllers/product')
 const userController = require('../controllers/user')
 const authentication = require('../middlewares/authentication')
 const {authorisationRole, authorisationProduct} = require('../middlewares/authorisation')
+const unggah = require('../middlewares/unggah')
 
 
-routes.post('/register', userController.register)
 routes.post('/login', userController.login)
+routes.post('/register', userController.register)
 
 
 routes.get('/home', productController.showProducts)                   // show all product
@@ -17,9 +18,10 @@ routes.use(authentication)                                            // cek tok
 
 routes.post('/products/:id', productController.addToCart)
 
-routes.post('/admin' ,authorisationRole, productController.createProduct)
+routes.post('/admin-register', authorisationRole, userController.registerAdmin)
+routes.post('/admin' ,authorisationRole, unggah.single('image_url'), productController.createProduct)
 routes.delete('/admin/:id', authorisationRole, productController.deleteProduct)
-routes.put('/admin/:id', authorisationRole, productController.updateProduct)
+routes.put('/admin/:id', authorisationRole, unggah.single('image_url'), productController.updateProduct)
 
 routes.use(authorisationProduct)                                     // cek UserId di product   
 

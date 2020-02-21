@@ -37,9 +37,13 @@
       </div>
       <div class="form-group row">
         <label  class="col-sm-2 col-form-label">Image</label>
-        <div class="col-sm-10">
-           <input type="text" class="form-control" id="inputimage" placeholder="image" v-model="imageAdd">
+        <form  enctype="multipart/form-data">
+          <input type="file" name="file" v-on:change="getImage" />
+        </form>
+        <div v-if="preview">
+          <img :src="preview" alt="Image Preview" width="300" height="300"> 
         </div>
+
       </div>
       <div class="form-group row">
         <label  class="col-sm-2 col-form-label">Description</label>
@@ -69,28 +73,27 @@ export default {
       descAdd: null,
       priceAdd: null,
       imageAdd: null,
-
+      preview: null
     }
   },
   methods:{
     addProduct(){
+      const fd = new FormData()
+      fd.append('name', this.nameAdd)
+      fd.append('price', this.priceAdd)
+      fd.append('stock', this.stockAdd)
+      fd.append('image_url', this.imageAdd)
+      fd.append('description', this.descAdd)
+      fd.append('category', this.categoryAdd)
       axios({
         url: "http://localhost:3000/admin",
         method: "POST",
-        data: {
-          name: this.nameAdd,
-          price: this.priceAdd,
-          stock: this.stockAdd,
-          image_url:this.imageAdd,
-          description: this.descAdd,
-          category: this.categoryAdd
-        },
+        data: fd,
         headers: {
           token: localStorage.getItem("token")
         }
       })
       .then(res => {
-        this.$router.push('/admin')
         console.log(res, "berhasil")
         Swal.fire({
           icon: 'success',
@@ -98,6 +101,7 @@ export default {
           showConfirmButton: false,
           timer: 1500
         })
+        this.$router.push('/admin')
       })
       .catch(err => {
         console.log(err.response)
@@ -112,6 +116,11 @@ export default {
         html: errMsg
       })
       })
+    },
+    getImage(e) {
+      console.log(e.target.files)
+      this.imageAdd = e.target.files[0]
+      this.preview = URL.createObjectURL(e.target.files[0])
     }
   },
   mounted() {

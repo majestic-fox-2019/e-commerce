@@ -1,11 +1,11 @@
 <template>
-<div>
-  <navbar></navbar>
-  <div class="container ">
-  <div id="nav">
+  <div>
+    <div id="nav">
+         <h1 style="font-family: 'Pacifico', cursive; color:#90F0B4">Welcome to SkinType</h1>
+      <router-link to="/">Login</router-link> | <router-link to="/user-register">Register</router-link>
     </div>
+    <div class="container box">
     <form @submit.prevent = "register()" class="border p-4">
-    <h2>Register New Admin</h2>
       <div class="form-group">
         <label for="nameRegis">Name</label>
         <input type="text" class="form-control" id="nameRegis"  placeholder="Name" v-model="nameRegis">
@@ -29,19 +29,16 @@
       </div>
       <button type="submit" class="btn btn-success">Register</button>
     </form>
+
+    </div>
   </div>
-</div>
 </template>
 
 <script>
 import axios from 'axios'
-import Navbar from '../components/Navbar.vue'
 import Swal from 'sweetalert2'
 export default {
-  name:'Register',
-  components:{
-    Navbar
-  },
+name:'CustRegis',
   data() {
     return {
       nameRegis: null,
@@ -55,7 +52,7 @@ export default {
       register() {
         axios({
           method:"POST",
-          url: 'http://localhost:3000/admin-register',
+          url: 'http://localhost:3000/register',
           data:{
             name: this.nameRegis,
             email: this.emailRegis,
@@ -69,7 +66,7 @@ export default {
           this.$router.push('/admin')
            Swal.fire({
             icon: 'success',
-            title: 'Admin added!',
+            title: 'Registration success!',
             showConfirmButton: false,
             timer: 1500
           })

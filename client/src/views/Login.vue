@@ -1,8 +1,8 @@
 <template>
   <div>
-        <div id="nav">
-          <h1 style="font-family: 'Pacifico', cursive; color:#90F0B4">Welcome to SkinType</h1>
-      <h5>Login Page</h5>
+      <div id="nav">
+         <h1 style="font-family: 'Pacifico', cursive; color:#90F0B4">Welcome to SkinType</h1>
+         <router-link to="/">Login</router-link> | <router-link to="/user-register">Register</router-link>
     </div>
     <div class="container border p-4">
     <form @submit.prevent ="login()" method="POST">
@@ -47,16 +47,29 @@ export default {
           localStorage.setItem("token", res.data.token)
           localStorage.setItem("role", res.data.user.role)
           this.$router.push('/admin')
-          Swal.fire({
-            icon: 'success',
-            title: 'Welcome admin!',
-            showConfirmButton: false,
-            timer: 1500
-          })
+          if(res.data.user.role == "admin") {
+            Swal.fire({
+              icon: 'success',
+              title: 'Welcome admin!',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          } else {
+            Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `sorry! you not allowed to enter yet` 
+        })
+          }
 
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response.data.err.message)
+           Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${err.response.data.err.message}` 
+        })
         })
       }
       

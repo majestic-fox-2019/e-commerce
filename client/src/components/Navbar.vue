@@ -18,14 +18,8 @@
               <div class="dropdown-divider"></div>
             </div>
           </li>
-          <li>
-            <a class="navbar skin-type touch-cursor" @click="logout()">Logout</a>
-          </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+            <a class="navbar skin-type touch-cursor ml-3" @click="logout()"><i class="fas fa-sign-out-alt"></i>  Logout</a>
       </div>
     </nav>
   </div>

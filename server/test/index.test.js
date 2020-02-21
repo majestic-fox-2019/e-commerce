@@ -12,8 +12,7 @@ describe('POST /register', function() {
       password: "1234",
       email: "dila@gmail.com",
       address:"jalan tanah kusir 2",
-      phone_number:"08211691270",
-      role:"admin"
+      phone_number:"08211691270"
     })
     console.log(res.body)
     expect(res.statusCode).toEqual(201)

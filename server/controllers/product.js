@@ -8,6 +8,7 @@ class ControllerProduct{
     let {name, stock, category, image_url, price, description} = req.body
     Product.create({name, stock, category, image_url, price, description})
     .then(data => {
+      console.log(data, "<<<< ini post")
       res.status(201).json(data)
     })
     .catch(err => {

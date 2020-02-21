@@ -6,7 +6,7 @@
       </div>
     <div class="cardbody" >
       <h5 class="card-title">{{carddata.name}}</h5>
-      <p>{{carddata.price}}</p>
+      <p>{{priceFixed}}</p>
       <div class="d-flex justify-content-center">
       <button type="button" class="btn btn-outline-success" data-toggle="tooltip" data-placement="right" title="Detail Product" @click="goDetail(carddata.id)"><i class="fas fa-search"></i></button>
     </div>
@@ -27,6 +27,13 @@ export default {
   },
   mounted() {
     console.log(this.carddata, "<<<<<")
+  },
+  computed: {
+    priceFixed(){
+      let result = 'Rp. '
+      result += (this.carddata.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+      return result
+    }
   }
 }
 </script>

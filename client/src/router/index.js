@@ -5,7 +5,8 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Detail from '../views/Detail.vue'
 import AddProduct from '../views/AddProduct.vue'
-import Filter from '../views/Filter.vue'
+import zFilter from '../views/Filter.vue'
+import CustRegis from '../views/CustRegis.vue'
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,12 @@ const routes = [
     beforeEnter,
   },
   {
+    path: '/user-register',
+    name: 'CustRegis',
+    component: CustRegis,
+    beforeEnter
+  },
+  {
     path: '/register',
     name: 'Register',
     component: Register,
@@ -58,8 +65,8 @@ const routes = [
   },
   {
     path:'/filter/:category',
-    name:'Filter',
-    component: Filter,
+    name:'zFilter',
+    component: zFilter,
     meta: {Auth: true}
   }
 ]

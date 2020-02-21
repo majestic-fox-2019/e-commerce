@@ -6,7 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    allData: []
+    allData: [],
+    resultMoney: ''
   },
   mutations: {
     GET_DATA(state, payload) {

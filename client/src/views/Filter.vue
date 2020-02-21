@@ -25,7 +25,7 @@ import Navbar from '../components/Navbar.vue'
 import Card from '../components/Card.vue'
 import axios from 'axios'
 export default {
-  name: 'Filter',
+  name: 'zFilter',
   components: {
     Carousel, Category, Navbar, Card
   },
@@ -48,7 +48,7 @@ export default {
       .then(res => {
         console.log(res.data)
         this.filterData = res.data
-        this.$router.push(`/filter/${input}`)
+        // this.$router.push(`/zfilter/${input}`)
       })
       .catch(err => {
         console.log(err)
@@ -57,6 +57,19 @@ export default {
   },
   mounted() {
     this.getCategory()
+  },
+  watch:{
+    currentParam(oldVal, newVal){
+      if(oldVal !== newVal){
+        this.getCategory()
+      }
+    }
+  },
+  computed:{
+    currentParam(){
+      return this.$route.params.category
+
+    }
   }
 }
 </script>
