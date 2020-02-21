@@ -2,7 +2,7 @@
   <!-- <div> -->
   <tr>
     <th>
-      <img :src="detailPKu.image_url" height="100" />
+      <img :src="detailPKu.image_url" height="100" class="goHere" @click="goHere" />
     </th>
     <th>{{detailPKu.name}}</th>
     <th class="overflow-auto colDesc">{{detailPKu.description}}</th>
@@ -76,13 +76,13 @@
         <label for="file" class="mt-3">
           <p>Picture</p>
         </label>
-        <!-- <b-form-file
+        <b-form-file
           id="image_urlEdit"
           placeholder="Choose a file or drop it here..."
           drop-placeholder="Drop file here..."
           name="image_urlEdit"
           v-on:change="uploadGambar"
-        ></b-form-file>-->
+        ></b-form-file>
         <div class="row justify-content-end mt-3">
           <b-button
             variant="primary"
@@ -125,12 +125,15 @@ export default {
       stock: "",
       image_url: "",
       description: "",
-      categories: ["Clothes", "Shoes", "Accessories"]
+      categories: ["Clothes", "Shoes", "Accessories"],
+      uploadGambarTriggered: false
     };
   },
   methods: {
     uploadGambar(e) {
+      // console.log("halo");
       this.image_url = e.target.files[0];
+      this.uploadGambarTriggered = true;
     },
     edit() {
       //   console.log(this.detailPKu.id, "<< idnya");
@@ -143,12 +146,20 @@ export default {
         stock: this.stock,
         image_url: this.image_url
       };
-      this.$store.dispatch("editProduct", objEdit);
+      if (this.uploadGambarTriggered) {
+        this.$store.dispatch("editProduct", objEdit);
+      } else {
+        this.$store.dispatch("editNormal", objEdit);
+      }
     },
     deleteThis() {
       console.log("masuk delete");
       let id = this.detailPKu.id;
       this.$store.dispatch("deleteProduct", id);
+    },
+    goHere() {
+      let id = this.detailPKu.id;
+      this.$router.push(`/detail/${id}`);
     }
   },
 
@@ -168,5 +179,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.goHere:hover {
+  cursor: pointer;
+  border: 2px solid lightgray;
+}
 </style>

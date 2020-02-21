@@ -3,12 +3,7 @@ const app = require("../app")
 
 var token
 var idUser
-let registerUser = {
-    name: "tesProduct",
-    email: "tesproduct@mail.com",
-    password: "secret",
-    role: "user",
-}
+
 
 // beforeAll(() => {
 //     request(app)
@@ -18,36 +13,37 @@ let registerUser = {
 //             token = res.body.token
 //         })
 // })
-// describe("POST /users/register", function () {
-//     let registerUser = {
-//         name: "tesProduct",
-//         email: "tesproduct@mail.com",
-//         password: "secret",
-//         role: "user",
-//     }
-//     it("should responds with status code 201 and return token", (done) => {
-//         request(app)
-//             .post("/users/register")
-//             .send(registerUser)
-//             .expect(201)
-//             .end((err, res) => {
-//                 if (err) {
-//                 } else {
-//                     // expect(res.body).toBe("heheh")
-//                     expect(res.body).toHaveProperty("userRegistered")
-//                     expect(res.body).toHaveProperty("token")
-//                     expect(res.body.userRegistered).toHaveProperty("email")
-//                     expect(res.body.userRegistered).toHaveProperty("name")
-//                     expect(res.body.userRegistered).toHaveProperty("role")
+describe("POST /users/register", function () {
+    let registerUser = {
+        name: "tesProduct",
+        email: "tesproduct@mail.com",
+        password: "secret",
+        role: "user",
+    }
+    it("should responds with status code 201 and return token", (done) => {
+        request(app)
+            .post("/users/register")
+            .send(registerUser)
+            .expect(201)
+            .end((err, res) => {
+                if (err) {
+                    done()
+                } else {
+                    // expect(res.body).toBe("heheh")
+                    expect(res.body).toHaveProperty("userRegistered")
+                    expect(res.body).toHaveProperty("token")
+                    expect(res.body.userRegistered).toHaveProperty("email")
+                    expect(res.body.userRegistered).toHaveProperty("name")
+                    expect(res.body.userRegistered).toHaveProperty("role")
 
-//                     console.log(res.body.token, "<<<<<<<")
-//                     token = res.body.token
-//                     idUser = res.body.userRegistered.id
-//                     done()
-//                 }
-//             })
-//     })
-// })
+                    // console.log(res.body.token, "<<<<<<<")
+                    token = res.body.token
+                    idUser = res.body.userRegistered.id
+                    done()
+                }
+            })
+    })
+})
 describe("POST /products", function () {
     let barang = {
         name: "dress",
@@ -65,7 +61,7 @@ describe("POST /products", function () {
             .expect(201)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    done()
                 } else {
                     expect(res.body).toHaveProperty("category")
                     expect(res.body).toHaveProperty("image_url")
@@ -91,7 +87,7 @@ describe("POST /products", function () {
             .expect(400)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    done()
                     done()
                 } else {
 
@@ -110,7 +106,7 @@ describe("Get /products", function () {
             .expect(200)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    done()
                 } else {
                     expect(res.body[0]).toHaveProperty("category")
                     expect(res.body[0]).toHaveProperty("name")
@@ -131,7 +127,7 @@ describe("GET /products/mine", function () {
             .expect(200)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    done()
                 } else {
                     expect(typeof res.body).toBe("object")
                     expect(res.body[0]).toHaveProperty("category")
@@ -162,7 +158,8 @@ describe("PUT /products/:idProduct", function () {
             .expect(200)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    // done()
+                    done()
                 } else {
 
                     expect(typeof res.body).toBe("object")
@@ -186,7 +183,8 @@ describe("DELETE /products/:idProduct", function () {
             .expect(200)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    // done()
+                    done()
                 } else {
                     expect(typeof res.body).toBe("object")
                     expect(res.body).toHaveProperty("terhapus")

@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios"
 import router from '../router'
+import Swal from "sweetalert2"
 
 Vue.use(Vuex)
+// Vue.use(Swal)
 
 export default new Vuex.Store({
   state: {
@@ -16,7 +18,10 @@ export default new Vuex.Store({
     dummy: "",
     myProducts: [],
     productDetail: null,
-    perCategory: []
+    perCategory: [],
+    allTransactionMyShop: [],
+    editDelStatus: false
+    // allTransactionsAllShop: []
   },
   mutations: {
     changeLogin(state, status) {
@@ -45,6 +50,12 @@ export default new Vuex.Store({
     },
     setDataPerCat(state, dataPerCat) {
       state.perCategory = dataPerCat
+    },
+    setAllTransMyShop(state, allTransactionMyShop) {
+      state.allTransactionMyShop = allTransactionMyShop
+    },
+    setEdit(state, status) {
+      state.editDelStatus = status
     }
   },
   actions: {
@@ -57,8 +68,9 @@ export default new Vuex.Store({
           // console.log(data)
           context.commit("setProducts", data)
         })
-        .catch(err => {
-          console.log(err.response)
+        .catch(() => {
+          // console.log(err.response, "<<")
+          Swal.fire("Oops", "Something went wrong", "error")
         })
     },
     login(context, dataUser) {
@@ -79,7 +91,9 @@ export default new Vuex.Store({
           context.commit("changeLogin", true);
           context.commit("changeRole", data.userLoginFound.role);
           context.commit("setUsername", data.userLoginFound.name);
-
+          if (data.userLoginFound.role == "admin") {
+            router.push("/admin")
+          }
 
         })
         .catch(err => {
@@ -127,7 +141,6 @@ export default new Vuex.Store({
       formData.append("price", dataProduct.price);
       formData.append("image_url", dataProduct.image_url);
       formData.append("category", dataProduct.category);
-      // console.log(dataProduct, "<<ini data product")
       context.commit("dummy", "dummy")
       axios({
         method: "POST",
@@ -142,7 +155,20 @@ export default new Vuex.Store({
           context.dispatch("getProducts")
         })
         .catch(err => {
-          console.log(err.response)
+          // console.log(err.response)
+          let errMSG
+          let errMSGS = ""
+          if (err.response.data.message) {
+            for (let i of err.response.data.message) {
+              errMSGS += (i + "  ")
+            }
+            Swal.fire("Oops", errMSGS, "error")
+          }
+          else if (err.response.statusText) {
+            // console.log("masuk sini sell product error  ")
+            errMSG = err.response.statusText
+            Swal.fire("Oops", errMSG, "error")
+          }
         })
     },
     getMyProducts(context) {
@@ -161,10 +187,49 @@ export default new Vuex.Store({
         })
     },
     editProduct(context, objEdit) {
+      console.log("masuk edit product")
       let { id, name, category, price, description, stock, image_url } = objEdit
+      let formData = new FormData()
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("stock", stock);
+      formData.append("price", price);
+      formData.append("image_url", image_url);
+      formData.append("category", category);
       axios({
         method: "PUT",
         url: `${this.state.baseUrl}/products/${id}`,
+        headers: {
+          token: localStorage.getItem("token")
+        },
+        data: formData
+      })
+        .then(() => {
+          context.dispatch("getProducts")
+          context.commit("setEdit", true)
+          // router.push("/")
+        })
+        .catch(err => {
+          console.log(err.response)
+          let errMSG
+          let errMSGS = ""
+          if (err.response.data.message) {
+            for (let i of err.response.data.message) {
+              errMSGS += (i + "  ")
+            }
+            Swal.fire("Oops", errMSGS, "error")
+          }
+          else if (err.response.statusText) {
+            errMSG = err.response.statusText
+            Swal.fire("Oops", errMSG, "error")
+          }
+        })
+    },
+    editNormal(context, objEdit) {
+      let { id, name, category, price, description, stock, image_url } = objEdit
+      axios({
+        method: "PUT",
+        url: `${this.state.baseUrl}/products/normal/${id}`,
         headers: {
           token: localStorage.getItem("token")
         },
@@ -179,10 +244,22 @@ export default new Vuex.Store({
       })
         .then(() => {
           context.dispatch("getProducts")
+          context.commit("setEdit", true)
           // router.push("/")
         })
         .catch(err => {
-          console.log(err.response)
+          let errMSG
+          let errMSGS = ""
+          if (err.response.data.message) {
+            for (let i of err.response.data.message) {
+              errMSGS += (i + "  ")
+            }
+            Swal.fire("Oops", errMSGS, "error")
+          }
+          else if (err.response.statusText) {
+            errMSG = err.response.statusText
+            Swal.fire("Oops", errMSG, "error")
+          }
         })
     },
     deleteProduct(context, idToDelete) {
@@ -195,7 +272,21 @@ export default new Vuex.Store({
       })
         .then(() => {
           context.dispatch("getProducts")
-          // router.push("/")
+          context.commit("setEdit", true)
+        })
+        .catch(err => {
+          let errMSG
+          let errMSGS = ""
+          if (err.response.data.message) {
+            for (let i of err.response.data.message) {
+              errMSGS += (i + "  ")
+            }
+            Swal.fire("Oops", errMSGS, "error")
+          }
+          else if (err.response.statusText) {
+            errMSG = err.response.statusText
+            Swal.fire("Oops", errMSG, "error")
+          }
         })
     },
     getDetailProduct(context, idDetail) {
@@ -207,7 +298,10 @@ export default new Vuex.Store({
           context.commit("setSelectedProduct", data)
         })
         .catch(err => {
-          console.log(err.response)
+          // console.log(err.response)
+          context.commit("dummy", err)
+          Swal.fire("Oops", "Something went wrong!", "error")
+
         })
     },
     getCategory(context, category) {
@@ -219,7 +313,27 @@ export default new Vuex.Store({
           context.commit("setDataPerCat", data)
         })
         .catch(err => {
-          console.log(err)
+          // console.log(err)
+          context.commit("dummy", err)
+          Swal.fire("Oops", "Something went wrong!", "error")
+        })
+    },
+    getAllTransactionsMyShop(context) {
+      axios({
+        method: "GET",
+        url: `${this.state.baseUrl}/carts/history/myShop`,
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(({ data }) => {
+          context.commit("setAllTransMyShop", data)
+          // console.log(data, "<< ini transaction")
+        })
+        .catch(err => {
+          // console.log(err.response)
+          let errMSG = err.response.statusText
+          Swal.fire("Oops", errMSG, "error")
         })
     }
   },

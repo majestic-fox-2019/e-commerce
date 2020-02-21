@@ -19,6 +19,15 @@ export default {
     } else {
       this.$store.commit("changeLogin", false);
     }
+
+    if (localStorage.getItem("role") == "admin") {
+      this.$router.push("/admin");
+    }
+  },
+  created() {
+    if (localStorage.getItem("role") == "admin") {
+      this.$router.push("/admin");
+    }
   },
   methods: {}
 };

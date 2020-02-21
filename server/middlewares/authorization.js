@@ -38,6 +38,21 @@ function toEditDeleteCart(req, res, next) {
             next({ code: 403, message: "Unauthorized" })
 
         })
+
 }
 
-module.exports = { toEditDeleteProduct, toEditDeleteCart }
+function forAdmin(req, res, next) {
+    User.findOne({ where: { id: req.payload.id } })
+        .then(userFound => {
+            if (userFound.role == "admin") {
+                next()
+            } else {
+                next({ code: 401, message: "Unauthorized" })
+            }
+        })
+        .catch(err => {
+            next(err)
+        })
+}
+
+module.exports = { toEditDeleteProduct, toEditDeleteCart, forAdmin }

@@ -45,7 +45,7 @@
               <div class="col-10">{{detailProduct.stock}}</div>
             </div>
           </div>
-          <div class="row divide">
+          <div v-if="!adminOrMine" class="row divide">
             <div class="col-2 subtit">JUMLAH</div>
             <div class="col-10">
               <div class="d-flex justify-content-center mt-5">
@@ -55,7 +55,7 @@
               </div>
             </div>
           </div>
-          <div class="mt-5 btn btn-primary" v-on:click="addToCart">Add To Cart</div>
+          <div v-if="!adminOrMine" class="mt-5 btn btn-primary" v-on:click="addToCart">Add To Cart</div>
         </div>
       </div>
     </div>
@@ -73,7 +73,8 @@ export default {
   data() {
     return {
       value: 0,
-      stockBeli: 0
+      stockBeli: 0,
+      adminOrMine: false
     };
   },
   methods: {
@@ -130,6 +131,12 @@ export default {
   watch: {
     detailProduct() {
       this.value = this.detailProduct.rating;
+      if (
+        this.detailProduct.User.id == localStorage.getItem("userId") ||
+        localStorage.getItem("role") == "admin"
+      ) {
+        this.adminOrMine = true;
+      }
     }
   }
 };

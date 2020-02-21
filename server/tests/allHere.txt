@@ -37,7 +37,8 @@ describe("POST /users/register", function () {
             .expect(400)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    // console.log(err)
+                    done()
                 } else {
                     // expect(res.body).toHaveProperty("message")
                     expect(res.body).toBe("email already registered")
@@ -58,7 +59,8 @@ describe("POST /users/register", function () {
             .expect(400)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    // console.log(err)
+                    done()
                 } else {
                     expect(res.body).toHaveProperty("message")
                     expect(res.body.message[0]).toBe("password should not be empty")
@@ -82,7 +84,8 @@ describe("POST /users/login", function () {
             .expect(200)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    // console.log(err)
+                    done()
                 } else {
                     expect(res.body).toHaveProperty("token")
                     expect(res.body).toHaveProperty("userLoginFound")
@@ -108,7 +111,8 @@ describe("POST /users/login", function () {
             .expect(400)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    // console.log(err)
+                    done()
                 } else {
                     expect(res.body).toBe("wrong email/password")
                     done()
@@ -126,6 +130,7 @@ describe("POST /users/login", function () {
             .end((err, res) => {
                 if (err) {
                     console.log(err)
+                    done()
                 } else {
                     expect(res.body).toBe("wrong email/password")
                     done()
@@ -176,7 +181,8 @@ describe("POST /products", function () {
             .expect(400)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    // console.log(err)
+                    // done()
                     done()
                 } else {
 
@@ -195,7 +201,8 @@ describe("Get /products", function () {
             .expect(200)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    // console.log(err)
+                    done()
                 } else {
                     expect(res.body[0]).toHaveProperty("category")
                     expect(res.body[0]).toHaveProperty("name")
@@ -216,7 +223,8 @@ describe("GET /products/mine", function () {
             .expect(200)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    // console.log(err)
+                    done()
                 } else {
                     expect(typeof res.body).toBe("object")
                     expect(res.body[0]).toHaveProperty("category")
@@ -247,7 +255,8 @@ describe("PUT /products/:idProduct", function () {
             .expect(200)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    // console.log(err)
+                    done()
                 } else {
 
                     expect(typeof res.body).toBe("object")

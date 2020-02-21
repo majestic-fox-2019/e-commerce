@@ -168,6 +168,32 @@ class ControlCart {
             })
     }
 
+    static getAllTransactionOfMyShop(req, res, next) {
+        Cart.findAll({ where: { status: "paid" }, include: [Product, User] })
+            .then(allYangPaid => {
+                // res.status(200).json(allYangPaid)
+                let transOfMyShop = []
+                for (let i of allYangPaid) {
+                    if (i.Product.UserId == req.payload.id) {
+                        transOfMyShop.push(i)
+                    }
+                }
+                res.status(200).json(transOfMyShop)
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+    static getAllTransactionOfAllShop(req, res, next) {
+        Cart.findAll({ where: { status: "paid" }, include: [Product, User] })
+            .then(alTransOfAllShop => {
+                res.status(200).json(alTransOfAllShop)
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+
 }
 
 module.exports = ControlCart

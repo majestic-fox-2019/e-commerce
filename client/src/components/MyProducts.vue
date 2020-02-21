@@ -12,7 +12,7 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="overflow-auto bodyTable">
         <listKu v-for="one in myProducts" :key="one.id" :detailPKu="one">
           <!-- <th>{{one.id}}</th> -->
         </listKu>
@@ -37,14 +37,19 @@ export default {
   computed: {
     myProducts() {
       return this.$store.state.myProducts;
+    },
+    statusEditDel() {
+      return this.$store.state.editDelStatus;
     }
   },
   mounted() {
     this.getMyProducts();
   },
   watch: {
-    myProducts(oldVal, newVal) {
-      if (oldVal !== newVal) {
+    statusEditDel() {
+      if (this.$store.state.editDelStatus == true) {
+        // this.$store.state.editDelStatus = false;
+        this.$store.commit("setEdit", false);
         this.getMyProducts();
       }
     }
@@ -59,5 +64,8 @@ export default {
 
 .colDesc {
   max-height: 70px;
+}
+.bodyTable {
+  height: 70vh;
 }
 </style>

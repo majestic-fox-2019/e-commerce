@@ -94,15 +94,7 @@ export default {
       let price = this.price;
       let image_url = this.image_url;
       let category = this.category;
-      // let formData = new FormData();
-      // // formData.append("formData", formData);
-      // formData.append("name", name);
-      // formData.append("description", description);
-      // formData.append("stock", stock);
-      // formData.append("price", price);
-      // formData.append("image_url", image_url);
-      // formData.append("category", category);
-      // console.log(formData);
+     
       let objForm = {
         price,
         image_url,

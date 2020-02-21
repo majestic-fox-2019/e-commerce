@@ -11,14 +11,16 @@
     >
       <b-card-text>
         <div class="row">
-          <div class="col">
+          <div class="col-2">
             <i class="el-icon-s-shop styleIcon"></i>
-            {{shop}}
           </div>
-          <div class="col">
+          <div class="col-10 leftin">{{shop}}</div>
+        </div>
+        <div class="row">
+          <div class="col-2">
             <i class="el-icon-discount"></i>
-            {{price}}
           </div>
+          <div class="col-10 leftin">{{price}}</div>
         </div>
       </b-card-text>
       <template v-slot:footer>
@@ -83,5 +85,9 @@ export default {
 .cardIni:hover {
   border: 5px solid coral;
   cursor: pointer;
+}
+
+.leftin {
+  text-align: left;
 }
 </style>

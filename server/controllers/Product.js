@@ -4,12 +4,13 @@ const User = require("../models").User
 class ControlProduct {
     static postProduct(req, res, next) {
         const { name, category, stock, image_url, price, rating, description } = req.body
+        console.log(req.body, "<<<<<<<<<<<<<<<<<<<<< ini body post")
         if (stock < 0) {
-            next({ code: 400, message: "stock should not be below 0" })
+            throw ({ code: 400, message: "stock should not be below 0" })
         } else if (price < 0) {
-            next({ code: 400, message: "price should not be below 0" })
+            throw ({ code: 400, message: "price should not be below 0" })
         } else if (stock < 0 && price < 0) {
-            next({ code: 400, message: "price and stock should not be below 0" })
+            throw ({ code: 400, message: "price and stock should not be below 0" })
         }
         // console.log("masuk")
         Product.create({
@@ -52,13 +53,20 @@ class ControlProduct {
     }
 
     static editProduct(req, res, next) {
+        // console.log(req.body, "<<<<<")
         const { name, category, stock, image_url, price, description } = req.body
+        let catInput
+        if (category == "Clothes") {
+            catInput == "Clothing"
+        } else {
+            catInput = category
+        }
         let awal
         Product.findOne({ where: { id: req.params.idProduct } })
             .then(productFound => {
                 awal = productFound
                 let ratingNya = awal.rating
-                return Product.update({ name, category, stock, image_url, price, description, UserId: req.payload.id, ratingNya },
+                return Product.update({ name, catInput, stock, image_url, price, description, UserId: req.payload.id, ratingNya },
                     { where: { id: req.params.idProduct }, returning: true, plain: false })
             })
             .then(productUpdated => {
@@ -93,8 +101,6 @@ class ControlProduct {
             })
     }
     static getProductsByCategory(req, res, next) {
-        console.log("masuk get category")
-        console.log(req.params)
         Product.findAll({ where: { category: req.params.category }, include: [User] })
             .then(perCategory => {
                 res.status(200).json(perCategory)

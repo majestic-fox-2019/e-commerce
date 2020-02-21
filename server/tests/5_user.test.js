@@ -4,23 +4,7 @@ const app = require("../app")
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxOTI5ODEzfQ.kweAGZEUj4za-OkZtqKid6jzMHDDbejLvpUHh3AJXoE
 
 
-// describe('GET /users', function () {
-//     it('responds with json', function () {
-//         request(app)
-//             .get('/users')
-//             .end(function (err, res) {
-//                 if (err) {
-//                     throw err
-//                 } else {
-//                     expect(res.status).toBe(200)
-//                     expect(res.body).toHaveProperty("name")
-//                     expect(res.body).toHaveProperty("role")
-//                     expect(res.body).toHaveProperty("email")
-//                     expect(res.body.email).toBe("admin@mail.com")
-//                 }
-//             })
-//     });
-// });
+
 var token
 describe("POST /users/register", function () {
     let registerUser = {
@@ -36,6 +20,7 @@ describe("POST /users/register", function () {
             .expect(201)
             .end((err, res) => {
                 if (err) {
+                    done()
                 } else {
                     expect(res.body).toHaveProperty("userRegistered")
                     expect(res.body).toHaveProperty("token")
@@ -57,7 +42,8 @@ describe("POST /users/register", function () {
             .expect(400)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    //done()
+                    done()
                 } else {
                     // expect(res.body).toHaveProperty("message")
                     expect(res.body).toBe("email already registered")
@@ -78,7 +64,8 @@ describe("POST /users/register", function () {
             .expect(400)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    // console.log(err)
+                    done()
                 } else {
                     expect(res.body).toHaveProperty("message")
                     expect(res.body.message[0]).toBe("password should not be empty")
@@ -102,7 +89,7 @@ describe("POST /users/login", function () {
             .expect(200)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    done()
                 } else {
                     expect(res.body).toHaveProperty("token")
                     expect(res.body).toHaveProperty("userLoginFound")
@@ -128,7 +115,7 @@ describe("POST /users/login", function () {
             .expect(400)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    done()
                 } else {
                     expect(res.body).toBe("wrong email/password")
                     done()
@@ -145,7 +132,7 @@ describe("POST /users/login", function () {
             .expect(400)
             .end((err, res) => {
                 if (err) {
-                    console.log(err)
+                    done()
                 } else {
                     expect(res.body).toBe("wrong email/password")
                     done()
@@ -153,3 +140,21 @@ describe("POST /users/login", function () {
             })
     })
 })
+
+describe('GET /users', function () {
+    it('responds with json', function () {
+        request(app)
+            .get('/users')
+            .end(function (err, res) {
+                if (err) {
+                    throw err
+                } else {
+                    expect(res.status).toBe(200)
+                    expect(res.body).toHaveProperty("name")
+                    expect(res.body).toHaveProperty("role")
+                    expect(res.body).toHaveProperty("email")
+                    expect(res.body.email).toBe("admin@mail.com")
+                }
+            })
+    });
+});

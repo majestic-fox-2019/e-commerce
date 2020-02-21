@@ -25,7 +25,7 @@ class ControlUser {
             .then(emailFound => {
 
                 if (emailFound) {
-                    next({ code: 400, message: "email already registered" })
+                    throw ({ code: 400, message: "email already registered" })
                 }
                 else {
 
@@ -63,11 +63,11 @@ class ControlUser {
                             req.headers.token = token
                             res.status(200).json({ userLoginFound, token })
                         } else {
-                            next({ code: 400, message: "wrong email/password" })
+                            throw ({ code: 400, message: "wrong email/password" })
                         }
                     }
                 } else {
-                    next({ code: 400, message: "wrong email/password" })
+                    throw ({ code: 400, message: "wrong email/password" })
                 }
             })
             .catch(err => {

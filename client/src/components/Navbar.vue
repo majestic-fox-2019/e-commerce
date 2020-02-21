@@ -110,6 +110,8 @@ export default {
       this.$store.commit("changeLogin", false);
       this.$store.commit("changeRole", "");
       this.$store.commit("setUsername", "");
+      // if(this.$router.)
+      this.$router.push("/");
     }
     // toRegister() {
     //   this.$bvModal.hide("bv-modal-example");
@@ -135,6 +137,7 @@ export default {
   },
   mounted() {
     // console.log(this.role, "<< ini role");
+    console.log(this.$router.options.base, "<<< router");
   }
 };
 </script>
