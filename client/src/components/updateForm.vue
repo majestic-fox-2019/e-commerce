@@ -1,37 +1,41 @@
 <template>
-<!-- eslint-disable max-len -->
+  <!-- eslint-disable max-len -->
 
   <form v-on:submit.prevent="updateProduct">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" v-model="formUpdate.name">
-      </div>
-      <div class="form-group">
-        <label for="image">Image</label>
-        <input type="text" class="form-control" v-model="formUpdate.image">
-      </div>
-      <div class="form-group">
-        <label for="image">Price</label>
-        <input type="text" class="form-control" v-model="formUpdate.price">
-      </div>
-      <div class="form-group">
-        <label for="image">Stock</label>
-        <input type="text" class="form-control" v-model="formUpdate.stock">
-      </div>
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" v-model="formUpdate.name" />
+    </div>
+    <div class="form-group">
+      <label for="image">Image</label>
+      <input type="text" class="form-control" v-model="formUpdate.image" />
+    </div>
+    <div class="form-group">
+      <label for="image">Price</label>
+      <input type="text" class="form-control" v-model="formUpdate.price" />
+    </div>
+    <div class="form-group">
+      <label for="image">Stock</label>
+      <input type="text" class="form-control" v-model="formUpdate.stock" />
+    </div>
     <div class="form-group">
       <label for="exampleFormControlSelect1">Category</label>
-      <select class="form-control" v-model="formUpdate.CategoryId" >
-            <option v-for="(category, i) in getCategories()" :key="i" :value=category.id>{{category.name}}</option>
-          </select>
+      <select class="form-control" v-model="formUpdate.CategoryId">
+        <option
+          v-for="(category, i) in getCategories()"
+          :key="i"
+          :value="category.id"
+        >{{category.name}}</option>
+      </select>
     </div>
-      <button type="submit" class="btn btn-outline-success">Submit</button>
-    </form>
+    <button type="submit" class="btn btn-outline-success">Submit</button>
+  </form>
 </template>
 
 <script>
 import axios from 'axios';
 
-const server = 'http://localhost:3000';
+const server = 'https://upface.herokuapp.com';
 
 export default {
   props: ['product'],
@@ -48,7 +52,6 @@ export default {
   },
   methods: {
     getCategories() {
-      console.log();
       return this.$store.state.categories;
     },
     updateProduct() {
@@ -73,6 +76,4 @@ export default {
 </script>
 
 <style scoped>
-
-
 </style>

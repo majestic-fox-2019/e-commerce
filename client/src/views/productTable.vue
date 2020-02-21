@@ -1,74 +1,92 @@
 <template>
-<!-- eslint-disable max-len -->
-<div class= container>
-   <h3><i class="fas fa-plus" data-toggle="modal" data-target="#addProduct"></i>PRODUCTS</h3>
-  <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">No.</th>
-      <th scope="col">Name</th>
-      <th scope="col">Price</th>
-      <th scope="col">Stock</th>
-      <th scope="col">Category</th>
-    </tr>
-  </thead>
-  <tbody v-for="(product, i) in getProducts()" :key="i">
-    <tr>
-      <th scope="row">{{i+1}}</th>
-      <td><router-link class="name" :to="{name: 'detailProduct', params: {id: product.id}}">{{product.name}}</router-link></td>
-      <td>{{product.price}}</td>
-      <td>{{product.stock}}</td>
-      <td>{{product.Category.name}}</td>
-    </tr>
-  </tbody>
-</table>
-<!-- Modal -->
-<div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="addProductLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addProductLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form v-on:submit.prevent="addProduct">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" v-model="formAdd.name">
+  <!-- eslint-disable max-len -->
+  <div class="container">
+    <h3>
+      <i class="fas fa-plus" data-toggle="modal" data-target="#addProduct"></i>PRODUCTS
+    </h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Category</th>
+        </tr>
+      </thead>
+      <tbody v-for="(product, i) in getProducts()" :key="i">
+        <tr>
+          <th scope="row">{{i+1}}</th>
+          <td>
+            <router-link
+              class="name"
+              :to="{name: 'detailProduct', params: {id: product.id}}"
+            >{{product.name}}</router-link>
+          </td>
+          <td>{{product.price}}</td>
+          <td>{{product.stock}}</td>
+          <td>{{product.Category.name}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="addProduct"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="addProductLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addProductLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-          <div class="form-group">
-            <label for="image">Image</label>
-            <input type="text" class="form-control" v-model="formAdd.image">
+          <div class="modal-body">
+            <form v-on:submit.prevent="addProduct">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" v-model="formAdd.name" />
+              </div>
+              <div class="form-group">
+                <label for="image">Image</label>
+                <input type="text" class="form-control" v-model="formAdd.image" />
+              </div>
+              <div class="form-group">
+                <label for="image">Price</label>
+                <input type="text" class="form-control" v-model="formAdd.price" />
+              </div>
+              <div class="form-group">
+                <label for="image">Stock</label>
+                <input type="text" class="form-control" v-model="formAdd.stock" />
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Category</label>
+                <select class="form-control" v-model="formAdd.CategoryId">
+                  <option
+                    v-for="(category, i) in getCategories()"
+                    :key="i"
+                    :value="category.id"
+                  >{{category.name}}</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
           </div>
-          <div class="form-group">
-            <label for="image">Price</label>
-            <input type="text" class="form-control" v-model="formAdd.price">
-          </div>
-          <div class="form-group">
-            <label for="image">Stock</label>
-            <input type="text" class="form-control" v-model="formAdd.stock">
-          </div>
-        <div class="form-group">
-          <label for="exampleFormControlSelect1">Category</label>
-          <select class="form-control" v-model="formAdd.CategoryId" >
-            <option v-for="(category, i) in getCategories()" :key="i" :value=category.id>{{category.name}}</option>
-          </select>
         </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
       </div>
     </div>
   </div>
-</div>
-</div>
 </template>
 
 <script>
 import axios from 'axios';
 
-const server = 'http://localhost:3000';
+const server = 'https://upface.herokuapp.com';
 
 export default {
   data() {
@@ -147,7 +165,7 @@ i {
   color: black;
   cursor: pointer;
 }
-.name:hover{
+.name:hover {
   font-size: 105%;
   box-shadow: 20px;
   text-shadow: 200px;

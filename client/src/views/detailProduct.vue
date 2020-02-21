@@ -1,32 +1,38 @@
 <template>
-<!-- eslint-disable max-len -->
+  <!-- eslint-disable max-len -->
 
-<div class="container" v-if="product">
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="card">
-      <h5 class="card-header">{{product.name}}</h5>
-        <div class="card-body">
-          <div class="image">
-          <pic-zoom :url="product.image" :scale="2"></pic-zoom>
+  <div class="container" v-if="product">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <h5 class="card-header">{{product.name}}</h5>
+          <div class="card-body">
+            <div class="image">
+              <pic-zoom :url="product.image" :scale="2"></pic-zoom>
+            </div>
+            <h5 class="card-title">Rp. {{product.price}}</h5>
+            <h6 class="card-text">Stock: {{product.stock}}</h6>
+            <button class="btn btn-outline-warning">
+              <i class="fas fa-edit" @click="isUpdate = true"></i>
+            </button>
+            <button class="btn btn-outline-danger" @click="deleteProduct">
+              <i class="fas fa-trash"></i>
+            </button>
+            <button class="btn btn-outline-dark" @click="backToHome">
+              <i class="fas fa-undo-alt"></i>
+            </button>
           </div>
-          <h5 class="card-title">Rp. {{product.price}}</h5>
-          <h6 class="card-text">Stock: {{product.stock}}</h6>
-          <button class="btn btn-outline-warning"><i class="fas fa-edit" @click="isUpdate = true"></i></button>
-          <button class="btn btn-outline-danger" @click="deleteProduct"><i class="fas fa-trash"></i></button>
-          <button class="btn btn-outline-dark" @click="backToHome"><i class="fas fa-undo-alt"></i></button>
+        </div>
+      </div>
+      <div class="col-sm-6" v-if="isUpdate">
+        <div class="card">
+          <div class="card-body">
+            <updateForm :product="this.product"></updateForm>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-sm-6" v-if="isUpdate">
-    <div class="card">
-      <div class="card-body">
-        <updateForm :product="this.product"></updateForm>
-      </div>
-    </div>
   </div>
-  </div>
-</div>
 </template>
 
 <script>
@@ -34,7 +40,7 @@ import axios from 'axios';
 import PicZoom from 'vue-piczoom';
 import updateForm from '../components/updateForm.vue';
 
-const server = 'http://localhost:3000';
+const server = 'https://upface.herokuapp.com';
 
 export default {
   components: {

@@ -1,40 +1,48 @@
 <template>
   <div>
-  <div class="cont">
-  <div class="form sign-in">
-    <h2>Welcome!</h2>
-    <form v-on:submit.prevent="login">
-    <label>
-      <span>Email</span>
-      <input type="email" v-model="formLogin.email" />
-    </label>
-    <label>
-      <span>Password</span>
-      <input type="password" v-model="formLogin.password" />
-    </label>
-    <button type="submit" class="submit">Sign In</button>
-    <button type="button" class="fb-btn">Connect with <span>Google</span></button>
-    </form>
-  </div>
-  <div class="sub-cont">
-    <div class="img">
-      <div class="img__text m--up">
-        <h2>Face UP <i class="fas fa-angle-double-up"></i></h2>
-        <p>Aim to offer a quick and reliable service affordable prices and friendly!</p>
+    <div class="cont">
+      <div class="form sign-in">
+        <h2>Welcome!</h2>
+        <form v-on:submit.prevent="login">
+          <label>
+            <span>Email</span>
+            <input type="email" v-model="formLogin.email" />
+          </label>
+          <label>
+            <span>Password</span>
+            <input type="password" v-model="formLogin.password" />
+          </label>
+          <button type="submit" class="submit">Sign In</button>
+          <button type="button" class="fb-btn">
+            Connect with
+            <span>Google</span>
+          </button>
+        </form>
       </div>
-       <div class="img__btn">
-        <span class="m--up"><router-link to='/register'> Sign Up</router-link></span>
+      <div class="sub-cont">
+        <div class="img">
+          <div class="img__text m--up">
+            <h2>
+              Face UP
+              <i class="fas fa-angle-double-up"></i>
+            </h2>
+            <p>Aim to offer a quick and reliable service affordable prices and friendly!</p>
+          </div>
+          <div class="img__btn">
+            <span class="m--up">
+              <router-link to="/register">Sign Up</router-link>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-</div>
 </template>
 
 <script>
 import axios from 'axios';
 
-const server = 'http://localhost:3000';
+const server = 'https://upface.herokuapp.com';
 
 export default {
   data() {
@@ -53,7 +61,6 @@ export default {
         data: this.formLogin,
       })
         .then((result) => {
-          console.log(result.data);
           localStorage.setItem('token', result.data);
           this.$router.push({ path: '/admin' });
         })
@@ -63,11 +70,12 @@ export default {
     },
   },
 };
-
 </script>
 
 <style scoped>
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -78,7 +86,8 @@ body {
   background: #ededed;
 }
 
-input, button {
+input,
+button {
   border: none;
   outline: none;
   background: none;
@@ -323,5 +332,4 @@ input {
 }
 
 /*# sourceMappingURL=login.css.map */
-
 </style>

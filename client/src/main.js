@@ -13,7 +13,7 @@ router.beforeEach((to, from, next) => {
       if (localStorage.role === 'admin') {
         next({ name: 'productTable' });
       } else if (localStorage.role === 'user') {
-        next();
+        next({ name: 'error' });
       }
     } else {
       next();

@@ -8,6 +8,7 @@ import productTable from '../views/productTable.vue';
 import categories from '../views/categories.vue';
 import detailProduct from '../views/detailProduct.vue';
 import filterCategory from '../views/filterCategory.vue';
+import error from '../views/404.vue';
 
 Vue.use(VueRouter);
 
@@ -23,6 +24,11 @@ const routes = [
     name: 'loginPage',
     component: loginPage,
     meta: { isAuthenticated: false },
+  },
+  {
+    path: '/error',
+    name: 'error',
+    component: error,
   },
   {
     path: '/admin',
