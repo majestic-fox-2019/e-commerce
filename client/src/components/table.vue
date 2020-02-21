@@ -1,17 +1,17 @@
 <template>
     <div>
         <div class ="judul" style="text-align:center">
-            <h1>Product Table </h1>
+            <h1>Product Table</h1>
         </div>
-        <div class="button Add">
-            <button type="button" class="btn btn-primary"
-            data-toggle="modal" data-target="#addModal">ADD</button>
+        <div class="button">
+            <buttonCategory :categories="showCategory" @getCategory="getCategory"></buttonCategory>
         </div>
         <div class="table">
             <div >
         </div>
+        <br>
     <table class="table">
-        <thead>
+        <thead class="thead-dark">
             <tr>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
@@ -23,22 +23,9 @@
             <th scope="col">Action</th>
             </tr>
         </thead>
-            <tbody v-for="(product, idx) in showData()" :key="idx" >
-                <tr  >
-                <th scope="row">{{idx+1}}</th>
-                <td>{{product.name}}</td>
-                <td>{{product.image_url}}</td>
-                <td>{{product.price}}</td>
-                <td>{{product.stock}}</td>
-                <td>{{product.Category.name}}</td>
-                <td><router-link class="nav-link"
-                :to="{name:'detailProduct',params:{id:product.id}}">Detail</router-link></td>
-                <td><i v-on:click ="deleteProduct(product.id)" class="far fa-trash-alt"
-                style="cursor: pointer; width: 30px;" ></i>
-                    </td>
-                </tr>
-
-            </tbody>
+        <tbody v-for="(product, idx) in showData" :key="idx">
+            <productContain :product= "product" :idx= "idx"></productContain>
+        </tbody>
     </table>
 
         </div>
@@ -79,10 +66,8 @@
                             <label for="exampleFormControlSelect1">Category</label>
                             <select v-model="form.CategoryId" class="form-control"
                             id="exampleFormControlSelect1">
-                            <option value="1">Jasmine</option>
-                            <option value="2">Oolong</option>
-                            <option value="3">Black Tea</option>
-                            <option value="4">Green Tea</option>
+                            <option  v-for="(category,idx) in showCategory" :key='idx'
+                            :value="category.id">{{category.name}}</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -96,6 +81,8 @@
 
 <script>
 import Swal from 'sweetalert2';
+import productContain from './productContain.vue';
+import buttonCategory from './buttonCategory.vue';
 
 export default {
   name: 'tableProduct',
@@ -104,14 +91,44 @@ export default {
       form: {
         name: null, image_url: null, price: null, stock: null, CategoryId: null,
       },
+      category: null,
     };
+  },
+  components: {
+    productContain,
+    buttonCategory,
   },
   created() {
     this.$store.dispatch('showData');
+    this.$store.dispatch('showCategory');
+  },
+  computed: {
+    showData() {
+      // category yg diinginkan
+      // arr of obj {cateegory}
+      const filterArr = [];
+      const products = this.$store.state.dataProducts;
+      if (this.category) {
+        for (let i = 0; i < products.length; i += 1) {
+          if (products[i].Category.name === this.category) {
+            filterArr.push(products[i]);
+          }
+        }
+        return filterArr;
+      }
+
+      return this.$store.state.dataProducts;
+
+
+      // mau return array isi obj yg udah di filter category nya
+    },
+    showCategory() {
+      return this.$store.state.dataCategories;
+    },
   },
   methods: {
-    showData() {
-      return this.$store.state.dataProducts;
+    getCategory(cat) {
+      this.category = cat;
     },
     addProduct() {
       this.$axios({
@@ -141,40 +158,12 @@ export default {
           console.log(err);
         });
     },
-    deleteProduct(id) {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-      }).then((result) => {
-        if (result.value) {
-          this.$axios({
-            method: 'delete',
-            url: `/products/${id}`,
-            headers: { token: localStorage.token },
-          })
-            .then(() => {
-              Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success',
-              );
-              this.$store.dispatch('showData');
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      });
-    },
   },
 };
 </script>
 
 <style>
-
+.btn{
+  margin-right: 10px;
+}
 </style>

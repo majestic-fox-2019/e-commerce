@@ -1,12 +1,12 @@
 <template>
     <div>
-    <h1 style="text-align:center">detail</h1>
+    <h1 style="text-align:center">Detail</h1>
     <br>
     <div class ="Container">
       <div class = "row" v-if="productDetail">
         <div class ="col" >
           <img :src="productDetail.image_url"
-          alt="Responsive image" style="width:500px">
+          alt="Responsive image" >
         </div>
         <div class ="col">
           <div class = "judul text-center">
@@ -64,10 +64,8 @@
                             <label for="exampleFormControlSelect1">Category</label>
                             <select v-model="productEdit.CategoryId" class="form-control"
                             id="exampleFormControlSelect1">
-                            <option value="1">White Tea</option>
-                            <option value="2">Oolong</option>
-                            <option value="3">Black Tea</option>
-                            <option value="4">Green Tea</option>
+                            <option v-for="(category,idx) in showCategory()" :key="idx"
+                            :value="category.id">{{category.name}}</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -93,8 +91,13 @@ export default {
   },
   mounted() {
     this.getProduct();
+    this.$store.dispatch('showCategory');
   },
   methods: {
+    showCategory() {
+      console.log(this.$store.state.dataCategories);
+      return this.$store.state.dataCategories;
+    },
     getProduct() {
       this.$axios({
         method: 'get',
@@ -146,5 +149,8 @@ li{
 }
 .isi{
   margin: 50px;
+}
+img{
+  width:500px;
 }
 </style>

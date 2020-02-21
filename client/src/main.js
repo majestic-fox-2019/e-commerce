@@ -9,37 +9,57 @@ import table from './components/table.vue';
 import homePage from './components/homePage.vue';
 import store from '../store';
 import detailProduct from './components/detailProduct.vue';
+import tableCategory from './components/tableCategory.vue';
 
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.prototype.$axios = axios.create({ baseURL: 'http://localhost:3000' });
-const routes = [{
-  path: '/login', component: loginPage, name: 'loginPage', meta: { Auth: false },
-},
-{
-  path: '/',
-  component: homePage,
-  name: 'homePage',
-  meta: { Auth: false },
-},
-{
-  path: '/admin',
-  component: admin,
-  name: 'admin',
-  meta: { Auth: true, isAdmin: true },
-  children: [{
-    path: '/', component: table, name: 'tableProduct',
-  },
+const routes = [
   {
-    path: '/register', component: registerPage, name: 'registerPage',
+    path: '/',
+    component: homePage,
+    name: 'homePage',
+    meta: { Auth: false },
+    children: [
+      {
+        path: '/register',
+        component: registerPage,
+        name: 'registerPage',
+      },
+      {
+        path: '/login',
+        component: loginPage,
+        name: 'loginPage',
+        meta: { Auth: false },
+      },
+    ],
   },
-  {
-    path: '/detail/:id', component: detailProduct, name: 'detailProduct',
-  }],
-},
-];
 
+  {
+    path: '/admin',
+    component: admin,
+    name: 'admin',
+    meta: { Auth: true, isAdmin: true },
+    children: [
+      {
+        path: '/',
+        component: table,
+        name: 'tableProduct',
+      },
+      {
+        path: '/detail/:id',
+        component: detailProduct,
+        name: 'detailProduct',
+      },
+      {
+        path: '/category',
+        component: tableCategory,
+        name: 'categoryDetail',
+      },
+    ],
+  },
+];
 
 const router = new VueRouter({
   mode: 'history',
