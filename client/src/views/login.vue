@@ -5,16 +5,12 @@
     <h2>Welcome!</h2>
     <form v-on:submit.prevent="login">
     <label>
-      <span>Name</span>
-      <input type="text" v-model="formRegister.name" />
-    </label>
-    <label>
       <span>Email</span>
-      <input type="email" v-model="formRegister.email" />
+      <input type="email" v-model="formLogin.email" />
     </label>
     <label>
       <span>Password</span>
-      <input type="password" v-model="formRegister.password" />
+      <input type="password" v-model="formLogin.password" />
     </label>
     <button type="submit" class="submit">Sign In</button>
     <button type="button" class="fb-btn">Connect with <span>Google</span></button>
@@ -26,8 +22,8 @@
         <h2>Face UP <i class="fas fa-angle-double-up"></i></h2>
         <p>Aim to offer a quick and reliable service affordable prices and friendly!</p>
       </div>
-      <div class="img__btn">
-       <router-link to='loginPage'> <span class="m--up"> Sign In </span></router-link>
+       <div class="img__btn">
+        <span class="m--up"><router-link to='/register'> Sign Up</router-link></span>
       </div>
     </div>
   </div>
@@ -43,24 +39,23 @@ const server = 'http://localhost:3000';
 export default {
   data() {
     return {
-      formRegister: {
-        name: null,
+      formLogin: {
         email: null,
         password: null,
       },
     };
   },
   methods: {
-    register() {
+    login() {
       axios({
         method: 'post',
-        url: `${server}/register`,
-        data: this.formRegister,
+        url: `${server}/login`,
+        data: this.formLogin,
       })
         .then((result) => {
           console.log(result.data);
-          // localStorage.setItem('token', result.data);
-          this.$router.push({ path: '/home' });
+          localStorage.setItem('token', result.data);
+          this.$router.push({ path: '/admin' });
         })
         .catch((err) => {
           console.log(err);
@@ -167,7 +162,7 @@ button {
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(117, 18, 18, 0.6);
 }
 .cont.s--signup .img:before {
   transform: translate3d(640px, 0, 0);
@@ -283,7 +278,7 @@ input {
 .submit {
   margin-top: 40px;
   margin-bottom: 20px;
-  background: #d4af7a;
+  background: #d47a90;
   text-transform: uppercase;
 }
 

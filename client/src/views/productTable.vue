@@ -127,6 +127,12 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  margin-left: 9%;
+}
+.table {
+  text-align: center;
+}
 h3 {
   text-align: center;
   margin: 10px;
@@ -145,5 +151,6 @@ i {
   font-size: 105%;
   box-shadow: 20px;
   text-shadow: 200px;
+  background-color: #f5cec7;
 }
 </style>

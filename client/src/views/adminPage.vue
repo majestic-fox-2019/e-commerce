@@ -1,44 +1,44 @@
 <template>
 <!-- eslint-disable max-len -->
 <div>
-  <navbar></navbar>
   <nav class="main-menu">
-            <ul>
+    <p>Face UP <i class="fas fa-angle-double-up"></i></p>
+            <ul><router-link class="link" :to="{ name: 'productTable' }">
                 <li>
                     <a>
                         <i class="fa fa-home fa-2x"></i>
                         <span class="nav-text">
-                           <router-link to='/home'>Dashboard</router-link>
+                           Dashboard
                         </span>
                     </a>
-
-                </li>
+                </li></router-link>
+                <router-link class="link" to='/categories'>
                 <li class="has-subnav">
                     <a>
                         <i class="fa fa-laptop fa-2x"></i>
                         <span class="nav-text">
-                            <router-link to='/stock'>Stock</router-link>
+                            Categories
                         </span>
                     </a>
-
-                </li>
+                </li></router-link>
             </ul>
-            <ul class="category" v-for="(category, i) in getCategories()" :key="i">
+             <ul class="category" v-for="(category, i) in getCategories()" :key="i">
+            <router-link :to="{ path: '/filter', query: { category: category.name }}">
                 <li class="has-subnav">
                     <a href="#">
-                       <i class="fa fa-list fa-2x"></i>
+                        <i class="fa fa-list fa-2x"></i>
                         <span class="nav-text">
                             {{category.name}}
                         </span>
                     </a>
                 </li>
+            </router-link>
             </ul>
-
-            <ul class="logout">
+            <ul class="logout" @click="logout">
                 <li>
                    <a href="#">
                          <i class="fa fa-power-off fa-2x"></i>
-                        <span class="nav-text">
+                        <span class="nav-text" >
                             Logout
                         </span>
                     </a>
@@ -50,16 +50,20 @@
 </template>
 
 <script>
-import navbar from './navbar.vue';
 
 export default {
-  components: {
-    navbar,
+  created() {
+    this.getCategories();
   },
   methods: {
     getCategories() {
       console.log();
       return this.$store.state.categories;
+    },
+    logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      this.$router.push({ path: '/' });
     },
   },
 };
@@ -68,13 +72,23 @@ export default {
 <style>
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
+
+p {
+    color: white;
+    text-align: center;
+    margin-top: 5px;
+}
+.link {
+    color: white;
+}
 .fa-2x {
 font-size: 2em;
+color: white;
 }
 .fa {
 position: relative;
 display: table-cell;
-width: 60px;
+width: 140px;
 height: 36px;
 text-align: center;
 vertical-align: middle;
@@ -86,14 +100,14 @@ overflow:visible;
 }
 
 .main-menu {
-background:#212121;
+background:#e79796;
 border-right:1px solid #e5e5e5;
-position:absolute;
+position:fixed;
 top:0;
 bottom:0;
 height:100%;
 left:0;
-width:60px;
+width:100px;
 overflow:hidden;
 -webkit-transition:width .05s linear;
 transition:width .05s linear;
@@ -142,12 +156,14 @@ display:table-cell;
 vertical-align:middle;
 width:190px;
   font-family: 'Titillium Web', sans-serif;
+  font-size: 16px;
 }
 
 .main-menu>ul.logout {
 position:absolute;
 left:0;
 bottom:0;
+color: white;
 }
 
 .no-touch .scrollable.hover {
@@ -188,7 +204,7 @@ padding:0;
 .dashboard-page nav
 .dashboard-menu ul li.active a {
 color:#fff;
-background-color:#5fa2db;
+background-color:#858585;
 }
 .area {
 float: left;

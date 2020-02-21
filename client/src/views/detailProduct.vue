@@ -11,10 +11,10 @@
           <pic-zoom :url="product.image" :scale="2"></pic-zoom>
           </div>
           <h5 class="card-title">Rp. {{product.price}}</h5>
-          <p class="card-text">Stock: {{product.stock}}</p>
-          <button class="btn btn-warning"><i class="fas fa-edit" @click="isUpdate = true">Edit</i></button>
-          <button class="btn btn-danger" @click="deleteProduct"><i class="fas fa-trash">Delete</i></button>
-          <button class="btn btn-dark" @click="backToHome"><i class="fas fa-home">Back</i></button>
+          <h6 class="card-text">Stock: {{product.stock}}</h6>
+          <button class="btn btn-outline-warning"><i class="fas fa-edit" @click="isUpdate = true"></i></button>
+          <button class="btn btn-outline-danger" @click="deleteProduct"><i class="fas fa-trash"></i></button>
+          <button class="btn btn-outline-dark" @click="backToHome"><i class="fas fa-undo-alt"></i></button>
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
 <script>
 import axios from 'axios';
 import PicZoom from 'vue-piczoom';
-import updateForm from './updateForm.vue';
+import updateForm from '../components/updateForm.vue';
 
 const server = 'http://localhost:3000';
 

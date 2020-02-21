@@ -24,7 +24,7 @@
             <option v-for="(category, i) in getCategories()" :key="i" :value=category.id>{{category.name}}</option>
           </select>
     </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-outline-success">Submit</button>
     </form>
 </template>
 
@@ -72,6 +72,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
 
 </style>

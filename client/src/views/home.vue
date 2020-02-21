@@ -1,6 +1,6 @@
 <template>
-<div>
-  <navbar />
+  <div>
+    <navbar />
   <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
     <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
@@ -39,15 +39,18 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+  <catalog />
 </div>
 </template>
 
 <script>
-import navbar from './navbar.vue';
+import navbar from '../components/navbar.vue';
+import catalog from '../components/catalog.vue';
 
 export default {
   components: {
     navbar,
+    catalog,
   },
 };
 </script>
