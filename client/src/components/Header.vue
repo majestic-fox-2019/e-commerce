@@ -60,6 +60,14 @@
             <span class="ml-2 menu-text">User</span>
           </v-btn>
         </router-link>
+        <router-link :to="{name: 'banners'}">
+          <v-btn
+            text
+          >
+            <v-icon>mdi-format-wrap-square</v-icon>
+            <span class="ml-2 menu-text">Banner</span>
+          </v-btn>
+        </router-link>
       </div>
       <v-btn
         text

@@ -4,8 +4,9 @@ import Ebooks from './components/Ebooks.vue';
 import Tutorials from './components/Tutorials.vue';
 import Login from './components/Login.vue';
 import Home from './components/Home.vue';
-import Register from './components/Register.vue';
 import Users from './components/Users.vue';
+import Register from './components/Register.vue';
+import Banners from './components/Banners.vue';
 
 Vue.use(VueRouter);
 
@@ -42,6 +43,12 @@ const routes = [
     path: '/users',
     component: Users,
     name: 'users',
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/banners',
+    component: Banners,
+    name: 'banners',
     meta: { requiresAuth: true },
   },
 ];

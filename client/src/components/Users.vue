@@ -217,7 +217,7 @@ export default {
       if (this.deletedItem.id) {
         this.deletedIndex = this.users.indexOf(this.deletedItem);
         this.$store.state.superagent
-          .delete(`${this.$store.state.url_backend}/products/${this.deletedItem.id}`)
+          .delete(`${this.$store.state.url_backend}/users/${this.deletedItem.id}`)
           .set('accesstoken', this.$store.state.isLogin)
           .end((err, res) => {
             if (err) {
@@ -247,7 +247,7 @@ export default {
         console.log(this.editedItem);
         if (this.editedItem.id) {
           this.$store.state.superagent
-            .put(`${this.$store.state.url_backend}/products/${this.editedItem.id}`)
+            .put(`${this.$store.state.url_backend}/users/${this.editedItem.id}`)
             .set('accesstoken', this.$store.state.isLogin)
             .send(this.editedItem)
             .end((err, res) => {
@@ -263,7 +263,7 @@ export default {
         }
       } else {
         this.$store.state.superagent
-          .post(`${this.$store.state.url_backend}/products`)
+          .post(`${this.$store.state.url_backend}/users/register`)
           .set('accesstoken', this.$store.state.isLogin)
           .send(this.editedItem)
           .end((err, res) => {
@@ -271,7 +271,7 @@ export default {
               this.message_modal = res ? res.body.error : err;
             } else {
               this.message_modal = res.body.message;
-              this.editedItem.id = res.body.product.id;
+              this.editedItem.id = res.body.result.id;
               this.users.push(this.editedItem);
               this.close();
             }
