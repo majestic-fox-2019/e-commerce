@@ -1,6 +1,7 @@
 # e-commerce
 created by Fadhilah Rayafi Varselia
-Link Deploy: 
+
+Link Deploy: https://skin-type-dila.firebaseapp.com/
 
 # Routes :
 ## Login
