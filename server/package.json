@@ -7,7 +7,8 @@
     "migrate": "sequelize db:migrate",
     "migrate:reset": "sequelize db:migrate:undo:all && npm run migrate",
     "test": "NODE_ENV=test npm run migrate:reset && jest --detectOpenHandles --forceExit",
-    "dev": "NODE_ENV=development nodemon bin/http.js"
+    "dev": "NODE_ENV=development nodemon bin/http.js",
+    "start": "node bin/http.js"
   },
   "keywords": [],
   "author": "",
