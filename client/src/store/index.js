@@ -9,6 +9,7 @@ export default new Vuex.Store({
     listAdmin : null,
     listCategory : null,
     listProducts : null,
+    error : null,
   },
   mutations: {
     get_admin (state, payload) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     },
     get_products (state, payload) {
       state.listProducts = payload
+    },
+    get_error(state, payload){
+      state.error = payload
     }
   },
   actions: {
@@ -37,7 +41,7 @@ export default new Vuex.Store({
           commit('get_admin', response.data)
         })
         .catch(err => {
-          let error = err
+          commit('get_error', err)
         })
     },
     getCategory({ commit }){
@@ -52,7 +56,7 @@ export default new Vuex.Store({
         commit('get_category', response.data)
       })
       .catch(err => {
-        let error = err
+        commit('get_error', err)
       })
     },
     getProduct({ commit }, name = ''){
@@ -67,7 +71,7 @@ export default new Vuex.Store({
         commit('get_products', response.data)
       })
       .catch(err => {
-        let error = err
+        commit('get_error', err)
       })
     }
   },

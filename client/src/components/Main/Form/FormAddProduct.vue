@@ -154,7 +154,6 @@ export default {
         this.toaster = 'Success add new products ' + response.data.name
         this.clearValidation(this.error.errorClass)
         this.clearField(this.form)
-
       })
       .catch(err => {
         this.error.status = true

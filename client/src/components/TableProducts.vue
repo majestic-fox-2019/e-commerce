@@ -17,7 +17,7 @@
           <tr :key="i" v-for="(product, i) in data_product" class="text-center">
             <td>{{ i+1 }}</td>
             <td>{{ product.name }}</td>
-            <td>{{ product.Category.category_name }}</td>
+            <td>{{ product.Category ? product.Category.category_name : '' }}</td>
             <td>{{ product.price }}</td>
             <th>{{ product.stock }}</th>
             <th><img v-if="product.image_url !== ''" class="img" :src="product.image_url" /><span v-else class="text-danger">N/A</span></th>
