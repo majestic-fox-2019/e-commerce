@@ -55,7 +55,6 @@ export default {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  padding: 100px 0;
   margin-top: 7%;
 }
 .btn {

@@ -13,7 +13,9 @@ export default new Vuex.Store({
     accountWhatToShow: "login",
     products: [],
     product: { name: "", description: "", price: "", stock: "", image: "", category: "" },
-    idProduct: ""
+    idProduct: "",
+    search: "",
+    searchCategory: ""
   },
   mutations: {
     successRegister(state, payload) {

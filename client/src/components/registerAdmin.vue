@@ -57,9 +57,6 @@ export default {
 </script>
 
 <style scoped>
-.register {
-  margin-top: 10%;
-}
 .btn {
   padding: 1.075rem 0.75rem;
 }

@@ -15,9 +15,6 @@ export default {
   components: {
     tableAdmin,
     formProduct
-  },
-  created() {
-    this.$store.dispatch("findAllProduct");
   }
 };
 </script>

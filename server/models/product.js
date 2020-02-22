@@ -66,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         isIn: {
-          args: [["baju", "celana", "jaket", "sepatu", "sandal", "tas"]],
+          args: [["Pakaian Pria", "Pakaian Wanita", "Sepatu Pria", "Fashion Bayi", "Tas Pria", "Tas Wanita"]],
           msg: "please add correct category"
         }
       }
