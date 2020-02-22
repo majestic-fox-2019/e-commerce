@@ -14,7 +14,6 @@ describe('POST /register', () => {
       .send(user)
       .expect(201)
       .then(res => {
-        console.log(res.body, '< success register users')
         expect(res.body.name).toEqual(user.name)
         expect(res.body.email).toEqual(user.email)
         done()
@@ -38,7 +37,6 @@ describe('POST /login', () => {
       .send(user)
       .expect(200)
       .then(res => {
-        console.log(res.body, '< token login users')
         done()
       })
       .catch(err => {

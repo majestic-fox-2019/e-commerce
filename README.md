@@ -1,4 +1,4 @@
-# e-commerce FACE UP ^
+# e-commerce FACE UP
 <br>
 
 | Method      | Route   | Description |

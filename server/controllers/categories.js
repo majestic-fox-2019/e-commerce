@@ -57,7 +57,7 @@ class CategoryController {
         returning: true
       })
       .then(category => {
-        res.status(200).json(category)
+        res.status(200).json(category[1][0])
       })
       .catch(err => {
         next(err)

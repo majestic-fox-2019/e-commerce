@@ -176,8 +176,7 @@ describe('PUT /products', () => {
       .expect(200)
       .then(res => {
         console.log(res.body, '< success update products')
-        expect(res.body[0]).toEqual(1)
-        expect(res.body[1][0]).toHaveProperty('name')
+        expect(res.body).toHaveProperty('name')
         done()
       })
       .catch(err => {
