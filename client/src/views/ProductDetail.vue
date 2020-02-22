@@ -60,7 +60,6 @@ export default {
     },
     detailProduct: {
       handler(val, old) {
-        console.log(val)
         const newPrice = Formatter(val.price)
         val.price = newPrice
       }

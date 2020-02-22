@@ -56,7 +56,6 @@ export default {
   },
   methods: {
     sendForm() {
-      console.log('TEST')
       this.$store.dispatch('REGISTER', this.form)
     },
     resetForm() {

@@ -52,13 +52,11 @@ export default {
   },
   computed: {
     products() {
-      console.log(this.$store.state.allProducts)
       return this.$store.state.allProducts
     }
   },
   mounted() {
     const category = this.$route.params.category
-    console.log(category)
     this.$store.dispatch('FETCH_CATEGORY_PRODUCTS', category)
   }
 }

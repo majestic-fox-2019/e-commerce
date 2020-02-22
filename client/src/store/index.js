@@ -70,7 +70,7 @@ export default new Vuex.Store({
         .catch(({ response }) => {
           Swal.close()
           const errors = response.data.err
-          console.log(errors)
+          Swal.fire('Error', errors, 'error')
         })
     },
     REGISTER(context, data) {
@@ -88,7 +88,7 @@ export default new Vuex.Store({
         .catch(({ response }) => {
           Swal.close()
           const errors = response
-          console.log(errors)
+          Swal.fire('Error', errors, 'error')
         })
     },
     GET_USER_INFO(context) {
@@ -101,7 +101,8 @@ export default new Vuex.Store({
           context.commit('CHANGE_LOGIN', user)
         })
         .catch(({ response }) => {
-          console.log(response)
+          const errors = response
+          Swal.fire('Error', errors, 'error')
         })
     },
     CREATE_SHOP(context, data) {
@@ -117,7 +118,8 @@ export default new Vuex.Store({
           Swal.fire('Congratulations', 'A new shop created', 'success')
         })
         .catch(({ response }) => {
-          console.log(response)
+          const errors = response
+          Swal.fire('Error', errors, 'error')
         })
     },
     FETCH_ALL_PRODUCTS(context) {
@@ -127,18 +129,19 @@ export default new Vuex.Store({
           context.commit('ALL_PRODUCTS', data)
         })
         .catch(({ response }) => {
-          console.log(response)
+          const errors = response
+          Swal.fire('Error', errors, 'error')
         })
     },
     FETCH_CATEGORY_PRODUCTS(context, data) {
       axios
         .get(`${this.state.BASE_URL}/products/categories/${data}`)
         .then(({ data }) => {
-          console.log(data)
           context.commit('ALL_PRODUCTS', data)
         })
         .catch(({ response }) => {
-          console.log(response)
+          const errors = response
+          Swal.fire('Error', errors, 'error')
         })
     },
     FETCH_USER_PRODUCTS(context) {
@@ -150,7 +153,8 @@ export default new Vuex.Store({
           context.commit('MY_PRODUCTS', data)
         })
         .catch(({ response }) => {
-          console.log(response)
+          const errors = response
+          Swal.fire('Error', errors, 'error')
         })
     },
     FETCH_DETAILS_PRODUCT(context, data) {
@@ -160,7 +164,8 @@ export default new Vuex.Store({
           context.commit('DETAIL_PRODUCT', data)
         })
         .catch(({ response }) => {
-          console.log(response)
+          const errors = response
+          Swal.fire('Error', errors, 'error')
         })
     },
     POST_PRODUCT(context, data) {
@@ -185,7 +190,8 @@ export default new Vuex.Store({
         })
         .catch(({ response }) => {
           Swal.close()
-          console.log(response)
+          const errors = response
+          Swal.fire('Error', errors, 'error')
         })
     },
     EDIT_PRODUCT(context, data) {
@@ -214,7 +220,8 @@ export default new Vuex.Store({
         })
         .catch(({ response }) => {
           Swal.close()
-          console.log(response)
+          const errors = response
+          Swal.fire('Error', errors, 'error')
         })
     },
     DELETE_PRODUCT(context, id) {
@@ -230,7 +237,8 @@ export default new Vuex.Store({
         })
         .catch(({ response }) => {
           Swal.close()
-          console.log(response)
+          const errors = response
+          Swal.fire('Error', errors, 'error')
         })
     },
     LOGOUT(context) {

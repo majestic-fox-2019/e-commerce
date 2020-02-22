@@ -58,7 +58,6 @@ export default {
   },
   methods: {
     categoryPage(val) {
-      console.log('CATEGORY', val)
       this.$router.push('/category/' + val)
     }
   },
