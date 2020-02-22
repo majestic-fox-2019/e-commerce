@@ -5,6 +5,7 @@ import Dashboard from '../components/Dashboard.vue'
 import Category from '../components/category/Category.vue'
 import Login from '../components/customer/Login.vue'
 import jwt from 'jsonwebtoken'
+import NotFound from '../components/customer/NotFound404.vue'
 
 Vue.use(VueRouter)
 
@@ -25,7 +26,7 @@ const routes = [
     component: Dashboard,
     beforeEnter: (to, from, next) => {
       if (!localStorage.getItem('token')) {
-        console.log('404')
+        next('/404')
       } else {
         const token = localStorage.getItem('token')
         const user = jwt.verify(token, 'edo tensi')
@@ -33,9 +34,9 @@ const routes = [
         if (user.role == 'admin') {
           next()
         } else {
-          console.log('404')
+          // console.log('404')
+          next('/404')
         }
-
       }
     },
     children: [
@@ -45,6 +46,11 @@ const routes = [
         component: Category
       }
     ]
+  },
+  {
+    path: '*',
+    name: '404',
+    component: NotFound
   }
 ]
 
