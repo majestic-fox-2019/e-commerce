@@ -12,5 +12,16 @@
     "database": "e-commerce-test",
     "host": "127.0.0.1",
     "dialect": "postgres"
+  },
+  "production": {
+    "username": "dlqfvtjhcqexoa",
+    "password": "7616914741102272ee7c1d42d93e29677378fb3d7f8876c7a4eea48f4dea58fa",
+    "database": "d2u2l296bqj3m6",
+    "host": "ec2-34-200-116-132.compute-1.amazonaws.com",
+    "dialect": "postgres",
+    "protocol": "postgres",
+    "dialectOptions": {
+        "ssl": true
+    }
   }
 }

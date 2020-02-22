@@ -3,8 +3,8 @@
 e-Commerce Project: Client & Server & API Documentation
 
 # Link Demo
-    Backend: 
-    Frontend: 
+    Server: https://o-ecommerce-backend.herokuapp.com
+    Client: https://o-commerce-client.firebaseapp.com/
 
 
 # Client & Server Documentation

@@ -9,7 +9,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     isLogin: localStorage.getItem('token'),
-    url_backend: 'http://localhost:3000',
+    url_backend: 'https://o-ecommerce-backend.herokuapp.com',
     superagent,
   },
   mutations: {

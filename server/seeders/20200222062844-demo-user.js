@@ -11,7 +11,7 @@ module.exports = {
         updatedAt: 'now'
       },
       {
-        email: 'kodekite@gmail.com',
+        email: 'user@gmail.com',
         password: '$2b$10$Xhg1HOAbUzVTu7bhILkOWeICqVvh4DsTwV6j20iFbW/6/4pPlAZ8i',
         role: 'User',
         createdAt: 'now',
