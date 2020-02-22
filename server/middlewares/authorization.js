@@ -58,6 +58,12 @@ function editProductAuth(req, res, next) {
         }
     })
         .then(productInfo => {
+            if(!productInfo) {
+                throw ({
+                    statusCode: 404,
+                    message: 'Product not found'
+                })
+            }
             productData = productInfo
             return User.findOne({
                 where: {

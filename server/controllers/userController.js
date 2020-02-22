@@ -21,7 +21,8 @@ class UserController {
                     email: userData.email,
                     address: userData.address,
                     phone: userData.phone,
-                    role: userData.role
+                    role: userData.role,
+                    shopName: userData.shopName
                 }
                 let payload = {
                     id: userData.id,
@@ -55,7 +56,8 @@ class UserController {
                         email: userData.email,
                         address: userData.address,
                         phone: userData.phone,
-                        role: userData.role
+                        role: userData.role,
+                        shopName: userData.shopName
                     }
                     return comparePass(req.body.password, userData.password)
                 }
@@ -198,7 +200,8 @@ class UserController {
                 email: userData.email,
                 address: userData.address,
                 phone: userData.phone,
-                role: userData.role
+                role: userData.role,
+                shopName: userData.shopName
             }
             res.status(200).json(userInfo)
         })

@@ -30,9 +30,11 @@
                         <br>
                         <input class="RegistInput px-3" v-model="form.shopName" type="text" placeholder="Enter password">
                         <br>
-                        <label class="mt-3" for="name">Password:</label>
+                        <label class="mt-3" for="password">Password:</label>
                         <br>
-                        <input required class="RegistInput px-3" v-model="form.password" type="password" placeholder="Enter password">
+                        <input required class="RegistInput px-3" v-model="form.password" :type="passwordField" placeholder="Enter password">
+                        <br>
+                        <input type="checkbox" @click="seePass()">Show Password
                         <br>
                         <b-button class="mt-5" type="submit">Continue<i class="fas fa-arrow-right"></i></b-button>
                     </form>
@@ -57,10 +59,18 @@ export default {
         address: '',
         phone: '',
         shopName: null
-      }
+      },
+      passwordField: 'password'
     }
   },
   methods: {
+    seePass () {
+      if (this.passwordField === 'password') {
+        this.passwordField = 'text'
+      } else {
+        this.passwordField = 'password'
+      }
+    },
     register () {
       Swal.fire({
         title: 'Are you sure you have the correct registration data?',

@@ -24,8 +24,8 @@
                 <button class="dropbtn"><i class="fas fa-user"></i></button>
                 <div class="dropdown-content">
                     <h4 style="text-align:center;margin:0;padding:0;">{{$store.state.userInfo.name}}</h4>
-                    <a href="#" style="font-size:1.7em;" v-if="$store.state.userInfo.shopName"><i class="fas fa-store"></i>{{$store.state.userInfo.shopName}}</a>
-                    <div v-if="!$store.state.userInfo.shopName && $store.state.userInfo.role !== 'admin'" class="dropMenu my-3 custMenu">
+                    <a href="#" @click="toShop" style="font-size:1.7em;" v-if="$store.state.userInfo.shopName"><i class="fas fa-store mr-3"></i>{{$store.state.userInfo.shopName}}</a>
+                    <div @click="$bvModal.show('registerShop')" v-if="!$store.state.userInfo.shopName && $store.state.userInfo.role !== 'admin'" class="dropMenu my-3 custMenu">
                         <h4><i class="fas fa-plus-circle"></i></h4>
                         <h4>Register Shop</h4>
                     </div>
@@ -50,19 +50,59 @@
             </div>
             </div>
       </div>
+      <b-modal id="registerShop" centered hide-header hide-footer>
+    <h1 style="text-align: center">Shop Registration</h1>
+    <form @submit.prevent="registerShop" class="mt-4">
+      <label for="shopNameRegist">Enter Shop Name:</label>
+      <br>
+      <input type="text" id="shopNameRegist" v-model="form.shopName">
+      <p style="color: #808080;" class="mt-2">Note: You will not be able to change your shop name in the future</p>
+      <b-button type="submit">Register Shop</b-button>
+    </form>
+  </b-modal>
   </div>
 </template>
 
 <script>
 import SignInButton from './signInButton'
+import Swal from 'sweetalert2'
 export default {
   name: 'NavBar',
   components: {
     SignInButton
   },
+  data () {
+    return {
+      form: {
+        shopName: ''
+      }
+    }
+  },
   methods: {
+    toShop () {
+      this.$router.push(`/shop/${this.$store.state.userInfo.id}`)
+    },
+    registerShop () {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.$store.dispatch('registerShop', {
+            shopName: this.form.shopName
+          })
+          this.form.shopName = ''
+        }
+      })
+    },
     homeRoute () {
-      this.$router.push('/home')
+      this.$store.dispatch('fetchMainProducts')
+      this.$router.push('/Home')
     },
     logout () {
       this.$store.dispatch('logout')
@@ -75,6 +115,10 @@ export default {
 </script>
 
 <style scoped>
+#shopNameRegist {
+  border-radius: 10px;
+  width: 80%;
+}
 .custMenu:hover {
     background: #a8a8a8;
     cursor: pointer;

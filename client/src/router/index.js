@@ -5,10 +5,24 @@ import ProductList from '../views/ProductList.vue'
 import Admin from '../views/Admin.vue'
 import AdminProductMenu from '../views/AdminProductMenu.vue'
 import Register from '../views/Register.vue'
+import ProductDetails from '../views/ProductDetails.vue'
+import Cart from '../views/Cart.vue'
+import AdminUsers from '../views/AdminUsers.vue'
+import UserShop from '../views/UserShop.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart
+  },
+  {
+    path: '/products/:id',
+    name: 'ProductDetails',
+    component: ProductDetails
+  },
   {
     path: '/admin',
     name: 'Admin',
@@ -17,8 +31,17 @@ const routes = [
       {
         path: '/admin/products',
         component: AdminProductMenu
+      },
+      {
+        path: '/admin/users',
+        component: AdminUsers
       }
     ]
+  },
+  {
+    path: '/shop/:userId',
+    name: 'UserShop',
+    component: UserShop
   },
   {
     path: '/register',

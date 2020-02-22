@@ -138,8 +138,8 @@ class ProductController {
                 })
             })
             .then(editedProduct => {
-                res.status(200).json('ok')
-                // res.status(200).json(editedProduct[1][0].dataValues)
+                res.status(200).json('ProductUpdated')
+                // res.status(200).json(editedProduct)
             })
             .catch(err => {
 

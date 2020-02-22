@@ -35,8 +35,10 @@ export default new Vuex.Store({
     displayProducts: null,
     loading: {
       userInfo: false,
-      productTable: false
-    }
+      productTable: false,
+      wholePageLoading: false
+    },
+    displayDetail: null
   },
   mutations: {
     SET_DISPLAY_PRODUCTS (state, payload) {
@@ -53,9 +55,65 @@ export default new Vuex.Store({
     },
     SET_UNLOAD_USERINFO (state) {
       state.loading.userInfo = false
+    },
+    SET_LOADING_WHOLEPAGE (state) {
+      state.loading.wholePageLoading = true
+    },
+    SET_UNLOAD_WHOLEPAGE (state) {
+      state.loading.wholePageLoading = false
+    },
+    SET_DISPLAY_DETAIL (state, payload) {
+      state.displayDetail = payload
     }
   },
   actions: {
+    registerShop (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/user/shop',
+        method: 'patch',
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          shopName: payload.shopName
+        }
+      })
+        .then(({ data }) => {
+          this.dispatch('fetchUserData')
+          Swal.fire(
+            'Registered!',
+            'You have successfully registered a shop.',
+            'success'
+          )
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    fetchProductDetails (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/products/' + payload,
+        method: 'get'
+      })
+        .then(({ data }) => {
+          this.commit('SET_DISPLAY_DETAIL', data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    fetchProductByCategory (state, payload) {
+      axios({
+        method: 'get',
+        url: this.state.baseUrl + '/products/categories/' + payload
+      })
+        .then(({ data }) => {
+          this.commit('SET_DISPLAY_PRODUCTS', data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     fetchMainProducts (state) {
       axios({
         method: 'get',
@@ -108,6 +166,11 @@ export default new Vuex.Store({
     logout (state) {
       localStorage.clear()
       this.commit('SET_LOGOUT')
+      Swal.fire(
+        'Logged Out!',
+        'Come back soon',
+        'success'
+      )
       router.push('/home')
     },
     fetchUserData (state, payload) {
@@ -130,6 +193,7 @@ export default new Vuex.Store({
         })
     },
     addProduct (state, payload) {
+      this.commit('SET_LOADING_WHOLEPAGE')
       const data = new FormData()
       data.append('name', payload.name)
       data.append('img_url', payload.img_url)
@@ -146,6 +210,7 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
+          this.commit('SET_UNLOAD_WHOLEPAGE')
           Swal.fire(
             'Add Product Success',
             'You have successfully added a product',
@@ -154,6 +219,7 @@ export default new Vuex.Store({
           this.dispatch('fetchMainProducts')
         })
         .catch(err => {
+          this.commit('SET_UNLOAD_WHOLEPAGE')
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -162,6 +228,7 @@ export default new Vuex.Store({
         })
     },
     editProduct (state, payload) {
+      this.commit('SET_LOADING_WHOLEPAGE')
       const data2 = new FormData()
       data2.append('name', payload.name)
       data2.append('img_url', payload.img_url)
@@ -178,6 +245,7 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
+          this.commit('SET_UNLOAD_WHOLEPAGE')
           Swal.fire(
             'Edit Product Success',
             'You have successfully edited a product',
@@ -186,6 +254,7 @@ export default new Vuex.Store({
           this.dispatch('fetchMainProducts')
         })
         .catch(err => {
+          this.commit('SET_UNLOAD_WHOLEPAGE')
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -194,6 +263,7 @@ export default new Vuex.Store({
         })
     },
     deleteProduct (state, payload) {
+      this.commit('SET_LOADING_WHOLEPAGE')
       axios({
         url: this.state.baseUrl + '/products/' + payload,
         method: 'delete',
@@ -202,6 +272,7 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
+          this.commit('SET_UNLOAD_WHOLEPAGE')
           Swal.fire(
             'Deleted!',
             'Your product has been deleted.',
@@ -210,6 +281,7 @@ export default new Vuex.Store({
           this.dispatch('fetchMainProducts')
         })
         .catch(err => {
+          this.commit('SET_UNLOAD_WHOLEPAGE')
           Swal.fire({
             icon: 'error',
             title: 'Oops...',

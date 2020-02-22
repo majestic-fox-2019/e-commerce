@@ -28,7 +28,7 @@
         <h1 class="mb-3" style="text-align:center;">{{modal}}</h1>
         <form>
             <input class="productFormInput m-2" v-model="form.name" type="text" placeholder="ProductName">
-            <input class="productFormInput m-2" v-model="form.description" type="text" placeholder="Description">
+            <input class="productFormInput m-2" v-model="form.description" type="textarea" placeholder="Description">
             <input class="productFormInput m-2" v-model="form.stock" type="number" placeholder="Stock">
             <input class="productFormInput m-2" v-model="form.price" type="number" placeholder="Price">
             <b-form-select
@@ -74,7 +74,7 @@ export default {
       modal: '',
       categories: [
         { value: null, text: 'Please select a category' },
-        { value: 'Handphones', text: 'Handphones' },
+        { value: 'Smartphones', text: 'Smartphones' },
         { value: 'Headphones', text: 'Headphones' },
         { value: 'Smartwatches', text: 'Smartwatches' },
         { value: 'Drones', text: 'Drones' },

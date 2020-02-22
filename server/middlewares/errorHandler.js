@@ -5,7 +5,6 @@ module.exports = function (err, req, res, next) {
         err.errors.forEach((err2) => {
             errors.push(err2.message)
         })
-        
         res.status(400).json({msg: errors})
     } else if (err.hasOwnProperty('statusCode') && err.hasOwnProperty('message')) {
         let status = err.statusCode

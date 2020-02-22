@@ -3,7 +3,7 @@
       <div class="ProductDetails">
           <p>{{productData.name}}</p>
           <p>{{productData.price}}</p>
-          <a href="#" style="color: white">See Product</a>
+          <a href="#" @click.prevent="toProdDetails(productData.id)" style="color: white">See Product</a>
       </div>
   </div>
 </template>
@@ -14,6 +14,11 @@ export default {
   props: {
     productData: {
       type: Object
+    }
+  },
+  methods: {
+    toProdDetails (id) {
+      this.$router.push(`/products/${id}`)
     }
   }
 }
@@ -41,7 +46,7 @@ export default {
 }
 .prodCard:hover > .ProductDetails {
     height: 50%;
-    font-size: 1.5em;
+    font-size: 1.2em;
     transition: 1s;
 }
 

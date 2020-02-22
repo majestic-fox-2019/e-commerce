@@ -24,6 +24,11 @@ export default {
   name: 'CategoryCard',
   methods: {
     toHome (target) {
+      if (target === 'Home') {
+        this.$store.dispatch('fetchMainProducts')
+      } else {
+        this.$store.dispatch('fetchProductByCategory', target)
+      }
       this.$router.push(`/${target}`)
     }
   }

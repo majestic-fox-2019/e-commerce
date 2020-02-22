@@ -21,6 +21,10 @@ export default {
         {
           button: '<i class="fas fa-atom"></i> Products',
           name: 'Products'
+        },
+        {
+          button: '<i class="fas fa-atom"></i> Admins',
+          name: 'Users'
         }
       ]
     }
