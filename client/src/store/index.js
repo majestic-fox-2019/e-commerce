@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     categoryItem: null,
     userLogin: null,
-    baseUrl: 'http://localhost:3000'
+    baseUrl: 'http://localhost:3000',
+    userProduct: null
   },
   mutations: {
     SET_CATEGORYITEM(state, payload) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     SET_USERLOGIN(state, payload) {
       state.userLogin = payload
+    },
+    SET_USERPRODUCT(state, payload) {
+      state.userProduct = payload
     }
   },
   actions: {
@@ -84,6 +88,7 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           console.log('ini adalah data berdasarkan category', data)
+          commit('SET_CATEGORYITEM', data)
         })
         .catch(err => {
           console.log(err.response)
@@ -99,6 +104,7 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           console.log(data)
+          commit('SET_USERPRODUCT', data)
         })
         .catch(err => {
           console.log(err)
