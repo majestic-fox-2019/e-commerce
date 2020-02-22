@@ -15,7 +15,8 @@
     "createTes": "NODE_ENV=test sequelize db:create",
     "migrateTes": "NODE_ENV=test sequelize db:migrate",
     "undoTes": "NODE_ENV=test sequelize db:migrate:undo:all",
-    "seedTes": "NODE_ENV=test sequelize db:seed:all"
+    "seedTes": "NODE_ENV=test sequelize db:seed:all",
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
@@ -34,5 +35,8 @@
   "devDependencies": {
     "jest": "^25.1.0",
     "supertest": "^4.0.2"
+  },
+  "engines": {
+    "node": "12.9.1"
   }
 }

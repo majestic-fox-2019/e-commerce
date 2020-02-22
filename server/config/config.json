@@ -12,5 +12,12 @@
     "database": "EcommerceCMS-test",
     "host": "127.0.0.1",
     "dialect": "postgres"
+  },
+  "production": {
+    "username": "jcllyuudeikxpq",
+    "password": "d7c187d997ea88be150bc93eab9b976d30cf0664c0ea93b2adf1bd257a0d3a0d",
+    "database": "d9vk2prm2cj0k1",
+    "host": "ec2-52-202-185-87.compute-1.amazonaws.com",
+    "dialect": "postgres"
   }
 }
