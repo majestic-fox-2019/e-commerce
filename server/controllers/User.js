@@ -33,10 +33,10 @@ class UserController {
                         const token = createToken(user.id)
                         res.status(200).json({ user, token })
                     } else {
-                        next(createError(400, "email/password wrong"))
+                        throw (createError(400, "email/password wrong"))
                     }
                 } else {
-                    next(createError(400, "email/password wrong"))
+                    throw (createError(400, "email/password wrong"))
                 }
             }).catch(next);
     }

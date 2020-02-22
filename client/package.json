@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "css-loader": "^3.4.2",
+    "http-errors": "^1.7.3",
     "jsdom": "^16.2.0",
     "location": "0.0.1",
     "navigator": "^1.0.1",

@@ -76,7 +76,7 @@ describe('Test Products router', function () {
                 .field('description', 'minuman soda')
                 .field('price', 28000)
                 .field('stock', 4)
-                .field('category', 'sepatu')
+                .field('category', 'Pakaian Pria')
                 .set({
                     token: tokenAdmin
                 })
@@ -93,7 +93,7 @@ describe('Test Products router', function () {
             expect(res.body).toHaveProperty('stock')
             expect(res.body.stock).toEqual(4)
             expect(res.body).toHaveProperty('category')
-            expect(res.body.category).toEqual('sepatu')
+            expect(res.body.category).toEqual('Pakaian Pria')
         })
     })
 
@@ -122,7 +122,7 @@ describe('Test Products router', function () {
             expect(res.body).toHaveProperty('stock')
             expect(res.body.stock).toEqual(4)
             expect(res.body).toHaveProperty('category')
-            expect(res.body.category).toEqual('sepatu')
+            expect(res.body.category).toEqual('Pakaian Pria')
         })
 
         it('should return products and status code 404', async () => {
@@ -284,7 +284,7 @@ describe('Test Products router', function () {
                 .field('description', 'minuman soda enak coy')
                 .field('price', 3000)
                 .field('stock', 4)
-                .field('category', 'sepatu')
+                .field('category', 'Pakaian Pria')
                 .set({
                     token: tokenAdmin
                 })
@@ -301,7 +301,7 @@ describe('Test Products router', function () {
             expect(res.body).toHaveProperty('stock')
             expect(res.body.stock).toEqual(4)
             expect(res.body).toHaveProperty('category')
-            expect(res.body.category).toEqual('sepatu')
+            expect(res.body.category).toEqual('Pakaian Pria')
         })
 
         it('should return products and status code 404', async () => {
@@ -382,7 +382,7 @@ describe('Test Products router', function () {
             expect(res.body).toHaveProperty('stock')
             expect(res.body.stock).toEqual(4)
             expect(res.body).toHaveProperty('category')
-            expect(res.body.category).toEqual('sepatu')
+            expect(res.body.category).toEqual('Pakaian Pria')
         })
 
         it('should return products and status code 404', async () => {

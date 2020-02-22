@@ -80,6 +80,8 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
+          console.log("masuk");
+          console.log(data);
           localStorage.setItem('token', data.token)
           localStorage.setItem('id', data.user.id)
           localStorage.setItem('username', data.user.username)
@@ -93,8 +95,9 @@ export default new Vuex.Store({
             context.commit('whoLogin', "customer")
             router.push('/')
           }
-        }).catch((err) => {
-          Swal.fire('Error!', err.message, 'error');
+        }).catch(err => {
+          console.log(err);
+          Swal.fire('Error!', "email/password wrong", 'error');
         });
     },
     register(context, payload) {
