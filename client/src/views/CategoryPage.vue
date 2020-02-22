@@ -1,24 +1,20 @@
 <template>
-  <div class="home">
-    <Carousel />
+  <div>
     <v-container>
       <v-row>
-        <v-col
-          v-for="(category, i) in categories"
-          :key="i"
-          @click.prevent="categoryPage(category.name)"
-        >
-          <CategoryCard :category="category" />
+        <v-col cols="12">
+          <CategoryCard
+            v-if="$route.params.category == 'Brass'"
+            :category="categories[0]"
+          />
+          <CategoryCard v-else :category="categories[1]" />
         </v-col>
-      </v-row>
-      <v-divider></v-divider>
-      <v-row>
         <v-col
           lg="3"
           md="3"
           sm="6"
           xs="12"
-          v-for="(product, i) in allProducts"
+          v-for="(product, i) in products"
           :key="i"
         >
           <ProductCard :product="product" />
@@ -29,12 +25,11 @@
 </template>
 
 <script>
-import Carousel from '@/components/Carousel'
 import CategoryCard from '@/components/CategoryCard'
 import ProductCard from '@/components/ProductCard'
 
 export default {
-  name: 'Home',
+  name: 'CategoryPage',
   data() {
     return {
       categories: [
@@ -52,23 +47,21 @@ export default {
     }
   },
   components: {
-    Carousel,
-    ProductCard,
-    CategoryCard
-  },
-  methods: {
-    categoryPage(val) {
-      console.log('CATEGORY', val)
-      this.$router.push('/category/' + val)
-    }
+    CategoryCard,
+    ProductCard
   },
   computed: {
-    allProducts() {
+    products() {
+      console.log(this.$store.state.allProducts)
       return this.$store.state.allProducts
     }
   },
   mounted() {
-    this.$store.dispatch('FETCH_ALL_PRODUCTS')
+    const category = this.$route.params.category
+    console.log(category)
+    this.$store.dispatch('FETCH_CATEGORY_PRODUCTS', category)
   }
 }
 </script>
+
+<style lang="cass" scoped></style>

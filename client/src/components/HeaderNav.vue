@@ -59,8 +59,7 @@ export default {
     },
     openShop() {
       if (this.$store.state.userProfile.role === 'basic') {
-        console.log('OPEN SHOP')
-        this.$store.commit('DIALOG_CHANGE', true)
+        this.$store.commit('DIALOG_CHANGE_SHOP', true)
       } else {
         this.$router.push('/panel')
       }

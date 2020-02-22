@@ -16,9 +16,9 @@ export default new Vuex.Store({
     allProducts: [],
     myProducts: [],
     selectedProduct: null,
-    selectedCategory: null,
     editProduct: null,
-    dialogItem: false
+    dialogItem: false,
+    dialogShop: false
   },
   mutations: {
     CHANGE_LOGIN(state, val) {
@@ -38,11 +38,17 @@ export default new Vuex.Store({
     DIALOG_CHANGE(state, val) {
       state.dialogItem = val
     },
+    DIALOG_CHANGE_SHOP(state, val) {
+      state.dialogShop = val
+    },
     ALL_PRODUCTS(state, val) {
       state.allProducts = val
     },
     MY_PRODUCTS(state, val) {
       state.myProducts = val
+    },
+    DETAIL_PRODUCT(state, val) {
+      state.selectedProduct = val
     },
     GET_EDIT_DATA(state, val) {
       state.editProduct = val
@@ -117,6 +123,17 @@ export default new Vuex.Store({
           console.log(response)
         })
     },
+    FETCH_CATEGORY_PRODUCTS(context, data) {
+      axios
+        .get(`${this.state.BASE_URL}/products/categories/${data}`)
+        .then(({ data }) => {
+          console.log(data)
+          context.commit('ALL_PRODUCTS', data)
+        })
+        .catch(({ response }) => {
+          console.log(response)
+        })
+    },
     FETCH_USER_PRODUCTS(context) {
       axios
         .get(`${this.state.BASE_URL}/products/user/my-products`, {
@@ -129,6 +146,16 @@ export default new Vuex.Store({
           console.log(response)
         })
     },
+    FETCH_DETAILS_PRODUCT(context, data) {
+      axios
+        .get(`${this.state.BASE_URL}/products/${data}`)
+        .then(({ data }) => {
+          context.commit('DETAIL_PRODUCT', data)
+        })
+        .catch(({ response }) => {
+          console.log(response)
+        })
+    },
     POST_PRODUCT(context, data) {
       const formData = new FormData()
       formData.append('name', data.name)
@@ -136,6 +163,7 @@ export default new Vuex.Store({
       formData.append('price', data.price)
       formData.append('stocks', data.stocks)
       formData.append('category', data.category)
+      formData.append('status', data.status)
       formData.append('image_url', data.image_url)
       Swal.showLoading()
       axios
@@ -172,6 +200,7 @@ export default new Vuex.Store({
         )
         .then(({ data }) => {
           Swal.close()
+          this.state.editProduct = null
           context.commit('DIALOG_CHANGE', false)
           this.dispatch('FETCH_USER_PRODUCTS')
           Swal.fire('Product Edited', data.msg, 'success')

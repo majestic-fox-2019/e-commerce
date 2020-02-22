@@ -46,12 +46,12 @@ export default {
   },
   computed: {
     dialog() {
-      return this.$store.state.dialogItem
+      return this.$store.state.dialogShop
     }
   },
   methods: {
     closeDialog() {
-      this.$store.commit('DIALOG_CHANGE', false)
+      this.$store.commit('DIALOG_CHANGE_SHOP', false)
     },
     createShop() {
       this.$store.dispatch('CREATE_SHOP', this.form)

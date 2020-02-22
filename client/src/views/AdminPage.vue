@@ -14,9 +14,7 @@
           <h2 class="text-center mt-5">You dont have any product now</h2>
         </div>
         <v-row v-else id="table">
-          <v-col md="6" v-for="(product, i) in products" :key="i">
-            <ItemTable :product="product"
-          /></v-col>
+          <ItemTable :products="products" />
         </v-row>
         <ItemForm />
       </v-col>

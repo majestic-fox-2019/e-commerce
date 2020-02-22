@@ -44,12 +44,16 @@
               </v-col>
               <v-col cols="12">
                 <v-select
-                  :items="['Mobil', 'Motor']"
+                  :items="['Brass', 'Battery']"
                   label="Category"
                   required
                   v-model="item.category"
                 ></v-select>
               </v-col>
+              <v-radio-group v-model="item.status" row>
+                <v-radio label="Baru" value="new"></v-radio>
+                <v-radio label="Bekas" value="second"></v-radio>
+              </v-radio-group>
               <v-col cols="12">
                 <v-file-input
                   show-size
@@ -57,6 +61,7 @@
                   v-model="item.image_url"
                 ></v-file-input>
               </v-col>
+              {{ item }}
             </v-row>
           </v-form>
         </v-container>
@@ -90,6 +95,7 @@ export default {
         price: null,
         stocks: null,
         category: null,
+        status: null,
         image_url: null
       }
     }
@@ -110,6 +116,7 @@ export default {
       this.item.stocks = null
       this.item.category = null
       this.item.image_url = null
+      this.item.status = null
       this.$store.commit('GET_EDIT_DATA', null)
       this.$store.commit('DIALOG_CHANGE', false)
     },
@@ -128,7 +135,16 @@ export default {
         this.item.price = newVal.price
         this.item.stocks = newVal.stocks
         this.item.category = newVal.category
+        this.item.status = newVal.status
         this.item.image_url = newVal.image_url
+      } else {
+        this.item.name = null
+        this.item.description = null
+        this.item.price = null
+        this.item.stocks = null
+        this.item.category = null
+        this.item.image_url = null
+        this.item.status = null
       }
     }
   }
