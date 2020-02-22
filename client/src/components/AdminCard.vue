@@ -33,8 +33,8 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">Image Url</label>
-                  <!-- <input type="file" name="file" @change="uploadImage" /> -->
+                  <!-- <label for="exampleInputPassword1">Image Url</label> -->
+                  <input type="file" name="file" @change="uploadImage" />
                   <input
                     type="text"
                     class="form-control"
@@ -123,21 +123,20 @@ export default {
       this.$store.dispatch("deleteProduct", id);
     },
     updateProduct(id) {
-      const body = {
-        id,
-        name: this.name,
-        image_url: this.image_url,
-        price: Number(this.price),
-        stock: Number(this.stock)
-      };
-      // let formData = new FormData();
-      // formData.append("id", id);
-      // formData.append("name", this.name);
-      // formData.append("price", Number(this.price));
-      // formData.append("stock", Number(this.stock));
-      // formData.append("image_url", this.image_url);
-      // console.log(formData);
-      this.$store.dispatch("updateProduct", body);
+      // const body = {
+      //   id,
+      //   name: this.name,
+      //   image_url: this.image_url,
+      //   price: Number(this.price),
+      //   stock: Number(this.stock)
+      // };
+      let formData = new FormData();
+      formData.append("id", Number(id));
+      formData.append("name", this.name);
+      formData.append("price", Number(this.price));
+      formData.append("stock", Number(this.stock));
+      formData.append("image_url", this.image_url);
+      this.$store.dispatch("updateProduct", formData);
     }
   }
 };

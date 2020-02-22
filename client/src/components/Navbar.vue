@@ -100,7 +100,7 @@
             </template>
             <router-link to="/admin">
               <!-- <a class="navbar-brand">PrekeleTech</a> -->
-              <b-dropdown-item href="/admin" v-if="checkAdmin">Product</b-dropdown-item>
+              <b-dropdown-item href="/admin">Product</b-dropdown-item>
             </router-link>
             <b-dropdown-item @click.prevent="logOut">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
@@ -114,14 +114,19 @@
 export default {
   computed: {
     checkAdmin() {
-      return localStorage.getItem("access_admin");
+      if (this.roles === "admin") {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   data() {
     return {
       name: "",
       email: "",
-      password: ""
+      password: "",
+      roles: localStorage.getItem("access_admin")
     };
   },
   methods: {
@@ -130,7 +135,7 @@ export default {
       this.email = "";
       this.password = "";
       this.name = "";
-      this.$router.push("/");
+      this.$router.push({ path: "/" });
     },
     login() {
       let obj = {

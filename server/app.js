@@ -3,7 +3,6 @@
 
 require('dotenv').config()
 const express = require('express')
-const unggah = require('unggah')
 const app = express()
 const port = 3000
 const routes = require('./routes')

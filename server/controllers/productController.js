@@ -19,7 +19,7 @@ class ProductController {
     }
 
     static update(req, res, next) {
-        console.log('okkk')
+        console.log(req.body)
         const body = {
             name: req.body.name,
             image_url: req.body.image_url,

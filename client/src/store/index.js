@@ -26,18 +26,23 @@ export default new Vuex.Store({
   },
   actions: {
     updateProduct({ commit, state, dispatch }, payload) {
-      console.log(payload.name)
+      const body = {
+        name: payload.get('name'),
+        price: payload.get('price'),
+        stock: payload.get('stock'),
+        image_url: payload.get('image_url')
+      }
       axios({
         method: 'PUT',
-        url: `${BASE_URL}/products/${payload.id}`,
+        url: `${BASE_URL}/products/${payload.get('id')}`,
         headers: {
           access_token: localStorage.getItem("access_token")
         },
-        data: payload
+        data: body
       })
         .then(({ data }) => {
           let temp = state.products.filter(el => {
-            return el.id != payload.id
+            return el.id != payload.get('id')
           })
           temp.push(data[1])
           commit("SET_PRODUCTS", temp)
@@ -100,6 +105,7 @@ export default new Vuex.Store({
         })
     },
     addProduct({ commit, state, dispatch }, payload) {
+      console.log(payload.getAll('name'), 'okk')
       axios({
         method: 'POST',
         url: `${BASE_URL}/products`,
@@ -143,6 +149,8 @@ export default new Vuex.Store({
         .then(({ data }) => {
           if (data.user.roles === 'admin') {
             localStorage.setItem("access_admin", "admin")
+          } else {
+            localStorage.setItem("access_admin", "")
           }
           localStorage.setItem('access_token', data.access_token)
           dispatch("checkLogin")
@@ -165,6 +173,11 @@ export default new Vuex.Store({
         .then(({ data }) => {
           console.log(data)
           localStorage.setItem('access_token', data.access_token)
+          if (data.user.roles === 'admin') {
+            localStorage.setItem("access_admin", "admin")
+          } else {
+            localStorage.setItem("access_admin", "")
+          }
         })
         .catch(err => {
           Swal.fire({
