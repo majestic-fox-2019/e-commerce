@@ -8,7 +8,8 @@
     "test:db": "NODE_ENV=test sequelize db:create",
     "migrate": "sequelize db:migrate",
     "migrate:reset": "sequelize db:migrate:undo:all && npm run migrate",
-    "test": "NODE_ENV=test npm run migrate:reset && jest --forceExit"
+    "test": "NODE_ENV=test npm run migrate:reset && jest --forceExit",
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
