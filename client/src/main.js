@@ -8,8 +8,8 @@ import store from './store';
 
 Vue.config.productionTip = false;
 
-Vue.prototype.$server = 'http://localhost:3000';
-// Vue.prototype.$server = 'https://upface.herokuapp.com'
+// Vue.prototype.$server = 'http://localhost:3000';
+Vue.prototype.$server = 'https://upface.herokuapp.com';
 Vue.prototype.$axios = axios;
 Vue.prototype.$swal = Swal;
 

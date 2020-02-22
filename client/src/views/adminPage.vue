@@ -55,23 +55,23 @@ export default {
     logout() {
       this.$swal
         .fire({
-          title: "Log out of Face UP?",
-          text: "You can always log back in at anytime",
-          icon: "question",
+          title: 'Log out of Face UP?',
+          text: 'You can always log back in at anytime',
+          icon: 'question',
           showCancelButton: true,
-          confirmButtonColor: "#e79796",
-          cancelButtonColor: "#ffc988",
-          confirmButtonText: "Log out"
+          confirmButtonColor: '#e79796',
+          cancelButtonColor: '#ffc988',
+          confirmButtonText: 'Log out',
         })
-        .then(result => {
+        .then((result) => {
           if (result.value) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("role");
-            this.$router.push({ name: "home" });
+            localStorage.removeItem('token');
+            localStorage.removeItem('role');
+            this.$router.push({ name: 'home' });
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -41,8 +41,8 @@ export default {
   data() {
     return {
       category: {
-        name: null
-      }
+        name: null,
+      },
     };
   },
   methods: {
@@ -51,36 +51,36 @@ export default {
     },
     addCategory() {
       this.$axios({
-        method: "post",
+        method: 'post',
         url: `${this.$server}/categories`,
         headers: {
-          token: localStorage.token
+          token: localStorage.token,
         },
         data: {
-          name: this.category.name
-        }
+          name: this.category.name,
+        },
       })
-        .then(result => {
-          window.$("#addCategory").modal("hide");
+        .then((result) => {
+          window.$('#addCategory').modal('hide');
           this.$swal.fire({
-            icon: "success",
+            icon: 'success',
             title: `Successfully added ${result.data.name}!`,
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
           this.clearForm();
-          this.$store.dispatch("allCategories");
+          this.$store.dispatch('allCategories');
         })
-        .catch(err => {
+        .catch((err) => {
           this.$swal.fire({
-            icon: "error",
+            icon: 'error',
             title: `${err.response.data[0]}`,
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -6,29 +6,29 @@
 </template>
 
 <script>
-import categories from "../components/catalog.vue";
-import modalCategory from "../components/addCategory.vue";
+import categories from '../components/catalog.vue';
+import modalCategory from '../components/addCategory.vue';
 
 export default {
   components: {
     categories,
-    modalCategory
+    modalCategory,
   },
   data() {
     return {
       image:
-        "https://cdn3.iconfinder.com/data/icons/beauty-makeup-and-fashion-1/66/2-512.png"
+        'https://cdn3.iconfinder.com/data/icons/beauty-makeup-and-fashion-1/66/2-512.png',
     };
   },
   created() {
-    this.$store.dispatch("allCategories");
+    this.$store.dispatch('allCategories');
   },
   computed: {
     getCategories() {
       console.log();
       return this.$store.state.categories;
-    }
-  }
+    },
+  },
 };
 </script>
 

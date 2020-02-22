@@ -40,8 +40,8 @@ export default {
     },
     getCategories() {
       return this.$store.state.categories;
-    }
-  }
+    },
+  },
 };
 </script>
 
