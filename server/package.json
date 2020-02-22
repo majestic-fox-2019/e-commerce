@@ -9,7 +9,8 @@
     "migrate:reset": "sequelize-cli db:migrate:undo:all && npm run migrate",
     "test": "NODE_ENV=test jest --forceExit",
     "pretest": "NODE_ENV=test npm run migrate:reset",
-    "db-testing": "NODE_ENV=test sequelize db:create"
+    "db-testing": "NODE_ENV=test sequelize db:create",
+    "start": "node app.js"
   },
   "jest": {
     "testEnvironment": "node",
