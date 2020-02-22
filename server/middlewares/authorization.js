@@ -4,7 +4,7 @@ const createError = require('http-errors')
 
 class Authorization {
 
-  static products(req, res, next){
+  static admin(req, res, next){
     User.findOne({where: { email: req.user.email}})
     .then(user => {
       if (!user){
@@ -22,7 +22,13 @@ class Authorization {
   }
 
   static cart(req, res, next){
-    Cart.findByPk(req.params.id)
+    let data = {
+      where: {
+        UserId: req.user.id,
+        ProductId: req.params.id
+      }
+    }
+    Cart.findOne(data)
     .then(cart => {
       if (!cart){
         throw createError(404, {message: "Not Found"})
