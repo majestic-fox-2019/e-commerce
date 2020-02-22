@@ -1,5 +1,9 @@
 <template>
   <b-container class="mt-5 p-5" id="detailMain">
+    <div v-if="$store.state.loading.productDetails">
+      loading
+    </div>
+    <div v-if="!$store.state.loading.productDetails">
     <h3 style="text-align:left;">{{$store.state.displayDetail.name}}</h3>
     <p style="text-align:left;">{{$store.state.displayDetail.category}}</p>
     <b-row class="prodPic-priceStock">
@@ -10,7 +14,7 @@
             <div class="mb-4">
                 <h1>{{$store.state.displayDetail.price}}</h1>
             </div>
-            <div class="my-3" id="qty" v-if="$store.state.userInfo.role !== 'admin'">
+            <div class="my-3" id="qty" v-if="$store.state.userInfo">
                 <a href="" style="margin:0;padding:0;font-size:1.5em;" class="mx-3" @click.prevent="subQty"><i class="fas fa-minus-circle"></i></a>
                 <p style="margin:0;padding:0;border-bottom:1px solid black;font-size:1.5em;">{{qty}}</p>
                 <a href="" style="margin:0;padding:0;font-size:1.5em;" class="mx-3" @click.prevent="addQty"><i class="fas fa-plus-circle"></i></a>
@@ -18,7 +22,7 @@
             <div class="mt-2">
                 <h5 style="color:#5a5a5aa2;">Available Stock: {{$store.state.displayDetail.stock}}</h5>
             </div>
-            <div class="mt-4" v-if="$store.state.userInfo.role !== 'admin'">
+            <div class="mt-4" v-if="$store.state.userInfo">
                 <b-button>Add to Cart</b-button>
             </div>
         </b-col>
@@ -31,6 +35,7 @@
             <p>{{$store.state.displayDetail.desc}}</p>
         </div>
     </b-row>
+    </div>
   </b-container>
 </template>
 
