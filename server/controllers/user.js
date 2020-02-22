@@ -106,8 +106,8 @@ class UserController {
         id: req.params.id
       }
     }
-    let userData = User.findByPk(req.params.id)
-    let userDestroy = User.destroy(userId)
+    let userData = User.findByPk(req.params.id, {hooks: false})
+    let userDestroy = User.destroy(userId, {hooks: false})
     Promise.all([userData, userDestroy])
     .then(result => {
       res.status(200).json(`Successfully deleted user ${result[0].name}`)

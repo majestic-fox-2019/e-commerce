@@ -73,16 +73,18 @@ class ProductController {
   static delete(req, res, next){
     let productId = {
       where: {
-        id: req.params.id
+        id: Number(req.params.id)
       }
     }
-    let productData = Product.findByPk(req.params.id)
-    let productDestroy = Product.destroy(productId)
+    console.log(productId, 'masuk delete')
+    let productData = Product.findByPk(Number(req.params.id), {hooks: false})
+    let productDestroy = Product.destroy(productId, {hooks: false})
     Promise.all([productData, productDestroy])
     .then(result => {
       res.status(200).json(`Successfully deleted ${result[0].name} on product`)
     })
     .catch(error => {
+      console.log(error)
       next(error)
     })
   }
