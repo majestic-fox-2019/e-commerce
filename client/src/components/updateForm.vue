@@ -33,12 +33,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-
-const server = 'https://upface.herokuapp.com';
-
 export default {
-  props: ['product'],
+  props: ["product"],
   data() {
     return {
       formUpdate: {
@@ -46,8 +42,8 @@ export default {
         image: this.product.image,
         price: this.product.price,
         stock: this.product.stock,
-        CategoryId: this.product.CategoryId,
-      },
+        CategoryId: this.product.CategoryId
+      }
     };
   },
   methods: {
@@ -55,23 +51,34 @@ export default {
       return this.$store.state.categories;
     },
     updateProduct() {
-      return axios({
-        method: 'put',
-        url: `${server}/products/${this.$route.params.id}`,
+      return this.$axios({
+        method: "put",
+        url: `${this.$server}/products/${this.$route.params.id}`,
         headers: {
-          token: localStorage.token,
+          token: localStorage.token
         },
-        data: this.formUpdate,
+        data: this.formUpdate
       })
-        .then((result) => {
-          console.log(result.data, '<<< update data');
-          this.$router.push({ path: '/admin' });
+        .then(result => {
+          this.$swal.fire({
+            icon: "success",
+            title: `Successfully update ${result.data.name}!`,
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.$router.push({ path: "/admin" });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(err => {
+          this.$swal.fire({
+            title: "We're sorry",
+            text: err.response.data,
+            icon: "question",
+            showConfirmButton: false,
+            timer: 1500
+          });
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

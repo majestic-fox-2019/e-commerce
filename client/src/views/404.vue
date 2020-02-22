@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import navbar from '../components/navbar';
+import navbar from '../components/navbar.vue';
 
 export default {
   components: {

@@ -3,16 +3,20 @@
     <div class="cont">
       <div class="form sign-in">
         <h2 class="welcome">Welcome!</h2>
-        <form v-on:submit.prevent="login">
+        <form v-on:submit.prevent="register">
+          <label>
+            <span>Name</span>
+            <input type="text" v-model="formRegister.name" required />
+          </label>
           <label>
             <span>Email</span>
-            <input type="email" v-model="formLogin.email" required />
+            <input type="email" v-model="formRegister.email" required />
           </label>
           <label>
             <span>Password</span>
-            <input type="password" v-model="formLogin.password" required />
+            <input type="password" v-model="formRegister.password" required />
           </label>
-          <button type="submit" class="submit">Sign In</button>
+          <button type="submit" class="submit">Sign Up</button>
           <button type="button" class="fb-btn">
             Connect with
             <span>Google</span>
@@ -30,9 +34,9 @@
             </router-link>
             <p>Aim to offer a quick and reliable service affordable prices and friendly!</p>
           </div>
-          <router-link to="/register">
+          <router-link to="/login">
             <div class="img__btn">
-              <span class="m--up">Sign Up</span>
+              <span class="m--up">Sign In</span>
             </div>
           </router-link>
         </div>
@@ -45,34 +49,33 @@
 export default {
   data() {
     return {
-      formLogin: {
+      formRegister: {
+        name: null,
         email: null,
         password: null,
       },
     };
   },
   methods: {
-    login() {
+    register() {
       this.$axios({
         method: 'post',
-        url: `${this.$server}/login`,
-        data: this.formLogin,
+        url: `${this.$server}/register`,
+        data: this.formRegister,
       })
-        .then((result) => {
+        .then(() => {
           this.$swal.fire({
             icon: 'success',
-            title: `Welcome ${result.data.name}`,
+            title: 'Redirect you to Login page...',
             showConfirmButton: false,
             timer: 1500,
           });
-          localStorage.setItem('token', result.data.token);
-          localStorage.setItem('role', result.data.role);
-          this.$router.push({ path: '/admin' });
+          this.$router.push({ path: '/login' });
         })
         .catch((err) => {
           this.$swal.fire({
             icon: 'error',
-            title: `${err.response.data.message}`,
+            title: `${err.response.data[0]}`,
             showConfirmButton: false,
             timer: 1500,
           });

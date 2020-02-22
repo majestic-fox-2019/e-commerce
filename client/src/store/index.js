@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 
-const server = 'https://upface.herokuapp.com';
+const server = 'http://localhost:3000';
 
 Vue.use(Vuex);
 
@@ -40,7 +40,6 @@ export default new Vuex.Store({
         headers: { token: localStorage.token },
       })
         .then((data) => {
-          console.log(data, '< ini categories');
           context.commit('ALL_CATEGORIES', data.data);
         })
         .catch((err) => {

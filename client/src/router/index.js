@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 import homePage from '../views/home.vue';
 import loginPage from '../views/login.vue';
+import registerPage from '../views/register.vue';
 import adminPage from '../views/adminPage.vue';
 import productTable from '../views/productTable.vue';
 import categories from '../views/categories.vue';
@@ -26,9 +27,16 @@ const routes = [
     meta: { isAuthenticated: false },
   },
   {
+    path: '/register',
+    name: 'registerPage',
+    component: registerPage,
+    meta: { isAuthenticated: false },
+  },
+  {
     path: '/error',
     name: 'error',
     component: error,
+    meta: { isAuthenticated: false },
   },
   {
     path: '/admin',

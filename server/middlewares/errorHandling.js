@@ -4,9 +4,9 @@ module.exports = (err, req, res, next) => {
     switch (err.name) {
       case "SequelizeValidationError":
         error.statusCode = 400
-        error.message = {}
+        error.message = []
         err.errors.forEach(er => {
-          error.message[er.path] = er.message
+          error.message.push(er.message)
         })
         throw error
         break

@@ -1,9 +1,17 @@
 import Vue from 'vue';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import App from './App.vue';
 import router from './router';
 import store from './store';
 
+
 Vue.config.productionTip = false;
+
+Vue.prototype.$server = 'http://localhost:3000';
+// Vue.prototype.$server = 'https://upface.herokuapp.com'
+Vue.prototype.$axios = axios;
+Vue.prototype.$swal = Swal;
 
 router.beforeEach((to, from, next) => {
   const isAuthenticated = to.matched.some((record) => record.meta.isAuthenticated);
@@ -12,8 +20,8 @@ router.beforeEach((to, from, next) => {
     if (localStorage.token) {
       if (localStorage.role === 'admin') {
         next({ name: 'productTable' });
-      } else if (localStorage.role === 'user') {
-        next({ name: 'error' });
+      } else {
+        next();
       }
     } else {
       next();
@@ -30,6 +38,8 @@ router.beforeEach((to, from, next) => {
     } else {
       next({ name: 'home' });
     }
+  } else {
+    next({ name: 'error' });
   }
 });
 

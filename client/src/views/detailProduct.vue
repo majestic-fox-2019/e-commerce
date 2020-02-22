@@ -36,21 +36,18 @@
 </template>
 
 <script>
-import axios from 'axios';
-import PicZoom from 'vue-piczoom';
-import updateForm from '../components/updateForm.vue';
-
-const server = 'https://upface.herokuapp.com';
+import PicZoom from "vue-piczoom";
+import updateForm from "../components/updateForm.vue";
 
 export default {
   components: {
     updateForm,
-    PicZoom,
+    PicZoom
   },
   data() {
     return {
       product: null,
-      isUpdate: false,
+      isUpdate: false
     };
   },
   mounted() {
@@ -58,42 +55,74 @@ export default {
   },
   methods: {
     getOne() {
-      return axios({
-        method: 'get',
-        url: `${server}/products/${this.$route.params.id}`,
+      return this.$axios({
+        method: "get",
+        url: `${this.$server}/products/${this.$route.params.id}`,
         headers: {
-          token: localStorage.token,
-        },
+          token: localStorage.token
+        }
       })
-        .then((result) => {
+        .then(result => {
           this.product = result.data;
-          console.log(result.data, '<<<');
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(err => {
+          this.$swal.fire({
+            title: "We're sorry",
+            text: err.response.data,
+            icon: "question",
+            showConfirmButton: false,
+            timer: 1500
+          });
         });
     },
     backToHome() {
-      return this.$router.push({ path: '/admin' });
+      return this.$router.push({ path: "/admin" });
     },
     deleteProduct() {
-      return axios({
-        method: 'delete',
-        url: `${server}/products/${this.$route.params.id}`,
-        headers: {
-          token: localStorage.token,
-        },
-      })
-        .then((result) => {
-          this.product = result.data;
-          this.$router.push({ path: '/admin' });
-          console.log(result.data, '<<<');
+      this.$swal
+        .fire({
+          title: "Are you sure?",
+          text: `You want to delete ${this.product.name}`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#e79796",
+          cancelButtonColor: "#ffc988",
+          confirmButtonText: "Yes, delete it!"
         })
-        .catch((err) => {
-          console.log(err);
+        .then(result => {
+          if (result.value) {
+            return this.$axios({
+              method: "delete",
+              url: `${this.$server}/products/${this.$route.params.id}`,
+              headers: {
+                token: localStorage.token
+              }
+            })
+              .then(result => {
+                console.log(result, "> del");
+                this.$swal.fire({
+                  title: "Deleted!",
+                  text: `${result.data.name} has been deleted.`,
+                  icon: "success",
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+                this.product = result.data;
+                this.$router.push({ path: "/admin" });
+              })
+              .catch(err => {
+                this.$swal.fire({
+                  title: "We're sorry",
+                  text: err.response.data,
+                  icon: "question",
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+              });
+          }
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

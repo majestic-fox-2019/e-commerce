@@ -17,9 +17,10 @@ class ProductController {
 
   static showProduct(req, res, next) {
     Product
-    .findAll({
-      include: Category
-    })    
+      .findAll({
+        include: Category,
+        order: [['id', 'ASC']]
+      })
       .then(products => {
         res.status(200).json(products)
       })
@@ -58,7 +59,7 @@ class ProductController {
         returning: true
       })
       .then(product => {
-        res.status(200).json(product)
+        res.status(200).json(product[1][0])
       })
       .catch(err => {
         next(err)

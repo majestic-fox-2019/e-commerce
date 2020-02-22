@@ -1,9 +1,7 @@
 <template>
   <!-- eslint-disable max-len -->
   <div class="container">
-    <h3>
-      <i class="fas fa-plus" data-toggle="modal" data-target="#addProduct"></i>PRODUCTS
-    </h3>
+    <h3>ALL PRODUCTS</h3>
     <table class="table">
       <thead>
         <tr>
@@ -25,10 +23,11 @@
           </td>
           <td>{{product.price}}</td>
           <td>{{product.stock}}</td>
-          <td>{{product.Category.name}}</td>
+          <td>{{product.Category ? product.Category.name : 'no category'}}</td>
         </tr>
       </tbody>
     </table>
+
     <!-- Modal -->
     <div
       class="modal fade"
@@ -41,8 +40,14 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addProductLabel">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <h5 class="modal-title" id="addProductLabel">Add New Product</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+              @click="clearForm()"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -74,7 +79,7 @@
                   >{{category.name}}</option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-outline-danger btn-sm">Submit</button>
             </form>
           </div>
         </div>
@@ -84,10 +89,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
-const server = 'https://upface.herokuapp.com';
-
 export default {
   data() {
     return {
@@ -97,15 +98,13 @@ export default {
         image: null,
         price: null,
         stock: null,
-        CategoryId: null,
-      },
+        CategoryId: null
+      }
     };
   },
   created() {
-    this.$store.dispatch('allProducts');
-  },
-  mounted() {
-    this.$store.dispatch('allCategories');
+    this.$store.dispatch("allProducts");
+    this.$store.dispatch("allCategories");
   },
   methods: {
     getProducts() {
@@ -115,32 +114,49 @@ export default {
       console.log();
       return this.$store.state.categories;
     },
+    clearForm() {
+      this.formAdd.name = null;
+      this.formAdd.image = null;
+      this.formAdd.price = null;
+      this.formAdd.stock = null;
+      this.formAdd.CategoryId = null;
+    },
     addProduct() {
-      console.log(this.formAdd, '< ini formnya');
-      axios({
-        method: 'post',
-        url: `${server}/products`,
+      this.$axios({
+        method: "post",
+        url: `${this.$server}/products`,
         headers: {
-          token: localStorage.token,
+          token: localStorage.token
         },
         data: {
           name: this.formAdd.name,
           image: this.formAdd.image,
           price: this.formAdd.price,
           stock: this.formAdd.stock,
-          CategoryId: this.formAdd.CategoryId,
-        },
+          CategoryId: this.formAdd.CategoryId
+        }
       })
-        .then((result) => {
-          console.log(result);
-          window.$('#addProduct').modal('hide');
-          this.$store.dispatch('allProducts');
+        .then(result => {
+          window.$("#addProduct").modal("hide");
+          this.$swal.fire({
+            icon: "success",
+            title: `Successfully added ${result.data.name}!`,
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.clearForm();
+          this.$store.dispatch("allProducts");
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(err => {
+          this.$swal.fire({
+            icon: "error",
+            title: `${err.response.data[0]}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -166,7 +182,6 @@ i {
   cursor: pointer;
 }
 .name:hover {
-  font-size: 105%;
   box-shadow: 20px;
   text-shadow: 200px;
   background-color: #f5cec7;

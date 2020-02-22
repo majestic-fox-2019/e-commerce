@@ -1,7 +1,7 @@
-const { Category } = require('../models')
+const { Category, Product } = require('../models')
 
 class CategoryController {
-  static addCategory (req, res, next) {
+  static addCategory(req, res, next) {
     let { name } = req.body
     Category
       .create({
@@ -17,7 +17,7 @@ class CategoryController {
 
   static showCategory(req, res, next) {
     Category
-      .findAll()    
+      .findAll()
       .then(category => {
         res.status(200).json(category)
       })
@@ -29,7 +29,12 @@ class CategoryController {
   static showOneCategory(req, res, next) {
     let id = req.params.id
     Category
-      .findByPk(id)
+      .findOne({
+        where: {
+          id: id
+        },
+        include: Product
+      })
       .then(category => {
         res.status(200).json(category)
       })

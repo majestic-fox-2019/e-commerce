@@ -20,9 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
-        isEmail: true,
         notNull: {
           args: true,
           msg: 'Email should not be empty!'
@@ -30,6 +28,28 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: 'Email should not be empty!'
+        },
+        isEmail: {
+          args: true,
+          msg: 'Invalid email format!'
+        },
+        unique: function (email, next) {
+          return User
+            .findOne({
+              where: {
+                email: email
+              }
+            })
+            .then(result => {
+              if (result) {
+                throw 'Email address already exist!'
+              } else {
+                next()
+              }
+            })
+            .catch(err => {
+              next(err)
+            })
         }
       }
     },
@@ -37,6 +57,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
+
         notNull: {
           args: true,
           msg: 'Password should not be empty!'
@@ -44,6 +65,10 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: 'Password should not be empty!'
+        },
+        len: {
+          args: [6, 15],
+          msg: 'Password must be between 6-15 character!'
         }
       }
     },
