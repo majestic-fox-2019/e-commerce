@@ -20,6 +20,7 @@ module.exports = {
         username: 'jhonDoe',
         email: 'jhondoe@email.com',
         password: encryptPassword('12345') ,
+        role: 'user',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -28,6 +29,7 @@ module.exports = {
         username: 'arif05rachman',
         email: 'arif05rachman@gmail.com',
         password: encryptPassword('12345'),
+        role: 'admin',
         createdAt: new Date(),
         updatedAt: new Date()
       }

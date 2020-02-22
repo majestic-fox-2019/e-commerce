@@ -40,12 +40,33 @@ export default {
         password: this.UserData.password,
       })
         .then(({ data }) => {
+          const Toast = this.$Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', this.$Swal.stopTimer);
+              toast.addEventListener('mouseleave', this.$Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully',
+          });
           localStorage.setItem('token', data.token);
           this.$store.dispatch('isLogin');
           this.$router.push({ name: 'Home' });
         })
         .catch((error) => {
-          console.log(error.response);
+          this.$Swal.fire({
+            icon: 'error',
+            title: 'Login Error',
+            text: 'Something went wrong!',
+            width: '30vw',
+            html: `${error.response.data.message}`,
+          });
         });
     },
   },

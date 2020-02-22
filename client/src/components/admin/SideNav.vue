@@ -8,7 +8,7 @@
         <hr>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <router-link to="/admin/add_product" class="nav-link">Add Product</router-link>
+            <router-link to="/admin/productadd" class="nav-link">Add Product</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/admin/product" class="nav-link">List Product</router-link>

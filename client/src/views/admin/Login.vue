@@ -3,15 +3,15 @@
       <div>
           <img src="../../assets/image/admin.png" width="100vw">
       </div>
-    <form class="form-signin">
+    <form class="form-signin" @submit.prevent="loginAdmin">
         <img class="mb-4" src="" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Admin sign in</h1>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" id="inputEmail" class="form-control" placeholder="Email address"
-         required autofocus>
+         required autofocus v-model="userData.email">
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" class="form-control"
-         placeholder="Password" required>
+         placeholder="Password" required v-model="userData.password">
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
@@ -24,6 +24,51 @@
 <script>
 export default {
   name: 'Login',
+  data() {
+    return {
+      userData: {
+        email: null,
+        password: null,
+      },
+    };
+  },
+  methods: {
+    loginAdmin() {
+      this.$axios.post('loginAdmin', {
+        email: this.userData.email,
+        password: this.userData.password,
+      })
+        .then(({ data }) => {
+          const Toast = this.$Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', this.$Swal.stopTimer);
+              toast.addEventListener('mouseleave', this.$Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully',
+          });
+          localStorage.setItem('token', data.token);
+          this.$store.dispatch('isLogin');
+          this.$router.push({ name: 'Dashboard' });
+        })
+        .catch((error) => {
+          this.$Swal.fire({
+            icon: 'error',
+            title: 'Login Error',
+            text: 'Something went wrong!',
+            width: '30vw',
+            html: `${error.response.data.message}`,
+          });
+        });
+    },
+  },
 };
 </script>
 

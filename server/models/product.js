@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notEmpty:true,
         isInt: true,
+        min: 0,
       }},
     stock: {
       type:DataTypes.INTEGER,
@@ -30,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notEmpty:true,
         isInt: true,
+        min: 0,
       }}
   }, {sequelize})
   Product.associate = function(models) {

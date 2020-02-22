@@ -33,7 +33,11 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notEmpty:true,
         }
-      }
+    },
+    role: {
+      type: DataTypes.STRING,
+      defaultValue: 'user',
+    },
   },{hooks:{
     beforeCreate(user, options){
       user.password = encryptPassword(user.password)

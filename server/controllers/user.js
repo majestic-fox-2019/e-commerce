@@ -42,7 +42,8 @@ class Controller{
                 if (comparePassword(password, data.password)) {
                     const payload = {
                         id: data.id,
-                        email:data.email
+                        email: data.email,
+                        role: data.role
                     }
                     const token = generateToken(payload)
                     res.status(200).json({token: token})
@@ -52,9 +53,65 @@ class Controller{
             }
         })
         .catch(err =>{
-            console.log(err.message)
             next(err)
         })
+    }
+    static loginAdmin(req, res, next) {
+        const { email, password } = req.body
+        User
+            .findOne({
+                where: {
+                    email: email
+                }
+            })
+            .then(data => {
+                if (!data) {
+                    throw createError(404, 'User Not Found')
+                } else {
+                    if (data.role !== 'admin') {
+                        throw createError(401, 'Unauthorized')
+                    }else
+                    if (comparePassword(password, data.password)) {
+                        const payload = {
+                            id: data.id,
+                            email: data.email,
+                            role: data.role
+                        }
+                        const token = generateToken(payload)
+                        res.status(200).json({
+                            token: token
+                        })
+                    } else {
+                        throw createError(401, 'Invalid Email or Password')
+                    }
+                }
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+    static check(req, res, next) {
+        const {
+            token
+        } = req.headers;
+        const {
+            id,
+            name,
+            email
+        } = verifyToken(token);
+        User.findOne({
+                where: {
+                    email
+                }
+            })
+            .then(result => {
+                res.status(200).json({
+                    message: "Verified!"
+                });
+            })
+            .catch(err => {
+                next(err);
+            });
     }
 }
 

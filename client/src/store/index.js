@@ -12,7 +12,7 @@ export default new Vuex.Store({
     products: null,
   },
   mutations: {
-    // Syn
+    // Sync
     login(state, payload) {
       state.isLogin = true;
       state.userLogin = payload;
@@ -26,7 +26,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    // Asyn
+    // Async
     loginStatus({ commit }) {
       if (localStorage.getItem('token')) {
         commit('login');
@@ -40,11 +40,16 @@ export default new Vuex.Store({
     },
     getAllProduct({ commit }) {
       api
-        .get('/products')
-        .then(({ data }) => {
-          commit('ALLPRODUCT', data.data);
+        .get('/products', {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
         })
-        .catch(({ err }) => {
+        .then(({ data }) => {
+          commit('ALLPRODUCT', data);
+        })
+        .catch((err) => {
+          console.log('masuk err');
           console.log(err);
         });
     },

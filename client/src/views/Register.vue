@@ -4,21 +4,21 @@
           <img src="../assets/image/logo.png" width="100vw">
       </div>
     <div>
-      <form class="form-signin">
+      <form class="form-signin" @submit.prevent="register">
         <img class="mb-4" src="" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
         <label for="inputName" class="sr-only">Name</label>
         <input type="text" id="inputName" class="form-control" placeholder="Name"
-         required autofocus>
+         required autofocus v-model="UserData.name">
         <label for="inputUsername" class="sr-only">Username</label>
         <input type="text" id="inputUsername" class="form-control" placeholder="Username"
-         required autofocus>
+         required autofocus v-model="UserData.username">
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" id="inputEmail" class="form-control" placeholder="Email address"
-         required autofocus>
+         required autofocus v-model="UserData.email">
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" class="form-control"
-         placeholder="Password" required>
+         placeholder="Password" required v-model="UserData.password">
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
       </form>
@@ -32,6 +32,53 @@
 <script>
 export default {
   name: 'Register',
+  data() {
+    return {
+      UserData: {
+        name: null,
+        username: null,
+        email: null,
+        password: null,
+      },
+    };
+  },
+  methods: {
+    register() {
+      this.$axios.post('register', {
+        name: this.UserData.name,
+        username: this.UserData.username,
+        email: this.UserData.email,
+        password: this.UserData.password,
+      })
+        .then(() => {
+          const Toast = this.$Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', this.$Swal.stopTimer);
+              toast.addEventListener('mouseleave', this.$Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully',
+          });
+          this.$router.push({ name: 'Home' });
+        })
+        .catch(({ error }) => {
+          this.$Swal.fire({
+            icon: 'error',
+            title: 'Login Error',
+            text: 'Something went wrong!',
+            width: '30vw',
+            html: `${error.response.data.message}`,
+          });
+        });
+    },
+  },
 
 };
 </script>
