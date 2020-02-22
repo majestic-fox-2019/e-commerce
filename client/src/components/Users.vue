@@ -267,15 +267,17 @@ export default {
           .set('accesstoken', this.$store.state.isLogin)
           .send(this.editedItem)
           .end((err, res) => {
+            this.alert_modal = true;
             if (err) {
               this.message_modal = res ? res.body.error : err;
             } else {
               this.message_modal = res.body.message;
-              this.editedItem.id = res.body.result.id;
+              this.editedItem = res.body.result;
               this.users.push(this.editedItem);
-              this.close();
+              setTimeout(() => {
+                this.close();
+              }, 1000);
             }
-            this.alert_modal = true;
           });
       }
     },

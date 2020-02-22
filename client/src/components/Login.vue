@@ -65,6 +65,12 @@
                     </v-btn>
                 </v-card-actions>
             </v-card>
+            <br>
+            User for demo purpose
+              <div>
+                 admin@gmail.com<br>
+                 | user@gmail.com (avaiable next week, after live code)
+                 | Password: 123</div>
             </v-col>
         </v-row>
     </v-container>

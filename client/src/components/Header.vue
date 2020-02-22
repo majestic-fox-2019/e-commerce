@@ -7,26 +7,19 @@
       <div class="d-flex align-center">
         <v-img
           alt="Logo"
-          class="shrink mr-2"
+          class="shrink"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src="@/assets/o.png"
           transition="scale-transition"
-          width="40"
+          width="20%"
         />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+        <h1 style="margin-left: -20px">Commerce</h1>
       </div>
 
       <v-spacer></v-spacer>
 
-      <div class="d-inline-flex">
+      <!-- Admin Menu -->
+      <div v-if="userLoginData.role == 'Admin'" class="d-inline-flex">
         <router-link :to="{name: 'home'}">
           <v-btn
             text
@@ -69,6 +62,30 @@
           </v-btn>
         </router-link>
       </div>
+      <!-- End Admin Menu -->
+
+
+      <!-- User Menu -->
+      <div v-if="userLoginData.role == 'User'" class="d-inline-flex">
+        <router-link :to="{name: 'ebooks_front'}">
+          <v-btn
+            text
+          >
+            <v-icon>mdi-notebook</v-icon>
+            <span class="ml-2 menu-text">Ebooks</span>
+          </v-btn>
+        </router-link>
+        <router-link :to="{name: 'tutorials_front'}">
+          <v-btn
+            text
+          >
+            <v-icon>mdi-library-video</v-icon>
+            <span class="ml-2 menu-text">Tutorials</span>
+          </v-btn>
+        </router-link>
+      </div>
+      <!-- End User Menu -->
+
       <v-btn
         text
         v-if="isLogin"
@@ -92,10 +109,23 @@ export default {
       this.$store.commit('setIsLogin', false);
       this.login();
     },
+    parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      return JSON.parse(atob(base64));
+    },
   },
   computed: {
     isLogin() {
       return this.$store.state.isLogin;
+    },
+    userLoginData() {
+      if (this.isLogin) {
+        return this.parseJwt(this.isLogin);
+      }
+      return {
+        role: 'User',
+      };
     },
   },
 };

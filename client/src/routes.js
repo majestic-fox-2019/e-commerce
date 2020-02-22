@@ -7,6 +7,7 @@ import Home from './components/Home.vue';
 import Users from './components/Users.vue';
 import Register from './components/Register.vue';
 import Banners from './components/Banners.vue';
+import EbooksFront from './components/EbooksFront.vue';
 
 Vue.use(VueRouter);
 
@@ -50,6 +51,16 @@ const routes = [
     component: Banners,
     name: 'banners',
     meta: { requiresAuth: true },
+  },
+  {
+    path: '/ebooks',
+    component: EbooksFront,
+    name: 'ebooks_front',
+  },
+  {
+    path: '/tutorials',
+    component: EbooksFront,
+    name: 'tutorials_front',
   },
 ];
 

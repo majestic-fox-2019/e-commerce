@@ -10,7 +10,7 @@ class UserController {
             })
             .then(user => {
                 if (user && compare(password, user.password)) {
-                    let token = generateToken({email});
+                    let token = generateToken({email, role: user.role});
                     res.status(200).json({token})
                 }else{
                     throw{
@@ -29,7 +29,7 @@ class UserController {
         User
             .create({email, password, role})
             .then((result) => {
-                res.status(201).json(result);
+                res.status(201).json({result, message: 'Success add User'});
             }).catch((err) => {
                 next(err);
             });        
