@@ -82,6 +82,7 @@ describe('POST /products', () => {
       price: '40000',
       stocks: 6,
       category: 'Baju',
+      status: 'new',
       image_url: 'http://gambar.com'
     }
     request(app)
@@ -163,6 +164,7 @@ describe('PUT /products/:id', () => {
       price: '40000',
       stocks: 7,
       category: 'Baju',
+      status: 'new',
       image_url: 'http://gambar.com'
     }
     request(app)
