@@ -699,3 +699,190 @@ server : https://disekrip-cms.herokuapp.com/
     "error": "Product doesn't exist!"
 }
 ```
+
+# Route Products
+
+| Route      | Method | Params          | Description                                        |
+| ---------- | ------ | --------------- | -------------------------------------------------- |
+| /categories/     | GET    | none            | get all categories
+| /categories/ | POST | none | create category
+
+## 1. Path categories/ (Get METHOD) // Get Categories
+
+## Authentication
+  Headers **token** is required
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/categoies/)
+```
+## Request Body
+**Request Body** is empty.
+
+
+## Parameter
+**Parameter** is empty.
+
+## Query String
+| Query       | Data type |
+| ----------- | --------- |
+| status(category_name) | String |
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+[
+    {
+        "id": 1,
+        "category_name": "Elektronik",
+        "createdAt": "2020-02-22T09:59:48.617Z",
+        "updatedAt": "2020-02-22T09:59:48.617Z"
+    },
+    {
+        "id": 2,
+        "category_name": "Fashion",
+        "createdAt": "2020-02-22T09:59:48.617Z",
+        "updatedAt": "2020-02-22T09:59:48.617Z"
+    },
+    {
+        "id": 3,
+        "category_name": "ATK",
+        "createdAt": "2020-02-22T09:59:48.617Z",
+        "updatedAt": "2020-02-22T09:59:48.617Z"
+    }
+]
+```
+## 2. Status Code 200 (Product is empty!)
+
+```javascript
+{
+    message : 'Category is empty!'
+}
+```
+
+## 2. Path categories/admin (POST METHOD) // Create Category
+
+## Authentication
+  Headers **token** is required
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/categoies/)
+```
+## Request Body
+| Field       | Data type | Validation Type
+| ----------- | --------- | ---------
+| category_name       | STRING    | required
+
+
+## Parameter
+**Parameter** is empty.
+
+## Query String
+**Query string** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+{
+    "id": 4,
+    "category_name": "gadget",
+    "updatedAt": "2020-02-22T13:57:32.608Z",
+    "createdAt": "2020-02-22T13:57:32.608Z"
+}
+```
+## 2. Status Code 400 (Request Body Doesnt Complete The Validation)
+
+```javascript
+{
+    "category_name": "Category name is required!"
+}
+```
+
+## 3. Path categories/admin/:category_id (PUT METHOD) // Update Category
+
+## Authentication
+  Headers **token** is required
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/categoies/)
+```
+## Request Body
+| Field       | Data type | Validation Type
+| ----------- | --------- | ---------
+| category_name       | STRING    | required
+
+## Parameter
+**Parameter** is empty.
+
+## Query String
+**Query string** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+{
+    "id": 4,
+    "category_name": "Gadgets",
+    "createdAt": "2020-02-22T13:57:32.608Z",
+    "updatedAt": "2020-02-22T14:09:32.415Z"
+}
+```
+## 2. Status Code 400 (Request Body Doesnt Complete The Validation)
+
+```javascript
+{
+    "category_name": "Category name is required!"
+}
+```
+
+## 3. Path categories/admin/:category_id (DELETE METHOD) // Delete Category
+
+## Authentication
+  Headers **token** is required
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/categoies/)
+```
+## Request Body
+| Field       | Data type | Validation Type
+| ----------- | --------- | ---------
+| category_name       | STRING    | required
+
+## Parameter
+**Parameter** is empty.
+
+## Query String
+**Query string** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+{
+    "id": 4,
+    "category_name": "Gadgets",
+    "createdAt": "2020-02-22T13:57:32.608Z",
+    "updatedAt": "2020-02-22T14:09:32.415Z"
+}
+```
+## 2. Status Code 400 (Request Body Doesnt Complete The Validation)
+
+```javascript
+{
+    "category_name": "Category name is required!"
+}
+```
