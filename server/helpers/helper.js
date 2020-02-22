@@ -19,7 +19,7 @@ const hash = (plain) => {
 }
 
 const sign = (payload) => {
-    return jwt.sign(payload, process.env.JWT_SECRET)
+    return jwt.sign(payload, 'test' /*process.env.JWT_SECRET*/)
 }
 
 module.exports = {

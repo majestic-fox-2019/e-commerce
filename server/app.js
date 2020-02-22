@@ -17,3 +17,5 @@ app
     .use(errorHanding)
 
 app.listen(PORT, () => console.log(`Server runnin on PORT ${PORT}`))
+
+// module.exports = app

@@ -43,7 +43,6 @@ class UserController {
     }
 
     static postUser(req, res, next) {
-        console.log('Masuk')
         const options = {
             where: {
                 email: req.body.email
@@ -63,11 +62,11 @@ class UserController {
                 }
             })
             .then(user => {
-                console.log(user)
+                // console.log(user)
                 if (typeof user === 'string') {
-                    res.status(200).json({ message: user })
+                    res.status(409).json({ message: user })
                 } else {
-                    res.status(200).json(user)
+                    res.status(201).json(user)
                 }
             })
             .catch(err => {
