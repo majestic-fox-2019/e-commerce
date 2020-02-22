@@ -60,6 +60,7 @@ export default {
       })
         .then(resultLogiAdmin => {
           localStorage.setItem("token", resultLogiAdmin.data);
+          this.$store.dispatch("cekAdmin");
           this.$router
             .push({
               path: "/dashboard"

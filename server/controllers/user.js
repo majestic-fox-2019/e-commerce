@@ -16,7 +16,7 @@ class ControllerUser {
         role: member
       })
       .then(registerUser => {
-        const token = jwt.sign({ email: registerUser.email, id: registerUser.id }, 'edo tensi')
+        const token = jwt.sign({ email: registerUser.email, id: registerUser.id }, process.env.EDOTENSI)
         // res.status(200).json(token)
         res.status(201).json(token)
       })
@@ -43,7 +43,7 @@ class ControllerUser {
         role: admin
       })
       .then(registerAdmin => {
-        const token = jwt.sign({ email: registerAdmin.email, id: registerAdmin.id }, 'edo tensi')
+        const token = jwt.sign({ email: registerAdmin.email, id: registerAdmin.id }, process.env.EDOTENSI)
         res.status(200).json(token)
       })
       .catch((err) => {
@@ -67,7 +67,7 @@ class ControllerUser {
           res.status(401).json({ message: "Unauthorized" })
         } else {
           if (bcyrpt.compareSync(password, user.password)) {
-            const token = jwt.sign({ email: user.email, id: user.id, role: use.role }, 'edo tensi')
+            const token = jwt.sign({ email: user.email, id: user.id, role: use.role }, process.env.EDOTENSI)
             res.status(200).json(token)
           } else {
             res.status(401).json({ message: "Unauthorized" })
@@ -89,7 +89,7 @@ class ControllerUser {
           res.status(401).json({ message: "Unauthorized" })
         } else {
           if (bcyrpt.compareSync(password, user.password)) {
-            const token = jwt.sign({ email: user.email, id: user.id, role: user.role }, 'edo tensi')
+            const token = jwt.sign({ email: user.email, id: user.id, role: user.role }, process.env.EDOTENSI)
             res.status(200).json(token)
           } else {
             res.status(401).json({ message: "Unauthorized" })

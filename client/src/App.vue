@@ -31,20 +31,31 @@ import jwt from "jsonwebtoken";
 export default {
   data() {
     return {
-      isAdmin: false,
-      curentPath: this.$route.path
+      // isAdmin: false
     };
+  },
+  computed: {
+    isAdmin() {
+      return this.$store.state.isAdmin;
+    }
   },
   mounted() {
     this.cekAdmin();
+    // this.$store.commit('isAdmin', true)
   },
   methods: {
     cekAdmin() {
       let token = localStorage.getItem("token");
       if (!token) return;
       const user = jwt.verify(token, "edo tensi");
+
+      console.log(user, "<<<<<<<<<<< cekAdmin");
       if (user.role == "admin") {
-        isAdmin = true;
+        // this.isAdmin = true;
+        this.$store.commit("isAdmin", true);
+      } else {
+        // this.isAdmin = false;
+        this.$store.commit("isAdmin", false);
       }
     }
   }

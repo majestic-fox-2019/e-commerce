@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import jwt from 'jsonwebtoken'
 
 Vue.use(Vuex)
 
@@ -8,14 +9,36 @@ const server = `http://localhost:3000`
 
 export default new Vuex.Store({
   state: {
-    items: []
+    items: [],
+    isAdmin: false
   },
   mutations: {
     allItem(state, payload) {
       state.items = payload
+    },
+    // isAdmin() {
+    // state.isAdmin = true
+    isAdmin(state, payload) {
+      console.log('payload', payload)
+      state.isAdmin = payload
     }
+    // }
   },
   actions: {
+    cekAdmin(context) {
+      let token = localStorage.getItem("token");
+      // if (!token) return;
+
+      const user = token ? jwt.verify(token, "edo tensi") : null
+      console.log(user, "<<<<<<<<<<< cekAdmin");
+      if (user && user.role == "admin") {
+        // this.isAdmin = true;
+        context.commit("isAdmin", true);
+      } else {
+        // this.isAdmin = false;
+        context.commit("isAdmin", false);
+      }
+    },
     getAllItem(context) {
       console.log('mulai fetch')
       axios({

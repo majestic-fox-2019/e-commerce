@@ -4,7 +4,7 @@ const errors = require('http-errors')
 module.exports = (req, res, next) => {
   const token = req.headers.token
   try {
-    const user = jwt.verify(token, 'edo tensi')
+    const user = jwt.verify(token, process.env.EDOTENSI)
     req.user = user
     User.findOne({ where: { id: user.id } })
       .then(userData => {

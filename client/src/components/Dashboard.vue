@@ -234,6 +234,7 @@ export default {
     },
     logoutAdmin() {
       localStorage.clear();
+      this.$store.dispatch("cekAdmin");
       this.$router.push({
         path: "/"
       });
