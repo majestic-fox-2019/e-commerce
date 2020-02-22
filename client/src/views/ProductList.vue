@@ -189,7 +189,7 @@
                 <div class="form-group">
                   <label for="price">Password</label>
                   <input v-model="formAddUser.password"
-                  type="text" class="form-control" id="price">
+                  type="password" class="form-control" id="price">
                 </div>
                 <div class="form-group">
                   <label for="stock">Role</label>
@@ -470,6 +470,9 @@ export default {
 </script>
 
 <style scoped>
+input {
+  font-family: 'Courier New', Courier, monospace;
+}
 
 body {
   background: #ffea92;
