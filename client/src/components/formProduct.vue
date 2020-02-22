@@ -47,12 +47,13 @@
                 <div class="form-group">
                   <label for="exampleFormControlSelect1">Category</label>
                   <select v-model="category" class="form-control" id="add-category">
-                    <option>baju</option>
-                    <option>celana</option>
-                    <option>jaket</option>
-                    <option>sepatu</option>
-                    <option>sandal</option>
-                    <option>tas</option>
+                    <option>Pakaian Pria</option>
+                    <option>Pakaian Wanita</option>
+                    <option>Sepatu Pria</option>
+                    <option>Sepatu Wanita</option>
+                    <option>Tas Pria</option>
+                    <option>Tas Wanita</option>
+                    <option>Aksesoris</option>
                   </select>
                 </div>
                 <label for="validationServer03">Image Url :</label>
