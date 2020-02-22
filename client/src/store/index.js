@@ -5,25 +5,26 @@ import jwt from 'jsonwebtoken'
 Vue.use(Vuex)
 
 import axios from 'axios'
-// const server = `http://localhost:3000`
-const server = `https://mysterious-plains-04294.herokuapp.com`
+const server = `http://localhost:3000`
+// const server = `https://mysterious-plains-04294.herokuapp.com`
 
 export default new Vuex.Store({
   state: {
     items: [],
-    isAdmin: false
+    isAdmin: false,
+    isMember: false
   },
   mutations: {
     allItem(state, payload) {
       state.items = payload
     },
-    // isAdmin() {
-    // state.isAdmin = true
     isAdmin(state, payload) {
       console.log('payload', payload)
       state.isAdmin = payload
+    },
+    isMember(state, payload) {
+      state.isMember = payload
     }
-    // }
   },
   actions: {
     cekAdmin(context) {
@@ -37,6 +38,7 @@ export default new Vuex.Store({
         context.commit("isAdmin", true);
       } else {
         // this.isAdmin = false;
+        context.commit('isMember', true)
         context.commit("isAdmin", false);
       }
     },

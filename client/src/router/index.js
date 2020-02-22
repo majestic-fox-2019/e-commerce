@@ -33,8 +33,10 @@ const routes = [
         console.log(user.role)
         if (user.role == 'admin') {
           next()
-        } else {
+        } else if (user.role == 'member') {
           // console.log('404')
+          next('/')
+        } else {
           next('/404')
         }
       }

@@ -8,7 +8,9 @@
       <div id="login-content">
         <div id="login-social-content">
           <h3>Masuk ke akun Anda</h3>
-          <div id="imgSigninGoogle">Google SignIn</div>
+          <div id="imgSigninGoogle">
+            <img src="@/assets/btn_google_signin_light_normal_web.png" alt />
+          </div>
           <p>Kami tidak akan posting atas nama Anda atau membagikan informasi apapun tanpa persetujuan Anda.</p>
         </div>
         <form @submit.prevent="loginAdmin">
@@ -44,8 +46,9 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
-// const server = `http://localhost:3000`;
-const server = `https://mysterious-plains-04294.herokuapp.com`;
+import firebase from "firebase";
+const server = `http://localhost:3000`;
+// const server = `https://mysterious-plains-04294.herokuapp.com`;
 export default {
   data: function() {
     return {
@@ -59,11 +62,15 @@ export default {
     loginAdmin() {
       axios({
         method: "post",
-        url: `${server}/users/login/admin`,
+        url: `${server}/users/login`,
         data: this.dataLogin
       })
         .then(resultLogiAdmin => {
           localStorage.setItem("token", resultLogiAdmin.data);
+          console.log(
+            resultLogiAdmin.data,
+            "<<<<<<<<<<<<<<<<< cek login dari client"
+          );
           this.$store.dispatch("cekAdmin");
           this.$router
             .push({
@@ -82,12 +89,62 @@ export default {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Something went wrong!",
-            footer: "<a href>Why do I have this issue?</a>"
+            text: "Something went wrong!"
+            // footer: "<a href>Why do I have this issue?</a>"
           });
           console.log(err.message);
         });
     }
+    // googleSignIn() {
+    //   var provider = new firebase.auth.GoogleAuthProvider();
+    //   firebase
+    //     .auth()
+    //     .signInWithPopup(provider)
+    //     .then(function(result) {
+    //       // This gives you a Google Access Token. You can use it to access the Google API.
+    //       var token = result.credential.accessToken;
+    //       // The signed-in user info.
+    //       var user = result.user;
+    //       // ...
+    //       return axios({
+    //         method: "post",
+    //         url: `${server}/users/googleLogin`,
+    //         data: {
+    //           name: user.displayName,
+    //           email: user.email
+    //         }
+    //       });
+    //     })
+    //     .then(({ data }) => {
+    //       localStorage.setItem("token", data.token);
+    //       console.log(data.token, "<<<<<<<<<<<<<<<<<<<");
+    // this.$emit("googleSign");
+    // this.$store.dispatch("cekAdmin");
+    // this.$router
+    //   .push({
+    //     path: "/dashboard"
+    //   })
+    //   .catch(_ => {});
+    // Swal.fire({
+    //   position: "center",
+    //   icon: "success",
+    //   title: "Welcome",
+    //   showConfirmButton: false,
+    //   timer: 1500
+    // });
+    // })
+    // .catch(function(error) {
+    //   // Handle Errors here.
+    //   var errorCode = error.code;
+    //   var errorMessage = error.message;
+    //   // The email of the user's account used.
+    //   var email = error.email;
+    //   // The firebase.auth.AuthCredential type that was used.
+    //   var credential = error.credential;
+    //   // ...
+    //   console.log(error);
+    // });
+    // }
   }
 };
 </script>
@@ -140,6 +197,12 @@ export default {
   border-bottom: 1px solid gray;
   margin-bottom: 2em;
 }
+#login-social-conten,
+p {
+  font-size: 0.8em;
+  font-weight: 100;
+}
+
 #imgSigninGoogle {
   width: 100%;
 }
@@ -148,5 +211,9 @@ export default {
   background-color: #000;
   color: #fff;
   border-radius: none;
+}
+#imgSigninGoogle {
+  cursor: pointer;
+  margin-bottom: 1em;
 }
 </style>

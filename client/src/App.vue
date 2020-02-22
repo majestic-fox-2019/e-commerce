@@ -19,6 +19,7 @@
           <router-link to="/login">
             <i class="far fa-user"></i>
           </router-link>
+          <!-- <i class="fas fa-sign-out-alt" @click="logoutMember"></i> -->
         </div>
       </div>
     </nav>
@@ -37,26 +38,35 @@ export default {
   computed: {
     isAdmin() {
       return this.$store.state.isAdmin;
+    },
+    isMember() {
+      return this.$store.state.isMember;
     }
   },
   mounted() {
-    this.cekAdmin();
+    // this.cekAdmin();
     // this.$store.commit('isAdmin', true)
   },
   methods: {
-    cekAdmin() {
-      let token = localStorage.getItem("token");
-      if (!token) return;
-      const user = jwt.verify(token, "edo tensi");
-
-      if (user.role == "admin") {
-        // this.isAdmin = true;
-        this.$store.commit("isAdmin", true);
-      } else {
-        // this.isAdmin = false;
-        this.$store.commit("isAdmin", false);
-      }
+    logoutMember() {
+      localStorage.clear();
+      // this.$store.dispatch("cekAdmin");
+      // this.$router.push({
+      //   path: "/"
+      // });
     }
+    // cekAdmin() {
+    //   let token = localStorage.getItem("token");
+    //   if (!token) return;
+    //   const user = jwt.verify(token, "edo tensi");
+    //   if (user.role == "admin") {
+    //     // this.isAdmin = true;
+    //     this.$store.commit("isAdmin", true);
+    //   } else {
+    //     // this.isAdmin = false;
+    //     this.$store.commit("isAdmin", false);
+    //   }
+    // }
   }
 };
 </script>
