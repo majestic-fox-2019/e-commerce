@@ -1,17 +1,21 @@
 <template>
+<div class="bodytemplate">
   <v-app>
     <navbar></navbar>
     <!-- LOGIN AND REGISTER FORM -->
     <loginregister v-if="!alreadyLogin">
     </loginregister>
+    <update v-if="isUpdated"></update>
     <homepage></homepage>
   </v-app>
+</div>
 </template>
 
 <script>
 import loginregister from './components/loginregister.vue';
 import navbar from './components/navbar.vue';
 import homepage from './components/homepage.vue';
+import update from './components/update.vue';
 
 export default {
   name: 'App',
@@ -23,20 +27,27 @@ export default {
     alreadyLogin() {
       return this.$store.state.isLogin;
     },
+    isUpdated() {
+      return this.$store.state.isUpdate;
+    },
   },
   components: {
     loginregister,
     navbar,
     homepage,
+    update,
   },
 };
 </script>
 
 <style>
-.container {
-  margin-top: 5%
+header {
+  height: 80px;
 };
-v-app {
-  margin: 100%;
-}
+.container {
+  margin-top: 5%;
+};
+.bodytemplate {
+  margin: 0%;
+};
 </style>

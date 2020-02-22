@@ -19,11 +19,31 @@ const store = new Vuex.Store({
   state: {
     url_base: 'http://localhost:3000',
     isLogin: localStorage.getItem('token'),
+    idUpdate: null,
+    nameUpdate: null,
+    image_urlUpdate: null,
+    priceUpdate: null,
+    stockUpdate: null,
+    isUpdate: false,
+    dataUpdate: {},
   },
   mutations: {
     loginsetter(state, alreadyLogin) {
       state.isLogin = alreadyLogin;
     },
+    dataUpdate(state, dataUpdate) {
+      state.idUpdate = dataUpdate.id;
+      state.nameUpdate = dataUpdate.name;
+      state.image_urlUpdate = dataUpdate.image_url;
+      state.priceUpdate = dataUpdate.price;
+      state.stockUpdate = dataUpdate.stock;
+      state.isUpdate = true;
+      console.log(dataUpdate, 'ini nihh state', state.isUpdate, 'awkakwakwka');
+    },
+    // isupdate(state, status) {
+    //   state.isUpdate = status
+    //   console.log();
+    // }
   },
 });
 

@@ -11,16 +11,10 @@
           width="40"
         />
         <p>
-        E-Commerce
+        Kopinang Kau
         </p>
       </div>
       <v-spacer></v-spacer>
-        <v-sheet
-    height="400"
-    class="overflow-hidden"
-    style="position: relative;"
-  >
-        </v-sheet>
       <v-spacer></v-spacer>
       <div v-if="alreadyLogin">
        <v-btn text @click="logoutHidden">

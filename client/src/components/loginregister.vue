@@ -135,3 +135,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.v-input {
+  width: 70em;
+  max-width: 500%;
+}
+
+</style>
