@@ -10,7 +10,7 @@ $ cd ../server & cd ../client
 
 run script from packages by using the comment bellow on server and client
 ```sh
-$ npm start-dev // on server
+$ npm start// on server
 $ npm run serve // on client http://localhost:8080
 ```
 
