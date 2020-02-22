@@ -7,7 +7,8 @@ import router from '../router'
 
 Vue.use(Vuex)
 
-let baseURL = 'http://localhost:3000'
+// let baseURL = 'http://localhost:3000'
+let baseURL = 'https://ecomm-km.herokuapp.com'
 
 export default new Vuex.Store({
   state: {
@@ -270,6 +271,49 @@ export default new Vuex.Store({
       .then(({ data }) => {
         context.commit('SET_PRODUCTPAGE', 'list')
         context.dispatch('getProducts')
+      })
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error :',
+          text: error.response.data.error,
+        })
+        console.log(error.response.data.error)
+      })
+    },
+
+    registeradmin(context, payload) {
+      axios({
+        url: `${baseURL}/register`,
+        method: 'POST',
+        data: {
+          name: payload.name,
+          email: payload.email,
+          password: payload.password,
+          address: payload.address,
+          phone: payload.phone,
+          role: payload.role,
+        }
+      })
+      .then(({ data }) => {
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('email', data.email)
+        localStorage.setItem('role', data.role)
+        context.commit('SET_PAGE', 'home')
+        context.commit('SET_ISLOGIN', true)
+        if(data.role === 'user') {
+          router.push('/')
+        } else {
+          router.push('/product')
+        }
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Success register ' + data.email,
+          showConfirmButton: false,
+          timer: 1500
+        })
+
       })
       .catch(error => {
         Swal.fire({
