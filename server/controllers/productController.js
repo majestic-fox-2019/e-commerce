@@ -5,7 +5,7 @@ const axios = require('axios')
 class ProductController {
 
   static getAllProducts(req, res, next){
-    const productName = req.query.name
+    const productName = req.query.name || ''
 
     Product
       .findAll({

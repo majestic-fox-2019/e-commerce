@@ -15,6 +15,7 @@ server : https://disekrip-cms.herokuapp.com/
 | /users/admin/login     | POST    | none            | Login local
 | /users/admin/:user_id     | PUT    | user_id            | Update user data admin only
 | /users/admin/:user_id     | DELETE    | user_id            | Delete user data admin only
+| /users/detail/:user_id     | GET    | user_id            | Get user detail
 
 ## 1. Path users/register (POST METHOD) // Register User
 
@@ -116,7 +117,7 @@ server : https://disekrip-cms.herokuapp.com/
 ## 2. Status Code 200 But user is empty
 
 ```javascript
-User is empty!
+"User is empty!"
 ```
 
 ## 3. Path users/admin (POST METHOD) // Create Admin
@@ -358,4 +359,343 @@ User is empty!
 
 ```javascript
 "User doesn't exist!"
+```
+
+# Route Products
+
+| Route      | Method | Params          | Description                                        |
+| ---------- | ------ | --------------- | -------------------------------------------------- |
+| /products/     | POST    | none            | get all products
+| /products/admin | POST | none | Create Products
+| /products/admin/:product_id | PUT | product_id | Update products
+| /products/admin/:product_id | PATCH | product_id | Update status products into published or unpublished
+| /products/admin/:product_id | DELETE | product_id | Delete products
+| /products/detail/:product_id | GET | product_id | Get products id
+
+## 1. Path products/ (Get METHOD) // Get Products
+
+## Authentication
+  Headers **token** is required
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/products/)
+```
+## Request Body
+**Request Body** is empty.
+
+
+## Parameter
+**Parameter** is empty.
+
+## Query String
+| Query       | Data type |
+| ----------- | --------- |
+| name | String |
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+[
+    {
+        "id": 1,
+        "name": "Hp xiaomi",
+        "image_url": "https://storage.googleapis.com/storage-example/arona/1582366208791.png",
+        "price": 200000,
+        "stock": 1,
+        "CategoryId": 1,
+        "description": "1",
+        "status_product": "published",
+        "createdAt": "2020-02-22T10:10:09.181Z",
+        "updatedAt": "2020-02-22T10:10:09.181Z",
+        "Category": {
+            "id": 1,
+            "category_name": "Elektronik",
+            "createdAt": "2020-02-22T09:59:48.617Z",
+            "updatedAt": "2020-02-22T09:59:48.617Z"
+        }
+    }
+]
+```
+## 3. Status Code 200 (Product is empty!)
+
+```javascript
+{
+    "message": "Product is empty!"
+}
+```
+
+## 2. Path products/admin (POST METHOD) // Create Products
+
+## Authentication
+  Headers **token** is required
+
+## Authorization
+ **Admin** Only
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/users/admin)
+```
+## Request Body
+| Field       | Data type | Validation Type
+| ----------- | --------- | ---------
+| name       | STRING    | required
+| image_url | STRING    | -
+| price      | INTEGER   | required & must be a number
+| stock      | INTEGER   | required & must be a number
+| CategoryId      | INTEGER   | required
+| description      | INTEGER   | required
+| status_product      | INTEGER   | (default value is published)
+
+## Parameter
+**Parameter** is empty.
+
+## Query String
+**Query String** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+{
+    "id": 3,
+    "name": "Hp baru",
+    "image_url": "https://storage.googleapis.com/storage-example/arona/1582366208791.png",
+    "price": 100000,
+    "stock": 10,
+    "CategoryId": 2,
+    "description": "Hp baru nih",
+    "status_product": "published",
+    "updatedAt": "2020-02-22T13:10:44.649Z",
+    "createdAt": "2020-02-22T13:10:44.649Z"
+}
+```
+## 2. Status Code 400 (Request Body Doesnt Complete The Validation)
+
+```javascript
+{
+    "name": "Product name is required!",
+    "price": "Price must be a number!",
+    "stock": "Stock must be a number!",
+    "CategoryId": "Category is required!",
+    "description": "Description is required!"
+}
+```
+
+## 3. Path products/admin/:product_id (PUT METHOD) // Create Products
+
+## Authentication
+  Headers **token** is required
+
+## Authorization
+ **Admin** Only
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/products/admin/:product_id)
+```
+## Request Body
+| Field       | Data type | Validation Type
+| ----------- | --------- | ---------
+| name       | STRING    | required
+| image_url | STRING    | -
+| price      | INTEGER   | required & must be a number
+| stock      | INTEGER   | required & must be a number
+| CategoryId      | INTEGER   | required
+| description      | INTEGER   | required
+| status_product      | INTEGER   | (default value is published)
+
+## Parameter
+**Parameter** is empty.
+
+## Query String
+**Query String** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+{
+    "id": 3,
+    "name": "Hp baru update",
+    "image_url": "https://storage.googleapis.com/storage-example/arona/1582366208791.png",
+    "price": 100000,
+    "stock": 10,
+    "CategoryId": 2,
+    "description": "Hp baru nih",
+    "status_product": "published",
+    "updatedAt": "2020-02-22T13:10:44.649Z",
+    "createdAt": "2020-02-22T13:10:44.649Z"
+}
+```
+## 2. Status Code 400 (Request Body Doesnt Complete The Validation)
+
+```javascript
+{
+    "name": "Product name is required!",
+    "price": "Price must be a number!",
+    "stock": "Stock must be a number!",
+    "CategoryId": "Category is required!",
+    "description": "Description is required!"
+}
+```
+
+## 3. Status Code 404 (Products Not Found)
+
+```javascript
+{
+    "error": "Product doesn't exist!"
+}
+```
+
+## 4. Path products/admin/:product_id (PATCH METHOD) // Update Status Products
+
+## Authentication
+  Headers **token** is required
+
+## Authorization
+ **Admin** Only
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/products/admin/:product_id)
+```
+## Request Body
+**Request body** is empty.
+
+## Parameter
+**Parameter** is empty.
+
+## Query String
+**Query String** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+{
+    "id": 2,
+    "name": "Hp xiamo 2",
+    "image_url": "",
+    "price": 20000,
+    "stock": 1,
+    "CategoryId": 1,
+    "description": "111",
+    "createdAt": "2020-02-22T10:12:53.835Z",
+    "updatedAt": "2020-02-22T13:18:31.849Z",
+    "status_product": "unpublished"
+}
+```
+## 2. Status Code 404 (Products Not Found)
+
+```javascript
+{
+    "error": "Product doesn't exist!"
+}
+```
+
+## 5. Path products/admin/:product_id (DELETE METHOD) // Delete Products
+
+## Authentication
+  Headers **token** is required
+
+## Authorization
+ **Admin** Only
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/products/admin/:product_id)
+```
+## Request Body
+**Request body** is empty.
+
+## Parameter
+**Parameter** is empty.
+
+## Query String
+**Query String** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+{
+    "id": 2,
+    "name": "Hp xiamo 2",
+    "image_url": "",
+    "price": 20000,
+    "stock": 1,
+    "CategoryId": 1,
+    "description": "111",
+    "createdAt": "2020-02-22T10:12:53.835Z",
+    "updatedAt": "2020-02-22T13:18:31.849Z",
+    "status_product": "unpublished"
+}
+```
+## 2. Status Code 404 (Products Not Found)
+
+```javascript
+{
+    "error": "Product doesn't exist!"
+}
+```
+
+## 6. Path products/detail/:product_id (GET METHOD) // Delete Products
+
+## Authentication
+  Headers **token** is required
+
+## Authorization
+ **Admin** Only
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/products/detail/:product_id)
+```
+## Request Body
+**Request body** is empty.
+
+## Parameter
+**Parameter** is empty.
+
+## Query String
+**Query String** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+{
+    "id": 1,
+    "name": "Hp xiaomi",
+    "image_url": "https://storage.googleapis.com/storage-example/arona/1582366208791.png",
+    "price": 200000,
+    "stock": 1,
+    "CategoryId": 1,
+    "description": "1",
+    "status_product": "published",
+    "createdAt": "2020-02-22T10:10:09.181Z",
+    "updatedAt": "2020-02-22T10:10:09.181Z"
+}
+```
+## 2. Status Code 404 (Products Not Found)
+
+```javascript
+{
+    "error": "Product doesn't exist!"
+}
 ```
