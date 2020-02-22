@@ -48,11 +48,12 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Please enter product stock"
         }
       }
-    }
+    },
+    CategoryId: DataTypes.INTEGER
   }, { sequelize })
 
   Product.associate = function (models) {
-    // associations can be defined here
+    Product.belongsTo(models.Category)
   };
   return Product;
 };

@@ -1,16 +1,17 @@
-const { Product } = require('../models')
+const { Product, Category } = require('../models')
 const createError = require('http-errors')
 
 class ProductController {
     static addItem(req, res, next) {
-        const { name, image_url, price, stock } = req.body
+        const { name, image_url, price, stock, CategoryId } = req.body
 
         Product
             .create({
                 name,
                 image_url,
                 price,
-                stock
+                stock,
+                CategoryId
             })
             .then(item => {
                 res.status(201).json(item)
@@ -20,7 +21,9 @@ class ProductController {
 
     static listProduct(req, res, next) {
         Product
-            .findAll()
+            .findAll({
+                include: [Category]
+            })
             .then(products => {
                 res.status(200).json(products)
             })
@@ -48,7 +51,8 @@ class ProductController {
             name: req.body.name,
             image_url: req.body.image_url,
             price: req.body.price,
-            stock: req.body.stock
+            stock: req.body.stock,
+            CategoryId: req.body.CategoryId
         }
 
         Product
@@ -89,24 +93,24 @@ class ProductController {
             .catch(next)
     }
 
-    static updateStock(req, res, next) {
-        let updateStock = {
-            stock: req.body.stock
+    static getFilteredList(req, res, next) {
+        let option = {
+            name: req.params.category
         }
+
+        if (req.params.category == 'all') {
+            option = {}
+        }
+
         Product
-            .findOne({
-                where: {
-                    id: req.params.id
-                }
+            .findAll({
+                include: [{
+                    model: Category,
+                    where: option
+                }],
             })
-            .then(product => {
-                if (!product) {
-                    throw createError(404, "Product not found")
-                }
-                return product.update(updateStock)
-            })
-            .then(product => {
-                res.status(200).json(product)
+            .then(list => {
+                res.status(200).json(list)
             })
             .catch(next)
     }

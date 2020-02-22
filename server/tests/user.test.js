@@ -180,7 +180,19 @@ describe("POST /login", () => {
 				.send(user)
 			expect(res.status).toBe(200)
 			expect(typeof res.body).toEqual('object')
-			expect(res.body).toEqual({ 'token': expect.any(String) })
+			expect(res.body).toEqual({ 'token': expect.any(String), 'name': expect.any(String) })
+		})
+	})
+});
+
+describe("GET /list", () => {
+	describe('Success 200, List member retrieved', () => {
+		it(" should retrieve a list of member registered", async () => {
+			const res = await request(app)
+				.get('/users/list')
+			expect(res.status).toBe(200)
+			expect(typeof res.body).toEqual('object')
+			expect(Array.isArray(res.body)).toBe(true)
 		})
 	})
 });

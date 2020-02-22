@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt')
 class UserController {
     static createUser(req, res, next) {
         const { name, email, password } = req.body
+
         User
             .findOne({
                 where: {
@@ -34,7 +35,6 @@ class UserController {
     static loginUser(req, res, next) {
         const { email, password } = req.body
 
-
         User
             .findOne({
                 where: {
@@ -50,10 +50,26 @@ class UserController {
                     }
 
                     let token = jwt.generateToken(objUser)
-                    res.status(200).json({ token })
+                    res.status(200).json({ token, name: user.name })
                 } else {
                     next(createError(400, 'Incorrect Email or Password'))
                 }
+            })
+            .catch(next)
+    }
+
+    static showAllMember(req, res, next) {
+        User
+            .findAll({
+                attributes: {
+                    exclude: ['password']
+                },
+                where: {
+                    role: "Member"
+                }
+            })
+            .then(users => {
+                res.status(200).json(users)
             })
             .catch(next)
     }
