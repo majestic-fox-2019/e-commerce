@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    BASE_URL: 'http://localhost:3000',
+    BASE_URL: 'https://ecommerce-v2.herokuapp.com',
     loading: false,
     loginStatus: false,
     userProfile: null,
@@ -56,9 +56,11 @@ export default new Vuex.Store({
   },
   actions: {
     LOGIN(context, data) {
+      Swal.showLoading()
       axios
         .post(`${this.state.BASE_URL}/users/login`, data)
         .then(({ data }) => {
+          Swal.close()
           const user = data.data
           router.push('/')
           localStorage.setItem('token', data.token)
@@ -66,20 +68,25 @@ export default new Vuex.Store({
           Swal.fire('Welcome', 'Login success', 'success')
         })
         .catch(({ response }) => {
+          Swal.close()
           const errors = response.data.err
           console.log(errors)
         })
     },
     REGISTER(context, data) {
+      Swal.showLoading()
       axios
         .post(`${this.state.BASE_URL}/users/register`, data)
         .then(({ data }) => {
+          Swal.close()
           const user = data.data
+          router.push('/')
           localStorage.setItem('token', data.token)
           context.commit('CHANGE_LOGIN', user)
           Swal.fire('Welcome', 'Registration success', 'success')
         })
         .catch(({ response }) => {
+          Swal.close()
           const errors = response
           console.log(errors)
         })
