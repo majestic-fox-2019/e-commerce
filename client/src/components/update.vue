@@ -3,13 +3,13 @@
     <div v-if="isUpdate">
       <h1>Update Form</h1>
     <v-form >
-      <v-text-field v-model="nameUpdate" label="Product Name" required>
+      <v-text-field v-model="name" label="Product Name" required>
       </v-text-field>
-      <v-text-field v-model="image_urlUpdate" label="Image_Url" required>
+      <v-text-field v-model="image_url" label="Image_Url" required>
       </v-text-field>
-      <v-text-field type="number" v-model="stockUpdate" label="Stock" required>
+      <v-text-field type="number" v-model="stock" label="Stock" required>
       </v-text-field>
-      <v-text-field type="number" v-model="priceUpdate" label="Price" required>
+      <v-text-field type="number" v-model="price" label="Price" required>
       </v-text-field>
       <v-btn color="warning" class="mr-4" @click="update">Update</v-btn>
       <v-btn color="red" class="mr-4" @click="cancel">Cancel</v-btn>
@@ -19,8 +19,18 @@
 </div>
 </template>
 <script>
+const superagent = require('superagent');
+
 export default {
   name: 'update',
+  data() {
+    return {
+      name: this.$store.state.nameUpdate,
+      price: this.$store.state.priceUpdate,
+      image_url: this.$store.state.image_urlUpdate,
+      stock: this.$store.state.stockUpdate,
+    };
+  },
   computed: {
     isUpdate() {
       return this.$store.state.isUpdate;
@@ -42,10 +52,27 @@ export default {
     },
   },
   methods: {
+    backtohome() {
+      this.$router.push({ name: 'homepage' });
+    },
     cancel() {
       this.$store.commit('cancelupdate', false);
     },
     update() {
+      console.log(this.name, 'apakah masuk?');
+      superagent
+        .put(`${this.$store.state.url_base}/products/${this.idUpdate}`)
+        .set('token', this.$store.state.isLogin)
+        .send({
+          name: this.name,
+          price: this.price,
+          image_url: this.image_url,
+          stock: this.stock,
+        })
+        .end(() => {
+          this.$store.commit('cancelupdate', false);
+          this.backtohome();
+        });
     },
   },
 };

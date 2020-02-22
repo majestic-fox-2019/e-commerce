@@ -26,6 +26,7 @@ const store = new Vuex.Store({
     stockUpdate: null,
     isUpdate: false,
     dataUpdate: {},
+    loadData: [],
   },
   mutations: {
     loginsetter(state, alreadyLogin) {
@@ -56,6 +57,9 @@ const store = new Vuex.Store({
       state.priceUpdate = null;
       state.stockUpdate = null;
     },
+    // loadData(state, data) {
+
+    // },
   },
 });
 

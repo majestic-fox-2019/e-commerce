@@ -204,9 +204,6 @@ export default {
           this.loadData();
         });
     },
-    refresh() {
-      this.loadData();
-    },
     addProduct() {
       superagent
         .post(`${this.$store.state.url_base}/products`)
@@ -234,6 +231,7 @@ export default {
           const data = res.body;
           // console.log(res.body, 'masukkk??');
           this.$store.commit('dataUpdate', data);
+          this.$router.push({ name: 'update' });
           // this.$store.commit('isupdate', true)
         });
     },
