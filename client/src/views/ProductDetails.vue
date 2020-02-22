@@ -87,7 +87,7 @@ export default {
             console.log(err);
           });
       } else {
-        this.$router.push('Login');
+        this.$router.push({ name: 'Login' });
       }
     },
   },
