@@ -1,6 +1,5 @@
 'use strict'
 const hash = require('../helpers/hash')
-require('dotenv').config()
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
@@ -9,7 +8,7 @@ module.exports = {
         {
           username: 'Admin1',
           email: 'admin1@mail.com',
-          password: hash(process.env.ADMIN_PASS),
+          password: hash('asdasd'),
           phone: '08091000200',
           platform: 'normal',
           isAdmin: true,
@@ -19,7 +18,7 @@ module.exports = {
         {
           username: 'Admin2',
           email: 'admin2@mail.com',
-          password: hash(process.env.ADMIN_PASS),
+          password: hash('asdasd'),
           phone: '08091000300',
           platform: 'normal',
           isAdmin: true,
