@@ -471,7 +471,7 @@ export default {
 
 <style scoped>
 input {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
