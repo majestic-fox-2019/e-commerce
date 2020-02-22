@@ -17,8 +17,6 @@ module.exports = (req, res, next) => {
 
   Promise.all(queries)
     .then((products) => {
-      //   console.log({ products })
-      //   res.json(products)
       items.forEach((item) => {
         let orderedProduct = products.find((product) => product.id == item.id)
         if (orderedProduct.stock < item.stock) {

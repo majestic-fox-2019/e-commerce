@@ -1,4 +1,5 @@
 const { Product } = require('../models')
+const createError = require('http-errors')
 
 class Controller {
   static create(req, res, next) {
@@ -37,7 +38,12 @@ class Controller {
       }
     })
       .then((result) => {
-        res.status(200).json(result)
+        if (!result) {
+          let err = createError(404, 'Product not found')
+          next(err)
+        } else {
+          res.status(200).json(result)
+        }
       })
       .catch((err) => {
         next(err)
@@ -50,6 +56,7 @@ class Controller {
       price: req.body.price,
       stock: req.body.stock,
       description: req.body.description,
+      category: req.body.category,
       image_url: req.body.image_url
     }
     // console.log(data)

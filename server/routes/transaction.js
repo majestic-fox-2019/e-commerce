@@ -8,6 +8,6 @@ router.use(authenticate)
 
 router.get('/', Controller.readAll)
 
-router.delete('/', Controller.delete)
+// router.delete('/', Controller.delete)
 
 module.exports = router

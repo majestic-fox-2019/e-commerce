@@ -31,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       phone: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
           notEmpty: {
             msg: 'Phone number is required'

@@ -27,13 +27,18 @@ class ControllerUser {
           const payload = {
             id: userData.id,
             username: userData.username,
-            email: userData.email
+            email: userData.email,
+            isAdmin: userData.isAdmin
           }
           const token = generateToken(payload)
-          res.status(200).json({
+          let data = {
             token: token,
             username: userData.username
-          })
+          }
+          if (userData.isAdmin) {
+            data.isAdmin = userData.isAdmin
+          }
+          res.status(200).json(data)
         }
       })
       .catch((err) => {
@@ -54,13 +59,52 @@ class ControllerUser {
         const payload = {
           id: newUser.id,
           username: newUser.username,
-          email: newUser.email
+          email: newUser.email,
+          isAdmin: newUser.isAdmin
         }
         const token = generateToken(payload)
         res.status(201).json({
           token: token,
           username: newUser.username,
           email: newUser.email
+        })
+      })
+      .catch((err) => {
+        next(err)
+      })
+  }
+
+  static gSignIn(req, res, next) {
+    User.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+      .then((user) => {
+        if (user) {
+          return user
+        } else {
+          const randomizedUser = require('../helpers/randomizedUser')
+          return User.create({
+            username: randomizedUser(req.body.username),
+            email: req.body.email,
+            password: process.env.G_DEF_PASS,
+            platform: 'google'
+          })
+        }
+      })
+      .then((user) => {
+        const payload = {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          isAdmin: user.isAdmin
+        }
+        const token = generateToken(payload)
+        res.status(201).json({
+          token: token,
+          username: user.username,
+          email: user.email
         })
       })
       .catch((err) => {

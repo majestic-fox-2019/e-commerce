@@ -83,7 +83,6 @@ describe('Read all product list', () => {
   it('On success should return', (done) => {
     request(app)
       .get('/products/')
-      .set('token', token)
       .expect(200)
       .end((err, res) => {
         if (err) {
@@ -102,30 +101,12 @@ describe('Read all product list', () => {
         }
       })
   })
-
-  // No Headers Token
-  it('On fail should return', (done) => {
-    request(app)
-      .get('/products/')
-      .expect(401)
-      .end((err, res) => {
-        if (err) {
-          done(err)
-        } else {
-          expect(typeof res.body).toBe('object')
-          expect(res.body).toHaveProperty('msg')
-          expect(res.body.msg).toMatch('Invalid access token')
-          done()
-        }
-      })
-  })
 })
 
 describe('Read one product list', () => {
   it('On success should return', (done) => {
     request(app)
       .get('/products/1')
-      .set('token', token)
       .expect(200)
       .end((err, res) => {
         if (err) {
@@ -145,18 +126,17 @@ describe('Read one product list', () => {
       })
   })
 
-  // No Headers Token
   it('On fail should return', (done) => {
     request(app)
-      .get('/products/1')
-      .expect(401)
+      .get('/products/100')
+      .expect(404)
       .end((err, res) => {
         if (err) {
           done(err)
         } else {
           expect(typeof res.body).toBe('object')
           expect(res.body).toHaveProperty('msg')
-          expect(res.body.msg).toMatch('Invalid access token')
+          expect(res.body.msg).toMatch('Product not found')
           done()
         }
       })

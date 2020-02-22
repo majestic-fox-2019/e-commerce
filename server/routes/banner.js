@@ -1,10 +1,10 @@
 const router = require('express').Router()
 
-const Controller = require('../controllers/product')
+const Controller = require('../controllers/banner')
 
 const authenticate = require('../middlewares/authenticate')
 
-const { checkProduct, authorize } = require('../middlewares/authorize-product')
+const authorize = require('../middlewares/authorize-banner')
 
 router.get('/', Controller.readAll)
 
@@ -12,11 +12,9 @@ router.get('/:id', Controller.readOne)
 
 router.use(authenticate)
 
+router.use(authorize)
+
 router.post('/', Controller.create)
-
-router.use('/:id', checkProduct, authorize)
-
-router.put('/:id', Controller.update)
 
 router.delete('/:id', Controller.delete)
 
