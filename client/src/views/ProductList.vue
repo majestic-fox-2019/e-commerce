@@ -284,7 +284,7 @@ export default {
   },
   methods: {
     showUser() {
-      this.$axios.get('/users')
+      this.$axios.get('/users', { headers: { token: localStorage.token } })
         .then((user) => {
           this.allProducts = false;
           this.allUsers = true;
