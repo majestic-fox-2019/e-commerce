@@ -6,7 +6,9 @@ class ProductController{
   static getProduct(req,res,next){
    
     Product
-    .findAll()
+    .findAll({
+      order: [['name','ASC']],
+    })
     .then(result=>{
       if(result.length>0){
         res.status(200).json(result)

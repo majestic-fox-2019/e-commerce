@@ -15,6 +15,7 @@ class UserConttroller {
         email: req.body.email,
         password : req.body.password
       }
+      let secretKey = req.body.secretkey
       User.findOne({
         where : {
           email : data.email
@@ -23,15 +24,18 @@ class UserConttroller {
       .then(avail=>{
         if(avail){
         throw createError(404,'email already exists')
-
         } else{
-          User.create(data)
-          .then(result=>{
-            res.status(201).json(result)
-          })
-          .catch(err=>{
-            next(err)
-          })
+          if(secretKey == process.env.SECRET_KEY_ADMIN){
+            User.create(data)
+            .then(result=>{
+              res.status(201).json(result)
+            })
+            .catch(err=>{
+              next(err)
+            })
+          } else {
+            throw createError(403,'Secret Key Invalid')
+          }
         }
       })
       .catch(err=>{
