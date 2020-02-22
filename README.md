@@ -33,7 +33,7 @@
 Clone this API from repository and install npm, then on `server` directory install the neccessary npm package
 
 ```
-$ git clone https://github.com/hafizulrifkihawari/kanban.git
+$ git clone https://github.com/hafizulrifkihawari/e-commerce.git
 $ cd ../server
 $ npm install
 ```
