@@ -5,7 +5,7 @@
     <!-- LOGIN AND REGISTER FORM -->
     <loginregister v-if="!alreadyLogin">
     </loginregister>
-    <update v-if="isUpdated"></update>
+    <update v-if="isUpdated && alreadyLogin"></update>
     <homepage></homepage>
   </v-app>
 </div>

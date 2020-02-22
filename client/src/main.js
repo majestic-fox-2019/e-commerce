@@ -40,10 +40,22 @@ const store = new Vuex.Store({
       state.isUpdate = true;
       console.log(dataUpdate, 'ini nihh state', state.isUpdate, 'awkakwakwka');
     },
-    // isupdate(state, status) {
-    //   state.isUpdate = status
-    //   console.log();
-    // }
+    logoutupdate(state, status) {
+      state.isUpdate = status;
+      state.idUpdate = null;
+      state.nameUpdate = null;
+      state.image_urlUpdate = null;
+      state.priceUpdate = null;
+      state.stockUpdate = null;
+    },
+    cancelupdate(state, status) {
+      state.isUpdate = status;
+      state.idUpdate = null;
+      state.nameUpdate = null;
+      state.image_urlUpdate = null;
+      state.priceUpdate = null;
+      state.stockUpdate = null;
+    },
   },
 });
 

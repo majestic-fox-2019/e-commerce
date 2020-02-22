@@ -1,25 +1,19 @@
 <template>
 <div class="container">
-    <div v-if="isUpdated">
-      <h1>Register</h1>
+    <div v-if="isUpdate">
+      <h1>Update Form</h1>
     <v-form >
-      <v-text-field v-model="usernameReg"
-:counter="10" label="Username" required>
+      <v-text-field v-model="nameUpdate" label="Product Name" required>
       </v-text-field>
-      <v-text-field v-model="emailReg" label="E-mail" required>
-
+      <v-text-field v-model="image_urlUpdate" label="Image_Url" required>
       </v-text-field>
-      <v-text-field type="password" v-model="passwordReg"
- label="Password" required>
+      <v-text-field type="number" v-model="stockUpdate" label="Stock" required>
       </v-text-field>
-
-      <v-btn color="warning" class="mr-4" @click="register">Register</v-btn>
+      <v-text-field type="number" v-model="priceUpdate" label="Price" required>
+      </v-text-field>
+      <v-btn color="warning" class="mr-4" @click="update">Update</v-btn>
+      <v-btn color="red" class="mr-4" @click="cancel">Cancel</v-btn>
       <v-spacer></v-spacer>
-      <span>
-         click here for
-         <a @click="showothers"> Login </a>.
-         <!-- <router-link to='/login'>login</router-link> -->
-      </span>
     </v-form>
   </div>
 </div>
@@ -27,16 +21,10 @@
 <script>
 export default {
   name: 'update',
-  data() {
-    return {
-      id: this.idUpdate(),
-      name: this.nameUpdate(),
-      image_url: this.image_urlUpdate(),
-      price: this.priceUpdate(),
-      stock: this.stockUpdate(),
-    };
-  },
   computed: {
+    isUpdate() {
+      return this.$store.state.isUpdate;
+    },
     nameUpdate() {
       return this.$store.state.nameUpdate;
     },
@@ -53,9 +41,19 @@ export default {
       return this.$store.state.idUpdate;
     },
   },
+  methods: {
+    cancel() {
+      this.$store.commit('cancelupdate', false);
+    },
+    update() {
+    },
+  },
 };
 
 </script>
 <style scoped>
-
+.v-input {
+  width: 70em;
+  max-width: 500%;
+}
 </style>

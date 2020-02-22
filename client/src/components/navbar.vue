@@ -46,6 +46,7 @@ export default {
     logoutHidden() {
       localStorage.removeItem('token');
       this.$store.commit('loginsetter', false);
+      this.$store.commit('logoutupdate', false);
       this.login();
     },
   },
