@@ -1,0 +1,131 @@
+.login {
+  height: 100vh;
+}
+
+.middle-vertical{
+  position: fixed;
+  width: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.logo-login{
+  height: 100px;
+  margin-bottom: 1rem;
+}
+
+.bg-special{
+  background-color: #32363d;
+}
+
+.btn-special{
+  background-color: #32363d;
+  border-color: #32363d;
+
+  &:hover{
+    background-color: #232529;
+    border-color: #232529;
+  }
+
+  &:active,
+  &:target{
+    background-color: #32363d;
+    border-color: #32363d;
+  }
+
+  &:focus{
+    color: #fff;
+    background-color: #32363d;
+    border-color: #32363d;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(50, 54, 61, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(50, 54, 61, 0.5);
+  }
+}
+
+.header-table{
+  .search-table{
+    display: inline-block;
+    width: 100%;
+    height: calc(2rem + 2px);
+    padding: 0.625rem 0.75rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #000000;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #cad1d7;
+    border-radius: 0.25rem;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  & > span{
+    position: absolute;
+    right: 20px;
+    top: 6px;
+  }
+
+  & > span:hover{
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  & span i{
+    font-size: 1.3rem
+  }
+}
+
+.table-mf{
+  font-size: 12px;
+  
+  & .btn-xs{
+    padding: 0.1rem 0.4rem !important;
+  }
+}
+
+.empty-table{
+  padding: 3rem 0;
+}
+
+.pl-0{
+  padding-left: 0 !important;
+}
+
+.pr-0{
+  padding-right: 0 !important;
+}
+
+.bg-utama{
+  background-color: #16c7ff !important;
+}
+
+.bg-utama2{
+  background-color: #13b7e9 !important;
+}
+
+.bg-utama3{
+  background-color: #11a9d8 !important;
+}
+
+.card-statistic h1{
+  text-align: center;
+  padding: 1.9rem 0;
+
+  & i{
+    font-size: 4rem;
+    color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.card-body-dashboard{
+  background-color: rgba(228, 228, 228, 0.7);
+  font-weight: bold;
+
+  & h1{
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.7);
+  }
+}
