@@ -37,7 +37,7 @@ export default new Vuex.Store({
           commit('get_admin', response.data)
         })
         .catch(err => {
-          console.log(err)
+          let error = err
         })
     },
     getCategory({ commit }){
@@ -52,7 +52,7 @@ export default new Vuex.Store({
         commit('get_category', response.data)
       })
       .catch(err => {
-        console.log(err)
+        let error = err
       })
     },
     getProduct({ commit }, name = ''){
@@ -67,7 +67,7 @@ export default new Vuex.Store({
         commit('get_products', response.data)
       })
       .catch(err => {
-        console.log(err)
+        let error = err
       })
     }
   },

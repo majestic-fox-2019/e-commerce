@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap'
 import axios from 'axios'
 
-Vue.prototype.$axios = axios.create({ baseURL : 'http://localhost:3000' })
+Vue.prototype.$axios = axios.create({ baseURL : 'https://disekrip-cms.herokuapp.com' })
 
 Vue.config.productionTip = false
 
