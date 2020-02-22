@@ -700,12 +700,15 @@ server : https://disekrip-cms.herokuapp.com/
 }
 ```
 
-# Route Products
+# Route Categories
 
 | Route      | Method | Params          | Description                                        |
 | ---------- | ------ | --------------- | -------------------------------------------------- |
 | /categories/     | GET    | none            | get all categories
 | /categories/ | POST | none | create category
+| /categories/ | PUT | category_id | create category
+| /categories/ | DELETE | category_id | create category
+
 
 ## 1. Path categories/ (Get METHOD) // Get Categories
 
@@ -768,6 +771,9 @@ server : https://disekrip-cms.herokuapp.com/
 ## Authentication
   Headers **token** is required
 
+## Authorization
+ **Admin** Only
+
 ## Path
 
 ```javascript
@@ -810,6 +816,9 @@ server : https://disekrip-cms.herokuapp.com/
 ## Authentication
   Headers **token** is required
 
+## Authorization
+**Admin** Only
+
 ## Path
 
 ```javascript
@@ -850,6 +859,9 @@ server : https://disekrip-cms.herokuapp.com/
 
 ## Authentication
   Headers **token** is required
+
+## Authorization
+ **Admin** Only
 
 ## Path
 
