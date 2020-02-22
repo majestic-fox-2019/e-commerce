@@ -189,7 +189,7 @@
                 <div class="form-group">
                   <label for="price">Password</label>
                   <input v-model="formAddUser.password"
-                  type="number" class="form-control" id="price">
+                  type="text" class="form-control" id="price">
                 </div>
                 <div class="form-group">
                   <label for="stock">Role</label>
@@ -308,14 +308,14 @@ export default {
         .then((user) => {
           console.log(user);
           window.$('#addUser').modal('hide');
-          this.formAdd.name = '';
-          this.formAdd.email = '';
-          this.formAdd.password = '';
-          this.formAdd.role = '';
+          this.formAddUser.name = '';
+          this.formAddUser.email = '';
+          this.formAddUser.password = '';
+          this.formAddUser.role = '';
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Successfully added ${user.data.user.name} to User List`,
+            title: `Successfully added ${user.data.user.name}`,
             showConfirmButton: false,
             timer: 1700,
           });
@@ -331,7 +331,7 @@ export default {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Successfully delete ${user.data} to Product List`,
+            title: `${user.data}`,
             showConfirmButton: false,
             timer: 1700,
           });
@@ -354,6 +354,8 @@ export default {
       }, { headers: { token: localStorage.token } })
         .then(() => {
           window.$('#updateUser').modal('hide');
+          this.formUpdateUser.name = '';
+          this.formUpdateUser.role = '';
           Swal.fire({
             position: 'center',
             icon: 'success',
@@ -393,7 +395,7 @@ export default {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Successfully added ${result.data.name} to Product List`,
+            title: `Successfully added ${result.data.name}`,
             showConfirmButton: false,
             timer: 1700,
           });
@@ -409,7 +411,7 @@ export default {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Successfully delete ${result.data} to Product List`,
+            title: `${result.data}`,
             showConfirmButton: false,
             timer: 1700,
           });
@@ -440,7 +442,7 @@ export default {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Successfully updated ${this.formUpdate.name} on Product List`,
+            title: `Successfully updated ${this.formUpdate.name}`,
             showConfirmButton: false,
             timer: 1700,
           });
@@ -468,6 +470,7 @@ export default {
 </script>
 
 <style scoped>
+
 body {
   background: #ffea92;
   margin: 0;
