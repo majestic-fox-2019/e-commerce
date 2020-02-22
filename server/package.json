@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "start": "node app.js",
         "start-dev": "nodemon index.js",
         "migrate": "sequelize db:migrate",
         "migrate:reset": "sequelize db:migrate:undo:all && npm run migrate",
@@ -23,6 +24,7 @@
         "jsonwebtoken": "^8.5.1",
         "pg": "^7.18.1",
         "sequelize": "^5.21.4",
+        "sequelize-cli": "^5.5.1",
         "sweetalert2": "^9.7.2"
     },
     "jest": {
