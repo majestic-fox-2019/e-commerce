@@ -7,14 +7,15 @@
       <div class="overlay">
         <div class = "items"></div>
         <div class = "items head">
-          <p>{{product.name}}</p>
+          <p><router-link :to="{name: 'Product', params: { productId: product.id }}">
+          {{product.name}}</router-link></p>
           <hr>
         </div>
         <div class = "items price">
-          <p class="new">Rp {{product.price}}</p>
+          <p class="new">{{product.price}}</p>
         </div>
-        <div class="items cart">
-          <i @click="addToCart(product.id)" class="fa fa-shopping-cart"></i>
+        <div class="items cart" @click="addToCart(product.id)">
+          <i class="fa fa-shopping-cart"></i>
           <span>ADD TO CART</span>
       </div>
     </div>
@@ -37,19 +38,23 @@ export default {
       return this.$store.getters.getListProducts;
     },
     addToCart(id) {
-      this.$axios.post(`/carts/${id}`, {}, { headers: { token: localStorage.token } })
-        .then(() => {
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Succesfully added to cart',
-            showConfirmButton: false,
-            timer: 1200,
+      if (this.$store.state.loginStatus) {
+        this.$axios.post(`/carts/${id}`, {}, { headers: { token: localStorage.token } })
+          .then(() => {
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Succesfully added to cart',
+              showConfirmButton: false,
+              timer: 1200,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
           });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      } else {
+        this.$router.push('Login');
+      }
     },
   },
 };

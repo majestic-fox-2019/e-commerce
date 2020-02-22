@@ -1,10 +1,11 @@
 const {Product} = require('../models')
 const createError = require('http-errors')
+const convertRp = require('../helpers/convertRupiah')
 
 class ProductController {
 
   static list(req, res, next){
-    Product.findAll()
+    Product.findAll({order: [['id', 'ASC']]})
     .then(product => {
       res.status(200).json(product)
     })
@@ -14,8 +15,9 @@ class ProductController {
   }
 
   static getById(req, res, next){
-    Product.findByPk(req.params.id)
+    Product.findByPk(req.params.id, {hooks: false})
     .then(product => {
+      product.price = convertRp(product.price)
       res.status(200).json(product)
     })
     .catch(error => {

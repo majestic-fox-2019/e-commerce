@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <Navbar></Navbar>
+      <Navbar v-if="!adminLoggedIn()"></Navbar>
     <router-view/>
   </div>
 </template>
@@ -15,14 +15,18 @@ export default {
     // LoginPage,
     Navbar,
   },
-  // data() {
-  //   return {
-  //     products: null
-  //   };
-  // },
+  methods: {
+    adminLoggedIn() {
+      return this.$store.state.adminStatus;
+    },
+  },
   created() {
     this.$store.dispatch('checkLogin');
     this.$store.dispatch('listProducts');
+    this.$store.dispatch('checkAdmin');
+  },
+  beforeUpdate() {
+    this.$store.dispatch('checkLogin');
   },
 };
 </script>

@@ -1,4 +1,7 @@
 'use strict';
+
+const convertRupiah = require('../helpers/convertRupiah')
+
 module.exports = (sequelize, DataTypes) => {
 
   const {Model} = sequelize.Sequelize
@@ -17,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: {
@@ -56,7 +59,17 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     }
-  }, {sequelize});
+  }, {
+    hooks: {
+      afterFind(instance, options){
+        instance.forEach(el => {
+          
+          el.price = convertRupiah(el.price)
+          console.log(el.price)
+        })
+      }
+    },
+    sequelize});
   Product.associate = function(models) {
     // associations can be defined here
     Product.belongsToMany(models.User, {through : "Cart"})

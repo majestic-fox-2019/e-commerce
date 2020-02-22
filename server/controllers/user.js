@@ -5,6 +5,16 @@ const jwt = require('../helpers/jwt')
 
 class UserController {
 
+  static list(req, res, next) {
+    User.findAll({order: [['id', 'ASC']]})
+    .then(user => {
+      res.status(200).json(user)
+    })
+    .catch(error => {
+      next(error)
+    })
+  }
+
   static register(req, res, next){
     let regisUser = {
       name: req.body.name,
@@ -40,22 +50,69 @@ class UserController {
       if (!user){
         throw createError(404, {message: "User Not Found"})
       } else {
-        console.log(user.password, req.body.password, '<ASADASSAD')
-        if (bcrypt.checkPassword(req.body.password, user.password)){
+        if (user.role == 'admin' && user.password == req.body.password) {
           let data = {
             id: user.id,
             name: user.name,
             email: user.email,
             role: user.role
           }
-          res.status(200).json({data, token : jwt.createToken(data)})
+          res.status(200).json({data, token: jwt.createToken(data)})
         } else {
-          throw createError(400, {message: "Email / Password Wrong"})
+          if (bcrypt.checkPassword(req.body.password, user.password)){
+            let data = {
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              role: user.role
+            }
+            res.status(200).json({data, token : jwt.createToken(data)})
+          } else {
+            throw createError(400, {message: "Email / Password Wrong"})
+          }
         }
       }
     })
     .catch(error => {
       console.log(error)
+      next(error)
+    })
+  }
+
+  static update(req, res, next) {
+    let userId = {
+      where: {
+        id: req.params.id
+      }
+    }
+
+    let userData = {
+      name: req.body.name,
+      role: req.body.role
+    }
+
+    User.update(userData, userId)
+    .then(user => {
+      res.status(200).json(userData)
+    })
+    .catch(error => [
+      next(error)
+    ])
+  }
+
+  static delete(req, res, next) {
+    let userId = {
+      where: {
+        id: req.params.id
+      }
+    }
+    let userData = User.findByPk(req.params.id)
+    let userDestroy = User.destroy(userId)
+    Promise.all([userData, userDestroy])
+    .then(result => {
+      res.status(200).json(`Successfully deleted user ${result[0].name}`)
+    })
+    .catch(error => {
       next(error)
     })
   }

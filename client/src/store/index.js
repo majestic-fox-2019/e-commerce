@@ -8,16 +8,26 @@ export default new Vuex.Store({
   state: {
     listProducts: null,
     loginStatus: false,
+    adminStatus: false,
+    name: '',
   },
   mutations: {
     LIST_PRODUCTS(state, payload) {
       state.listProducts = payload;
     },
     LOGOUT(state) {
+      state.adminStatus = false;
       state.loginStatus = false;
+      state.name = '';
     },
     LOGIN(state) {
       state.loginStatus = true;
+    },
+    ADMIN(state) {
+      state.adminStatus = true;
+    },
+    NAME(state) {
+      state.name = localStorage.name;
     },
   },
   actions: {
@@ -40,8 +50,14 @@ export default new Vuex.Store({
     checkLogin({ commit }) {
       if (localStorage.token) {
         commit('LOGIN');
+        commit('NAME');
       } else {
         commit('LOGOUT');
+      }
+    },
+    checkAdmin({ commit }) {
+      if (localStorage.admin) {
+        commit('ADMIN');
       }
     },
   },

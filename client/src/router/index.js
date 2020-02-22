@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Cart from '../views/Cart.vue';
 import Product from '../views/ProductList.vue';
+import ProductDetails from '../views/ProductDetails.vue';
 
 Vue.use(VueRouter);
 
@@ -34,10 +35,15 @@ const routes = [
     meta: { isLoggedIn: true },
   },
   {
-    path: '/products',
-    name: 'Products',
+    path: '/admin',
+    name: 'Admin',
     component: Product,
-    meta: { isLoggedIn: true },
+    meta: { isAdmin: true },
+  },
+  {
+    path: '/product/:productId',
+    name: 'Product',
+    component: ProductDetails,
   },
 ];
 
@@ -51,6 +57,16 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.isLoggedIn)) {
     if (localStorage.token) {
       next();
+    } else {
+      next({ name: 'Home' });
+    }
+  } else if (to.matched.some((record) => record.meta.isAdmin)) {
+    if (localStorage.token) {
+      if (localStorage.admin) {
+        next();
+      } else {
+        next({ name: 'Home' });
+      }
     } else {
       next({ name: 'Home' });
     }

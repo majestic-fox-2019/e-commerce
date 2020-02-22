@@ -48,6 +48,9 @@
         </div>
       </div>
     </div>
+    <div>
+      <img src="" alt="">
+    </div>
   </div>
 </template>
 
@@ -76,22 +79,33 @@ export default {
         password: this.formLogin.password,
       })
         .then((result) => {
-          console.log(result.data);
+          localStorage.setItem('name', result.data.data.name);
+          localStorage.setItem('token', result.data.token);
+          this.$store.dispatch('checkLogin');
           this.formLogin.email = '';
           this.formLogin.password = '';
-          Swal.fire({
+          const Toast = Swal.mixin({
+            toast: true,
             position: 'top-end',
-            icon: 'success',
-            title: `Welcome ${result.data.data.name}`,
             showConfirmButton: false,
-            timer: 1200,
+            timer: 2000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
           });
-          localStorage.setItem('token', result.data.token);
+          Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully',
+          });
           if (result.data.data.role === 'admin') {
             localStorage.setItem('admin', 'admin');
+            this.$store.dispatch('checkAdmin');
+            this.$router.push({ name: 'Admin' });
+          } else {
+            this.$router.push({ name: 'Home' });
           }
-          this.$store.dispatch('checkLogin');
-          this.$router.push({ name: 'Home' });
         })
         .catch((err) => {
           Swal.fire({
@@ -110,17 +124,28 @@ export default {
         password: this.formRegis.password,
       })
         .then((result) => {
+          localStorage.setItem('name', result.data.user.name);
+          localStorage.setItem('token', result.data.token);
+          this.$store.dispatch('checkLogin');
           this.formRegis.name = '';
           this.formRegis.email = '';
           this.formRegis.password = '';
-          localStorage.setItem('token', result.data.token);
+          console.log(result);
           this.$router.push({ name: 'Home' });
-          Swal.fire({
+          const Toast = Swal.mixin({
+            toast: true,
             position: 'top-end',
-            icon: 'success',
-            title: `Welcome to Arduishop ${result.data.user.name}`,
             showConfirmButton: false,
-            timer: 1800,
+            timer: 2000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: 'success',
+            title: `Welcome ${result.data.user.name}`,
           });
         })
         .catch((err) => {
