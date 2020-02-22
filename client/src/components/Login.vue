@@ -68,8 +68,8 @@
             <br>
             User for demo purpose
               <div>
-                 admin@gmail.com<br>
-                 | user@gmail.com (avaiable next week, after live code)
+                 admin@gmail.com
+                 | user@gmail.com
                  | Password: 123</div>
             </v-col>
         </v-row>
