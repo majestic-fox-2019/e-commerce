@@ -7,7 +7,7 @@ module.exports = (err, req, res, next) => {
             res.status(400).json(createError(err))
             break
         }
-
+        
         case 'NotFoundError': {
             res.status(404).json({ message: err.message })
             break
@@ -31,6 +31,9 @@ module.exports = (err, req, res, next) => {
         case 'UnauthorizedError' : {
             res.status(401).json({ message: err.message })
             break
+        }
+        case 'BadRequestError': {
+            res.status(400).json({message: err.message})
         }
         default: {
             res.status(500).json({

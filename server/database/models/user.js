@@ -6,8 +6,27 @@ module.exports = (sequelize, DataTypes) => {
 
   class User extends Model { }
   User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: 'Email is required'
+        },
+        isEmail: {
+          msg: 'Invalid email format'
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: {
+          args: [8, 16],
+          msg: 'Password must be at least 8 characters long'
+        }
+      }
+    }
   }, {
     hooks: {
       beforeCreate(user, options) {
