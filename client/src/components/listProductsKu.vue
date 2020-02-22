@@ -153,7 +153,6 @@ export default {
       }
     },
     deleteThis() {
-      console.log("masuk delete");
       let id = this.detailPKu.id;
       this.$store.dispatch("deleteProduct", id);
     },

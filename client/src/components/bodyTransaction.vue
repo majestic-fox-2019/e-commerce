@@ -1,9 +1,8 @@
 <template>
   <tr>
     <td>{{bodyTrans.Product.name}}</td>
-    <!-- <td>{{bodyTrans.Product.image_url}}</td> -->
     <td>
-      <img :src="bodyTrans.Product.image_url" alt="product" />
+      <img :src="bodyTrans.Product.image_url" height="100" alt="product" />
     </td>
     <td>{{bodyTrans.User.name}}</td>
     <td>{{price}}</td>

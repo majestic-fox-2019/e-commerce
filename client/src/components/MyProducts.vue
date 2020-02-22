@@ -32,6 +32,9 @@ export default {
   methods: {
     getMyProducts() {
       this.$store.dispatch("getMyProducts");
+    },
+    getOfficialProducts() {
+      this.$store.dispatch("getOfficialProducts");
     }
   },
   computed: {
@@ -43,7 +46,11 @@ export default {
     }
   },
   mounted() {
-    this.getMyProducts();
+    if (localStorage.getItem("role") == "admin") {
+      this.getOfficialProducts();
+    } else {
+      this.getMyProducts();
+    }
   },
   watch: {
     statusEditDel() {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="mt-3">
       <b-tabs content-class="mt-3" fill>
         <b-tab title="List of Products" active>
           <MyProducts></MyProducts>
@@ -11,8 +11,8 @@
         <b-tab title="List of Transactions">
           <allTransactions></allTransactions>
         </b-tab>
-        <b-tab title="Disabled" disabled>
-          <p>I'm a disabled tab!</p>
+        <b-tab title="Register New Admin">
+          <RegAdmin></RegAdmin>
         </b-tab>
       </b-tabs>
     </div>
@@ -23,12 +23,14 @@
 import FormProduct from "../components/FormProduct";
 import MyProducts from "../components/MyProducts";
 import allTransactions from "../components/allTransaction";
+import RegAdmin from "../components/RegAdmin";
 export default {
   name: "AdminPage",
   components: {
     FormProduct,
     MyProducts,
-    allTransactions
+    allTransactions,
+    RegAdmin
   },
   mounted() {
     let role = localStorage.getItem("role");

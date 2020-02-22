@@ -5,6 +5,7 @@ import Register from "../views/Register.vue"
 import AdminPage from "../views/AdminPage.vue"
 import DetailProduct from "../views/DetailProduct.vue"
 import Category from "../views/PerCategory.vue"
+import UserPage from "../views/UserProfile.vue"
 
 
 Vue.use(VueRouter)
@@ -42,6 +43,11 @@ const routes = [
     path: "/category/:category",
     name: "category",
     component: Category
+  },
+  {
+    path: "/user",
+    name: "userpage",
+    component: UserPage
   }
 ]
 

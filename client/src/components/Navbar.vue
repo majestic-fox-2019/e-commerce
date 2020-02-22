@@ -35,7 +35,9 @@
           </b-nav-item>
           <b-nav-item-dropdown right v-else>
             <template v-slot:button-content>{{$store.state.username}}</template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
+            <b-dropdown-item>
+              <router-link to="/user">Profile</router-link>
+            </b-dropdown-item>
             <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item v-if="role !== 'admin'">
@@ -111,7 +113,7 @@ export default {
       this.$store.commit("changeRole", "");
       this.$store.commit("setUsername", "");
       // if(this.$router.)
-      this.$router.push("/");
+      // this.$router.push("/");
     }
     // toRegister() {
     //   this.$bvModal.hide("bv-modal-example");
@@ -137,7 +139,7 @@ export default {
   },
   mounted() {
     // console.log(this.role, "<< ini role");
-    console.log(this.$router.options.base, "<<< router");
+    // console.log(this.$router.options.base, "<<< router");
   }
 };
 </script>

@@ -91,28 +91,39 @@ export default new Vuex.Store({
           context.commit("changeLogin", true);
           context.commit("changeRole", data.userLoginFound.role);
           context.commit("setUsername", data.userLoginFound.name);
-          if (data.userLoginFound.role == "admin") {
-            router.push("/admin")
-          }
+          Swal.fire(
+            "Sweet!", "Welcome to CherryChenka!", "success"
+          ).then(() => {
+
+            if (data.userLoginFound.role == "admin") {
+              router.push("/admin")
+            } else {
+              // console.log(router, "<< ini router")
+              if (router.options.base !== "/") {
+                router.push("/")
+              }
+            }
+          })
 
         })
         .catch(err => {
           if (err.response.data) {
-            let errMSG = err.response.data;
+            let errMSG = err.response.data.message;
             context.commit("setErrMSG", errMSG)
           }
           // this.$message.error(this.errMSG);
         });
     },
     register(context, dataReg) {
-      let { name, email, password } = dataReg
+      let { name, email, password, role } = dataReg
       axios({
         method: "POST",
         url: `${this.state.baseUrl}/users/register`,
         data: {
           name,
           email,
-          password
+          password,
+          role
         }
       })
         .then(({ data }) => {
@@ -123,10 +134,17 @@ export default new Vuex.Store({
           context.commit("changeLogin", true);
           context.commit("changeRole", data.userRegistered.role);
           context.commit("setUsername", data.userRegistered.name);
+          Swal.fire(
+            "Sweet!", "Welcome to CherryChenka!", "success"
+          ).then(() => {
+
+            router.push("/")
+          })
+
         })
         .catch(err => {
           if (err.response.data) {
-            let errMSG = err.response.data;
+            let errMSG = err.response.data.message;
             context.commit("setErrMSG", errMSG)
           } else {
             context.commit("setErrMSG", "Oops, something went wrong")
@@ -210,7 +228,6 @@ export default new Vuex.Store({
           // router.push("/")
         })
         .catch(err => {
-          console.log(err.response)
           let errMSG
           let errMSGS = ""
           if (err.response.data.message) {
@@ -334,6 +351,23 @@ export default new Vuex.Store({
           // console.log(err.response)
           let errMSG = err.response.statusText
           Swal.fire("Oops", errMSG, "error")
+        })
+    },
+    getOfficialProducts(context) {
+      console.log("masuk ge off")
+      axios({
+        method: "GET",
+        url: `${this.state.baseUrl}/products/official/byOfficial`,
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(({ data }) => {
+          context.commit("setMyProducts", data)
+        })
+        .catch((err) => {
+          console.log(err.response, "<< gagal")
+          Swal.fire("Oops", "Something went wrong", "error")
         })
     }
   },

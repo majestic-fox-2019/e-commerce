@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="mt-5">Welcome to CherryChenka</h1>
+    <h1 class="mt-5">Register New Admin</h1>
     <div class="container">
       <div class="mt-5">
         <el-form
@@ -86,7 +86,7 @@ export default {
               name: this.ruleForm.name,
               email: this.ruleForm.email,
               password: this.ruleForm.password,
-              role: "user"
+              role: "admin"
             };
             this.$store.dispatch("register", dataReg);
           }

@@ -22,6 +22,20 @@
           </div>
           <div class="col-10 leftin">{{price}}</div>
         </div>
+        <div class="row">
+          <div class="col-10">
+            <!-- <i class="el-icon-discount"></i> -->
+            <!-- {{product.rating}} -->
+            <el-rate
+              v-model="value"
+              disabled
+              show-score
+              text-color="#ff9900"
+              score-template="{value} points"
+            ></el-rate>
+          </div>
+          <!-- <div class="col-10 leftin"></div> -->
+        </div>
       </b-card-text>
       <template v-slot:footer>
         <small class="text-muted">Last updated {{updated}}</small>
@@ -34,8 +48,10 @@
 export default {
   name: "Card",
   props: ["product"],
-  mounted() {
-    // console.log(this.product, "<<");
+  data() {
+    return {
+      value: this.product.rating
+    };
   },
   methods: {
     goToDetail() {
