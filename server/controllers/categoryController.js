@@ -49,10 +49,11 @@ class CategoryController {
     Category.update(data, { 
       where : {
         id : req.params.category_id
-      }
+      },
+      returning : true,
     })
     .then(response => {
-      res.status(200).json(response)
+      res.status(200).json(response[1][0])
     })
     .catch(next)
   }
@@ -67,7 +68,7 @@ class CategoryController {
         return response.destroy()
       })
       .then(response => {
-        res.status(200).json(response)
+        res.status(200).json(data)
       })
       .catch(next)
 

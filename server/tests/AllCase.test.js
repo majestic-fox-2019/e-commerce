@@ -490,3 +490,102 @@ describe('Products Endpoints', () => {
   })
 
 })
+
+describe("Category Endpoints", () => {
+
+  it("Get all category", (done) => {
+    request(app)
+      .get('/categories')
+      .set('token', token)
+      .expect(200)
+      .then(response => {
+        done();
+      })
+      .catch(err => {
+        return done(err)
+      })
+  })
+
+  it("Create category", (done) => {
+    request(app)
+      .post('/categories/admin')
+      .set('token', token)
+      .send({
+        category_name : "elektronik"
+      })
+      .expect(200)
+      .then(response => {
+        expect(response.body.category_name).toBe('elektronik')
+        done();
+      })
+      .catch(err => {
+        return done(err)
+      })
+  })
+
+  it("Create category fail because category_name is null", (done) => {
+    request(app)
+      .post('/categories/admin')
+      .set('token', token)
+      .send({
+        category_name : ""
+      })
+      .expect(400)
+      .then(response => {
+        expect(response.text).toBe("{\"category_name\":\"Category name is required!\"}")
+        done();
+      })
+      .catch(err => {
+        return done(err)
+      })
+  })
+
+  it("Update category", (done) => {
+    request(app)
+      .put('/categories/admin/1')
+      .set('token', token)
+      .send({
+        category_name : "electric"
+      })
+      .expect(200)
+      .then(response => {
+        expect(response.body.category_name).toBe('electric')
+        done();
+      })
+      .catch(err => {
+        return done(err)
+      })
+  })
+
+  it("Update category fail because category_name is null", (done) => {
+    request(app)
+      .put('/categories/admin/1')
+      .set('token', token)
+      .send({
+        category_name : ""
+      })
+      .expect(400)
+      .then(response => {
+        expect(response.text).toBe("{\"category_name\":\"Category name is required!\"}")
+        done();
+      })
+      .catch(err => {
+        return done(err)
+      })
+  })
+
+  it("Delete category", (done) => {
+    request(app)
+      .delete('/categories/admin/1')
+      .set('token', token)
+      .expect(200)
+      .then(response => {
+        expect(response.body.category_name).toBe("electric")
+        done();
+      })
+      .catch(err => {
+        return done(err)
+      })
+  })
+
+})

@@ -6,8 +6,7 @@ const isCategoryExist = require('../middlewares/isCategoryExist')
 router.get('/', CategoryController.getAllCategory)
 router.use(isAdmin)
 router.post('/admin', CategoryController.createCategory)
-router.use(isCategoryExist)
-router.put('/admin/:category_id', CategoryController.updateCategory)
-router.delete('/admin/:category_id', CategoryController.deleteCategory)
+router.put('/admin/:category_id', isCategoryExist ,CategoryController.updateCategory)
+router.delete('/admin/:category_id', isCategoryExist ,CategoryController.deleteCategory)
 
 module.exports = router

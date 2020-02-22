@@ -6,6 +6,7 @@ module.exports = (req, res, next) => {
   Category
     .findByPk(req.params.category_id)
     .then(response => {
+      console.log(response)
       if(response != null){
         next()
       }else{
