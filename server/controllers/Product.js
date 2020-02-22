@@ -4,7 +4,6 @@ const User = require("../models").User
 class ControlProduct {
     static postProduct(req, res, next) {
         const { name, category, stock, image_url, price, rating, description } = req.body
-        console.log(req.body, "<<<<<<<<<<<<<<<<<<<<< ini body post")
         if (stock < 0) {
             throw ({ code: 400, message: "stock should not be below 0" })
         } else if (price < 0) {
@@ -55,6 +54,14 @@ class ControlProduct {
     static editProduct(req, res, next) {
         // console.log(req.body, "<<<<<")
         const { name, category, stock, image_url, price, description } = req.body
+        if (stock < 0 && price < 0) {
+            throw ({ code: 400, message: "price and stock should not be below 0" })
+        }
+        else if (stock < 0) {
+            throw ({ code: 400, message: "stock should not be below 0" })
+        } else if (price < 0) {
+            throw ({ code: 400, message: "price should not be below 0" })
+        }
         let catInput
         if (category == "Clothes") {
             catInput == "Clothing"
@@ -106,7 +113,22 @@ class ControlProduct {
                 res.status(200).json(perCategory)
             })
             .catch(err => {
-                console.log(err, "<< ini errornya")
+                next(err)
+            })
+    }
+    static getProductsByOfficialStore(req, res, next) {
+        Product.findAll({ where: {}, include: [User] })
+            .then(allProducts => {
+                let official = []
+                for (let i of allProducts) {
+                    if (i.User.role == "admin") {
+                        official.push(i)
+                    }
+                }
+                res.status(200).json(official)
+                // res.status(200).json(allProducts)
+            })
+            .catch(err => {
                 next(err)
             })
     }

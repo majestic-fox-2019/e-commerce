@@ -1,6 +1,6 @@
 function errHandler(err, req, res, next) {
     if (err.code) {
-        res.status(err.code).json(err.message)
+        res.status(err.code).json({ message: err.message })
     } else if (err.errors) {
         let message = []
         for (let i of err.errors) {

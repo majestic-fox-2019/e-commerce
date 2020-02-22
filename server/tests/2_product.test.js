@@ -32,9 +32,6 @@ describe("POST /users/register", function () {
                     // expect(res.body).toBe("heheh")
                     expect(res.body).toHaveProperty("userRegistered")
                     expect(res.body).toHaveProperty("token")
-                    expect(res.body.userRegistered).toHaveProperty("email")
-                    expect(res.body.userRegistered).toHaveProperty("name")
-                    expect(res.body.userRegistered).toHaveProperty("role")
 
                     // console.log(res.body.token, "<<<<<<<")
                     token = res.body.token

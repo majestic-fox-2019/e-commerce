@@ -1,7 +1,7 @@
 const routes = require("express").Router()
 const controlProduct = require("../controllers/Product")
 const authentication = require("../middlewares/authentication")
-const { toEditDeleteProduct } = require("../middlewares/authorization")
+const { toEditDeleteProduct, forAdmin } = require("../middlewares/authorization")
 const upload = require("../middlewares/awsUpload")
 
 routes.get("/", controlProduct.getAllProducts)
@@ -12,4 +12,5 @@ routes.put("/normal/:idProduct", authentication, toEditDeleteProduct, controlPro
 routes.delete("/:idProduct", authentication, toEditDeleteProduct, controlProduct.deleteProduct)
 routes.get("/:idProduct", controlProduct.getDetailById)
 routes.get("/category/:category", controlProduct.getProductsByCategory)
+routes.get("/official/byOfficial", authentication, controlProduct.getProductsByOfficialStore)
 module.exports = routes

@@ -46,7 +46,7 @@ describe("POST /users/register", function () {
                     done()
                 } else {
                     // expect(res.body).toHaveProperty("message")
-                    expect(res.body).toBe("email already registered")
+                    expect(res.body.message).toBe("email already registered")
                     done()
                 }
             })
@@ -117,7 +117,7 @@ describe("POST /users/login", function () {
                 if (err) {
                     done()
                 } else {
-                    expect(res.body).toBe("wrong email/password")
+                    expect(res.body.message).toBe("wrong email/password")
                     done()
                 }
             })
@@ -134,7 +134,7 @@ describe("POST /users/login", function () {
                 if (err) {
                     done()
                 } else {
-                    expect(res.body).toBe("wrong email/password")
+                    expect(res.body.message).toBe("wrong email/password")
                     done()
                 }
             })
