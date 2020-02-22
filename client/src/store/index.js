@@ -88,6 +88,21 @@ export default new Vuex.Store({
         .catch(err => {
           console.log(err.response)
         })
+    },
+    findUserProduct({ commit, state }) {
+      axios({
+        method: 'get',
+        url: `${state.baseUrl}/products/user`,
+        headers: {
+          token: localStorage.getItem('e_musicToken')
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
   modules: {}
