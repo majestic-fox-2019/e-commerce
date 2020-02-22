@@ -2,7 +2,7 @@
 const bcrypt = require("bcryptjs");
 module.exports = (sequelize, DataTypes) => {
     const { Model } = sequelize.Sequelize;
-    class User extends Model {}
+    class User extends Model { }
     User.init(
         {
             name: {
@@ -31,6 +31,19 @@ module.exports = (sequelize, DataTypes) => {
                         message: "password must be filled"
                     }
                 }
+            },
+            role: {
+                type: DataTypes.STRING,
+                validate: {
+                    notEmpty: {
+                        args: true,
+                        message: "password must be filled"
+                    },
+                    isIn: {
+                        args: [['admin', 'user']],
+                        msg: "choose either admin or user"
+                    }
+                }
             }
         },
         {
@@ -44,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         }
     );
-    User.associate = function(models) {
+    User.associate = function (models) {
         // associations can be defined here
     };
     return User;

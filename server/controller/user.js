@@ -6,15 +6,22 @@ class UserController {
         let objInput = {
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            role: req.body.role
         };
         User.create(objInput)
             .then(result => {
-                res.status(200).json(result);
+                var restoken = jwt.sign(
+                    {
+                        email: result.email,
+                        id: result.id
+                    },
+                    "wiesoo"
+                );
+                res.status(200).json({ token: restoken, result: result });
             })
             .catch(err => {
-                console.log(err);
-                res.status(404);
+                res.status(404).json(err.message);
             });
     }
     static login(req, res, next) {
@@ -36,17 +43,16 @@ class UserController {
                         },
                         "wiesoo"
                     );
-                    console.log(result.id);
                     res.status(200).json({
                         token: restoken,
-                        UserId: result.id
+                        result: result
                     });
                 } else {
                     throw "password is false";
                 }
             })
             .catch(err => {
-                res.status(400).json(err);
+                res.status(400).json(err.message);
             });
     }
 }
