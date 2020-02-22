@@ -17,7 +17,12 @@ class UserController {
         const token = createToken({ id: result.id, email: result.email })
         res.status(201).json({
           token: token,
-          data: { id: result.id, role: result.role },
+          data: {
+            id: result.id,
+            name: result.name,
+            role: result.role,
+            shop_name: result.shop_name
+          },
           msg: 'User Created'
         })
       })
@@ -41,7 +46,12 @@ class UserController {
             const token = createToken({ id: result.id, email: result.email })
             res.status(201).json({
               token: token,
-              data: { id: result.id, role: result.role },
+              data: {
+                id: result.id,
+                name: result.name,
+                role: result.role,
+                shop_name: result.shop_name
+              },
               msg: 'Login Success'
             })
           }
@@ -50,10 +60,24 @@ class UserController {
       .catch(next)
   }
 
+  static getUserInfo(req, res, next) {
+    const id = req.loggedIn.id
+    User.findOne({ where: { id: id } })
+      .then(result => {
+        const user = {
+          id: result.id,
+          name: result.name,
+          role: result.role,
+          shop_name: result.shop_name
+        }
+        res.status(200).json(user)
+      })
+      .catch(next)
+  }
+
   static addShop(req, res, next) {
-    console.log('<<<<< CONTROLLER ADD SHOP', req.body, req.loggedIn)
     const shop = {
-      role: 'seller',
+      role: 'premium',
       shop_name: req.body.shop_name
     }
     User.update(shop, { where: { id: req.loggedIn.id } })

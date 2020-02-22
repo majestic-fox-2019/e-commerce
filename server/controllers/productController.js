@@ -1,8 +1,24 @@
-const { Product } = require('../models')
+const { Product, User } = require('../models')
 
 class ProductController {
   static getAllProducts(req, res, next) {
-    Product.findAll()
+    Product.findAll({
+      include: [{ model: User, attributes: ['name', 'shop_name'] }]
+    })
+      .then(results => {
+        res.status(200).json(results)
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
+
+  static getMyProducts(req, res, next) {
+    const userId = req.loggedIn.id
+    Product.findAll({
+      where: { UserId: userId },
+      include: [{ model: User, attributes: ['name', 'shop_name'] }]
+    })
       .then(results => {
         res.status(200).json(results)
       })
@@ -14,7 +30,10 @@ class ProductController {
   static getByCategories(req, res, next) {
     const category = req.params.category
     console.log(category)
-    Product.findAll({ where: { category: category } })
+    Product.findAll({
+      where: { category: category },
+      include: [{ model: User, attributes: ['name', 'shop_name'] }]
+    })
       .then(results => {
         res.status(200).json(results)
       })
@@ -22,7 +41,10 @@ class ProductController {
   }
 
   static getOneDetail(req, res, next) {
-    Product.findOne({ where: { id: req.params.id } })
+    Product.findOne({
+      where: { id: req.params.id },
+      include: [{ model: User, attributes: ['name', 'shop_name'] }]
+    })
       .then(result => {
         res.status(200).json(result)
       })
@@ -33,10 +55,11 @@ class ProductController {
     const data = {
       name: req.body.name,
       description: req.body.description,
-      price: req.body.description,
+      price: req.body.price,
       stocks: req.body.stocks,
-      image_url: req.body.image_url,
+      status: req.body.status,
       category: req.body.category,
+      image_url: req.body.image_url,
       UserId: req.loggedIn.id
     }
     Product.create(data)
@@ -55,10 +78,11 @@ class ProductController {
     const data = {
       name: req.body.name,
       description: req.body.description,
-      price: req.body.description,
+      price: req.body.price,
       stocks: req.body.stocks,
-      image_url: req.body.image_url,
+      status: req.body.status,
       category: req.body.category,
+      image_url: req.body.image_url,
       UserId: req.loggedIn.id
     }
     Product.update(data, { where: { id: req.params.id } })
