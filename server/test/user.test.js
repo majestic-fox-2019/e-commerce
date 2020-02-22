@@ -2,15 +2,15 @@ const app = require('../app')
 const request = require('supertest');
 
 // register new user
-describe('POST /user/register', () => {
+describe('POST /register', () => {
   it('should register new user', (done) => {
     let user = {
       name: 'user',
       email: 'user@gmail.com',
-      password: 'user',
+      password: 'user12345',
     }
     request(app)
-      .post('/user/register')
+      .post('/register/')
       .send(user)
       .expect(201)
       .then(res => {
@@ -27,14 +27,14 @@ describe('POST /user/register', () => {
 })
 
 // login user
-describe('POST /user/login', () => {
+describe('POST /login', () => {
   it('should login user', (done) => {
     let user = {
       email: 'user@gmail.com',
-      password: 'user',
+      password: 'user12345',
     }
     request(app)
-      .post('/user/login')
+      .post('/login')
       .send(user)
       .expect(200)
       .then(res => {
