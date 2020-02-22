@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 // import axios from 'axios';
 // USER
-// import Home from '@/views/Home.vue';
+import Home from '@/views/Home.vue';
 // import Login from '@/views/Login.vue';
 // import Register from '@/views/Register.vue';
 // import DetailProduct from '@/views/DetailProduct.vue';
@@ -22,35 +22,23 @@ import EditProductAdmin from '@/components/admin/FormEdit.vue';
 Vue.use(VueRouter);
 // cek login
 
-// const beforeEnter = async (to, from, next) => {
-//   if (localStorage.getItem('token')) {
-//     await api
-//       .get('/check', {
-//         headers: {
-//           token: localStorage.getItem('token'),
-//         },
-//       })
-//       .then(({
-//         data,
-//       }) => {
-//         console.log(data.message);
-//         next({
-//           path: from.path,
-//         });
-//       })
-//       .catch((err) => console.log(err.response));
-//   } else {
-//     next();
-//   }
-// };
+const beforeEnter = async (to, from, next) => {
+  if (localStorage.getItem('token')) {
+    next({
+      path: '/admin',
+    });
+  } else {
+    next();
+  }
+};
 
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: Home,
-  // },
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
   // {
   //   path: '/login',
   //   name: 'Login',
@@ -72,39 +60,54 @@ const routes = [
     path: '/login',
     name: 'LoginAdmin',
     component: LoginAdmin,
-    // beforeEnter,
+    beforeEnter,
   },
   {
     path: '/admin',
     name: 'Dashboard',
     component: Dashboard,
+    meta: {
+      requiresAuth: true,
+    },
     children: [
       {
         path: '',
         component: HomeAdmin,
-        // meta: {
-        //   requiresAuth: true,
-        // },
+        meta: {
+          requiresAuth: true,
+        },
       },
       {
         path: 'product',
         name: 'Product',
         component: AllProduct,
+        meta: {
+          requiresAuth: true,
+        },
       },
       {
         path: 'productadd',
         name: AddProduct,
         component: AddProduct,
+        meta: {
+          requiresAuth: true,
+        },
       },
       {
         path: 'productdetail/:id',
         name: DetailProductAdmin,
         component: DetailProductAdmin,
+        meta: {
+          requiresAuth: true,
+        },
       },
       {
         path: 'editproduct/:id',
         name: EditProductAdmin,
         component: EditProductAdmin,
+        meta: {
+          requiresAuth: true,
+        },
       },
     ],
   },
@@ -126,27 +129,20 @@ const router = new VueRouter({
 
 // Before
 // router.beforeEach((to, from, next) => {
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//     if (localStorage.getItem('token')) {
-//       api.get('/check', {
-//         headers: {
-//           token: localStorage.getItem('token'),
-//         },
-//       })
-//         .then(({
-//           data,
-//         }) => {
-//           console.log(data.message);
-//           next();
-//         })
-//         .catch((err) => console.log(err.response));
-//     } else {
-//       next({
-//         name: 'Login',
-//       });
-//     }
-//   } else {
-//     next();
-//   }
+//   if (!localStorage.getItem('token')) next('/login');
+//   else next();
 // });
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (localStorage.getItem('token')) {
+      next();
+    } else {
+      next({
+        name: 'LoginAdmin',
+      });
+    }
+  } else {
+    next();
+  }
+});
 export default router;

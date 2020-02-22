@@ -2,7 +2,7 @@
     <nav class="fixed-top d-flex justify-content-between
     navbar navbar-expand-md p-1 navbar-dark bg-dark">
         <div class="logo">
-          <router-link to="/admin/" class="navbar-brand">Logo</router-link>
+          <router-link to="/admin/" class="navbar-brand" >Logo</router-link>
         </div>
         <div>
           <ul class="navbar-nav mr-right mr-md-3">
@@ -12,7 +12,8 @@
               <div class="dropdown-menu" aria-labelledby="dropdown04">
                 <a class="dropdown-item" href="#">Profile</a>
                 <!-- <a class="dropdown-item" href="#">Logout</a> -->
-                <router-link to="/login" class="dropdown-item">Logout</router-link>
+                <button @click.prevent="logout" to="/login" class="dropdown-item"
+                >Logout</button>
               </div>
             </li>
           </ul>
@@ -22,7 +23,13 @@
 
 <script>
 export default {
-
+  name: 'TopNav',
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
+      this.$router.push({ name: 'LoginAdmin' });
+    },
+  },
 };
 </script>
 

@@ -13,7 +13,7 @@ export default new Vuex.Store({
   },
   mutations: {
     // Sync
-    login(state, payload) {
+    isLogin(state, payload) {
       state.isLogin = true;
       state.userLogin = payload;
     },
@@ -35,7 +35,7 @@ export default new Vuex.Store({
       }
     },
     logout({ commit }) {
-      localStorage.removeItem('token');
+      localStorage.clear();
       commit('logout');
     },
     getAllProduct({ commit }) {
