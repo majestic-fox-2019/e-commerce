@@ -50,7 +50,9 @@ export default {
   },
   data(){
     return {
-      pageSize : null
+      pageSize : null,
+      success : '',
+      error : ''
     }
   },
   methods : {
@@ -64,10 +66,10 @@ export default {
       })
       .then(response => {
         this.$store.dispatch('getProduct')
-        console.log(response)
+        this.success = response
       })
       .catch(err => {
-        console.log(err)
+        this.error = err
       })
     }
   }
