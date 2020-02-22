@@ -14,7 +14,7 @@ import tableCategory from './components/tableCategory.vue';
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
-Vue.prototype.$axios = axios.create({ baseURL: 'http://localhost:3000' });
+Vue.prototype.$axios = axios.create({ baseURL: 'https://ma-tea.herokuapp.com' });
 const routes = [
   {
     path: '/',

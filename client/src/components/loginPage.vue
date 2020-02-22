@@ -87,6 +87,5 @@ export default {
   width: 400px;
   background-color: gray;
   color: black;
-  opacity: 80%;
 }
 </style>
