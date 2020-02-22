@@ -148,6 +148,7 @@
         </div>
         <div id="boardCard">
           <Products v-for="product in products" :key="product.id" :barang="product" />
+          {{products}}
         </div>
       </div>
       <router-view></router-view>
@@ -158,7 +159,8 @@
 <script>
 import axios from "axios";
 import Products from "./category/Product.vue";
-const server = `http://localhost:3000`;
+// const server = `http://localhost:3000`;
+const server = `https://mysterious-plains-04294.herokuapp.com`;
 
 export default {
   components: {
@@ -193,17 +195,21 @@ export default {
       }
 
       let arr = this.$store.state.items;
+      // console.log(JSON.stringify(arr));
       if (this.category == "all") {
+        // console.log("masuk all pak");
         return arr;
       } else {
-        let kategori = arr.filter(el => {
-          if (el.CategoryId == kategoriId) {
-            return true;
-          } else {
-            return false;
-          }
-        });
-        return kategori;
+        // console.log("masuk pak");
+        return arr.filter(el => el.CategoryId == kategoriId);
+        // let kategori = arr.filter(el => {
+        //   if (el.CategoryId == kategoriId) {
+        //     return true;
+        //   } else {
+        //     return false;
+        //   }
+        // });
+        // return kategori;
       }
     }
   },

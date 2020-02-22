@@ -57,10 +57,23 @@ class controllerProducts {
 
   static deleteProduct(req, res, next) {
     let id = req.params.id
+    let isi = null
     Product
-      .destroy({ where: { id: id } })
-      .then(resultDelete => {
-        res.status(200).json(resultDelete)
+      .findOne({ where: { id: id } })
+      .then(result => {
+        isi = result
+        return Product.destroy({ where: { id: id }, returning: true })
+      })
+      .then(resultDestroy => {
+        if (resultDestroy > 0) {
+          res.status(200).json(isi)
+        } else {
+          let err = {
+            statusCode: '404',
+            message: 'not found'
+          }
+          next(err)
+        }
       })
       .catch(err => {
         res.status(500)

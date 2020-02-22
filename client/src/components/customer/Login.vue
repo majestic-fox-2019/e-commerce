@@ -15,6 +15,7 @@
           <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
             <input
+              required
               type="email"
               class="form-control"
               id="exampleInputEmail1"
@@ -25,6 +26,7 @@
           <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
             <input
+              required
               type="password"
               class="form-control"
               id="exampleInputPassword1"
@@ -41,7 +43,9 @@
 
 <script>
 import axios from "axios";
-const server = `http://localhost:3000`;
+import Swal from "sweetalert2";
+// const server = `http://localhost:3000`;
+const server = `https://mysterious-plains-04294.herokuapp.com`;
 export default {
   data: function() {
     return {
@@ -66,8 +70,21 @@ export default {
               path: "/dashboard"
             })
             .catch(_ => {});
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Welcome",
+            showConfirmButton: false,
+            timer: 1500
+          });
         })
         .catch(err => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            footer: "<a href>Why do I have this issue?</a>"
+          });
           console.log(err.message);
         });
     }

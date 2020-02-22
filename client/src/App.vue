@@ -49,7 +49,6 @@ export default {
       if (!token) return;
       const user = jwt.verify(token, "edo tensi");
 
-      console.log(user, "<<<<<<<<<<< cekAdmin");
       if (user.role == "admin") {
         // this.isAdmin = true;
         this.$store.commit("isAdmin", true);

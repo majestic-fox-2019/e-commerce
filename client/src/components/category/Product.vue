@@ -7,6 +7,7 @@
         <!-- <p class="card-text">Price : {{barang.price}}</p> -->
         <p class="card-text">Price : {{rupiah}}</p>
         <p>Stock : {{barang.stock}}</p>
+        <!-- {{barang}} -->
         <p>category : {{barang.Category.name}}</p>
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
           <label class="btn btn-secondary">
@@ -60,10 +61,10 @@
                   <label for="inputPassword3" class="col-sm-2 col-form-label">Price</label>
                   <div class="col-sm-10">
                     <input
+                      required
                       type="number"
                       class="form-control"
                       min="0"
-                      required
                       v-model="editForm.price"
                     />
                   </div>
@@ -72,17 +73,17 @@
                   <label for="inputPassword3" class="col-sm-2 col-form-label">Stock</label>
                   <div class="col-sm-10">
                     <input
+                      required
                       type="number"
                       class="form-control"
                       min="0"
-                      required
                       v-model="editForm.stock"
                     />
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="exampleFormControlSelect1">Category</label>
-                  <select class="form-control" v-model="editForm.CategoryId">
+                  <select class="form-control" v-model="editForm.CategoryId" required>
                     <option value="1">Celana</option>
                     <option value="2">Jaket</option>
                     <option value="3">Baju</option>
@@ -104,6 +105,7 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 export default {
   props: ["barang"],
   created() {
@@ -142,7 +144,20 @@ export default {
   },
   methods: {
     deleteBarang() {
-      this.$store.dispatch("deletBarang", this.barang.id);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        }
+        this.$store.dispatch("deletBarang", this.barang.id);
+      });
     },
     editBarang() {
       let updatedForm = {
@@ -153,6 +168,13 @@ export default {
         stock: this.editForm.stock,
         CategoryId: this.editForm.CategoryId
       };
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 1500
+      });
       this.$store.dispatch("editBarang", updatedForm);
       window.$("#tes" + this.barang.id).modal("hide");
     }

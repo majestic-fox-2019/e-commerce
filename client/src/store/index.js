@@ -5,7 +5,8 @@ import jwt from 'jsonwebtoken'
 Vue.use(Vuex)
 
 import axios from 'axios'
-const server = `http://localhost:3000`
+// const server = `http://localhost:3000`
+const server = `https://mysterious-plains-04294.herokuapp.com`
 
 export default new Vuex.Store({
   state: {
@@ -30,7 +31,7 @@ export default new Vuex.Store({
       // if (!token) return;
 
       const user = token ? jwt.verify(token, "edo tensi") : null
-      console.log(user, "<<<<<<<<<<< cekAdmin");
+
       if (user && user.role == "admin") {
         // this.isAdmin = true;
         context.commit("isAdmin", true);

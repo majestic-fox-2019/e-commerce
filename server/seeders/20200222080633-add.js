@@ -12,6 +12,12 @@ module.exports = {
         isBetaMember: false
       }], {});
       */
+    return queryInterface.bulkInsert('Users', [{
+      username: 'admin1',
+      email: 'admin1@gmail.com',
+      role: 'admin',
+      password: '123'
+    }], { Sequelize });
   },
 
   down: (queryInterface, Sequelize) => {
@@ -21,6 +27,7 @@ module.exports = {
 
       Example:
       return queryInterface.bulkDelete('People', null, {});
-    */
+      */
+    return queryInterface.bulkDelete('Users', null, { Sequelize });
   }
 };
