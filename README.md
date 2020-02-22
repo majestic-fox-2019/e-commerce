@@ -2,7 +2,7 @@
 
 ```
 Deploy Server : https://ecommerce-v2.herokuapp.com
-Deploy Client : https://kanmarz-v2.firebaseapp.com
+Deploy Client : https://mashumarket.firebaseapp.com
 ```
 
 How to run locally :
