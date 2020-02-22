@@ -1,6 +1,18 @@
 Link Deploy:
 
+https://arduishop-f0a45.firebaseapp.com/
 
+Admin Account:
+
+email: admin@arduishop.com
+
+password: admin
+
+## 
+
+    npm install
+    sequelize db:migrate
+    sequelize db:seed:all --> seed admin & product
 
 # E-Commerce 
 
@@ -175,7 +187,7 @@ http://localhost:3000/api/users/1
 ```javascript
 {   
     "name" : "<<your_name>>",
-    "password": "<<your_password>>"
+    "role": "<<role>>"
 }
 ```
 
@@ -188,7 +200,7 @@ If request success:
 ```javascript
 {
     "name": "Fajrin Noor Rachman",
-    "password": "12345"
+    "role": "customer"
 }
 ```
 
@@ -201,7 +213,7 @@ If request failed because validation is not complete:
 [
     {
         "status": 400,
-        "msg": "<<params_that_empty"
+        "msg": "<<params_that_empty">>
     }
 ]
 ```
@@ -224,11 +236,125 @@ If request failed caused by server:
 Internal Server Error
 ```
 
-## 
+## 4. GET /api/users
+
+    List all users
+
+* **EXAMPLE URL:**
+
+http://localhost:3000/api/users
+
+* **REQUEST HEADER**
+
+```javascript
+{
+    "token": "<<jwt_token>>"
+}
+```
+
+* **RESPONSE**
+
+If request success:
+
+* Status Code: 200
+
+```javascript
+[
+    {
+        "id": 1,
+        "name": "Fajrin Noor Rachman",
+        "email": "fajrin@mail.com",
+        "password": "<<bcrypt password>>",
+        "role": "admin",
+        "createdAt": "2020-02-13T21:51:09.910Z",
+        "updatedAt": "2020-02-13T21:51:09.910Z",
+    },
+    {
+        "id": 2,
+        "name": "Rizky Ihsan Ramadhan Rachman",
+        "email": "ihsan@mail.com",
+        "password": "<<bcrypt password>>",
+        "role": "customer",
+        "createdAt": "2020-02-13T21:51:09.910Z",
+        "updatedAt": "2020-02-13T21:51:09.910Z",
+    }
+]
+```
+
+If request success but theres no data found:
+
+* Status Code: 200
+
+```javascript
+{
+    "User is empty."
+}
+```
+
+If request failed caused by server:
+
+* Status Code: 500
+
+```javascript
+Internal Server Error
+```
+
+## 5. DELETE /api/users/:id
+
+    Delete user
+
+* **EXAMPLE URL:**
+
+http://localhost:3000/api/users/2
+
+* **REQUEST HEADER**
+
+```javascript
+{
+    "Content-Type": "application/json; charset=utf-8",
+    "token": "<<jwt_token>>"
+}
+```
+
+* **RESPONSE**
+
+If request success:
+
+* Status Code: 200
+
+```javascript
+{
+     	"id": 2,
+        "name": "Rizky Ihsan Ramadhan Rachman",
+        "email": "ihsan@mail.com",
+        "password": "<<bcrypt password>>",
+        "role": "customer",
+        "createdAt": "2020-02-13T21:51:09.910Z",
+        "updatedAt": "2020-02-13T21:51:09.910Z",
+}
+```
+
+If request failed because project not found:
+
+* Status Code: 404
+
+```javascript
+{
+    "error": "Not Found"
+}
+```
+
+If request failed caused by server:
+
+* Status Code: 500
+
+```javascript
+Internal Server Error
+```
 
 # -- PRODUCTS --
 
-## 4. POST /api/products
+## 6. POST /api/products
 
     Add/Create Product
 
@@ -249,8 +375,9 @@ http://localhost:3000/api/products
 
 ```javascript
 {
-    "name": "Adidas Predator",
-    "image_url": "https://adidas.com/predator",
+    "name": "Arduino Uno",
+    "description": "blablablablablablablablablablablablablablablablablabla"
+    "image_url": "https://arduino.com/arduino-uno",
     "price": "1300000",
     "stock": 5
 }
@@ -265,9 +392,10 @@ If request success:
 ```javascript
 {
     "id": 1,
-    "title": "Adidas Predator",
-    "description": "https://adidas.com/predator",
-    "category": "1300000",
+    "name": "Arduino Uno",
+    "description": "blablablablablablablablablablablablablablablablablabla",
+    "image_url": "https://arduino.com/arduino-uno",
+    "price": "1300000",
     "stock": 5,
     "updatedAt": "2020-02-14T15:48:12.936Z",
     "createdAt": "2020-02-14T15:48:12.936Z"
@@ -296,7 +424,7 @@ Internal Server Error
 ```
 
 
-## 5. GET /api/products
+## 7. GET /api/products
 
     List all products
 
@@ -314,28 +442,30 @@ If request success:
 [
     {
         "id": 1,
-        "title": "Adidas Predator",
-        "image_url": "https://adidas.com/predator",
+        "name": "Arduino Uno",
+        "description": "blablablablablablablablablablablablablablablablablabla",
+        "image_url": "https://arduino.com/arduino-uno",
         "price": "1300000",
         "stock": 5,
-        "createdAt": "2020-02-13T21:51:09.910Z",
-        "updatedAt": "2020-02-13T21:51:09.910Z",
+        "updatedAt": "2020-02-14T15:48:12.936Z",
+        "createdAt": "2020-02-14T15:48:12.936Z"
     },
     {
         "id": 2,
-        "title": "Arduino Uno",
-        "image_url": "https://arduino.com/uno",
-        "price": "500000"
+        "name": "Arduino Mega",
+        "description": "blablablablablablablablablablablablablablablablablabla",
+        "image_url": "https://arduino.com/arduino-mega",
+        "price": "900000",
         "stock": 5,
-        "createdAt": "2020-02-13T23:53:54.353Z",
-        "updatedAt": "2020-02-13T23:53:54.353Z",
+        "updatedAt": "2020-02-14T15:48:12.936Z",
+        "createdAt": "2020-02-14T15:48:12.936Z"
     }
 ]
 ```
 
 If request success but theres no data found:
 
-* Status Code: 404
+* Status Code: 200
 
 ```javascript
 {
@@ -351,7 +481,7 @@ If request failed caused by server:
 Internal Server Error
 ```
 
-## 6. GET /api/products/:id 
+## 8. GET /api/products/:id 
 
     Get product by id
 
@@ -368,16 +498,17 @@ If request success:
 ```javascript
 {
       "id": 1,
-      "title": "Adidas Predator",
-      "image_url": "https://adidas.com/predator",
+      "name": "Arduino Uno",
+      "description": "blablablablablablablablablablablablablablablablablabla",
+      "image_url": "https://arduino.com/arduino-uno",
       "price": "1300000",
       "stock": 5,
-      "createdAt": "2020-02-13T21:51:09.910Z",
-      "updatedAt": "2020-02-13T21:51:09.910Z"
+      "updatedAt": "2020-02-14T15:48:12.936Z",
+      "createdAt": "2020-02-14T15:48:12.936Z"
 }
 ```
 
-If request success but theres no data found:
+If request failed caused no data found:
 
 * Status Code: 400
 
@@ -395,7 +526,7 @@ If request failed caused by server:
 Internal Server Error
 ```
 
-## 7. PUT /api/products/:id
+## 9. PUT /api/products/:id
 
     Edit product
 
@@ -416,10 +547,11 @@ http://localhost:3000/api/products/1
 
 ```javascript
 {
-    "title": "Adidas Predator",
-    "image_url": "https://adidas.com/predator",
-    "price": "1350000"
-    "stock": 6,
+   "name": "Arduino Uno",
+   "description": "blablablablablablablablablablablablablablablablablabla",
+   "image_url": "https://arduino.com/arduino-uno",
+   "price": "1300000",
+   "stock": 5,
 }
 ```
 
@@ -431,10 +563,11 @@ If request success:
 
 ```javascript
 {
-    "title": "Adidas Predator",
-    "image_url": "https://adidas.com/predator",
-    "price": "1350000"
-    "stock": 6,
+   "name": "Arduino Uno",
+   "description": "blablablablablablablablablablablablablablablablablabla",
+   "image_url": "https://arduino.com/arduino-uno",
+   "price": "1300000",
+   "stock": 5,
 }
 ```
 
@@ -470,7 +603,7 @@ If request failed caused by server:
 Internal Server Error
 ```
 
-## 8. DELETE /api/products/:id
+## 10. DELETE /api/products/:id
 
     Delete product
 
@@ -495,13 +628,11 @@ If request success:
 
 ```javascript
 {
-      "id": 1,
-      "title": "Adidas Predator",
-      "image_url": "https://adidas.com/predator",
+      "name": "Arduino Uno",
+      "description": "blablablablablablablablablablablablablablablablablabla",
+      "image_url": "https://arduino.com/arduino-uno",
       "price": "1300000",
       "stock": 5,
-      "createdAt": "2020-02-13T21:51:09.910Z",
-      "updatedAt": "2020-02-13T21:51:09.910Z"
 }
 ```
 
@@ -522,3 +653,115 @@ If request failed caused by server:
 ```javascript
 Internal Server Error
 ```
+
+# -- CART --
+
+## 11. GET /api/carts
+
+    Get all product that user buy
+
+* **EXAMPLE URL:**
+
+http://localhost:3000/api/carts
+
+* **RESPONSE**
+
+If request success:
+
+* Status Code: 200
+
+```javascript
+[
+    {
+        "id": 1,
+        "name": "Arduino Mega",
+        "description": "The MEGA 2560 is designed for more complex projects. With 54 digital I/O pins, 16 analog inputs and a larger space for your sketch it is the recommended board for 3D printers and robotics projects. This gives your projects plenty of room and opportunities.",
+        "image_url": "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000067_featured_1_.jpg",
+        "price": "800000",
+        "stock": 10,
+        "createdAt": "2020-02-22T06:00:13.656Z",
+        "updatedAt": "2020-02-22T06:00:13.656Z",
+        "Cart": {
+            "UserId": 2,
+            "ProductId": 2,
+            "createdAt": "2020-02-22T06:08:33.043Z",
+            "updatedAt": "2020-02-22T06:08:33.043Z"
+        }
+    }
+]
+```
+
+If request failed caused no data found:
+
+* Status Code: 404
+
+```javascript
+{
+    "error": "Not Found"
+}
+```
+
+If request failed caused by server:
+
+* Status Code: 500
+
+```javascript
+Internal Server Error
+```
+
+## 12. POST /api/carts/:id
+
+    Add product to cart
+
+* **EXAMPLE URL:**
+
+http://localhost:3000/api/carts/3
+
+* **REQUEST HEADER**
+
+```javascript
+{
+    "Content-Type": "application/json; charset=utf-8",
+    "token": "<<jwt_token>>"
+}
+```
+
+* **RESPONSE**
+
+If request success:
+
+* Status Code: 200
+
+```javascript
+{
+    "UserId": 1,
+    "ProductId": 3,
+    "updatedAt": "2020-02-22T10:09:32.041Z",
+    "createdAt": "2020-02-22T10:09:32.041Z",
+    "id": 1
+}
+```
+
+If request failed because validation is not complete:
+
+* Status Code: 400
+
+```javascript
+[
+    {
+        "status": 400,
+        "msg": "<<params_is_empty>>"
+    }
+]
+```
+
+If request failed caused by server:
+
+* Status Code: 500
+
+```javascript
+Internal Server Error
+```
+
+
+## 
