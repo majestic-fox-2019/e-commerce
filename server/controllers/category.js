@@ -47,14 +47,19 @@ class CategoryController {
     }
     static deleteCategory(req, res, next) {
         const options = {
-            where: { id: req.body.id }
+            where: { id: Number(req.params.id) }
         }
         Category
-            .delete(options)
-            .then(category => {
-                res.status(200).json(category)
+            .destroy(options)
+            .then(result => {
+                if (result !== 0) {
+                    res.status(200).json({message: 'Successfully deleted category'})
+                } else {
+                    next(createError(404, 'Category not found'))
+                }
             })
             .catch(err => {
+                console.log('gagal')
                 console.log(err)
             })
     }
