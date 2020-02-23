@@ -27,7 +27,7 @@ class CategoryController {
         Category
             .create(value)
             .then(category => {
-                res.status(201).json({ data: category, message: 'Successfully add a category' })
+                res.status(201).json({ data: category, message: 'Successfully added a category' })
             })
             .catch(next)
     }
