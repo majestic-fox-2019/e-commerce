@@ -1,5 +1,5 @@
 <template>
-  <div id="login">
+  <div id="register">
     <div id="back">
       <canvas id="canvas" class="canvas-back"></canvas>
       <div class="backRight"></div>
@@ -9,18 +9,22 @@
       <div class="topLayer">
         <div class="right">
           <div class="content">
-            <h2>Login</h2>
-            <form id="form-login" @submit.prevent="loginSubmit">
+            <h2>Register</h2>
+            <form id="form-register" @submit.prevent="registerSubmit">
               <div class="form-element form-stack">
-                <label for="email-login" class="form-label">Email</label>
-                <input id="email-login" type="email" name="Email" v-model="email" required />
+                <label for="name-register" class="form-label">Name</label>
+                <input id="name-register" type="text" name="name" v-model="name" required/>
               </div>
               <div class="form-element form-stack">
-                <label for="password-login" class="form-label">Password</label>
-                <input id="password-login" type="password" name="password" v-model="password" required minlength="6"/>
+                <label for="email" class="form-label">Email</label>
+                <input id="email" type="email" name="email" v-model="email" required/>
+              </div>
+              <div class="form-element form-stack">
+                <label for="password-register" class="form-label">Password</label>
+                <input id="password-register" type="password" name="password" v-model="password" required minlength="6"/>
               </div>
               <div class="form-element form-submit">
-                <button id="logIn" class="login" type="submit" name="login">Log In</button>
+                <button id="signUp" class="signup" type="submit" name="signup">Register</button>
               </div>
             </form>
           </div>
@@ -32,15 +36,17 @@
 
 <script>
 export default {
-  name: "Login",
+  name: "Register",
   data() {
-    return{
+    return {
+      name: null,
       email: null,
       password: null
     }
   },
   methods: {
-    loginSubmit() {
+    registerSubmit() {
+      console.log(this.name);
       console.log(this.email);
       console.log(this.password);
     }
@@ -172,6 +178,10 @@ input {
   font-weight: 300;
   font-size: 2.6em;
   margin: 0.2em 0 0.1em;
+}
+
+.left .content h2 {
+  color: $theme-signup;
 }
 
 .right .content h2 {
