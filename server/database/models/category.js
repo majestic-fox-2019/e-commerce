@@ -1,9 +1,21 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Category = sequelize.define('Category', {
-    name: DataTypes.STRING
-  }, {});
-  Category.associate = function(models) {
+
+  const { Model } = sequelize.Sequelize
+  class Category extends Model { }
+
+  Category.init({
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Category name cannot be empty'
+        }
+      }
+    }
+  }, { sequelize });
+  Category.associate = function (models) {
     // associations can be defined here
   };
   return Category;

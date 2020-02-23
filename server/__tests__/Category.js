@@ -9,6 +9,9 @@ const emptyParam = {
 const correctParam = {
     name: 'Clothes'
 }
+const updateParam = {
+    name: 'T-Shirt'
+}
 
 describe('Category test scenario', () => {
     it('should get empty list category', (done) => {
@@ -33,7 +36,7 @@ describe('Category test scenario', () => {
             .end((err, res) => {
                 if(err) throw done(err)
                 expect(res.body).toBeDefined()
-                expect(res.body).toHaveProperty('message', 'Category name cannot be empty')
+                expect(res.body).toHaveProperty('message', ['Category name cannot be empty'])
                 done()
             })
     });
@@ -51,6 +54,34 @@ describe('Category test scenario', () => {
                 expect(res.body).toHaveProperty('data')
                 expect(Object.keys(res.body.data)).toEqual(expect.arrayContaining(expResKey))
                 expect(res.body).toHaveProperty('message', 'Successfully add a category')
+                done()
+            })
+    });
+
+    it('should update a category', (done) => {
+        req(app)
+            .put('/categories/1')
+            .set('token', token)
+            .send(updateParam)
+            .expect(200)
+            .end((err, res) => {
+                if(err) throw done(err)
+                expect(res.body).toBeDefined()
+                expect(res.body).toHaveProperty('message', 'Successfully updated category')
+                done()
+            })
+    });
+
+    it('should get an error but category id not found', (done) => {
+        req(app)
+            .put('/categories/2')
+            .set('token', token)
+            .send(updateParam)
+            .expect(404)
+            .end((err, res) => {
+                if(err) throw done(err)
+                expect(res.body).toBeDefined()
+                expect(res.body).toHaveProperty('message', 'Category not found')
                 done()
             })
     });

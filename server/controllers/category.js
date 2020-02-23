@@ -15,42 +15,40 @@ class CategoryController {
             .catch(next)
     }
     static postCategory(req, res, next) {
-        if (!req.body.name) {
-            next(createError(400, 'Category name cannot be empty'))
-        } else {
-            const value = {
-                name: req.body.name
-            }
-            Category
-                .create(value)
-                .then(category => {
-                    res.status(201).json({data: category, message: 'Successfully add a category'})
-                })
-                .catch(next)
+        const value = {
+            name: req.body.name
         }
+        Category
+            .create(value)
+            .then(category => {
+                res.status(201).json({ data: category, message: 'Successfully add a category' })
+            })
+            .catch(next)
     }
     static putCategory(req, res, next) {
         const value = {
-            name: req.name
+            name: req.body.name
         }
         const options = {
-            where: { id: req.body.id }
+            where: { id: req.params.id },
+            returning : true
         }
-        console.log('Masuk')
         Category
             .update(value, options)
-            .then(category => {
-                res.status(200).json(category)
+            .then(result => {
+                if (result[0] != 0) {
+                    res.status(200).json({message: 'Successfully updated category'})
+                } 
+                else {
+                    next(createError(404, 'Category not found'))
+                }
             })
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(next)
     }
     static deleteCategory(req, res, next) {
         const options = {
             where: { id: req.body.id }
         }
-        console.log('Masuk')
         Category
             .delete(options)
             .then(category => {
