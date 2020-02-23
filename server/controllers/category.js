@@ -1,10 +1,16 @@
-const { Category } = require('../database/models/index')
+const { Category, Product } = require('../database/models/index')
 const createError = require('http-errors')
 
 class CategoryController {
     static getCategories(req, res, next) {
+        const options = {
+            include: {
+                model: Product,
+                required: false
+            }
+        }
         Category
-            .findAll()
+            .findAll(options)
             .then(category => {
                 if (category.length !== 0) {
                     res.status(200).json(category)

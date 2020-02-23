@@ -1,13 +1,12 @@
 const { createError } = require('../helpers/helper')
 
 module.exports = (err, req, res, next) => {
-    // console.log(err)
     switch (err.name) {
         case 'SequelizeValidationError': {
             res.status(400).json(createError(err))
             break
         }
-        
+
         case 'NotFoundError': {
             res.status(404).json({ message: err.message })
             break
@@ -23,17 +22,17 @@ module.exports = (err, req, res, next) => {
             break
         }
 
-        case 'ForbiddenError' : {
+        case 'ForbiddenError': {
             res.status(403).json({ message: err.message })
             break
         }
 
-        case 'UnauthorizedError' : {
+        case 'UnauthorizedError': {
             res.status(401).json({ message: err.message })
             break
         }
         case 'BadRequestError': {
-            res.status(400).json({message: err.message})
+            res.status(400).json({ message: err.message })
         }
         default: {
             res.status(500).json({

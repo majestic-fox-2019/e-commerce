@@ -14,7 +14,6 @@ const updateParam = {
 }
 
 describe('Category test scenario', () => {
-
     it('should get an error while request without header token', (done) => {
         req(app)
             .get('/categories')

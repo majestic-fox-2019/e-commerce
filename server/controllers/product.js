@@ -1,4 +1,5 @@
 const { Product } = require('../database/models/index')
+const createError = require('http-errors')
 
 class ProductController {
     static getProducts(req, res, next) {
@@ -8,12 +9,10 @@ class ProductController {
                 if (products.length !== 0) {
                     res.status(200).json(products)
                 } else {
-                    res.status(200).json({ message: 'No product available yet' })
+                    next(createError(404, 'No product available yet'))
                 }
             })
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(next)
     }
     static postProduct(req, res, next) {
         const value = {
