@@ -31,7 +31,7 @@ export default new Vuex.Store({
       }
     ],
     userInfo: null,
-    baseUrl: 'https://v2shop.herokuapp.com',
+    baseUrl: 'http://localhost:3000',
     displayProducts: null,
     loading: {
       userInfo: false,
@@ -74,6 +74,45 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    fetchShopProducts (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/products/user',
+        method: 'get',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          this.commit('SET_DISPLAY_PRODUCTS', data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    fetchUnOfficialProducts (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/products/unOfficial',
+        method: 'get'
+      })
+        .then(({ data }) => {
+          this.commit('SET_DISPLAY_PRODUCTS', data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    fetchAllOfficialProducts (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/products/official',
+        method: 'get'
+      })
+        .then(({ data }) => {
+          this.commit('SET_DISPLAY_PRODUCTS', data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     registerShop (state, payload) {
       axios({
         url: this.state.baseUrl + '/user/shop',

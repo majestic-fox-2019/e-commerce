@@ -8,9 +8,9 @@
                 </form>
                 <h3 class="my-3" style="text-align:left;">Filter Shop:</h3>
                 <b-button-group>
-                    <b-button variant="primary">Official Store</b-button>
-                    <b-button variant="success">All</b-button>
-                    <b-button variant="primary">User's Store</b-button>
+                    <b-button variant="primary" @click="displayProducts('Official')">Official Store</b-button>
+                    <b-button variant="success" @click="displayProducts('All')">All</b-button>
+                    <b-button variant="primary" @click="displayProducts('User')">User's Store</b-button>
                 </b-button-group>
               </div>
               <b-button @click="openAdd" class="my-3" variant="primary" id="addButton"><i class="fas fa-plus"></i> Add Product</b-button>
@@ -88,6 +88,15 @@ export default {
     })
   },
   methods: {
+    displayProducts (target) {
+      if (target === 'Official') {
+        this.$store.dispatch('fetchAllOfficialProducts')
+      } else if (target === 'All') {
+        this.$store.dispatch('fetchMainProducts')
+      } else if (target === 'User') {
+        this.$store.dispatch('fetchUnOfficialProducts')
+      }
+    },
     onFileChange () {
       this.form.img_url = event.target.files[0]
     },

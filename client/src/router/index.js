@@ -9,6 +9,8 @@ import ProductDetails from '../views/ProductDetails.vue'
 import Cart from '../views/Cart.vue'
 import AdminUsers from '../views/AdminUsers.vue'
 import UserShop from '../views/UserShop.vue'
+import UserProducts from '../views/UserProducts.vue'
+import UserAddProduct from '../views/UserAddProduct.vue'
 
 Vue.use(VueRouter)
 
@@ -41,7 +43,17 @@ const routes = [
   {
     path: '/shop/:userId',
     name: 'UserShop',
-    component: UserShop
+    component: UserShop,
+    children: [
+      {
+        path: '/shop/products',
+        component: UserProducts
+      },
+      {
+        path: '/shop/addProduct',
+        component: UserAddProduct
+      }
+    ]
   },
   {
     path: '/register',

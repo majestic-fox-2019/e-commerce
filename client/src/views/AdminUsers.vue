@@ -6,7 +6,12 @@
 
 <script>
 export default {
-  name: 'AdminUsers'
+  name: 'AdminUsers',
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.$store.dispatch('fetchUserData', true)
+    })
+  }
 }
 </script>
 

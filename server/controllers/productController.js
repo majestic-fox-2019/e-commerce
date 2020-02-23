@@ -177,6 +177,70 @@ class ProductController {
                 next(err)
             })
     }
+
+    static findAllOfficial(req, res, next) {
+        Product.findAll({
+            where: {
+                official: true
+            },
+            include: [{
+                model: User,
+                attributes: ['shopName', 'email']
+            }]
+        })
+        .then(officialProducts => {
+            officialProducts.forEach(element => {
+                element.price = convert(element.price)
+            });
+            res.status(200).json(officialProducts)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+    static findByOwner(req, res, next) {
+        Product.findAll({
+            where: {
+                UserId: req.loggedUser.id
+            },
+            include: [{
+                model: User,
+                attributes: ['shopName', 'email']
+            }]
+        })
+        .then(ownerProducts => {
+            ownerProducts.forEach(element => {
+                element.price = convert(element.price)
+            });
+            res.status(200).json(ownerProducts)
+        })
+        .catch(err => {
+            console.log(err);
+            
+            next(err)
+        })
+    }
+
+    static findAllUnofficial (req, res, next) {
+        Product.findAll({
+            where: {
+                official: false
+            },
+            include: [{
+                model: User,
+                attributes: ['shopName', 'email']
+            }]
+        })
+        .then(unOfficialProducts => {
+            unOfficialProducts.forEach(element => {
+                element.price = convert(element.price)
+            });
+            res.status(200).json(unOfficialProducts)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
 }
 
 module.exports = ProductController

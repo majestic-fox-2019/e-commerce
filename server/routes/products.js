@@ -10,6 +10,12 @@ router.post('/', authentication, addProductAuth, upload.single('img_url'), contr
 
 router.get('/categories/:category', controller.findByCategory)
 
+router.get('/official', controller.findAllOfficial)
+
+router.get('/unOfficial', controller.findAllUnofficial)
+
+router.get('/user', authentication, controller.findByOwner)
+
 router.get('/:id', controller.findOneProduct)
 
 router.put('/:id', authentication, editProductAuth, upload.single('img_url'),controller.editProduct)
