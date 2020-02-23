@@ -7,9 +7,9 @@ class ProductController {
             .findAll()
             .then(products => {
                 if (products.length !== 0) {
-                    res.status(200).json({ products })
+                    res.status(200).json(products )
                 } else {
-                    next(createError(404, 'No product available yet'))
+                    res.status(200).json({ message: 'No product available yet' })
                 }
             })
             .catch(next)
@@ -46,7 +46,7 @@ class ProductController {
             .update(value, options)
             .then(result => {
                 if (result[0] !== 0) {
-                    res.status(200).json({message: 'Successfully updated product'})
+                    res.status(200).json({ message: 'Successfully updated product' })
                 } else {
                     next(createError(404, 'Product not found'))
                 }
@@ -63,7 +63,7 @@ class ProductController {
             .destroy(options)
             .then(result => {
                 if (result != 0) {
-                    res.status(200).json({message: 'Successfully deleted product'})
+                    res.status(200).json({ message: 'Successfully deleted product' })
                 } else {
                     next(createError(404, 'Product not found'))
                 }

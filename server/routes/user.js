@@ -6,6 +6,6 @@ user
     .post('/', controller.postUser)
     .get('/', auth, controller.getUsers)
     .put('/', auth, controller.putUser)
-    .delete('/', auth, controller.deleteUser)
+    .delete('/:id', auth, controller.deleteUser)
 
 module.exports = user

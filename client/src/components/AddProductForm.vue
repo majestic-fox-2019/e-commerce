@@ -26,7 +26,7 @@
           <label class="input-group-text" for="inputGroupSelect01">Options</label>
         </div>
         <select class="custom-select" @change="onChange">
-          <option selected>Choose...</option>
+          <option selected>{{Array.isArray(categories) ? 'Choose. . .' : categories.message}}</option>
           <option
             v-for="category in categories"
             :key="category.id"
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import api from '../helper/api'
 export default {
   data() {
     return {
@@ -68,7 +69,7 @@ export default {
         stock: this.stock,
         categoryId: this.categoryId
       };
-      this.$axios
+      api
         .post("/products", value, {
           headers: { token: localStorage.access_token }
         })
@@ -76,7 +77,7 @@ export default {
           this.$router.go(-1);
           this.$emit("success-add-product");
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err.response));
     },
     onChange(e) {
       this.categoryId = e.target.value;
@@ -88,7 +89,9 @@ export default {
     }
   },
   mounted() {
-    // this.categories
+    if (this.categories === null) {
+      this.$store.dispatch("getCategories");
+    }
   }
 };
 </script>

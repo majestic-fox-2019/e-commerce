@@ -8,7 +8,7 @@
       </button>
     </div>
     <div v-if="!isAddData">
-      <div v-if="users">
+      <div v-if="Array.isArray(users)">
         <table class="table text-white table-dark text-left">
           <thead>
             <tr>
@@ -22,19 +22,19 @@
               <th scope="row">{{i+1}}</th>
               <td>{{user.email}}</td>
               <td>
-                <router-link :to="{name: 'UpdateUser', params: {id: user.id}}">
-                  <i class="btn btn-info fa mx-2 fa-edit"></i>
-                </router-link>
+                <div v-if="user.email !== 'super_admin@mail.com'">
+                  <router-link :to="{name: 'UpdateUser', params: {id: user.id}}">
+                    <i class="btn btn-info fa mx-2 fa-edit"></i>
+                  </router-link>
 
-                <router-link :to="{name: 'DeleteUser', params: {id: user.id}}">
-                  <i class="btn btn-warning fa mx-2 fa-trash"></i>
-                </router-link>
+                  <i class="btn btn-warning fa mx-2 fa-trash" @click.prevent="deleteUser(user.id)"></i>
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <no-data v-else :msg="msg" />
+      <no-data v-else :msg="users" />
     </div>
     <router-view @success-add-user="success"></router-view>
   </div>
@@ -42,15 +42,14 @@
 
 <script>
 import NoData from "../components/NoData";
+import api from "../helper/api";
 export default {
   components: {
     NoData
   },
   data() {
     return {
-      users: null,
-      isAddData: false,
-      msg: null
+      isAddData: false
     };
   },
   methods: {
@@ -62,25 +61,33 @@ export default {
         this.$router.push({ name: "AddUser" });
       }
     },
-    getUsers() {
-      this.$axios
-        .get("/users", { headers: { token: localStorage.access_token } })
-        .then(({ data }) => {
-          if (Array.isArray(data)) {
-            this.users = data;
-          } else {
-            this.msg = data.message;
-          }
-        })
-        .catch(({ response }) => console.log(response));
-    },
     success() {
       this.isAddData = !this.isAddData;
-      this.getUsers();
+      this.$store.dispatch("getUsers");
+    },
+    deleteUser(id) {
+      api
+        .delete(`/users/${id}`, {
+          headers: { token: localStorage.access_token }
+        })
+        .then(({ data }) => {
+          console.log(data);
+          this.$store.dispatch("getUsers");
+        })
+        .catch(err => {
+          console.log(err.response);
+        });
     }
   },
   mounted() {
-    this.getUsers();
+    if (this.users === null) {
+      this.$store.dispatch("getUsers");
+    }
+  },
+  computed: {
+    users() {
+      return this.$store.state.users;
+    }
   }
 };
 </script>

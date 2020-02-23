@@ -8,7 +8,7 @@
       </button>
     </div>
     <div v-if="!isAddData">
-      <div v-if="categories">
+      <div v-if="Array.isArray(categories)">
         <table class="table text-white table-dark text-left">
           <thead>
             <tr>
@@ -26,15 +26,15 @@
                   <i class="btn btn-info fa mx-2 fa-edit"></i>
                 </router-link>
 
-                <router-link :to="{name: 'DeleteCategory', params: {id: category.id}}">
-                  <i class="btn btn-warning fa mx-2 fa-trash"></i>
-                </router-link>
+                <!-- <router-link :to="{name: 'DeleteCategory', params: {id: category.id}}"> -->
+                  <i @click.prevent="deleteCategory(category.id)" class="btn btn-warning fa mx-2 fa-trash"></i>
+                <!-- </router-link> -->
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <no-data v-else :msg="msg" />
+      <no-data v-else :msg="categories.message" />
     </div>
     <router-view @success-add-category="success"></router-view>
   </div>
@@ -42,15 +42,14 @@
 
 <script>
 import NoData from "../components/NoData";
+import api from '../helper/api'
 export default {
   components: {
     NoData
   },
   data() {
     return {
-      categories: null,
-      isAddData: false,
-      msg: null
+      isAddData: false
     };
   },
   methods: {
@@ -64,34 +63,35 @@ export default {
     },
     success() {
       this.isAddData = !this.isAddData;
-      this.getCategories();
-    },
-    getCategories(context) {
-      this.$axios
-        .get(
-          "/categories",
-          {},
-          { headers: { token: localStorage.access_token } }
-        )
-        .then(({ data }) => {
-          if (Array.isArray(data)) {
-            this.categories = data;
-            this.$store.commit("SET_CATEGORIES", data);
-          } else {
-            this.msg = data.message;
-          }
-        })
-        .catch(err => console.log(err));
+      this.$store.dispatch("getCategories");
     },
     updateCategory() {
       this.$router.push({
         name: "UpdateCategory",
         params: { id: categoriy.id }
       });
+    },
+    deleteCategory(id){
+      api
+        .delete(`/categories/${id}`, {headers: {token: localStorage.access_token}})
+        .then(({data}) => {
+          console.log(data)
+          this.$store.dispatch('getCategories')
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
   mounted() {
-    this.getCategories();
+    if (this.categories === null) {
+      this.$store.dispatch("getCategories");
+    }
+  },
+  computed: {
+    categories() {
+      return this.$store.state.categories;
+    }
   }
 };
 </script>

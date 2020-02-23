@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import api from '../helper/api'
 export default {
   name: "Home",
   data() {
@@ -48,9 +49,10 @@ export default {
   },
   methods: {
     login() {
-      this.$axios
+      api
         .post("/login", { email: this.email, password: this.password })
         .then(({ data }) => {
+          console.log(data)
           if (data["access_token"]) {
             localStorage.setItem('access_token', data['access_token'])
             this.$router.push({ name: "Home" });

@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import api from '../helper/api'
 export default {
   data() {
     return {
@@ -40,12 +41,11 @@ export default {
         email: this.email,
         password: this.password
       };
-      this.$axios
+      api
         .post("/users", value, {
           headers: { token: localStorage.access_token }
         })
         .then(({ data }) => {
-          console.log(data);
           if (data["message"]) {
             this.msg = data.message;
           } else {

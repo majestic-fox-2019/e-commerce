@@ -5,17 +5,17 @@
       <a
         class="nav-link text-white font-weight-bold text-left active"
         data-toggle="pill"
-        @click.prevent="$router.push({name : 'User'})"
+        @click.prevent="$router.push({name : 'User'}).catch(err => {})"
         href="#"
       >User</a>
       <a
-        @click.prevent="$router.push({name : 'Category'})"
+        @click.prevent="$router.push({name : 'Category'}).catch(err => {})"
         class="nav-link text-white font-weight-bold text-left"
         data-toggle="pill"
         href="#"
       >Category</a>
       <a
-        @click.prevent="$router.push({name : 'Product'})"
+        @click.prevent="$router.push({name : 'Product'}).catch(err => {})"
         class="nav-link text-white font-weight-bold text-left"
         data-toggle="pill"
         href="#"

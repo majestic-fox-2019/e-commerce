@@ -3,10 +3,10 @@
     <h3 class="font-weight-bold text-left">Product List</h3>
 
     <div class="text-left">
-      <div class="btn-group" role="group">
+      <div class="btn-group" role="group" v-if="Array.isArray(stores.categories)">
         <button type="button" class="btn btn-secondary">All Product</button>
         <button
-          v-for="category in categories"
+          v-for="category in stores.categories"
           :key="category.id"
           type="button"
           class="btn btn-secondary"
@@ -27,7 +27,8 @@
         @cancel-update="isUpdateData = !isUpdateData"
         @success-update="successUpdate"
       />
-      <div v-if="products && !isUpdateData" class="row">
+      <!-- <div v-if="products && !isUpdateData" class="row"> -->
+      <div v-if="Array.isArray(stores.products)" class="row">
         <!-- <item v-for="product in products" :key="product.id" :product="product" /> -->
         <table class="table text-white table-dark text-left">
           <thead>
@@ -41,7 +42,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(product, i) in products" :key="product.id">
+            <tr v-for="(product, i) in stores.products" :key="product.id">
               <th scope="row">{{i +1}}</th>
               <td>
                 <img style="width: 72px; height: auto;" :src="product.img_url" />
@@ -63,7 +64,8 @@
           </tbody>
         </table>
       </div>
-      <no-data v-if="isUpdateData === false && isUpdateData === false && msg !== null" :msg="msg" />
+      <!-- <no-data v-if="isUpdateData === false && isUpdateData === false && msg !== null" :msg="msg" /> -->
+      <no-data v-else-if="!Array.isArray(stores.products)" :msg="stores.products.message" />
     </div>
     <router-view @success-add-product="success"></router-view>
   </div>
@@ -73,6 +75,7 @@
 import NoData from "../components/NoData";
 import Item from "../components/Item";
 import UpdateProductForm from "../components/UpdateProductForm";
+import api from '../helper/api'
 export default {
   components: {
     NoData,
@@ -81,10 +84,8 @@ export default {
   },
   data() {
     return {
-      products: null,
       isAddData: false,
       isUpdateData: false,
-      msg: null,
       product: null
     };
   },
@@ -118,24 +119,11 @@ export default {
         });
       }
     },
-    getProducts() {
-      this.$axios
-        .get("/products")
-        .then(({ data }) => {
-          if (data.message) {
-            this.products = null
-            this.msg = data.message;
-          } else {
-            this.products = data;
-          }
-        })
-        .catch(err => console.log(err));
-    },
     deleteProduct(product) {
-      this.$axios
-        .delete(`/products/${product.id}`)
+      api
+        .delete(`/products/${product.id}`, {headers: {token: localStorage.access_token}})
         .then(res => {
-          this.getProducts();
+          this.$store.dispatch('getProducts')
         })
         .catch(err => {
           console.log(err);
@@ -143,19 +131,24 @@ export default {
     },
     success() {
       this.isAddData = !this.isAddData;
-      this.getProducts();
+      this.$store.dispatch("getProducts");
     },
     successUpdate() {
       this.isUpdateData = !this.isUpdateData;
       this.getProducts();
     }
   },
-  mounted() {
-    this.getProducts();
+  created() {
+    if (this.stores.products === null) this.$store.dispatch("getProducts");
+    if (this.stores.categories === null) this.$store.dispatch("getCategories");
   },
+  mounted() {},
   computed: {
-    categories() {
-      return this.$store.state.categories;
+    stores() {
+      return {
+        categories: this.$store.state.categories,
+        products: this.$store.state.products
+      };
     }
   }
 };

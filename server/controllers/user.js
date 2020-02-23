@@ -95,7 +95,7 @@ class UserController {
 
     static deleteUser(req, res, next) {
         User
-            .destroy({ where: { id: req.loggedUserId } })
+            .destroy({ where: { id: req.params.id } })
             .then(result => {
                 if(result){
                     res.status(200).json({message: 'Successfully deleted user'})

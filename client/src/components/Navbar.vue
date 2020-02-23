@@ -5,7 +5,7 @@
       <span id="brand" class="font-weight-bold align-bottom text-white ml-2">E-Commerce</span>
     </a>
     <div>
-      <a href class="font-weight-bold text-white" @click="logout">
+      <a href class="font-weight-bold text-white" @click.prevent="logout">
         Logout
         <i class="fa fa-sign-out mx-2"></i>
       </a>
@@ -17,7 +17,8 @@
 export default {
   methods: {
     logout() {
-      this.$router.push({ name: "Login" });
+      localStorage.removeItem('access_token')
+      this.$router.push({ name: "Login" }).catch(err => {});
     }
   }
 };

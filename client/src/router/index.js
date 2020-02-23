@@ -17,17 +17,28 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: Login
+    component: Login,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.access_token) {
+        next({
+          name: 'Home'
+        })
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/home',
     name: 'Home',
     redirect: 'User',
     component: Home,
+    meta: { requiresAuth: true },
     children: [
       {
         path: '/user', name: 'User',
         component: User,
+        meta: { requiresAuth: true },
         children:
           [
             { path: '/user/add', name: 'AddUser', component: AddUserForm },
@@ -51,7 +62,7 @@ const routes = [
         component: Product,
         children: [
           { path: '/product/add', name: 'AddProduct', component: AddProductForm },
-          { path: '/product/edit/:id', name: 'UpdateProduct', component: UpdateProductForm, props:true },
+          { path: '/product/edit/:id', name: 'UpdateProduct', component: UpdateProductForm, props: true },
           { path: '/product/delete/:id', name: 'DeleteProduct' }
         ]
       },
@@ -63,6 +74,20 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!localStorage.access_token) {
+      next({
+        name: 'Login'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // make sure to always call next()!
+  }
 })
 
 export default router
