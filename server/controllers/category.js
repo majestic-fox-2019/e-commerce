@@ -1,34 +1,33 @@
 const { Category } = require('../database/models/index')
+const createError = require('http-errors')
 
 class CategoryController {
     static getCategories(req, res, next) {
-        console.log('Masuk')
         Category
             .findAll()
             .then(category => {
                 if (category.length !== 0) {
                     res.status(200).json(category)
                 } else {
-                    res.status(200).json({message: 'No category available yet'})
+                    res.status(200).json({ message: 'No category available yet' })
                 }
             })
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(next)
     }
     static postCategory(req, res, next) {
-        const value = {
-            name: req.body.name
+        if (!req.body.name) {
+            next(createError(400, 'Category name cannot be empty'))
+        } else {
+            const value = {
+                name: req.body.name
+            }
+            Category
+                .create(value)
+                .then(category => {
+                    res.status(201).json({data: category, message: 'Successfully add a category'})
+                })
+                .catch(next)
         }
-        console.log('Masuk')
-        Category
-            .create(value)
-            .then(category => {
-                res.status(200).json(category)
-            })
-            .catch(err => {
-                console.log(err)
-            })
     }
     static putCategory(req, res, next) {
         const value = {

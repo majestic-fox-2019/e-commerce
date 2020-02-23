@@ -7,8 +7,8 @@ const auth = require('../middlewares/authToken')
 
 index
     .post('/login', userController.login)
-    // .use(auth)
     .use('/users', user)
+    .use(auth)
     .use('/categories', category)
     .use('/products', product)
 
