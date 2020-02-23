@@ -4,7 +4,7 @@
       <div class="smartphone-menu-trigger"></div>
       <header class="avatar">
         <img src="https://cdn3.iconfinder.com/data/icons/rcons-user-action/32/boy-512.png"/>
-        <h2>Admin</h2>
+        <h2>{{getName()}}</h2>
       </header>
       <ul>
         <li tabindex="0" class="icon-dashboard" @click="showProducts"><span>Dashboard</span></li>
@@ -465,6 +465,12 @@ export default {
       console.log(numberPrice);
       return numberPrice;
     },
+    getName() {
+      return this.$store.state.name;
+    },
+  },
+  created() {
+    this.$store.dispatch('checkLogin');
   },
 };
 </script>
