@@ -4,8 +4,8 @@ const auth = require('../middlewares/authToken')
 
 user
     .post('/', controller.postUser)
-    .get('/', controller.getUsers)
-    .put('/', controller.putUser)
+    .get('/', /*auth,*/ controller.getUsers)
+    .put('/', auth, controller.putUser)
     .delete('/:id')
 
 module.exports = user

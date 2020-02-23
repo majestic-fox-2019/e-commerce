@@ -1,7 +1,7 @@
 const { createError } = require('../helpers/helper')
 
 module.exports = (err, req, res, next) => {
-    console.log(err)
+    // console.log(err)
     switch (err.name) {
         case 'SequelizeValidationError': {
             res.status(400).json(createError(err))

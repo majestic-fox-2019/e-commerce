@@ -28,6 +28,7 @@ describe('User login test scenario', () => {
         req(app)
             .get('/users')
             .expect(200)
+            .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTgyNDE0NTIyfQ.O7doZXDpCgp7mx51PbYG99llvomaIcajsGMIgMwWNyc')
             .end((err, res) => {
                 if (err) {
                     throw done(err)
@@ -64,7 +65,7 @@ describe('User login test scenario', () => {
             .send(wrongFormat)
             .expect(400)
             .end((err, res) => {
-                if(err) throw done(err)
+                if (err) throw done(err)
                 expect(res.body).toBeDefined()
                 expect(res.body).toHaveProperty('message')
                 done()
@@ -147,15 +148,32 @@ describe('User login test scenario', () => {
     });
     // =======================DONE
 
-    // it('should update a user', (done) => {
-    //     req(app)
-    //         .put('/users')
-    //         .set('token', token)
-    //         .send(wrongParam)
-    //         .expect(200)
-    //         .end((err, res) => {
-    //             if(err) throw done(err)
-    //             done()
-    //         })
-    // });
+    it('should update a user', (done) => {
+        req(app)
+            .put('/users')
+            .send(wrongParam)
+            .set('token', token)
+            .expect(200)
+            .end((err, res) => {
+                if (err) throw done(err)
+                expect(res.body).toBeDefined()
+                expect(res.body).toHaveProperty('message', 'Successfully updated user')
+                done()
+            })
+    });
+    // ====================DONE
+
+    it('should get an error on update wihle fields is empty', (done) => {
+        req(app)
+            .put('/users')
+            .send(emptyParam)
+            .set('token', token)
+            .expect(400)
+            .end((err, res) => {
+                if (err) throw done(err)
+                expect(res.body).toBeDefined()
+                expect(res.body).toHaveProperty('message', 'Email and password cannot be empty')
+                done()
+            })
+    });
 })

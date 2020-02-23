@@ -5,7 +5,7 @@ const createError = require('http-errors')
 class UserController {
     static login(req, res, next) {
         if (!req.body.email || !req.body.password) {
-            console.log('Masuk')
+            // console.log('Masuk')
             next(createError(400, 'Email or password cannot be empty'))
         } else {
             const options = {
@@ -30,7 +30,6 @@ class UserController {
     }
 
     static getUsers(req, res, next) {
-        console.log('users')
         User
             .findAll()
             .then(users => {
@@ -78,8 +77,23 @@ class UserController {
         }
     }
 
-    static putUser(req, res, next){
-        console.log('Masuk update')
+    static putUser(req, res, next) {
+        const { email, password } = req.body
+        if (email && password) {
+            const value = {
+                email, password
+            }
+            const options = { where: { id: req.loggedUserId } }
+            User
+                .update(value, options)
+                .then(result => {
+                    res.status(200).json({ message: 'Successfully updated user' })
+                })
+                .catch(next)
+
+        } else {
+            next(createError(400, 'Email and password cannot be empty'))
+        }
     }
 }
 
