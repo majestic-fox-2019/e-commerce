@@ -8,3 +8,5 @@ function errorHandler(err, req, res, next) {
   // res.render('error');
   res.json(res.locals);
 }
+
+module.exports = errorHandler;
