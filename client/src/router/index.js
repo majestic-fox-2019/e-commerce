@@ -8,31 +8,68 @@ import ProductDetails from '../views/ProductDetails.vue';
 
 Vue.use(VueRouter);
 
-const beforeEnter = (to, from, next) => {
-  if (localStorage.token) {
-    next({ path: from.path });
-  } else {
-    next();
-  }
-};
+// const beforeEnter = (to, from, next) => {
+//   if (localStorage.token) {
+//     if (localStorage.admin) {
+//       next({ name: 'Admin' });
+//     } else {
+//       next({ path: from.path });
+//     }
+//   } else {
+//     next();
+//   }
+// };
+
+// const beforeEnterAdmin = (to, from, next) => {
+//   if (localStorage.admin && localStorage.token) {
+//     console.log('masuk');
+//     next({ name: 'Admin' });
+//   } else {
+//     next();
+//   }
+// };
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.admin && localStorage.token) {
+        next({ name: 'Admin' });
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/login',
     name: 'Login',
     component: Login,
-    beforeEnter,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.token) {
+        if (localStorage.admin) {
+          next({ name: 'Admin' });
+        } else {
+          next({ path: from.path });
+        }
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/carts',
     name: 'Cart',
     component: Cart,
     meta: { isLoggedIn: true },
+    beforeEnter: (to, from, next) => {
+      if (localStorage.admin && localStorage.token) {
+        next({ name: 'Admin' });
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/admin',
@@ -44,6 +81,13 @@ const routes = [
     path: '/product/:productId',
     name: 'Product',
     component: ProductDetails,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.admin && localStorage.token) {
+        next({ name: 'Admin' });
+      } else {
+        next();
+      }
+    },
   },
 ];
 
