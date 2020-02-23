@@ -65,7 +65,7 @@ describe('Category test scenario', () => {
                 expect(res.body).toBeDefined()
                 expect(res.body).toHaveProperty('data')
                 expect(Object.keys(res.body.data)).toEqual(expect.arrayContaining(expResKey))
-                expect(res.body).toHaveProperty('message', 'Successfully add a category')
+                expect(res.body).toHaveProperty('message', 'Successfully added a category')
                 done()
             })
     });

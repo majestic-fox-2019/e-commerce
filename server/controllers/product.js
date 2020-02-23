@@ -7,7 +7,7 @@ class ProductController {
             .findAll()
             .then(products => {
                 if (products.length !== 0) {
-                    res.status(200).json(products)
+                    res.status(200).json({ products })
                 } else {
                     next(createError(404, 'No product available yet'))
                 }
@@ -22,15 +22,12 @@ class ProductController {
             stock: Number(req.body.stock),
             CategoryId: req.body.categoryId
         }
-        // console.log(value)
         Product
             .create(value)
             .then(product => {
-                res.status(201).json(product)
+                res.status(201).json({ message: 'Successfully added a product', data: product })
             })
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(next)
     }
     static putProduct(req, res, next) {
         const value = {
@@ -43,17 +40,18 @@ class ProductController {
         const options = {
             where: {
                 id: req.params.id
-            }
+            },
         }
         Product
             .update(value, options)
-            .then(product => {
-                console.log(product)
-                res.status(200).json(product)
+            .then(result => {
+                if (result[0] !== 0) {
+                    res.status(200).json({message: 'Successfully updated product'})
+                } else {
+                    next(createError(404, 'Product not found'))
+                }
             })
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(next)
     }
     static deleteProduct(req, res, next) {
         const options = {
@@ -63,8 +61,12 @@ class ProductController {
         }
         Product
             .destroy(options)
-            .then(product => {
-                res.status(200).json(product)
+            .then(result => {
+                if (result != 0) {
+                    res.status(200).json({message: 'Successfully deleted product'})
+                } else {
+                    next(createError(404, 'Product not found'))
+                }
             })
             .catch(err => {
                 console.log(err)
