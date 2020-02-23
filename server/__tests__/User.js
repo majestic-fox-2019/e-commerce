@@ -23,7 +23,7 @@ const emptyParam = {
 
 let token = null
 
-describe('User login test scenario', () => {
+describe('User test scenario', () => {
     it('Should get empty users', (done) => {
         req(app)
             .get('/users')
@@ -163,7 +163,7 @@ describe('User login test scenario', () => {
     });
     // ====================DONE
 
-    it('should get an error on update wihle fields is empty', (done) => {
+    it('should get an error on update while fields is empty', (done) => {
         req(app)
             .put('/users')
             .send(emptyParam)
@@ -173,6 +173,20 @@ describe('User login test scenario', () => {
                 if (err) throw done(err)
                 expect(res.body).toBeDefined()
                 expect(res.body).toHaveProperty('message', 'Email and password cannot be empty')
+                done()
+            })
+    });
+    // ==================DONE
+
+    it('should delete a user', (done) => {
+        req(app)
+            .delete('/users')
+            .set('token', token)
+            .expect(200)
+            .end((err, res) => {
+                if(err) throw done(err)
+                expect(res.body).toBeDefined()
+                expect(res.body).toHaveProperty('message', 'Successfully deleted user')
                 done()
             })
     });

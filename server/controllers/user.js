@@ -5,7 +5,6 @@ const createError = require('http-errors')
 class UserController {
     static login(req, res, next) {
         if (!req.body.email || !req.body.password) {
-            // console.log('Masuk')
             next(createError(400, 'Email or password cannot be empty'))
         } else {
             const options = {
@@ -39,9 +38,7 @@ class UserController {
                     res.status(200).json({ message: 'No user available yet' })
                 }
             })
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(next)
     }
 
     static postUser(req, res, next) {
@@ -94,6 +91,17 @@ class UserController {
         } else {
             next(createError(400, 'Email and password cannot be empty'))
         }
+    }
+
+    static deleteUser(req, res, next) {
+        User
+            .destroy({ where: { id: req.loggedUserId } })
+            .then(result => {
+                if(result){
+                    res.status(200).json({message: 'Successfully deleted user'})
+                }
+            })
+            .catch(next)
     }
 }
 
