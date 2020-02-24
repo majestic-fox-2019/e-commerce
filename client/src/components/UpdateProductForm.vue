@@ -55,49 +55,47 @@
 </template>
 
 <script>
+import api from '../helper/api'
+
 export default {
-  props: ["product"],
-  data() {
+  props: ['product'],
+  data () {
     return {
       name: this.product.name,
       price: this.product.price,
       img_url: this.product.img_url,
       stock: this.product.stock,
       categoryId: this.product.CategoryId
-    };
+    }
   },
   methods: {
-    putProduct() {
+    putProduct () {
       const value = {
         name: this.name,
         price: this.price,
         img_url: this.img_url,
         stock: this.stock,
         categoryId: this.categoryId
-      };
-      console.log(value)
-      this.$axios
+      }
+      api
         .put(`/products/${this.product.id}`, value)
         .then(res => {
-          this.$emit("success-update");
+          this.$emit('success-update')
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
     },
-    onChange(e) {
-      this.product.categoryId = e.target.value;
+    onChange (e) {
+      this.product.categoryId = e.target.value
     },
-    cancel() {
-      this.$emit("cancel");
-      this.$router.go(-1);
+    cancel () {
+      this.$emit('cancel')
+      this.$router.go(-1)
     }
   },
   computed: {
-    categories() {
-      return this.$store.state.categories;
+    categories () {
+      return this.$store.state.categories
     }
-  },
-  created() {
-    this.categories;
   }
-};
+}
 </script>

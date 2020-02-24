@@ -40,30 +40,30 @@
 <script>
 import api from '../helper/api'
 export default {
-  name: "Home",
-  data() {
+  name: 'Home',
+  data () {
     return {
-      email: "",
-      password: ""
-    };
+      email: '',
+      password: ''
+    }
   },
   methods: {
-    login() {
+    login () {
       api
-        .post("/login", { email: this.email, password: this.password })
+        .post('/login', { email: this.email, password: this.password })
         .then(({ data }) => {
           console.log(data)
-          if (data["access_token"]) {
-            localStorage.setItem('access_token', data['access_token'])
-            this.$router.push({ name: "Home" });
+          if (data.access_token) {
+            localStorage.setItem('access_token', data.access_token)
+            this.$router.push({ name: 'Home' })
           } else {
-            console.log('No user');
+            console.log('No user')
           }
         })
         .catch((err) => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     }
   }
-};
+}
 </script>

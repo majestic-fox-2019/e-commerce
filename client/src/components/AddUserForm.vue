@@ -28,34 +28,34 @@
 <script>
 import api from '../helper/api'
 export default {
-  data() {
+  data () {
     return {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       msg: null
-    };
+    }
   },
   methods: {
-    postUser() {
+    postUser () {
       const value = {
         email: this.email,
         password: this.password
-      };
+      }
       api
-        .post("/users", value, {
+        .post('/users', value, {
           headers: { token: localStorage.access_token }
         })
         .then(({ data }) => {
-          if (data["message"]) {
-            this.msg = data.message;
+          if (data.message) {
+            this.msg = data.message
           } else {
-            this.msg = null;
-            this.$router.go(-1);
-            this.$emit("success-add-user");
+            this.msg = null
+            this.$router.go(-1)
+            this.$emit('success-add-user')
           }
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
     }
   }
-};
+}
 </script>

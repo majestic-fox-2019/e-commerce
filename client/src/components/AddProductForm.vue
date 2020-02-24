@@ -51,47 +51,47 @@
 <script>
 import api from '../helper/api'
 export default {
-  data() {
+  data () {
     return {
-      name: "",
-      img_url: "",
-      price: "",
-      stock: "",
+      name: '',
+      img_url: '',
+      price: '',
+      stock: '',
       categoryId: null
-    };
+    }
   },
   methods: {
-    postProduct() {
+    postProduct () {
       const value = {
         name: this.name,
         price: this.price,
         img_url: this.img_url,
         stock: this.stock,
         categoryId: this.categoryId
-      };
+      }
       api
-        .post("/products", value, {
+        .post('/products', value, {
           headers: { token: localStorage.access_token }
         })
         .then(({ data }) => {
-          this.$router.go(-1);
-          this.$emit("success-add-product");
+          this.$router.go(-1)
+          this.$emit('success-add-product')
         })
-        .catch(err => console.log(err.response));
+        .catch(err => console.log(err.response))
     },
-    onChange(e) {
-      this.categoryId = e.target.value;
+    onChange (e) {
+      this.categoryId = e.target.value
     }
   },
   computed: {
-    categories() {
-      return this.$store.state.categories;
+    categories () {
+      return this.$store.state.categories
     }
   },
-  mounted() {
+  mounted () {
     if (this.categories === null) {
-      this.$store.dispatch("getCategories");
+      this.$store.dispatch('getCategories')
     }
   }
-};
+}
 </script>

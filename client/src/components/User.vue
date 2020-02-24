@@ -41,55 +41,54 @@
 </template>
 
 <script>
-import NoData from "../components/NoData";
-import api from "../helper/api";
+import NoData from '../components/NoData'
+import api from '../helper/api'
 export default {
   components: {
     NoData
   },
-  data() {
+  data () {
     return {
       isAddData: false
-    };
+    }
   },
   methods: {
-    gotoAddForm() {
-      this.isAddData = !this.isAddData;
+    gotoAddForm () {
+      this.isAddData = !this.isAddData
       if (!this.isAddData) {
-        this.$router.go(-1);
+        this.$router.go(-1)
       } else {
-        this.$router.push({ name: "AddUser" });
+        this.$router.push({ name: 'AddUser' })
       }
     },
-    success() {
-      this.isAddData = !this.isAddData;
-      this.$store.dispatch("getUsers");
+    success () {
+      this.isAddData = !this.isAddData
+      this.$store.dispatch('getUsers')
     },
-    deleteUser(id) {
+    deleteUser (id) {
       api
         .delete(`/users/${id}`, {
           headers: { token: localStorage.access_token }
         })
         .then(({ data }) => {
-          console.log(data);
-          this.$store.dispatch("getUsers");
+          this.$store.dispatch('getUsers')
         })
         .catch(err => {
-          console.log(err.response);
-        });
+          console.log(err.response)
+        })
     }
   },
-  mounted() {
+  mounted () {
     if (this.users === null) {
-      this.$store.dispatch("getUsers");
+      this.$store.dispatch('getUsers')
     }
   },
   computed: {
-    users() {
-      return this.$store.state.users;
+    users () {
+      return this.$store.state.users
     }
   }
-};
+}
 </script>
 
 <style>

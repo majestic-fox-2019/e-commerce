@@ -16,12 +16,12 @@
 <script>
 export default {
   methods: {
-    logout() {
+    logout () {
       localStorage.removeItem('access_token')
-      this.$router.push({ name: "Login" }).catch(err => {});
+      this.$router.push({ name: 'Login' }).catch(err => { console.log(err) })
     }
   }
-};
+}
 </script>
 
 <style>

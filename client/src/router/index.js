@@ -36,7 +36,8 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       {
-        path: '/user', name: 'User',
+        path: '/user',
+        name: 'User',
         component: User,
         meta: { requiresAuth: true },
         children:
@@ -47,7 +48,8 @@ const routes = [
           ]
       },
       {
-        path: '/category', name: 'Category',
+        path: '/category',
+        name: 'Category',
         component: Category,
         children:
           [
@@ -65,8 +67,8 @@ const routes = [
           { path: '/product/edit/:id', name: 'UpdateProduct', component: UpdateProductForm, props: true },
           { path: '/product/delete/:id', name: 'DeleteProduct' }
         ]
-      },
-    ],
+      }
+    ]
   }
 ]
 

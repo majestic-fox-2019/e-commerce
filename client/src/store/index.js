@@ -11,18 +11,18 @@ export default new Vuex.Store({
     products: null
   },
   mutations: {
-    SET_USERS(state, payload) {
+    SET_USERS (state, payload) {
       state.users = payload
     },
-    SET_CATEGORIES(state, payload) {
+    SET_CATEGORIES (state, payload) {
       state.categories = payload
     },
-    SET_PRODUCTS(state, payload) {
+    SET_PRODUCTS (state, payload) {
       state.products = payload
-    },
+    }
   },
   actions: {
-    getUsers(context) {
+    getUsers (context) {
       api
         .get('/users', { headers: { token: localStorage.access_token } })
         .then(({ data }) => {
@@ -30,7 +30,7 @@ export default new Vuex.Store({
         })
         .catch(err => console.log(err))
     },
-    getCategories(context) {
+    getCategories (context) {
       api
         .get('/categories', { headers: { token: localStorage.access_token } })
         .then(({ data }) => {
@@ -38,7 +38,7 @@ export default new Vuex.Store({
         })
         .catch(err => console.log(err))
     },
-    getProducts(context) {
+    getProducts (context) {
       api
         .get('/products', { headers: { token: localStorage.access_token } })
         .then(({ data }) => {
@@ -46,7 +46,7 @@ export default new Vuex.Store({
           context.commit('SET_PRODUCTS', data)
         })
         .catch(err => console.log(err.response))
-    },
+    }
 
   },
   modules: {

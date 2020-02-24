@@ -72,43 +72,41 @@
 </template>
 
 <script>
-import NoData from "../components/NoData";
-import Item from "../components/Item";
-import UpdateProductForm from "../components/UpdateProductForm";
+import NoData from '../components/NoData'
+import UpdateProductForm from '../components/UpdateProductForm'
 import api from '../helper/api'
 export default {
   components: {
     NoData,
-    Item,
     UpdateProductForm
   },
-  data() {
+  data () {
     return {
       isAddData: false,
       isUpdateData: false,
       product: null
-    };
+    }
   },
   methods: {
-    gotoAddForm() {
-      this.isAddData = !this.isAddData;
+    gotoAddForm () {
+      this.isAddData = !this.isAddData
       if (!this.isAddData) {
-        this.$router.push("/product");
+        this.$router.push('/product')
       } else {
-        this.$router.push({ name: "AddProduct" });
+        this.$router.push({ name: 'AddProduct' })
       }
     },
-    update(params) {
-      this.isUpdateData = !this.isUpdateData;
-      this.product = params;
+    update (params) {
+      this.isUpdateData = !this.isUpdateData
+      this.product = params
     },
-    goToUpdateForm(product) {
-      this.isAddData = !this.isAddData;
+    goToUpdateForm (product) {
+      this.isAddData = !this.isAddData
       if (!this.isAddData) {
-        this.$router.push("/product");
+        this.$router.push('/product')
       } else {
         this.$router.push({
-          name: "UpdateProduct",
+          name: 'UpdateProduct',
           params: { id: product.id },
           query: {
             name: product.name,
@@ -116,42 +114,42 @@ export default {
             stock: product.stock,
             img: product.img_url
           }
-        });
+        })
       }
     },
-    deleteProduct(product) {
+    deleteProduct (product) {
       api
-        .delete(`/products/${product.id}`, {headers: {token: localStorage.access_token}})
+        .delete(`/products/${product.id}`, { headers: { token: localStorage.access_token } })
         .then(res => {
           this.$store.dispatch('getProducts')
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
-    success() {
-      this.isAddData = !this.isAddData;
-      this.$store.dispatch("getProducts");
+    success () {
+      this.isAddData = !this.isAddData
+      this.$store.dispatch('getProducts')
     },
-    successUpdate() {
-      this.isUpdateData = !this.isUpdateData;
-      this.getProducts();
+    successUpdate () {
+      this.isUpdateData = !this.isUpdateData
+      this.getProducts()
     }
   },
-  created() {
-    if (this.stores.products === null) this.$store.dispatch("getProducts");
-    if (this.stores.categories === null) this.$store.dispatch("getCategories");
+  created () {
+    if (this.stores.products === null) this.$store.dispatch('getProducts')
+    if (this.stores.categories === null) this.$store.dispatch('getCategories')
   },
-  mounted() {},
+  mounted () {},
   computed: {
-    stores() {
+    stores () {
       return {
         categories: this.$store.state.categories,
         products: this.$store.state.products
-      };
+      }
     }
   }
-};
+}
 </script>
 
 <style>

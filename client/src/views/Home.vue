@@ -14,28 +14,28 @@
 </template>
 
 <script>
-import SideBar from "../components/SideBar";
-import NavbarApp from "../components/Navbar";
+import SideBar from '../components/SideBar'
+import NavbarApp from '../components/Navbar'
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     SideBar,
     NavbarApp
   },
-  created() {
-    if (this.stores.users == null) this.$store.dispatch("getUsers");
-    if (this.stores.categories == null) this.$store.dispatch("getCategories");
-    if (this.stores.products == null) this.$store.dispatch("getProducts");
+  created () {
+    if (this.stores.users == null) this.$store.dispatch('getUsers')
+    if (this.stores.categories == null) this.$store.dispatch('getCategories')
+    if (this.stores.products == null) this.$store.dispatch('getProducts')
   },
   computed: {
-    stores() {
+    stores () {
       return {
         users: this.$store.state.users,
         categories: this.$store.state.categories,
         products: this.$store.state.products
-      };
+      }
     }
   }
-};
+}
 </script>

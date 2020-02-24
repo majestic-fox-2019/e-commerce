@@ -41,41 +41,34 @@
 </template>
 
 <script>
-import NoData from "../components/NoData";
+import NoData from '../components/NoData'
 import api from '../helper/api'
 export default {
   components: {
     NoData
   },
-  data() {
+  data () {
     return {
       isAddData: false
-    };
+    }
   },
   methods: {
-    gotoAddForm() {
-      this.isAddData = !this.isAddData;
+    gotoAddForm () {
+      this.isAddData = !this.isAddData
       if (!this.isAddData) {
-        this.$router.push("/category");
+        this.$router.push('/category')
       } else {
-        this.$router.push({ name: "AddCategory" });
+        this.$router.push({ name: 'AddCategory' })
       }
     },
-    success() {
-      this.isAddData = !this.isAddData;
-      this.$store.dispatch("getCategories");
+    success () {
+      this.isAddData = !this.isAddData
+      this.$store.dispatch('getCategories')
     },
-    updateCategory() {
-      this.$router.push({
-        name: "UpdateCategory",
-        params: { id: categoriy.id }
-      });
-    },
-    deleteCategory(id){
+    deleteCategory (id) {
       api
-        .delete(`/categories/${id}`, {headers: {token: localStorage.access_token}})
-        .then(({data}) => {
-          console.log(data)
+        .delete(`/categories/${id}`, { headers: { token: localStorage.access_token } })
+        .then(({ data }) => {
           this.$store.dispatch('getCategories')
         })
         .catch(err => {
@@ -83,17 +76,17 @@ export default {
         })
     }
   },
-  mounted() {
+  mounted () {
     if (this.categories === null) {
-      this.$store.dispatch("getCategories");
+      this.$store.dispatch('getCategories')
     }
   },
   computed: {
-    categories() {
-      return this.$store.state.categories;
+    categories () {
+      return this.$store.state.categories
     }
   }
-};
+}
 </script>
 
 <style>

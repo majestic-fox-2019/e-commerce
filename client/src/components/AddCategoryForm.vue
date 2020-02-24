@@ -15,28 +15,29 @@
 </template>
 
 <script>
+import api from '../helper/api'
 export default {
-  data() {
+  data () {
     return {
-      name: ""
-    };
+      name: ''
+    }
   },
   methods: {
-    postCategories() {
+    postCategories () {
       const value = {
         name: this.name
-      };
-      this.$axios
-        .post("/categories", value, {
+      }
+      api
+        .post('/categories', value, {
           headers: { token: localStorage.access_token }
         })
         .then(({ data }) => {
-          console.log(data);
-          this.$router.go(-1);
-          this.$emit("success-add-category");
+          console.log(data)
+          this.$router.go(-1)
+          this.$emit('success-add-category')
         })
-        .catch(({ response }) => console.log(response));
+        .catch(({ response }) => console.log(response))
     }
   }
-};
+}
 </script>
