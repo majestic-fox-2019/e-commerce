@@ -4,6 +4,7 @@
     <navbar></navbar>
     <!-- LOGIN AND REGISTER FORM -->
     <loginregister v-if="!alreadyLogin">
+      <!-- <loginregister> -->
     </loginregister>
     <update v-if="isUpdated && alreadyLogin"></update>
     <homepage></homepage>

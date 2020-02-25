@@ -1,5 +1,6 @@
 <template>
-<div class="container" v-if="alreadyLogin && !isUpdated">
+<div class='container' v-if="alreadyLogin && !isUpdated">
+  <!-- <div> -->
   <!-- ADD PRODUCT -->
     <v-row>
     <v-dialog v-model="dialog" persistent max-width="600px">
@@ -16,7 +17,7 @@
           <span class="headline">Add Product</span>
         </v-card-title>
         <v-card-text class='rowAdd'>
-          <v-container class='modalAdd'>
+          <v-container class='container modalAdd' >
             <v-row>
               <v-col cols="12">
                 <v-text-field v-model="name" label="Nama barang" required></v-text-field>
@@ -30,11 +31,16 @@
               <v-col cols="12">
                 <v-text-field v-model="stock" label="Stock" required></v-text-field>
               </v-col>
+               <v-col cols="12">
+                <v-textarea v-model="description" label="Description" required>
+                </v-textarea>
+              </v-col>
               <v-col cols="12" sm="6">
                 <v-select
-                  :items="['0', '0.5', '1', '1.5',
-                  '2', '2.5', '3', '3.5', '4', '4.5', '5']"
+                  :items="[0, 0.5, 1, 1.5,
+                  2, 2.5, 3, 3.5, 4, 4.5, 5]"
                   label="Rating"
+                  v-model="selected"
                   required
                 ></v-select>
               </v-col>
@@ -44,7 +50,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="dialog = false">Cancel</v-btn>
-          <v-btn color="blue darken-1" text @click="dataUpdate">Add</v-btn>
+          <v-btn color="blue darken-1" text @click="addProduct">Add</v-btn>
         </v-card-actions>
       </v-card>
       </div>
@@ -75,7 +81,7 @@
 
       <!-- Rating Barang Bintang -->
         <v-rating
-          :value="5"
+          :value="product.rating"
           color="amber"
           dense
           half-increments
@@ -84,35 +90,25 @@
         ></v-rating>
 
       <!-- Rating Barang Angka -->
-        <div class="grey--text ml-4">4.5 (413)</div>
+        <div class="grey--text ml-4">{{product.rating}} </div>
       </v-row>
 
       <!-- HARGA BARANG  -->
       <div class="my-4 subtitle-1">
-        $ • Italian, Cafe
+        $ • {{product.price}}
       </div>
 
-      <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor
-        seats plus patio seating.</div>
+      <div>{{product.description}}.</div>
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
-
-    <!--             STOCK           -->
-    <v-card-title>Tonight's availability</v-card-title>
 
     <v-card-text>
       <v-chip-group
         active-class="deep-purple accent-4 white--text"
         column
       >
-        <v-chip>5:30PM</v-chip>
-
-        <v-chip>7:30PM</v-chip>
-
-        <v-chip>8:00PM</v-chip>
-
-        <v-chip>9:00PM</v-chip>
+      <v-card-title>Current Stock:</v-card-title> <v-chip> {{product.stock}}</v-chip>
       </v-chip-group>
     </v-card-text>
 
@@ -157,6 +153,8 @@ export default {
       image_url: null,
       price: null,
       stock: null,
+      description: null,
+      selected: null,
     };
   },
   computed: {
@@ -213,12 +211,17 @@ export default {
           image_url: this.image_url,
           price: this.price,
           stock: this.stock,
+          rating: this.selected,
+          description: this.description,
         })
         .end(() => {
           this.name = null;
           this.image_url = null;
           this.price = null;
           this.stock = null;
+          this.rating = null;
+          this.description = null;
+
           this.dialog = false;
           this.loadData();
         });
@@ -251,6 +254,9 @@ export default {
 
 div.card {
   margin: 0%;
-  width: 25%;
+  width: 30%;
+}
+div.row.justify-center{
+  width: 100%
 }
 </style>

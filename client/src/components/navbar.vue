@@ -6,12 +6,12 @@
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src="https://cdn.pixabay.com/photo/2016/12/24/01/49/coffee-1928249_960_720.png"
           transition="scale-transition"
           width="40"
         />
         <p>
-        Kopinang Kau
+        Coffee Break
         </p>
       </div>
       <v-spacer></v-spacer>
@@ -52,3 +52,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+</style>

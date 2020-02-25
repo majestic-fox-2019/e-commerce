@@ -1,21 +1,21 @@
-"use strict";
+'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const { Model } = sequelize.Sequelize;
+  const { Model } = sequelize.Sequelize
 
-  class Product extends Model {}
+  class Product extends Model { }
 
-  Product.init(
-    {
-      name: DataTypes.STRING,
-      image_url: DataTypes.STRING,
-      price: DataTypes.INTEGER,
-      stock: DataTypes.INTEGER
-    },
-    { sequelize }
-  );
-  Product.associate = function(models) {
+  Product.init({
+    price: DataTypes.INTEGER,
+    rating: DataTypes.INTEGER,
+    name: DataTypes.STRING,
+    image_url: DataTypes.STRING,
+    stock: DataTypes.INTEGER,
+    description: DataTypes.STRING
+  }, { sequelize });
+
+  Product.associate = function (models) {
     // associations can be defined here
-    Product.belongsToMany(models.User, { through: "UserProduct" });
+    Product.belongsToMany(models.User, { through: 'UserProduct' })
   };
   return Product;
 };

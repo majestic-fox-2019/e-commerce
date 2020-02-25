@@ -24,6 +24,8 @@ const store = new Vuex.Store({
     image_urlUpdate: null,
     priceUpdate: null,
     stockUpdate: null,
+    ratingUpdate: null,
+    descriptionUpdate: null,
     isUpdate: false,
     dataUpdate: {},
     loadData: [],
@@ -38,6 +40,8 @@ const store = new Vuex.Store({
       state.image_urlUpdate = dataUpdate.image_url;
       state.priceUpdate = dataUpdate.price;
       state.stockUpdate = dataUpdate.stock;
+      state.descriptionUpdate = dataUpdate.description;
+      state.ratingUpdate = dataUpdate.rating;
       state.isUpdate = true;
       console.log(dataUpdate, 'ini nihh state', state.isUpdate, 'awkakwakwka');
     },
@@ -48,6 +52,8 @@ const store = new Vuex.Store({
       state.image_urlUpdate = null;
       state.priceUpdate = null;
       state.stockUpdate = null;
+      state.descriptionUpdate = null;
+      state.ratingUpdate = null;
     },
     cancelupdate(state, status) {
       state.isUpdate = status;
@@ -56,6 +62,8 @@ const store = new Vuex.Store({
       state.image_urlUpdate = null;
       state.priceUpdate = null;
       state.stockUpdate = null;
+      state.descriptionUpdate = null;
+      state.ratingUpdate = null;
     },
     // loadData(state, data) {
 

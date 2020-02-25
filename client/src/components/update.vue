@@ -11,6 +11,10 @@
       </v-text-field>
       <v-text-field type="number" v-model="price" label="Price" required>
       </v-text-field>
+      <v-text-field type="number" v-model="rating" label="Rating" required>
+      </v-text-field>
+      <v-textarea type="number" v-model="description" label="description" required>
+      </v-textarea>
       <v-btn color="warning" class="mr-4" @click="update">Update</v-btn>
       <v-btn color="red" class="mr-4" @click="cancel">Cancel</v-btn>
       <v-spacer></v-spacer>
@@ -29,6 +33,8 @@ export default {
       price: this.$store.state.priceUpdate,
       image_url: this.$store.state.image_urlUpdate,
       stock: this.$store.state.stockUpdate,
+      description: this.$store.state.descriptionUpdate,
+      rating: this.$store.state.ratingUpdate,
     };
   },
   computed: {
@@ -68,6 +74,8 @@ export default {
           price: this.price,
           image_url: this.image_url,
           stock: this.stock,
+          rating: this.rating,
+          description: this.description,
         })
         .end(() => {
           this.$store.commit('cancelupdate', false);

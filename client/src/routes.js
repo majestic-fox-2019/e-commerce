@@ -13,6 +13,15 @@ export default [
     path: '/homepage',
     name: 'homepage',
     component: homepage,
+    // beforeEnter(to, from, next) {
+    //   if (this.localstorage.token) {
+    //     next();
+    //   } else {
+    //     next({
+    //       name: 'loginregister',
+    //     });
+    //   }
+    // },
   },
   {
     path: '/update',

@@ -8,12 +8,15 @@ let { Product } = require("../models");
 
 class ControllerProduct {
   static add(req, res, next) {
-    let { name, image_url, price, stock } = req.body;
+    let { name, image_url, price, stock, rating, description } = req.body;
+    let numrating = Number(rating)
     Product.create({
       name,
       image_url,
       price,
-      stock
+      stock,
+      rating: numrating,
+      description
     })
       .then(result => {
         res.status(201).json(result);
@@ -77,13 +80,16 @@ class ControllerProduct {
 
   static edit(req, res, next) {
     let ProductId = req.params.id;
-    let { name, stock, image_url, price } = req.body;
+    let { name, stock, image_url, price, rating, description } = req.body;
+    let numrating = Number(rating)
     Product.update(
       {
         name,
-        stock,
         image_url,
-        price
+        price,
+        stock,
+        rating: numrating,
+        description
       },
       {
         where: {
