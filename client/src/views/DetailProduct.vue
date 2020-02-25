@@ -69,6 +69,25 @@
         :reviewDet="oneReview"
       ></reviews>
     </div>
+    <div v-if="havI" class="mt-5 container">
+      <h4 class="text-left">Post Review</h4>
+      <b-card>
+        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+        <form @submit="submitReview">
+          <el-rate v-model="ratingKu" :colors="colors"></el-rate>
+          <b-form-textarea
+            id="textarea"
+            v-model="reviewKu"
+            placeholder="Your review here..."
+            rows="3"
+            max-rows="6"
+          ></b-form-textarea>
+          <div class="row justify-content-end">
+            <b-button variant="primary" class="btn btn-primary mr-3 mt-2" type="submit">Send</b-button>
+          </div>
+        </form>
+      </b-card>
+    </div>
   </div>
 </template>
 
@@ -86,7 +105,10 @@ export default {
     return {
       value: 0,
       stockBeli: 0,
-      adminOrMine: false
+      adminOrMine: false,
+      ratingKu: null,
+      colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
+      reviewKu: ""
     };
   },
   methods: {
@@ -114,12 +136,32 @@ export default {
     },
     getReviews() {
       this.$store.dispatch("getReviews", this.$route.params.idProduct);
+    },
+    haveIBought() {
+      if (localStorage.getItem("token")) {
+        this.$store.dispatch("haveIBought", this.$route.params.idProduct);
+      }
+    },
+    submitReview(e) {
+      e.preventDefault();
+      // console.log(this.ratingKu, this.reviewKu);
+      let objPostReview = {
+        idProduct: this.$route.params.idProduct,
+        rating: this.ratingKu,
+        review: this.reviewKu
+      };
+      this.$store.dispatch("postReview", objPostReview).then(() => {
+        this.getReviews();
+        this.ratingKu = "";
+        this.review = 0;
+      });
     }
   },
   mounted() {
     let id = this.$route.params.idProduct;
     this.$store.dispatch("getDetailProduct", id);
     this.getReviews();
+    this.haveIBought();
   },
   computed: {
     detailProduct() {
@@ -176,6 +218,9 @@ export default {
         this.getReviews();
         return "loading...";
       }
+    },
+    havI() {
+      return this.$store.state.haveIBought;
     }
   },
   watch: {

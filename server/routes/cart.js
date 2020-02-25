@@ -11,5 +11,6 @@ routes.patch("/checkout", authentication, controlCart.checkoutCart)
 routes.get("/history", authentication, controlCart.getTransactionHistory)
 routes.get("/history/myShop", authentication, controlCart.getAllTransactionOfMyShop)
 routes.get("/history/all", authentication, forAdmin, controlCart.getAllTransactionOfAllShop)
+routes.get("/have/ibought/:idProduct", authentication, controlCart.getCartYangPaidOfThisProductDanUserIdnyaAku)
 module.exports = routes
 

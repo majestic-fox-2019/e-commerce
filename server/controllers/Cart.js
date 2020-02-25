@@ -192,6 +192,16 @@ class ControlCart {
             })
     }
 
+    static getCartYangPaidOfThisProductDanUserIdnyaAku(req, res, next) {
+        Cart.findOne({ where: { ProductId: req.params.idProduct, UserId: req.payload.id, status: "paid" } })
+            .then(data => {
+                res.status(200).json(data)
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+
 }
 
 module.exports = ControlCart

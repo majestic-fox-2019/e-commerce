@@ -43,9 +43,14 @@
           <b-nav-item v-if="role !== 'admin'">
             <router-link to="/cart" class="links">
               <!-- <i class="el-icon-goods"></i> -->
-              <el-badge :value="myCarts.length" class="item">
+              <div v-if="tokenKu">
+                <el-badge :value="myCarts.length" class="item">
+                  <i class="fas fa-shopping-cart"></i>
+                </el-badge>
+              </div>
+              <div v-else>
                 <i class="fas fa-shopping-cart"></i>
-              </el-badge>
+              </div>
             </router-link>
           </b-nav-item>
         </b-navbar-nav>
@@ -79,6 +84,11 @@ export default {
       if (localStorage.getItem("token")) {
         this.$store.dispatch("getMyCart");
       }
+    },
+    cekLogin() {
+      if (localStorage.getItem("token")) {
+        this.getCart();
+      }
     }
   },
   computed: {
@@ -96,6 +106,13 @@ export default {
       } else {
         return this.$store.state.myCarts;
       }
+    },
+    tokenKu() {
+      if (localStorage.getItem("token")) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   watch: {
@@ -104,6 +121,11 @@ export default {
     },
     role() {
       return this.$store.state.role;
+    },
+    tokenKu() {
+      // return this.tokenKu();
+      alert("HOI");
+      this.cekLogin();
     }
   },
   mounted() {

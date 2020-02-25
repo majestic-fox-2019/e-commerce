@@ -6,9 +6,9 @@ class ControlReview {
     static createReview(req, res, next) {
 
         if (req.body.rating < 0) {
-            next({ code: 400, message: "Rating should not be below 0" })
+            throw ({ code: 400, message: "Rating should not be below 0" })
         } else if (req.body.rating > 5) {
-            next({ code: 400, message: "Rating should not exceed 5" })
+            throw ({ code: 400, message: "Rating should not exceed 5" })
         }
         var accumulatedRating
         let reviewJadi
@@ -16,7 +16,7 @@ class ControlReview {
 
             .then(ketemu => {
                 if (ketemu.UserId == req.payload.id) {
-                    next({ code: 400, message: "You can not review your own product" })
+                    throw ({ code: 400, message: "You can not review your own product" })
                 } else {
                     return Cart.findOne({ where: { UserId: req.payload.id, ProductId: req.params.idProduct, status: "paid" } })
                 }
@@ -59,9 +59,9 @@ class ControlReview {
                 res.status(201).json({ reviewCreated: reviewJadi, ratingProductLast: ratingProductUpdated })
             })
             .catch(err => {
-                // next(err)
+                next(err)
                 // console.log(err, "<<< ini")
-                next({ code: 400, message: "You havent purchased this product, you can not review" })
+                // next({ code: 400, message: "You havent purchased this product, you can not review" })
             })
     }
 

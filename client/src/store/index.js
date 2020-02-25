@@ -23,7 +23,8 @@ export default new Vuex.Store({
     editDelStatus: false,
     myCarts: null,
     myBelanjaHistory: null,
-    reviews: null
+    reviews: null,
+    haveIBought: false
     // allTransactionsAllShop: []
   },
   mutations: {
@@ -68,6 +69,9 @@ export default new Vuex.Store({
     },
     setReviews(state, data) {
       state.reviews = data
+    },
+    haveIBought(state, status) {
+      state.haveIBought = status
     }
   },
   actions: {
@@ -511,6 +515,46 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err, "<< ini error get review")
+        })
+    },
+    haveIBought(context, idProduct) {
+      axios({
+        method: "GET",
+        url: `${this.state.baseUrl}/carts/have/ibought/${idProduct}`,
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(({ data }) => {
+          // console.log(data, "<< ini aku udah bought apa belom")
+          if (!data) {
+            context.commit("haveIBought", false)
+          } else {
+            context.commit("haveIBought", true)
+          }
+        })
+        .catch(err => {
+          console.log(err.response, "<< ini error have i bought")
+        })
+    },
+    postReview(context, objPostReview) {
+      let { idProduct, review, rating } = objPostReview
+      return axios({
+        method: "POST",
+        url: `${this.state.baseUrl}/reviews/${idProduct}`,
+        data: {
+          review,
+          rating
+        },
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(() => {
+          context.commit("dummy", "dummy")
+        })
+        .catch(err => {
+          console.log(err, "<< ini error")
         })
     }
   },
