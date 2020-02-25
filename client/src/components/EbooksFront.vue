@@ -43,6 +43,11 @@
               <v-spacer></v-spacer>
 
               <v-btn icon>
+                <v-icon>mdi-cart</v-icon>
+              </v-btn>
+
+
+              <v-btn icon>
                 <v-icon>mdi-heart</v-icon>
               </v-btn>
 
@@ -86,7 +91,4 @@ export default {
 };
 </script>
 <style scoped>
-    body{
-        overflow: auto;
-    }
 </style>

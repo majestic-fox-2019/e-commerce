@@ -91,6 +91,22 @@
             <span class="ml-2 menu-text">20</span>
           </v-btn>
         </router-link>
+        <router-link :to="{name: 'cart'}">
+          <v-btn
+            text
+          >
+            <v-icon>mdi-heart-outline</v-icon>
+            <span class="ml-2 menu-text">20</span>
+          </v-btn>
+        </router-link>
+        <router-link :to="{name: 'cart'}">
+          <v-btn
+            text
+          >
+            <v-icon>mdi-bookmark-outline</v-icon>
+            <span class="ml-2 menu-text">20</span>
+          </v-btn>
+        </router-link>
       </div>
       <!-- End User Menu -->
 
