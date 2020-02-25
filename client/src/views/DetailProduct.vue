@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- {{detailProduct}} -->
+    <!-- {{reviews}} -->
     <div class="d-flex">
       <div class="col">
         <img :src="detailProduct.image_url" img-height="500" img-width="500" alt="Ini baju" />
@@ -60,15 +61,26 @@
       </div>
     </div>
     <modalLogin></modalLogin>
+    <div class="mt-5 container text-left">
+      <h4>See Reviews({{reviews.allReviewsOfProduct.length}})</h4>
+      <reviews
+        v-for="(oneReview, i) of reviews.allReviewsOfProduct"
+        :key="i"
+        :reviewDet="oneReview"
+      ></reviews>
+    </div>
   </div>
 </template>
 
 <script>
+import reviews from "../components/reviews";
+import Swal from "sweetalert2";
 import modalLogin from "../components/modalLogin";
 export default {
   name: "detail",
   components: {
-    modalLogin
+    modalLogin,
+    reviews
   },
   data() {
     return {
@@ -87,51 +99,91 @@ export default {
     addToCart() {
       if (!localStorage.getItem("token")) {
         this.$bvModal.show(`bv-modal-example`);
+      } else if (this.stockBeli == 0 || this.stockBeli < 0) {
+        Swal.fire("Oops", "Your stock does not seem right", "error");
+      } else if (this.stockBeli > this.detailProduct.stock) {
+        Swal.fire("Oops", "You ordered more than the available stock", "error");
+      } else {
+        let objAddCart = {
+          idProduct: this.$route.params.idProduct,
+          qty: this.stockBeli
+        };
+        // console.log(objAddCart, "<< ini yang mau dibeli");
+        this.$store.dispatch("addToCart", objAddCart);
       }
+    },
+    getReviews() {
+      this.$store.dispatch("getReviews", this.$route.params.idProduct);
     }
   },
   mounted() {
     let id = this.$route.params.idProduct;
     this.$store.dispatch("getDetailProduct", id);
+    this.getReviews();
   },
   computed: {
     detailProduct() {
-      return this.$store.state.productDetail;
+      if (this.$store.state.productDetail == null) {
+        let id = this.$route.params.idProduct;
+        this.$store.dispatch("getDetailProduct", id);
+        return "loading";
+      } else {
+        return this.$store.state.productDetail;
+      }
     },
     price() {
-      let angka = this.detailProduct.price;
-      var rupiah = "";
-      var angkarev = angka
-        .toString()
-        .split("")
-        .reverse()
-        .join("");
-      for (var i = 0; i < angkarev.length; i++)
-        if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + ".";
-      return (
-        "Rp. " +
-        rupiah
-          .split("", rupiah.length - 1)
+      if (this.detailProduct.price) {
+        let angka = this.detailProduct.price;
+
+        var rupiah = "";
+        var angkarev = angka
+          .toString()
+          .split("")
           .reverse()
-          .join("") +
-        ",00"
-      );
+          .join("");
+        for (var i = 0; i < angkarev.length; i++)
+          if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + ".";
+        return (
+          "Rp. " +
+          rupiah
+            .split("", rupiah.length - 1)
+            .reverse()
+            .join("") +
+          ",00"
+        );
+      } else {
+        return "loading";
+      }
     },
     shop() {
-      if (this.detailProduct.User.role == "admin") {
-        return "Official Shop";
+      if (this.detailProduct.User) {
+        if (this.detailProduct.User.role == "admin") {
+          return "Official Shop";
+        } else {
+          return this.detailProduct.User.name;
+        }
       } else {
-        return this.detailProduct.User.name;
+        return "loading..";
       }
     },
     rating() {
       return this.detailProduct.rating;
+    },
+    reviews() {
+      if (this.$store.state.reviews) {
+        return this.$store.state.reviews;
+      } else {
+        this.getReviews();
+        return "loading...";
+      }
     }
   },
   watch: {
     detailProduct() {
       this.value = this.detailProduct.rating;
-      if (
+      if (this.detailProduct.User == undefined) {
+        return "sabar";
+      } else if (
         this.detailProduct.User.id == localStorage.getItem("userId") ||
         localStorage.getItem("role") == "admin"
       ) {

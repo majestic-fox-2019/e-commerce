@@ -6,7 +6,7 @@ import AdminPage from "../views/AdminPage.vue"
 import DetailProduct from "../views/DetailProduct.vue"
 import Category from "../views/PerCategory.vue"
 import UserPage from "../views/UserProfile.vue"
-
+import Cart from "../views/Cart.vue"
 
 Vue.use(VueRouter)
 
@@ -48,6 +48,11 @@ const routes = [
     path: "/user",
     name: "userpage",
     component: UserPage
+  },
+  {
+    path: "/cart",
+    name: "cart",
+    component: Cart
   }
 ]
 

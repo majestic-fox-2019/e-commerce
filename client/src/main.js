@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui';
+import * as firebase from "firebase"
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'element-ui/lib/theme-chalk/index.css';
@@ -14,6 +15,9 @@ Vue.use(IconsPlugin)
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+const firebaseConfig = require("./config/configFirebase")
+firebase.initializeApp(firebaseConfig)
+Vue.use(firebase)
 
 new Vue({
   router,

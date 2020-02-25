@@ -5,13 +5,13 @@ import router from '../router'
 import Swal from "sweetalert2"
 
 Vue.use(Vuex)
-// Vue.use(Swal)
 
 export default new Vuex.Store({
   state: {
     isLogin: false,
     role: "user",
     baseUrl: "http://localhost:3000",
+    // baseUrl: "https://cherrychenka.herokuapp.com",
     username: localStorage.getItem("username"),
     allProducts: [],
     errMSG: "",
@@ -20,7 +20,10 @@ export default new Vuex.Store({
     productDetail: null,
     perCategory: [],
     allTransactionMyShop: [],
-    editDelStatus: false
+    editDelStatus: false,
+    myCarts: null,
+    myBelanjaHistory: null,
+    reviews: null
     // allTransactionsAllShop: []
   },
   mutations: {
@@ -56,6 +59,15 @@ export default new Vuex.Store({
     },
     setEdit(state, status) {
       state.editDelStatus = status
+    },
+    setMyCarts(state, myCarts) {
+      state.myCarts = myCarts
+    },
+    setBelanjaanKu(state, data) {
+      state.myBelanjaHistory = data
+    },
+    setReviews(state, data) {
+      state.reviews = data
     }
   },
   actions: {
@@ -201,11 +213,13 @@ export default new Vuex.Store({
           context.commit("setMyProducts", data)
         })
         .catch(err => {
-          console.log(err.response)
+          // console.log(err.response)
+          context.commit("dummy", err)
+          Swal.fire("Oops", "Something Went wrong", "error")
         })
     },
     editProduct(context, objEdit) {
-      console.log("masuk edit product")
+      // console.log("masuk edit product")
       let { id, name, category, price, description, stock, image_url } = objEdit
       let formData = new FormData()
       formData.append("name", name);
@@ -354,7 +368,7 @@ export default new Vuex.Store({
         })
     },
     getOfficialProducts(context) {
-      console.log("masuk ge off")
+      // console.log("masuk ge off")
       axios({
         method: "GET",
         url: `${this.state.baseUrl}/products/official/byOfficial`,
@@ -366,8 +380,137 @@ export default new Vuex.Store({
           context.commit("setMyProducts", data)
         })
         .catch((err) => {
-          console.log(err.response, "<< gagal")
+          // console.log(err.response, "<< gagal")
+          context.commit("dummy", err)
           Swal.fire("Oops", "Something went wrong", "error")
+        })
+    },
+    getMyCart(context) {
+      axios({
+        method: "GET",
+        url: `${this.state.baseUrl}/carts/mine`,
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(({ data }) => {
+          // console.log(data, "<< ini dari cartku")
+          context.commit("setMyCarts", data)
+        })
+        .catch(err => {
+          console.log(err, "<< ini error my cart")
+        })
+    },
+    addToCart(context, dataAddToCart) {
+      let { idProduct, qty } = dataAddToCart
+      axios({
+        method: "POST",
+        url: `${this.state.baseUrl}/carts/${idProduct}`,
+        headers: {
+          token: localStorage.getItem("token")
+        },
+        data: {
+          qty
+        }
+      })
+        .then(({ data }) => {
+          // console.log(data, "<< ini hasil dari add to cart")
+          // Swal.fire("Yay!", `${data.productWanted.name} has been successfully added to your cart!`, "success")
+          Swal.fire({
+            title: "YAY!",
+            text: `${data.productWanted.name} has been successfully added to your cart!`,
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'See my carts'
+          }).then((result) => {
+            if (result.value) {
+              router.push("/cart")
+            }
+          })
+
+        })
+        .catch(err => {
+          console.log(err.response, "<< ini error add to cart")
+        })
+    },
+    updateCart(context, objUpdateCart) {
+      let { idUser, idProduct, qty } = objUpdateCart
+      return axios({
+        method: "PATCH",
+        url: `${this.state.baseUrl}/carts/${idProduct}/${idUser}/unpaid`,
+        headers: {
+          token: localStorage.getItem("token")
+        },
+        data: {
+          qty
+        }
+      })
+        .then(({ data }) => {
+          console.log(data, "<< ini dari update cart")
+        })
+        .catch(err => {
+          console.log(err.response, "<< ini error update cart")
+        })
+    },
+    deleteFromCart(context, objDel) {
+      let { idUser, idProduct } = objDel
+      return axios({
+        method: "DELETE",
+        url: `${this.state.baseUrl}/carts/${idProduct}/${idUser}/unpaid`,
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(() => {
+          Swal.fire("Yay", "Successfully deleted", "success")
+        })
+        .catch(err => {
+          console.log(err, "< ini error delete from cart")
+        })
+    },
+    checkout(context) {
+      return axios({
+        method: "PATCH",
+        headers: {
+          token: localStorage.getItem("token")
+        },
+        url: `${this.state.baseUrl}/carts/checkout`
+      })
+        .then(() => {
+          context.commit("dummy", "dummy")
+          Swal.fire("Yay", "Successfully checked out", "success")
+        })
+        .catch(err => {
+          console.log(err.response, "<< ini error checkout")
+        })
+    },
+    getMyHistory(context) {
+      axios({
+        method: "GET",
+        url: `${this.state.baseUrl}/carts/history`,
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(({ data }) => {
+          context.commit("setBelanjaanKu", data)
+        })
+        .catch(err => {
+          console.log(err, "<< ini error get belanjaan")
+        })
+    },
+    getReviews(context, idProduct) {
+      axios({
+        method: "GET",
+        url: `${this.state.baseUrl}/reviews/${idProduct}`
+      })
+        .then(({ data }) => {
+          context.commit("setReviews", data)
+        })
+        .catch(err => {
+          console.log(err, "<< ini error get review")
         })
     }
   },

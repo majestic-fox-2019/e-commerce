@@ -3,10 +3,16 @@ const Product = require("../models").Product
 const Cart = require("../models").Cart
 
 function toEditDeleteProduct(req, res, next) {
-    Product.findOne({ where: { id: req.params.idProduct }, include: [User] })
+    let userYangLogin
+    User.findOne({ where: { id: req.payload.id } })
+        .then(usernya => {
+            userYangLogin = usernya
+            return Product.findOne({ where: { id: req.params.idProduct }, include: [User] })
+
+        })
         .then(productFound => {
             // console.log(productFound, "<<<<<<<<<<<<INI DI AUTHORIZATION")
-            if (productFound.UserId == req.payload.id) {
+            if (productFound.UserId == req.payload.id || userYangLogin.role == "admin") {
                 next()
             } else {
                 next({ code: 403, message: "Unauthorized to do this action" })

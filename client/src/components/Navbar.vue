@@ -41,46 +41,17 @@
             <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item v-if="role !== 'admin'">
-            <router-link to="/" class="links">
-              <i class="el-icon-goods"></i>
+            <router-link to="/cart" class="links">
+              <!-- <i class="el-icon-goods"></i> -->
+              <el-badge :value="myCarts.length" class="item">
+                <i class="fas fa-shopping-cart"></i>
+              </el-badge>
             </router-link>
           </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
     <modalLogin></modalLogin>
-    <!-- <b-modal id="bv-modal-example" ref="modal-login" hide-footer>
-      <b-form @submit="onSubmit">
-        <b-form-group
-          id="input-group-email"
-          label="Email address:"
-          label-for="emailLogin"
-          description="We'll never share your email with anyone else."
-        >
-          <b-form-input
-            id="emailLogin"
-            v-model="email"
-            type="email"
-            required
-            placeholder="Enter email"
-          ></b-form-input>
-        </b-form-group>
-        <b-form-group id="input-group-password" label="Password:" label-for="password">
-          <b-form-input
-            id="password"
-            v-model="password"
-            type="password"
-            required
-            placeholder="Enter password"
-          ></b-form-input>
-        </b-form-group>
-      </b-form>
-      <b-button type="submit" variant="primary" @click="onSubmit">Submit</b-button>
-      <div class="mt-2">
-        New to us? Register
-        <a href @click="toRegister">Here</a>
-      </div>
-    </b-modal>-->
   </div>
 </template>
 
@@ -98,27 +69,17 @@ export default {
     };
   },
   methods: {
-    // onSubmit(evt) {
-    //   evt.preventDefault();
-    //   let dataUser = {
-    //     email: this.email,
-    //     password: this.password
-    //   };
-    //   this.$store.dispatch("login", dataUser);
-    //   this.$bvModal.hide("bv-modal-example");
-    // },
     logout() {
       localStorage.clear();
       this.$store.commit("changeLogin", false);
       this.$store.commit("changeRole", "");
       this.$store.commit("setUsername", "");
-      // if(this.$router.)
-      // this.$router.push("/");
+    },
+    getCart() {
+      if (localStorage.getItem("token")) {
+        this.$store.dispatch("getMyCart");
+      }
     }
-    // toRegister() {
-    //   this.$bvModal.hide("bv-modal-example");
-    //   this.$router.push("/register");
-    // }
   },
   computed: {
     errMSG() {
@@ -127,6 +88,14 @@ export default {
     role() {
       // return localStorage.getItem("role");
       return this.$store.state.role;
+    },
+    myCarts() {
+      if (this.$store.state.myCarts == null) {
+        this.getCart();
+        return "loading";
+      } else {
+        return this.$store.state.myCarts;
+      }
     }
   },
   watch: {
@@ -138,8 +107,9 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.role, "<< ini role");
-    // console.log(this.$router.options.base, "<<< router");
+    if (localStorage.getItem("token")) {
+      this.getCart();
+    }
   }
 };
 </script>

@@ -4,7 +4,7 @@ const User = require("../models").User
 class ControlCart {
     static addToCart(req, res, next) {
         if (req.body.qty < 0) {
-            next({ code: 400, message: "quantity should not be below 0" })
+            throw ({ code: 400, message: "quantity should not be below 0" })
         }
         let productWanted
         Product.findOne({
@@ -13,10 +13,10 @@ class ControlCart {
             .then(productFound => {
                 productWanted = productFound
                 if (productFound.UserId == req.payload.id) {
-                    next({ code: 400, message: "You can't buy your own product" })
+                    throw ({ code: 400, message: "You can't buy your own product" })
                 }
                 else if (productFound.stock < req.body.qty) {
-                    next({ code: 400, message: "Stock is not enough" })
+                    throw ({ code: 400, message: "Stock is not enough" })
                 } else {
 
                     return Cart.findOne({ where: { UserId: req.payload.id, ProductId: req.params.idProduct, status: "unpaid" } })
@@ -60,7 +60,7 @@ class ControlCart {
     }
 
     static myCarts(req, res, next) {
-        Cart.findAll({ where: { UserId: req.payload.id, status: "unpaid" }, include: [Product, User] })
+        Cart.findAll({ where: { UserId: req.payload.id, status: "unpaid" }, include: [Product, User], order: [['createdAt', 'ASC']] })
             .then(milikku => {
                 res.status(200).json(milikku)
             })
@@ -71,7 +71,7 @@ class ControlCart {
 
     static updateCart(req, res, next) {
         if (req.body.qty < 0) {
-            next({ code: 400, message: "quantity should not be lower than 0" })
+            throw ({ code: 400, message: "quantity should not be lower than 0" })
         }
         let sumPrice
         let productNya
@@ -112,17 +112,15 @@ class ControlCart {
                         .then(ketemu => {
 
                             if (ketemu.stock < i.qty) {
-                                next({ code: 400, message: "Stock is not enough" })
+                                throw ({ code: 400, message: "Stock is not enough" })
                             }
                         })
                 }
                 for (let j of milikku) {
                     semuaPunyaku.push(j)
                     toBeCheckedOut.push(Cart.update({ status: "paid" }, { where: { ProductId: j.ProductId, UserId: req.payload.id }, returning: true }))
-                    // toBeCheckedOut.push(Product.update({}))
 
                 }
-                // console.log(toBeCheckedOut, "=====")
                 return Promise.all(toBeCheckedOut)
             })
             .then(mauDiChecout => {
