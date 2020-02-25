@@ -37,7 +37,12 @@
               </v-btn>
           </v-snackbar>
           <template v-slot:activator='{ on }'>
-            <v-btn color='primary' dark class='mb-2' v-on='on'>Add User</v-btn>
+            <v-btn
+              @click="close"
+              color='primary'
+              dark
+              class='mb-2'
+              v-on='on'>Add User</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -53,7 +58,7 @@
                         label='Email'>
                     </v-text-field>
                   </v-col>
-                  <v-col cols='12' sm='6' md='12'>
+                  <v-col cols='12' sm='6' md='12' v-if="!isEdit">
                     <v-text-field
                         type='password'
                         v-model='editedItem.password'
@@ -124,7 +129,7 @@
       </v-toolbar>
     </template>
     <template v-slot:item.action='{ item }'>
-      <v-icon small class='mr-2' @click='editItem(item)'>
+      <v-icon small class='mr-2' @click='editItem(item); isEdit = true'>
         edit
       </v-icon>
       <v-icon small @click='dialog_delete = true; deletedItem = item;'>
@@ -139,6 +144,7 @@
 <script>
 export default {
   data: () => ({
+    isEdit: false,
     alert: false,
     message: '',
     alert_modal: false,
@@ -235,6 +241,7 @@ export default {
 
     close() {
       this.dialog = false;
+      this.isEdit = false;
       setTimeout(() => {
         const { defaultItem } = this;
         this.editedItem = { ...defaultItem };

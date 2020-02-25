@@ -37,7 +37,7 @@
               </v-btn>
           </v-snackbar>
           <template v-slot:activator='{ on }'>
-            <v-btn color='primary' dark class='mb-2' v-on='on'>Add Tutorial</v-btn>
+            <v-btn @click="close" color='primary' dark class='mb-2' v-on='on'>Add Tutorial</v-btn>
           </template>
           <v-card>
             <v-card-title>

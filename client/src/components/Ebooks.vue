@@ -37,7 +37,7 @@
               </v-btn>
           </v-snackbar>
           <template v-slot:activator='{ on }'>
-            <v-btn color='primary' dark class='mb-2' v-on='on'>Add Ebook</v-btn>
+            <v-btn @click="close" color='primary' dark class='mb-2' v-on='on'>Add Ebook</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -250,7 +250,6 @@ export default {
               } else {
                 this.message = res.body;
                 Object.assign(this.ebooks[this.editedIndex], this.editedItem);
-                this.close();
               }
               this.alert = true;
             });
@@ -267,11 +266,11 @@ export default {
               this.message_modal = res.body.message;
               this.editedItem.id = res.body.product.id;
               this.ebooks.push(this.editedItem);
-              this.close();
             }
             this.alert_modal = true;
           });
       }
+      this.close();
     },
   },
 };
