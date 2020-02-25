@@ -1,5 +1,34 @@
 <template>
     <v-container fluid>
+      <v-dialog
+        v-model="dialog_buy"
+        max-width="300"
+      >
+        <v-card>
+          <v-card-title class="headline">Confirm add to cart</v-card-title>
+          <v-card-text>
+            Are you sure you want to add product to cart?
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="dialog_buy = false"
+            >
+              NO
+            </v-btn>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="buy"
+            >
+              YES
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
       <v-snackbar
           v-model="alert"
           :top="true"
@@ -37,12 +66,16 @@
               height="200px"
             >
               <v-card-title v-text="ebook.name"></v-card-title>
+              <v-card-title v-text="formatMoney(ebook.price)"></v-card-title>
             </v-img>
 
             <v-card-actions>
               <v-spacer></v-spacer>
 
-              <v-btn icon>
+              <v-btn
+                icon
+                @click="objBook = ebook; dialog_buy = true"
+              >
                 <v-icon>mdi-cart</v-icon>
               </v-btn>
 
@@ -65,12 +98,24 @@
     </v-container>
 </template>
 <script>
+import moneyFormatter from '../helpers/formatMoney';
+
 export default {
   data: () => ({
     alert: false,
     message: '',
     ebooks: [],
+    objBook: null,
+    dialog_buy: false,
   }),
+  methods: {
+    buy() {
+      console.log(this.objBook);
+    },
+    formatMoney(money) {
+      return moneyFormatter(money);
+    },
+  },
   created() {
     this.$store.state.superagent
       .get(`${this.$store.state.url_backend}/products/1`)

@@ -38,7 +38,7 @@ export default {
       return this.$store.state.isLogin;
     },
     isShowRegister() {
-      console.log(this.$route);
+      // console.log(this.$route);
       if (this.$route.name === 'register') {
         return true;
       }
