@@ -1,5 +1,5 @@
 "use strict"
-const {Transaction} = require('../models');
+const {Transaction, User} = require('../models');
 class TransactionController {
     static addToCart(req, res, next) {
         const {UserId, ProductId, price} = req.body;
@@ -14,14 +14,19 @@ class TransactionController {
     }
 
     static listTransactionByUser(req, res, next) {
-        Transaction
+        User
           .findAll({
               where: {
-                  UserId: req.params.UserId
-              }
+                  id: req.params.UserId
+              },
+              include: [
+                {
+                    model: Transaction, include: [ "Product" ]
+                }
+              ]
           })
           .then(transactions => {
-              res.status(200).json(transactions);
+              res.status(200).json(transactions[0].Transactions);
           })
           .catch(err => {
               next(err);

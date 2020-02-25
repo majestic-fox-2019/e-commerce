@@ -4,16 +4,18 @@
       <template v-slot:default>
         <thead>
           <tr>
+            <th>No.</th>
             <th class="text-left">Category</th>
             <th class="text-left">Name</th>
             <th class="text-left">Price</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in desserts" :key="item.name">
-            <td>{{ item.name }}</td>
-            <td>{{ item.price }}</td>
-            <td>{{ item.calories }}</td>
+          <tr v-for="(cart, i) in carts" :key="cart.id">
+            <td>{{ i+1 }}</td>
+            <td>{{ cart.Product.CategoryId === 1 ? 'Ebooks' : 'Tutorials' }}</td>
+            <td>{{ cart.Product.name }}</td>
+            <td>{{ formatMoney(cart.price) }}</td>
           </tr>
         </tbody>
       </template>
@@ -31,60 +33,33 @@
 </template>
 
 <script>
+import moneyFormatter from '../helpers/formatMoney';
+import parseJwt from '../helpers/jwtParser';
+
 export default {
   data() {
     return {
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-        },
-      ],
+      carts: [],
     };
+  },
+  methods: {
+    formatMoney(money) {
+      return moneyFormatter(money);
+    },
+  },
+  created() {
+    const objUser = parseJwt(this.$store.state.isLogin);
+
+    this.$store.state.superagent
+      .get(`${this.$store.state.url_backend}/transactions/${objUser.id}`)
+      .set('accesstoken', this.$store.state.isLogin)
+      .end((err, res) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this.carts = res.body;
+        }
+      });
   },
 };
 </script>

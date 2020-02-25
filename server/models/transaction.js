@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
 
   Transaction.associate = function(models) {
     // associations can be defined here
+    Transaction.belongsTo(models.User, {foreignKey: 'UserId', sourceKey: 'id'})
+    Transaction.belongsTo(models.Product, {foreignKey: 'ProductId', sourceKey: 'id'})
   };
   return Transaction;
 };
