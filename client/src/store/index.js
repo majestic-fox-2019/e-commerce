@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import router from '../router'
 import Swal from 'sweetalert2'
+import rpConvert from '../helpers/rpConverter.js'
 
 Vue.use(Vuex)
 
@@ -39,7 +40,10 @@ export default new Vuex.Store({
       wholePageLoading: false,
       productDetails: false
     },
-    displayDetail: null
+    displayDetail: null,
+    cart: [],
+    unconfirmed: [],
+    totalActiveCart: ''
   },
   mutations: {
     SET_DISPLAY_PRODUCTS (state, payload) {
@@ -71,9 +75,122 @@ export default new Vuex.Store({
     },
     SET_UNLOAD_productDetails (state) {
       state.loading.productDetails = false
+    },
+    SET_CART (state, payload) {
+      state.cart = payload
+    },
+    SET_UNCONFIRMED (state, payload) {
+      state.unconfirmed = payload
+    },
+    SET_TOTAL (state, payload) {
+      state.totalActiveCart = payload
     }
   },
   actions: {
+    confirmDelivery (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/cart/deliveryConfirmation/' + payload.id,
+        method: 'delete',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+          this.dispatch('fetchUserCart')
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    },
+    checkout (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/cart/checkOut',
+        method: 'patch',
+        data: {
+          cartItems: payload
+        },
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+          this.dispatch('fetchUserCart')
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    },
+    deleteItem (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/cart/' + payload.id,
+        method: 'delete',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Successfully deleted from cart'
+          })
+          this.dispatch('fetchUserCart')
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    },
+    fetchUserCart (state, payload) {
+      const active = []
+      const checkedOut = []
+      axios({
+        url: this.state.baseUrl + '/cart',
+        method: 'get',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          data.forEach(element => {
+            if (element.status === 'Active') {
+              active.push(element)
+            } else if (element.status === 'CheckedOut') {
+              checkedOut.push(element)
+            }
+          })
+          active.forEach(element => {
+            element.Product.displayPrice = rpConvert(element.Product.price)
+          })
+          this.commit('SET_UNCONFIRMED', checkedOut)
+          this.commit('SET_CART', active)
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    },
+    addToCart (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/cart',
+        method: 'post',
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          ProductId: payload.ProductId,
+          qty: payload.qty
+        }
+      })
+        .then(({ data }) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Successfully added to cart'
+          })
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    },
     fetchShopProducts (state, payload) {
       axios({
         url: this.state.baseUrl + '/products/user',
@@ -289,13 +406,16 @@ export default new Vuex.Store({
             'success'
           )
           this.dispatch('fetchMainProducts')
+          if (payload.user) {
+            router.push('/shop/products')
+          }
         })
         .catch(err => {
           this.commit('SET_UNLOAD_WHOLEPAGE')
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: err.msg
+            text: err.response.data.message
           })
         })
     },
@@ -323,7 +443,11 @@ export default new Vuex.Store({
             'You have successfully edited a product',
             'success'
           )
-          this.dispatch('fetchMainProducts')
+          if (payload.user) {
+            this.dispatch('fetchShopProducts')
+          } else {
+            this.dispatch('fetchMainProducts')
+          }
         })
         .catch(err => {
           this.commit('SET_UNLOAD_WHOLEPAGE')
@@ -337,7 +461,7 @@ export default new Vuex.Store({
     deleteProduct (state, payload) {
       this.commit('SET_LOADING_WHOLEPAGE')
       axios({
-        url: this.state.baseUrl + '/products/' + payload,
+        url: this.state.baseUrl + '/products/' + payload.id,
         method: 'delete',
         headers: {
           token: localStorage.getItem('token')
@@ -350,7 +474,11 @@ export default new Vuex.Store({
             'Your product has been deleted.',
             'success'
           )
-          this.dispatch('fetchMainProducts')
+          if (payload.user) {
+            this.dispatch('fetchShopProducts')
+          } else {
+            this.dispatch('fetchMainProducts')
+          }
         })
         .catch(err => {
           this.commit('SET_UNLOAD_WHOLEPAGE')

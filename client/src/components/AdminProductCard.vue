@@ -47,7 +47,10 @@ export default {
         confirmButtonText: "Yes I'm sure"
       }).then((result) => {
         if (result.value) {
-          this.$store.dispatch('deleteProduct', id)
+          this.$store.dispatch('deleteProduct', {
+            id: id,
+            user: false
+          })
         }
       })
     },

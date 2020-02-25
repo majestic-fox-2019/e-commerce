@@ -13,4 +13,6 @@ router.patch('/checkOut', controller.checkOutItems)
 
 router.delete('/deliveryConfirmation/:id', deliveryConfirmAuth, controller.confirmDelivery)
 
+router.delete('/:id', deliveryConfirmAuth, controller.deleteItem)
+
 module.exports = router

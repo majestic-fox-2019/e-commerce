@@ -1,6 +1,20 @@
 const { Cart, User, Product, Income, Purchase } = require('../models')
 
 class CartController {
+    static deleteItem (req, res, next) {
+        Cart.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(deletedItem => {
+            res.status(200).json(deletedItem)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
     static addToCart(req, res, next) {
         let {
             ProductId,
@@ -93,7 +107,7 @@ class CartController {
         .then(finalResult => {
             forReturn = finalResult
             let updatedStock = []
-            cartItems.forEach(element => {
+            req.body.cartItems.forEach(element => {
                 let finalStock = element.Product.stock - element.qty
                 updatedStock.push(Product.update({
                     stock: finalStock

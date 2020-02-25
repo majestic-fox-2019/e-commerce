@@ -11,10 +11,23 @@ import AdminUsers from '../views/AdminUsers.vue'
 import UserShop from '../views/UserShop.vue'
 import UserProducts from '../views/UserProducts.vue'
 import UserAddProduct from '../views/UserAddProduct.vue'
+import Transactions from '../views/Transactions.vue'
+import OnGoing from '../views/OnGoing.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/transactions',
+    name: 'transactions',
+    component: Transactions,
+    children: [
+      {
+        path: 'ongoing',
+        component: OnGoing
+      }
+    ]
+  },
   {
     path: '/cart',
     name: 'Cart',

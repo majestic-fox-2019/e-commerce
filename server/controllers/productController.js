@@ -12,6 +12,7 @@ class ProductController {
             img_url,
             category
         } = req.body
+        
         Product.create({
             name,
             desc,

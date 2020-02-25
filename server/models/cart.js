@@ -5,6 +5,12 @@ module.exports = (sequelize, DataTypes) => {
   class Cart extends Model {}
 
   Cart.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     UserId: {
       type: DataTypes.INTEGER,
       allowNull: false,

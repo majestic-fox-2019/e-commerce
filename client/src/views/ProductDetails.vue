@@ -23,7 +23,7 @@
                 <h5 style="color:#5a5a5aa2;">Available Stock: {{$store.state.displayDetail.stock}}</h5>
             </div>
             <div class="mt-4" v-if="$store.state.userInfo">
-                <b-button>Add to Cart</b-button>
+                <b-button @click.prevent="addToCart($store.state.displayDetail.id)">Add to Cart</b-button>
             </div>
         </b-col>
     </b-row>
@@ -48,6 +48,12 @@ export default {
     }
   },
   methods: {
+    addToCart (id) {
+      this.$store.dispatch('addToCart', {
+        ProductId: id,
+        qty: this.qty
+      })
+    },
     addQty () {
       if (this.qty >= this.$store.state.displayDetail.stock) {
         this.qty = this.$store.state.displayDetail.stock

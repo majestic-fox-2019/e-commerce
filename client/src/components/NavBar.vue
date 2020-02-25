@@ -17,8 +17,8 @@
               </div>
           </div>
           <div v-if="$store.state.userInfo && !$store.state.loading.userInfo" id="afterLoginMenu">
-              <div id="cartMenu" v-if="$store.state.userInfo.role !== 'admin'">
-                <p href="" style="margin:0;padding:0;" class="mx-3"><i class="fas fa-shopping-cart"></i></p>
+              <div @click="toCart" id="cartMenu" v-if="$store.state.userInfo.role !== 'admin'">
+                <p style="margin:0;padding:0;" class="mx-3"><i class="fas fa-shopping-cart"></i></p>
             </div>
           <div class="dropdown">
                 <button class="dropbtn"><i class="fas fa-user"></i></button>
@@ -34,9 +34,9 @@
                         <h4><i class="fas fa-chart-bar"></i></h4>
                         <h4>Income Statement</h4>
                     </div>
-                    <div class="dropMenu mb-3 custMenu" v-if="$store.state.userInfo.role !== 'admin'">
-                        <h4><i class="fas fa-money-check-alt"></i></h4>
-                        <h4>Purchase History</h4>
+                    <div @click="toTransactions" class="dropMenu mb-3 custMenu">
+                        <h4><i class="fas fa-shopping-basket"></i></h4>
+                        <h5>Transactions</h5>
                     </div>
                     <div class="dropMenu mb-3 custMenu" @click="toAdmin" v-if="$store.state.userInfo.role == 'admin'">
                         <h4><i class="fas fa-user-shield"></i></h4>
@@ -79,6 +79,12 @@ export default {
     }
   },
   methods: {
+    toTransactions () {
+      this.$router.push('/transactions')
+    },
+    toCart () {
+      this.$router.push('/cart')
+    },
     toShop () {
       this.$router.push(`/shop/${this.$store.state.userInfo.id}`)
     },
