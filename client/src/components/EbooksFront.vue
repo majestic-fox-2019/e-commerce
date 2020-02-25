@@ -1,19 +1,42 @@
 <template>
     <v-container fluid>
+      <v-snackbar
+          v-model="alert"
+          :top="true"
+      >
+          {{ message }}
+          <v-btn
+              color="primary"
+              text
+              @click="alert = false"
+          >
+              Close
+          </v-btn>
+      </v-snackbar>
       <v-row dense>
         <v-col
-          v-for="card in cards"
-          :key="card.title"
-          :cols="card.flex"
+          v-for="ebook in ebooks"
+          :key="ebook.title"
+          :cols="ebook.flex"
         >
           <v-card>
             <v-img
-              :src="card.src"
+              v-if="!ebook.image_url"
+              src="@/assets/no-image-available.png"
               class="white--text align-end"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               height="200px"
             >
-              <v-card-title v-text="card.title"></v-card-title>
+              <v-card-title v-text="ebook.name"></v-card-title>
+            </v-img>
+            <v-img
+              v-if="ebook.image_url"
+              :src="ebook.image_url"
+              class="white--text align-end"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              height="200px"
+            >
+              <v-card-title v-text="ebook.name"></v-card-title>
             </v-img>
 
             <v-card-actions>
@@ -39,12 +62,27 @@
 <script>
 export default {
   data: () => ({
-    cards: [
-      { title: 'Discount 30% for Ebooks Category', src: 'https://www.odoo.com/web/image/website/1/social_default_image?unique=31255c3', flex: 6 },
-      { title: 'Coupon Buy 1 Get 1 for Tutorials Category', src: 'https://1.bp.blogspot.com/-8ZwKM5M417Q/WfA9EH4HXpI/AAAAAAAAEg0/RQTAr_-I70IoN1opffOx4m5W_xtu1J2yQCLcBGAs/s640/php-mysql-logo.png', flex: 6 },
-      { title: 'Discount 50% for All Category ', src: 'https://miro.medium.com/max/1200/1*aLg1-G2UAlaKpBopRnmCRg.png', flex: 6 },
-    ],
+    alert: false,
+    message: '',
+    ebooks: [],
   }),
+  created() {
+    this.$store.state.superagent
+      .get(`${this.$store.state.url_backend}/products/1`)
+      .set('accesstoken', this.$store.state.isLogin)
+      .end((err, res) => {
+        if (err) {
+          this.alert = true;
+          this.message = res ? res.body.error : err;
+        } else {
+          const ebooks = res.body.map((ebook) => {
+            ebook.flex = 6;
+            return ebook;
+          });
+          this.ebooks = ebooks;
+        }
+      });
+  },
 };
 </script>
 <style scoped>

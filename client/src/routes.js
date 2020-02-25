@@ -7,6 +7,7 @@ import Home from './components/Home.vue';
 import Users from './components/Users.vue';
 import Register from './components/Register.vue';
 import Banners from './components/Banners.vue';
+import TutorialsFront from './components/TutorialsFront.vue';
 import EbooksFront from './components/EbooksFront.vue';
 
 Vue.use(VueRouter);
@@ -29,13 +30,13 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/ebooks',
+    path: '/admin/ebooks',
     component: Ebooks,
     name: 'ebooks',
     meta: { requiresAuth: true },
   },
   {
-    path: '/tutorials',
+    path: '/admin/tutorials',
     component: Tutorials,
     name: 'tutorials',
     meta: { requiresAuth: true },
@@ -59,7 +60,7 @@ const routes = [
   },
   {
     path: '/tutorials',
-    component: EbooksFront,
+    component: TutorialsFront,
     name: 'tutorials_front',
   },
 ];
