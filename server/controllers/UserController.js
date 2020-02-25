@@ -86,6 +86,40 @@ class UserController {
     })
   }
 
+  static registerMember(req, res, next){
+    let objUser = {
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      role: 'member'
+    }
+    User.findOne({
+      where: {
+        email: objUser.email
+      }
+    })
+    .then(user => {
+      if(!user){
+        return User.create(objUser)
+      }else{
+        throw{
+          statusCode: 400,
+          message: "Email has been registered"
+        }
+      }
+    })
+    .then(newuser => {
+      res.status(201).json({
+        code: 201,
+        message: "Register user successfull",
+        payload: newuser
+      })
+    })
+    .catch(err => {
+      next(err)
+    })
+  }
+
   static verifyUser(req, res, next){
     let token = req.body.token
     let userToken = helper.authVerify(token)

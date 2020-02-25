@@ -13,4 +13,7 @@ router.put('/admin/user/:id', middleware.verifyToken, middleware.onlySuperadmin,
 router.delete('/admin/user/:id', middleware.verifyToken, middleware.onlySuperadmin, UserController.deleteUser)
 router.patch('/admin/user/changepassword/:id', middleware.verifyToken, middleware.onlySuperadmin, UserController.changePass)
 
+router.post('/register', UserController.registerMember)
+router.post('/login', UserController.doLogin)
+
 module.exports = router

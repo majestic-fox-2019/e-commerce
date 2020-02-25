@@ -3,7 +3,7 @@
     <div class="product-detail">
       <b-row>
         <b-col md="4">
-          <div class="image-detail-product">
+          <div class="image-detail-product" v-if="detailProduct !== null">
             <img :src="detailProduct.image_url">
           </div>
         </b-col>
@@ -15,7 +15,8 @@
               <span>Category : </span>
               <span class="cat-detail-product">{{ categoryUppercase }}</span>
             </div>
-            <b-button class="btn-beli mt-3" size="lg"><i class="fa fa-shopping-cart"></i>&nbsp;Masukan Keranjang</b-button>
+            <b-button class="btn-beli mt-3 mr-2" size="lg"><i class="fa fa-shopping-cart"></i>&nbsp;Masukan Keranjang</b-button>
+            <b-button class="mt-3" variant="dark" size="lg" @click="backHome"><i class="fa fa-chevron-circle-left"></i>&nbsp;Kembali Belanja</b-button>
           </div>
         </b-col>
       </b-row>
@@ -60,6 +61,9 @@ export default {
     }
   },
   methods: {
+    backHome(){
+      this.$router.push({ name: 'Home' })
+    },
     getDetailProduct(){
       axios.get(`${this.url}/product/${this.id}`)
       .then(res => {

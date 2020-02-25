@@ -4,6 +4,7 @@ import Home from '../views/Home/Home.vue'
 import Category from '../views/Category/Category.vue'
 import ContentCategory from '../views/Category/ContentCategory.vue'
 import ProductDetail from '../views/Product/ProductDetail.vue'
+import Register from '../views/Register/Register.vue'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,11 @@ const routes = [
     name: 'ProductDetail',
     component: ProductDetail,
     props: true
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
   }
 ]
 
