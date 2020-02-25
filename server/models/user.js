@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         isExist: function(value) {
           return User.count({ where: { email: value } })
             .then(count => {
-              if (count != 0) {
+              if (count != 0 && this.createdAt) {
                 throw new Error('Email is already exist.');
               }
           });

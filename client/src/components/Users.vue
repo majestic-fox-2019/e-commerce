@@ -251,7 +251,7 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        console.log(this.editedItem);
+        // console.log(this.editedItem);
         if (this.editedItem.id) {
           this.$store.state.superagent
             .put(`${this.$store.state.url_backend}/users/${this.editedItem.id}`)
