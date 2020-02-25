@@ -192,6 +192,7 @@ export default {
             this.alert = true;
             this.message = res.body;
             this.dialog_buy = false;
+            this.$store.dispatch('getCartTotal');
           }
         });
     },
@@ -212,6 +213,7 @@ export default {
             this.alert = true;
             this.message = res.body;
             this.dialog_love = false;
+            this.$store.dispatch('getLoveTotal');
           }
         });
     },
@@ -232,6 +234,7 @@ export default {
             this.alert = true;
             this.message = res.body;
             this.dialog_bookmark = false;
+            this.$store.dispatch('getBookmarkTotal');
           }
         });
     },

@@ -12,6 +12,21 @@ class LoveController {
               next(err);
           });
     }
+
+    static getTotalByUser(req, res, next) {
+        Love
+            .findAll({
+                where: {
+                    UserId: req.params.UserId
+                }
+            })
+            .then(loves => {
+                res.status(200).json(loves.length);
+            })
+            .catch(err => {
+                next(err);
+            });
+    }
 }
 
 module.exports = LoveController;

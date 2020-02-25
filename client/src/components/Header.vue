@@ -104,7 +104,7 @@
             text
           >
             <v-icon>mdi-bookmark-outline</v-icon>
-            <span class="ml-2 menu-text">{{bookmark_total}}</span>
+            <span class="ml-2 menu-text">{{bookmarks_total}}</span>
           </v-btn>
         </router-link>
       </div>
@@ -124,10 +124,6 @@
 import parseJwt from '../helpers/jwtParser';
 
 export default {
-  data: () => ({
-    loves_total: 1,
-    bookmark_total: 2,
-  }),
   methods: {
     login() {
       if (this.$route.name !== 'login') {
@@ -138,25 +134,6 @@ export default {
       localStorage.removeItem('token');
       this.$store.commit('setIsLogin', false);
       this.login();
-    },
-    getCartsTotal() {
-      const objUser = parseJwt(this.$store.state.isLogin);
-      this.$store.state.superagent
-        .get(`${this.$store.state.url_backend}/transactions/${objUser.id}/getTotal`)
-        .set('accesstoken', this.$store.state.isLogin)
-        .end((err, res) => {
-          if (!err) {
-            this.$store.commit('setCartTotal', res.body);
-          } else {
-            console.log(err);
-          }
-        });
-    },
-    getLovesTotal() {
-
-    },
-    getBookmarksTotal() {
-
     },
   },
   computed: {
@@ -174,11 +151,12 @@ export default {
     carts_total() {
       return this.$store.state.carts_total;
     },
-  },
-  created() {
-    this.getCartsTotal();
-    this.getLovesTotal();
-    this.getBookmarksTotal();
+    loves_total() {
+      return this.$store.state.loves_total;
+    },
+    bookmarks_total() {
+      return this.$store.state.bookmarks_total;
+    }
   },
 };
 </script>

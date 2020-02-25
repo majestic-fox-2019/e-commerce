@@ -32,6 +32,9 @@ export default {
     Register,
   },
   created() {
+    this.$store.dispatch('getCartTotal');
+    this.$store.dispatch('getLoveTotal');
+    this.$store.dispatch('getBookmarkTotal');
   },
   computed: {
     isLogin() {

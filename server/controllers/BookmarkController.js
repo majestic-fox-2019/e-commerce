@@ -12,6 +12,21 @@ class BookmarkController {
               next(err);
           });
     }
+
+    static getTotalByUser(req, res, next) {
+        Bookmark
+            .findAll({
+                where: {
+                    UserId: req.params.UserId
+                }
+            })
+            .then(bookmarks => {
+                res.status(200).json(bookmarks.length);
+            })
+            .catch(err => {
+                next(err);
+            });
+    }
 }
 
 module.exports = BookmarkController;
