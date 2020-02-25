@@ -57,11 +57,13 @@ const routes = [
     path: '/ebooks',
     component: EbooksFront,
     name: 'ebooks_front',
+    meta: { requiresAuth: true },
   },
   {
     path: '/tutorials',
     component: TutorialsFront,
     name: 'tutorials_front',
+    meta: { requiresAuth: true },
   },
 ];
 

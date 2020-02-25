@@ -83,7 +83,7 @@
             <span class="ml-2 menu-text">Tutorials</span>
           </v-btn>
         </router-link>
-        <router-link :to="{name: 'cart'}">
+        <router-link :to="{name: 'carts'}">
           <v-btn
             text
           >
@@ -91,7 +91,7 @@
             <span class="ml-2 menu-text">{{carts_total}}</span>
           </v-btn>
         </router-link>
-        <router-link :to="{name: 'cart'}">
+        <router-link :to="{name: 'loves'}">
           <v-btn
             text
           >
@@ -99,7 +99,7 @@
             <span class="ml-2 menu-text">{{loves_total}}</span>
           </v-btn>
         </router-link>
-        <router-link :to="{name: 'cart'}">
+        <router-link :to="{name: 'bookmarks'}">
           <v-btn
             text
           >
@@ -145,7 +145,7 @@ export default {
         return parseJwt(this.isLogin);
       }
       return {
-        role: 'User',
+        role: 'Guest',
       };
     },
     carts_total() {
@@ -156,7 +156,7 @@ export default {
     },
     bookmarks_total() {
       return this.$store.state.bookmarks_total;
-    }
+    },
   },
 };
 </script>

@@ -113,6 +113,11 @@ export default {
       }
     },
   },
+  beforeDestroy() {
+    this.$store.dispatch('getCartTotal');
+    this.$store.dispatch('getLoveTotal');
+    this.$store.dispatch('getBookmarkTotal');
+  },
 };
 </script>
 <style scoped>
