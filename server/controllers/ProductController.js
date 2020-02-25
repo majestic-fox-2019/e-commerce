@@ -2,7 +2,11 @@ const {Product} = require('../models');
 class ProductController {
     static list(req, res, next) {
         Product
-            .findAll()
+            .findAll({
+                where: {
+                    CategoryId: req.params.CategoryId
+                }
+            })
             .then(products => {
                 res.status(200).json(products);
             })
@@ -12,9 +16,10 @@ class ProductController {
     }
 
     static add(req, res, next) {
-        const {name, image_url, price, stock} = req.body;
+        const {name, image_url, price, stock, CategoryId} = req.body;
+        console.log({name, image_url, price, stock, CategoryId});
         Product
-            .create({name, image_url, price, stock})
+            .create({name, image_url, price, stock, CategoryId})
             .then((product) => {
                 res.status(201).json({product, message: "Product has been added!"});
             })
@@ -24,10 +29,10 @@ class ProductController {
     }
 
     static edit(req, res, next) {
-        const {name, image_url, price, stock} = req.body;
+        const {name, image_url, price, stock, CategoryId} = req.body;
         Product
             .update(
-                {name, image_url, price, stock},
+                {name, image_url, price, stock, CategoryId},
                 {
                     where: {
                         id: Number(req.params.id)

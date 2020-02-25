@@ -189,7 +189,7 @@ export default {
   methods: {
     initialize() {
       this.$store.state.superagent
-        .get(`${this.$store.state.url_backend}/products`)
+        .get(`${this.$store.state.url_backend}/products/1`)
         .set('accesstoken', this.$store.state.isLogin)
         .end((err, res) => {
           if (err) {
@@ -237,8 +237,8 @@ export default {
     },
 
     save() {
+      this.editedItem.CategoryId = 1;
       if (this.editedIndex > -1) {
-        console.log(this.editedItem);
         if (this.editedItem.id) {
           this.$store.state.superagent
             .put(`${this.$store.state.url_backend}/products/${this.editedItem.id}`)
