@@ -85,6 +85,7 @@ class ProductController {
       image_url: req.body.image_url,
       UserId: req.loggedIn.id
     }
+    console.log(data)
     Product.update(data, { where: { id: req.params.id } })
       .then(result => {
         res.status(200).json({

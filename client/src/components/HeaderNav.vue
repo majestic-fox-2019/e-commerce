@@ -22,6 +22,12 @@
       </div>
 
       <div class="isLogin" v-show="loginStatus">
+        <v-btn text @click.prevent="showCart">
+          <v-badge color="red" :content="carts.length">
+            <v-icon>mdi-cart</v-icon>
+          </v-badge>
+        </v-btn>
+
         <v-btn text @click="openShop">
           <h2>Sell Item</h2>
         </v-btn>
@@ -37,6 +43,7 @@
 
 <script>
 import CreateShop from '@/components/CreateShop'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'HeaderNav',
@@ -54,8 +61,20 @@ export default {
       this.$store.commit('CHANGE_REGISTER', val)
     },
     logout() {
-      this.$router.push('/')
-      this.$store.dispatch('LOGOUT')
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Logout'
+      }).then(result => {
+        if (result.value) {
+          this.$router.push('/')
+          this.$store.dispatch('LOGOUT')
+        }
+      })
     },
     openShop() {
       if (this.$store.state.userProfile.role === 'basic') {
@@ -63,11 +82,17 @@ export default {
       } else {
         this.$router.push('/panel')
       }
+    },
+    showCart() {
+      this.$router.push('/carts')
     }
   },
   computed: {
     loginStatus() {
       return this.$store.state.loginStatus
+    },
+    carts() {
+      return this.$store.state.userCarts
     }
   }
 }

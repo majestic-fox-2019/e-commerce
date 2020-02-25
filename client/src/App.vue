@@ -18,10 +18,16 @@ export default {
   data() {
     return {}
   },
+  computed: {
+    dialog() {
+      return this.$store.state.cartDialog
+    }
+  },
   created() {
     this.$store.dispatch('FETCH_ALL_PRODUCTS')
     if (localStorage.getItem('token')) {
       this.$store.dispatch('GET_USER_INFO')
+      this.$store.dispatch('SHOW_USER_CARTS')
     }
   }
 }

@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Cart, Product } = require('../models')
 const { createToken } = require('../helpers/jwt')
 const { comparePass } = require('../helpers/bcrypt')
 
@@ -62,7 +62,9 @@ class UserController {
 
   static getUserInfo(req, res, next) {
     const id = req.loggedIn.id
-    User.findOne({ where: { id: id } })
+    User.findOne({
+      where: { id: id }
+    })
       .then(result => {
         const user = {
           id: result.id,

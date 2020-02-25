@@ -61,7 +61,6 @@
                   v-model="item.image_url"
                 ></v-file-input>
               </v-col>
-              {{ item }}
             </v-row>
           </v-form>
         </v-container>

@@ -28,12 +28,15 @@ export default {
   methods: {
     getItems() {
       this.active = 'item'
+      this.$router.push('/panel')
     },
     getTransaction() {
       this.active = 'transaction'
+      this.$router.push('/panel/transaction')
     },
     getRevenue() {
       this.active = 'revenue'
+      this.$router.push('/panel/revenue')
     }
   }
 }

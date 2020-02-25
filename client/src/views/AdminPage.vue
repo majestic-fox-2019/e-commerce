@@ -5,18 +5,21 @@
         <SidenavAdmin />
       </v-col>
       <v-col md="10" sm="12" xs="12" id="scrollable">
-        <Loader v-show="loading" />
-        <v-btn color="green" dark id="add-item" @click.stop="openDialog">
-          <v-icon>mdi-plus</v-icon>
-          <h3>Add new item</h3>
-        </v-btn>
-        <div v-if="products.length < 1">
-          <h2 class="text-center mt-5">You dont have any product now</h2>
+        <div v-if="showAll">
+          <Loader v-if="loading" />
+          <v-btn color="green" dark id="add-item" @click.stop="openDialog">
+            <v-icon>mdi-plus</v-icon>
+            <h3>Add new item</h3>
+          </v-btn>
+          <div v-if="products.length < 1">
+            <h2 class="text-center mt-5">You dont have any product now</h2>
+          </div>
+          <v-row v-else id="table">
+            <ItemTable :products="products" />
+          </v-row>
+          <ItemForm />
         </div>
-        <v-row v-else id="table">
-          <ItemTable :products="products" />
-        </v-row>
-        <ItemForm />
+        <router-view></router-view>
       </v-col>
     </v-row>
   </div>
@@ -31,7 +34,9 @@ import Loader from '@/components/Loader'
 export default {
   name: 'AdminPanel',
   data() {
-    return {}
+    return {
+      showAll: true
+    }
   },
   components: {
     SidenavAdmin,
@@ -55,13 +60,23 @@ export default {
   mounted() {
     this.$store.dispatch('FETCH_USER_PRODUCTS')
   },
+  watch: {
+    $route(val, old) {
+      console.log(val)
+      if (val.name !== 'AdminPanel') {
+        this.showAll = false
+      } else {
+        this.showAll = true
+      }
+    }
+  },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (
         vm.$store.state.loginStatus === true &&
         vm.$store.state.userProfile.role === 'premium'
       ) {
-        next()
+        next('/panel')
       } else {
         next('/')
       }

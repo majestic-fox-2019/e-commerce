@@ -4,6 +4,7 @@
     max-width="400"
     style="box-shadow: 0px -1px 3px 3px rgba(0, 0, 0, 0.3);"
     @click.prevent="getDetails(product.id)"
+    :disabled="product.stocks < 1"
   >
     <v-img
       class="white--text align-end"
@@ -34,7 +35,10 @@
 
     <v-card-text class="text--primary">
       <div>Price : {{ changeFormat(product.price) }}</div>
-      <div>Stocks : {{ product.stocks }}</div>
+      <div v-if="product.stocks < 1" style="color: red;">
+        Item out of stocks!
+      </div>
+      <div v-else>Stocks : {{ product.stocks }}</div>
     </v-card-text>
   </v-card>
 </template>

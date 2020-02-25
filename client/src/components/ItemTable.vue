@@ -10,10 +10,10 @@
             color="green"
             text-color="white"
           >
-            {{ product.status.toUpperCase() }}
+            {{ product.status }}
           </v-chip>
           <v-chip v-else class="ma-2" color="grey" text-color="white">
-            {{ product.status.toUpperCase() }}
+            {{ product.status }}
           </v-chip>
         </h4>
       </v-expansion-panel-header>

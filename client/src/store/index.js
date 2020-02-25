@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    BASE_URL: 'https://ecommerce-v2.herokuapp.com',
+    BASE_URL: 'http://localhost:3000',
     loading: false,
     loginStatus: false,
     userProfile: null,
@@ -18,7 +18,9 @@ export default new Vuex.Store({
     selectedProduct: null,
     editProduct: null,
     dialogItem: false,
-    dialogShop: false
+    dialogShop: false,
+    userCarts: [],
+    cartDialog: false
   },
   mutations: {
     CHANGE_LOGIN(state, val) {
@@ -31,6 +33,7 @@ export default new Vuex.Store({
       state.userProfile = null
       state.myProducts = []
       state.editProduct = []
+      state.userCarts = []
     },
     CHANGE_REGISTER(state, val) {
       state.registerStatus = val
@@ -52,6 +55,12 @@ export default new Vuex.Store({
     },
     GET_EDIT_DATA(state, val) {
       state.editProduct = val
+    },
+    USER_CARTS(state, val) {
+      state.userCarts = val
+    },
+    CART_DIALOG(state, val) {
+      state.cartDialog = val
     }
   },
   actions: {
@@ -65,12 +74,14 @@ export default new Vuex.Store({
           router.push('/')
           localStorage.setItem('token', data.token)
           context.commit('CHANGE_LOGIN', user)
+          this.dispatch('SHOW_USER_CARTS')
           Swal.fire('Welcome', 'Login success', 'success')
         })
         .catch(({ response }) => {
           Swal.close()
           const errors = response.data.err
-          Swal.fire('Error', errors, 'error')
+          console.log(errors)
+          Swal.fire('Error', errors[0], 'error')
         })
     },
     REGISTER(context, data) {
@@ -83,12 +94,13 @@ export default new Vuex.Store({
           router.push('/')
           localStorage.setItem('token', data.token)
           context.commit('CHANGE_LOGIN', user)
+          this.dispatch('SHOW_USER_CARTS')
           Swal.fire('Welcome', 'Registration success', 'success')
         })
         .catch(({ response }) => {
           Swal.close()
           const errors = response
-          Swal.fire('Error', errors, 'error')
+          Swal.fire('Error', errors[0], 'error')
         })
     },
     GET_USER_INFO(context) {
@@ -100,10 +112,7 @@ export default new Vuex.Store({
           const user = data
           context.commit('CHANGE_LOGIN', user)
         })
-        .catch(({ response }) => {
-          const errors = response
-          Swal.fire('Error', errors, 'error')
-        })
+        .catch(({ response }) => {})
     },
     CREATE_SHOP(context, data) {
       axios
@@ -111,7 +120,7 @@ export default new Vuex.Store({
           headers: { token: localStorage.getItem('token') }
         })
         .then(result => {
-          context.commit('DIALOG_CHANGE', false)
+          context.commit('DIALOG_CHANGE_SHOP', false)
           this.dispatch('GET_USER_INFO')
           this.state.userProfile.role = 'premium'
           router.push('/panel')
@@ -119,7 +128,7 @@ export default new Vuex.Store({
         })
         .catch(({ response }) => {
           const errors = response
-          Swal.fire('Error', errors, 'error')
+          Swal.fire('Error', errors[0], 'error')
         })
     },
     FETCH_ALL_PRODUCTS(context) {
@@ -130,7 +139,7 @@ export default new Vuex.Store({
         })
         .catch(({ response }) => {
           const errors = response
-          Swal.fire('Error', errors, 'error')
+          Swal.fire('Error', errors[0], 'error')
         })
     },
     FETCH_CATEGORY_PRODUCTS(context, data) {
@@ -141,7 +150,7 @@ export default new Vuex.Store({
         })
         .catch(({ response }) => {
           const errors = response
-          Swal.fire('Error', errors, 'error')
+          Swal.fire('Error', errors[0], 'error')
         })
     },
     FETCH_USER_PRODUCTS(context) {
@@ -154,7 +163,7 @@ export default new Vuex.Store({
         })
         .catch(({ response }) => {
           const errors = response
-          Swal.fire('Error', errors, 'error')
+          Swal.fire('Error', errors[0], 'error')
         })
     },
     FETCH_DETAILS_PRODUCT(context, data) {
@@ -165,7 +174,7 @@ export default new Vuex.Store({
         })
         .catch(({ response }) => {
           const errors = response
-          Swal.fire('Error', errors, 'error')
+          Swal.fire('Error', errors[0], 'error')
         })
     },
     POST_PRODUCT(context, data) {
@@ -191,7 +200,7 @@ export default new Vuex.Store({
         .catch(({ response }) => {
           Swal.close()
           const errors = response
-          Swal.fire('Error', errors, 'error')
+          Swal.fire('Error', errors[0], 'error')
         })
     },
     EDIT_PRODUCT(context, data) {
@@ -200,6 +209,7 @@ export default new Vuex.Store({
       formData.append('description', data.description)
       formData.append('price', data.price)
       formData.append('stocks', data.stocks)
+      formData.append('status', data.status)
       formData.append('category', data.category)
       formData.append('image_url', data.image_url)
       Swal.showLoading()
@@ -221,7 +231,7 @@ export default new Vuex.Store({
         .catch(({ response }) => {
           Swal.close()
           const errors = response
-          Swal.fire('Error', errors, 'error')
+          Swal.fire('Error', errors[0], 'error')
         })
     },
     DELETE_PRODUCT(context, id) {
@@ -238,12 +248,69 @@ export default new Vuex.Store({
         .catch(({ response }) => {
           Swal.close()
           const errors = response
-          Swal.fire('Error', errors, 'error')
+          Swal.fire('Error', errors[0], 'error')
+        })
+    },
+    SHOW_USER_CARTS(context, id) {
+      axios
+        .get(`${this.state.BASE_URL}/carts`, {
+          headers: { token: localStorage.getItem('token') }
+        })
+        .then(({ data }) => {
+          context.commit('USER_CARTS', data)
+        })
+    },
+    ADD_TO_CART(context, data) {
+      Swal.showLoading()
+      axios
+        .post(`${this.state.BASE_URL}/carts`, data, {
+          headers: { token: localStorage.getItem('token') }
+        })
+        .then(({ data }) => {
+          Swal.fire('Item added', 'Successfully added to cart', 'success')
+          this.dispatch('SHOW_USER_CARTS')
+        })
+        .catch(({ response }) => {
+          const errors = response.data
+          Swal.fire('Error', errors[0], 'error')
+        })
+    },
+    REMOVE_ITEM(context, data) {
+      axios
+        .delete(`${this.state.BASE_URL}/carts/${data}`, {
+          headers: { token: localStorage.getItem('token') }
+        })
+        .then(({ data }) => {
+          Swal.fire('Succcess', data.message, 'success')
+          this.dispatch('SHOW_USER_CARTS')
+        })
+        .catch(({ response }) => {
+          const errors = response.data
+          Swal.fire('Error', errors[0], 'error')
         })
     },
     LOGOUT(context) {
       localStorage.clear()
       context.commit('CLEAR_STATUS')
+    },
+    CHECKOUT_ALL(context, data) {
+      axios
+        .patch(
+          `${this.state.BASE_URL}/carts/checkout`,
+          { cart: data },
+          {
+            headers: { token: localStorage.getItem('token') }
+          }
+        )
+        .then(({ data }) => {
+          console.log(data)
+          this.dispatch('SHOW_USER_CARTS')
+          Swal.fire(
+            'Thank you',
+            'Your transaction are now processed',
+            'success'
+          )
+        })
     }
   },
   modules: {}
