@@ -7,7 +7,10 @@
           </router-link>
           <router-link to="/sold"><button type="button" class="btn btn-primary">
             Total Sold : 0</button></router-link>
-          <button type="button" class="btn btn-danger">Out Of Stock : 0</button>
+            <router-link to="/outofstock">
+                <button type="button" class="btn btn-danger">
+                  Out Of Stock : {{emptyData.length}}</button>
+            </router-link>
         </div>
 </div>
 </template>
@@ -20,6 +23,9 @@ export default {
   computed: {
     loadData() {
       return this.$store.state.allData;
+    },
+    emptyData() {
+      return this.$store.state.emptyStock;
     },
   },
   method: {

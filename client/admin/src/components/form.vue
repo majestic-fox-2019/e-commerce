@@ -69,6 +69,7 @@ export default {
     },
 
     cancle() {
+      console.log('emit cancle');
       this.$emit('cancle');
     },
 

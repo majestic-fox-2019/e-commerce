@@ -9,11 +9,12 @@ const createError = require('http-errors')
 
 class UserConttroller {
 
-  static register(req,res,next){
+  static registerAdmin(req,res,next){
       let data = {
         name: req.body.name,
         email: req.body.email,
-        password : req.body.password
+        password : req.body.password,
+        role: 'admin'
       }
       let secretKey = req.body.secretkey
       User.findOne({
@@ -69,6 +70,37 @@ class UserConttroller {
           res.status(404).json({message : 'email or password wrong'})
       
         }
+      }
+    })
+    .catch(err=>{
+      next(err)
+    })
+  }
+
+  static registerUser(req,res,next){
+    let data = {
+      name: req.body.name,
+      email: req.body.email,
+      password : req.body.password,
+      role: 'User'
+    }
+    let secretKey = req.body.secretkey
+    User.findOne({
+      where : {
+        email : data.email
+      }
+    })
+    .then(avail=>{
+      if(avail){
+      throw createError(404,'email already exists')
+      } else{
+          User.create(data)
+          .then(result=>{
+            res.status(201).json(result)
+          })
+          .catch(err=>{
+            next(err)
+          })
       }
     })
     .catch(err=>{

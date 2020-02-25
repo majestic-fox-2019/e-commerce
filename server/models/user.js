@@ -45,7 +45,6 @@ module.exports = (sequelize, DataTypes) => {
       beforeCreate: (instance,options)=>{
         const hash = bcrypt.hashSync(instance.password,salt);
         instance.password = hash
-        instance.role = "user"
       }
     }
     })

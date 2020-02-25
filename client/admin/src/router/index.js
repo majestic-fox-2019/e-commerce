@@ -14,7 +14,7 @@ function auth(to, from, next) {
 
 const routes = [
   {
-    path: '/login',
+    path: '/admin-login',
     name: 'login',
     component: () => import('../views/Login.vue'),
   },
@@ -33,6 +33,11 @@ const routes = [
         path: '/',
         name: 'product',
         component: () => import('../views/product.vue'),
+      },
+      {
+        path: '/outofstock',
+        name: 'Outofstock',
+        component: () => import('../views/Outofstock.vue'),
       },
     ],
   },

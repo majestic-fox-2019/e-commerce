@@ -2,7 +2,7 @@
 <div class="back">
   <div class="formadd">
       <div class="d-flex justify-content-between">
-      <h5>Add New Item</h5>
+      <h5>Edit Item</h5>
     <a @click="cancle"><i class="fa fa-remove p-4" style="font-size:36px;color:grey"></i>
     </a>
     </div>    <form @submit.prevent="putData">

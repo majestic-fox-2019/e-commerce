@@ -84,6 +84,8 @@
 
 </template>
 <script>
+import Swal from 'vue-sweetalert2';
+
 export default {
   name: 'login',
   data() {
@@ -105,13 +107,18 @@ export default {
       };
       this.$axios({
         method: 'POST',
-        url: '/login',
+        url: '/admin-login',
         data: dataLogin,
       })
         .then((result) => {
           localStorage.setItem('token', result.data.token);
           localStorage.setItem('role', result.data.role);
           this.$router.push({ name: 'product' });
+        })
+        .catch((err) => {
+          Swal.fire('Any fool can use a computer');
+          console.log(err);
+          this.$swal('Hello Vue world!!!');
         });
     },
 
@@ -124,7 +131,7 @@ export default {
       };
       this.$axios({
         method: 'POST',
-        url: '/register',
+        url: '/admin-register',
         data: dataregister,
       })
         .then(() => {

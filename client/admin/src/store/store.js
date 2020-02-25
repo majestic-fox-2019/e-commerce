@@ -7,18 +7,21 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     allData: null,
+    emptyStock: null,
   },
   actions: {
     loadData({ commit }) {
       axios({
         method: 'GET',
         url: 'http://localhost:3000/product',
-        headers: { token: localStorage.token },
       })
         .then((result) => {
+          const filterData = result.data.filter((el) => el.stock > 0);
+          const filterStockEmpty = result.data.filter((el) => el.stock === 0);
           // setTimeout(() => {
           // }, 1000);
-          commit('SET_DATA', result.data);
+          commit('SET_DATA', filterData);
+          commit('SET_EMPTY', filterStockEmpty);
         });
     },
   },
@@ -26,14 +29,8 @@ export default new Vuex.Store({
     SET_DATA(state, payload) {
       state.allData = [...payload];
     },
-  },
-  getters: {
-    available: (state) => {
-      let data = '';
-      setTimeout(() => {
-        data = state.allData.filter((el) => el.stock === 10);
-      }, 1000);
-      return data;
+    SET_EMPTY(state, payload) {
+      state.emptyStock = [...payload];
     },
   },
 });
