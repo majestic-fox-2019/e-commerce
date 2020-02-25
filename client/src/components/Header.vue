@@ -88,7 +88,7 @@
             text
           >
             <v-icon>mdi-cart-outline</v-icon>
-            <span class="ml-2 menu-text">20</span>
+            <span class="ml-2 menu-text">{{carts_total}}</span>
           </v-btn>
         </router-link>
         <router-link :to="{name: 'cart'}">
@@ -96,7 +96,7 @@
             text
           >
             <v-icon>mdi-heart-outline</v-icon>
-            <span class="ml-2 menu-text">20</span>
+            <span class="ml-2 menu-text">{{loves_total}}</span>
           </v-btn>
         </router-link>
         <router-link :to="{name: 'cart'}">
@@ -104,7 +104,7 @@
             text
           >
             <v-icon>mdi-bookmark-outline</v-icon>
-            <span class="ml-2 menu-text">20</span>
+            <span class="ml-2 menu-text">{{bookmark_total}}</span>
           </v-btn>
         </router-link>
       </div>
@@ -124,6 +124,10 @@
 import parseJwt from '../helpers/jwtParser';
 
 export default {
+  data: () => ({
+    loves_total: 1,
+    bookmark_total: 2,
+  }),
   methods: {
     login() {
       if (this.$route.name !== 'login') {
@@ -134,6 +138,25 @@ export default {
       localStorage.removeItem('token');
       this.$store.commit('setIsLogin', false);
       this.login();
+    },
+    getCartsTotal() {
+      const objUser = parseJwt(this.$store.state.isLogin);
+      this.$store.state.superagent
+        .get(`${this.$store.state.url_backend}/transactions/${objUser.id}/getTotal`)
+        .set('accesstoken', this.$store.state.isLogin)
+        .end((err, res) => {
+          if (!err) {
+            this.$store.commit('setCartTotal', res.body);
+          } else {
+            console.log(err);
+          }
+        });
+    },
+    getLovesTotal() {
+
+    },
+    getBookmarksTotal() {
+
     },
   },
   computed: {
@@ -148,6 +171,14 @@ export default {
         role: 'User',
       };
     },
+    carts_total() {
+      return this.$store.state.carts_total;
+    },
+  },
+  created() {
+    this.getCartsTotal();
+    this.getLovesTotal();
+    this.getBookmarksTotal();
   },
 };
 </script>

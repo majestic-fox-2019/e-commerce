@@ -12,6 +12,36 @@ class TransactionController {
               next(err);
           });
     }
+
+    static listTransactionByUser(req, res, next) {
+        Transaction
+          .findAll({
+              where: {
+                  UserId: req.params.UserId
+              }
+          })
+          .then(transactions => {
+              res.status(200).json(transactions);
+          })
+          .catch(err => {
+              next(err);
+          });
+    }
+
+    static getTotalByUser(req, res, next) {
+        Transaction
+            .findAll({
+                where: {
+                    UserId: req.params.UserId
+                }
+            })
+            .then(transactions => {
+                res.status(200).json(transactions.length);
+            })
+            .catch(err => {
+                next(err);
+            });
+    }
 }
 
 module.exports = TransactionController;
