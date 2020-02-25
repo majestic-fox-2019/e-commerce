@@ -121,6 +121,8 @@
     </v-app-bar>
 </template>
 <script>
+import parseJwt from '../helpers/jwtParser';
+
 export default {
   methods: {
     login() {
@@ -133,11 +135,6 @@ export default {
       this.$store.commit('setIsLogin', false);
       this.login();
     },
-    parseJwt(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      return JSON.parse(atob(base64));
-    },
   },
   computed: {
     isLogin() {
@@ -145,7 +142,7 @@ export default {
     },
     userLoginData() {
       if (this.isLogin) {
-        return this.parseJwt(this.isLogin);
+        return parseJwt(this.isLogin);
       }
       return {
         role: 'User',
