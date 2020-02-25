@@ -7,12 +7,16 @@ export default new Vuex.Store({
   state: {
     isLogin: null,
     products: null,
-    categories: null
+    categories: null,
+    carts: null
   },
   mutations: {
     LOGIN(state, data) { },
     GETPRODUCT(state, data) {
       state.products = data
+    },
+    GETCART(state, data) {
+      state.carts = data
     },
     GETCATEGORY(state, data) {
       state.categories = data
@@ -29,6 +33,21 @@ export default new Vuex.Store({
       })
         .then(data => {
           commit('GETPRODUCT', data.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getAllCarts({ commit }) {
+      axios({
+        method: "GET",
+        url: `http://localhost:3000/carts`,
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(data => {
+          commit('GETCART', data.data)
         })
         .catch(err => {
           console.log(err)

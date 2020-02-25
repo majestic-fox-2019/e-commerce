@@ -7,6 +7,8 @@ import Content from '../components/Content.vue'
 import AddContent from "../components/AddContent.vue"
 import EditContent from "../components/EditContent.vue"
 import Category from "../components/CategoryContent.vue"
+import Cart from "../components/cart.vue"
+import Detail from '../components/contentdetail.vue';
 Vue.use(VueRouter)
 
 
@@ -25,10 +27,20 @@ const routes = [
     component: Home,
   },
   {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart,
+  },
+  {
     path: '/login',
     name: 'Login',
     component: Login,
     beforeEnter,
+  },
+  {
+    path: '/Detail/:id',
+    name: 'Detail',
+    component: Detail
   },
   {
     path: '/admin',

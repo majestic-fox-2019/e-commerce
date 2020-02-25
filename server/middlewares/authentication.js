@@ -6,7 +6,6 @@ module.exports = (req, res, next) => {
         req.user = user;
         next();
     } catch (error) {
-
         res.status(404).json({ message: "token is invalid" });
     }
 };
