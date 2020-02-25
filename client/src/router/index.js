@@ -11,7 +11,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
   },
   {
     path: '/account',
@@ -27,6 +27,7 @@ const routes = [
     path: '/seller',
     name: 'adminPage',
     component: AdminPage,
+    meta: { requiresAuth: true }
   },
 ]
 
@@ -34,6 +35,18 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!localStorage.getItem('token') || localStorage.getItem('role') === "customer") {
+      router.push('/adminRegister')
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

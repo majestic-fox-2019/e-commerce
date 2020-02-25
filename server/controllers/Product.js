@@ -19,7 +19,7 @@ class ProductController {
         })
             .then((product) => {
                 if (!product) {
-                    next(createError(404, "Not found product"))
+                    throw (createError(404, "Not found product"))
                 } else {
                     res.status(200).json(product)
                 }
@@ -56,7 +56,7 @@ class ProductController {
         })
             .then((product) => {
                 if (!product[0]) {
-                    next(createError(404, "Not found product"))
+                    throw (createError(404, "Not found product"))
                 } else {
                     return Product.findOne({
                         where: {
@@ -79,7 +79,7 @@ class ProductController {
             .then((product) => {
                 result = product
                 if (!product) {
-                    next(createError(404, "Not found product"))
+                    throw (createError(404, "Not found product"))
                 } else {
                     return Product.destroy({
                         where: {

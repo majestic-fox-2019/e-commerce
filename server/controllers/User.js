@@ -3,7 +3,6 @@
 const { createToken } = require('../helpers/jwt')
 const { checkPassword } = require('../helpers/bcrypt')
 const { User } = require('../models')
-const createError = require("http-errors")
 
 class UserController {
     static register(req, res, next) {
@@ -33,10 +32,10 @@ class UserController {
                         const token = createToken(user.id)
                         res.status(200).json({ user, token })
                     } else {
-                        throw (createError(400, "email/password wrong"))
+                        throw ({ status: 400, msg: "email/password wrong" })
                     }
                 } else {
-                    throw (createError(400, "email/password wrong"))
+                    throw ({ status: 400, msg: "email/password wrong" })
                 }
             }).catch(next);
     }

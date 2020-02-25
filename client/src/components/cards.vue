@@ -6,16 +6,18 @@
           <div class="product">
             <img :src="product.image_url" />
             <div class="buttons">
-              <a class="buy" href="#">Add to cart</a>
-              <a class="preview" href="#">View item</a>
+              <button class="buy" href="#">Add to cart</button>
+              <button class="preview" href="#">View item</button>
             </div>
           </div>
 
           <div class="info">
             <h4>{{product.name}}</h4>
             <span class="description">{{product.description}}</span>
-            <span class="price">Rp. {{product.price}}</span>
-            <a class="buy_now" href="#">Buy Now</a>
+            <span
+              class="price"
+            >Rp. {{product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</span>
+            <button class="buy_now" href="#">Buy Now</button>
           </div>
         </div>
       </div>
@@ -111,17 +113,18 @@ body {
 }
 
 .product:hover .buttons,
-.product:hover a {
+.product:hover button {
   opacity: 1;
 }
 
-.buttons a {
+.buttons button {
+  outline: none;
   display: block;
   position: absolute;
   left: 0px;
   right: 0px;
   margin: auto;
-  width: 63%;
+  width: 70%;
   border-radius: 2px;
   padding: 15px 40px;
   font-family: Helvetica, sans-serif;
@@ -134,23 +137,23 @@ body {
   text-align: center;
 }
 
-a.buy {
+button.buy {
   top: 20%;
   text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
-  background: #1abc9c;
+  background: #ee4d2d;
   background-position: 0 -15px;
   background-size: 400px 80px;
   background-repeat: no-repeat;
-  box-shadow: 0 3px 0 #16a085;
+  box-shadow: 0 3px 0 #ee4d2d91;
   transition: background-position 0.2s ease-in;
 }
 
-a.buy:active {
+button.buy:active {
   top: 21%;
   box-shadow: 0 0px 0 #16a085;
 }
 
-a.preview {
+button.preview {
   bottom: 20%;
   text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
   background: #3498db;
@@ -224,9 +227,11 @@ a.preview {
   text-decoration: none;
   font-size: 15px;
   text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
-  background: #3498db;
+  background: #ee4d2d;
   transition: background-position 0.2s ease-in;
-  box-shadow: 0 3px 0 #2980b9;
+  box-shadow: 0 3px 0 #ee4d2d91;
+  outline: none;
+  height: 6.5vh;
 }
 
 .time {

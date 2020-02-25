@@ -59,8 +59,8 @@ export default new Vuex.Store({
           context.commit('whoLogin', "admin")
           router.push('/seller')
         })
-        .catch(err => {
-          Swal.fire('Error!', err.message, 'error');
+        .catch(({ response }) => {
+          Swal.fire('Error!', response.data.message, 'error');
         })
     },
     logout(context) {
@@ -80,8 +80,6 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log("masuk");
-          console.log(data);
           localStorage.setItem('token', data.token)
           localStorage.setItem('id', data.user.id)
           localStorage.setItem('username', data.user.username)
@@ -95,9 +93,8 @@ export default new Vuex.Store({
             context.commit('whoLogin', "customer")
             router.push('/')
           }
-        }).catch(err => {
-          console.log(err);
-          Swal.fire('Error!', "email/password wrong", 'error');
+        }).catch(({ response }) => {
+          Swal.fire('Error!', response.data, 'error');
         });
     },
     register(context, payload) {
@@ -128,12 +125,18 @@ export default new Vuex.Store({
             router.push('/')
           }
         })
-        .catch(err => {
-          Swal.fire('Error!', err.message, 'error');
+        .catch(({ response }) => {
+          Swal.fire('Error!', response.data.message, 'error');
         })
     },
     addProduct(context, payload) {
-      const formData = payload
+      let formData = new FormData();
+      formData.append("name", payload.name);
+      formData.append("description", payload.description);
+      formData.append("price", payload.price);
+      formData.append("stock", payload.stock);
+      formData.append("image_url", payload.image);
+      formData.append("category", payload.category);
       axios({
         url: `${baseUrl}/products`,
         method: 'POST',
@@ -146,8 +149,8 @@ export default new Vuex.Store({
           Swal.fire('Success!', 'Create Question Success', 'success');
           context.dispatch('findAllProduct')
         })
-        .catch(err => {
-          Swal.fire('Error!', err.message, 'error');
+        .catch(({ response }) => {
+          Swal.fire('Error!', response.data.message, 'error');
         })
     },
     findAllProduct(context) {
@@ -158,8 +161,8 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit('setProducts', data)
         })
-        .catch(err => {
-          Swal.fire('Error!', err.message, 'error');
+        .catch(({ response }) => {
+          Swal.fire('Error!', response.data.message, 'error');
         })
     },
     findOneProduct(context, payload) {
@@ -172,8 +175,8 @@ export default new Vuex.Store({
           this.idProduct = data.id
           this.product = data
         })
-        .catch(err => {
-          Swal.fire('Error!', err.message, 'error');
+        .catch(({ response }) => {
+          Swal.fire('Error!', response.data.message, 'error');
         })
     },
     updateProduct(context, payload) {
@@ -203,8 +206,8 @@ export default new Vuex.Store({
           context.dispatch('findAllProduct')
           this.product = { name: "", description: "", price: "", stock: "", image: "", category: "" }
         })
-        .catch(err => {
-          Swal.fire('Error!', err.message, 'error');
+        .catch(({ response }) => {
+          Swal.fire('Error!', response.data.message, 'error');
         })
     },
     removeProduct(context, payload) {
@@ -219,8 +222,8 @@ export default new Vuex.Store({
           Swal.fire('Success!', 'Create Question Success', 'success');
           context.dispatch('findAllProduct')
         })
-        .catch(err => {
-          Swal.fire('Error!', err.message, 'error');
+        .catch(({ response }) => {
+          Swal.fire('Error!', response.data.message, 'error');
         })
     }
   },

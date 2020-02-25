@@ -23,12 +23,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form
-            action="/upload-single"
-            method="post"
-            enctype="multipart/form-data"
-            @submit.prevent="createProduct"
-          >
+          <form action="/upload-single" method="post" enctype="multipart/form-data">
             <div class="modal-body">
               <div class="mb-3" id="exampleModalCenterTitle">
                 <label for="validationServer03">Name :</label>
@@ -69,7 +64,7 @@
             <div class="modal-footer">
               <button
                 type="button"
-                @click="createProduct"
+                @click.prevent="createProduct"
                 class="btn btn-secondary btn-sm"
                 data-dismiss="modal"
               >Add Product</button>
@@ -192,14 +187,16 @@ export default {
   },
   methods: {
     createProduct() {
-      let formData = new FormData();
-      formData.append("name", this.name);
-      formData.append("description", this.description);
-      formData.append("price", this.price);
-      formData.append("stock", this.stock);
-      formData.append("image_url", this.image);
-      formData.append("category", this.category);
-      this.$store.dispatch("addProduct", formData);
+      const dataProduct = {
+        name: this.name,
+        description: this.description,
+        price: this.price,
+        stock: this.stock,
+        image: this.image,
+        category: this.category
+      };
+      console.log("masuk");
+      this.$store.dispatch("addProduct", dataProduct);
       this.goReset();
     },
     handleFileUpload(event) {

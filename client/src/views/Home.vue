@@ -8,6 +8,8 @@
         <category></category>
         <cards></cards>
       </div>
+      <cardDetail></cardDetail>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -17,13 +19,15 @@
 import carouselHome from "@/components/carouselHome.vue";
 import cards from "@/components/cards.vue";
 import category from "@/components/category.vue";
+import cardDetail from "@/components/cardDetail.vue";
 
 export default {
   name: "Home",
   components: {
     carouselHome,
     cards,
-    category
+    category,
+    cardDetail
   },
   created() {
     this.$store.dispatch("findAllProduct");

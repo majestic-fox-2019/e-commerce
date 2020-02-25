@@ -26,7 +26,7 @@
         </td>
         <td>{{product.name}}</td>
         <td>{{product.stock}}</td>
-        <td>{{product.price}}</td>
+        <td>Rp. {{product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</td>
         <td>{{product.description}}</td>
         <td style="text-align: center;">{{product.category}}</td>
         <td style="display: flex; justify-content: space-around;">
