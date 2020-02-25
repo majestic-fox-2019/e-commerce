@@ -43,7 +43,10 @@ class ProductController {
 
   static getDetailProduct(req, res, next){
     const id_product = req.params.id
-    Product.findByPk(id_product)
+    Product.findOne({
+      include: [Category],
+      where: { id : id_product }
+    })
     .then(product => {
       if(product){
         res.status(200).json({

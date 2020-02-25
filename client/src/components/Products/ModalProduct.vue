@@ -6,7 +6,7 @@
     no-close-on-backdrop 
     no-close-on-esc 
     hide-header-close>
-    <b-form>
+    <b-form enctype="multipart/form-data">
       <b-form-group label="Product Name" label-for="name">
         <b-form-input
           id="name"
@@ -48,6 +48,14 @@
           </b-col>
         </b-row>
       </b-form-group>
+      <b-form-group label="Image Product" label-for="image_url">
+        <b-form-file 
+          id="image_url"
+          class="mt-3"
+          @change="onFileSelected($event)"
+          plain>
+        </b-form-file>
+      </b-form-group>
     </b-form>
     <template v-slot:modal-footer>
       <div class="w-100">
@@ -73,7 +81,7 @@ export default {
       this.$emit('setModal', stat)
     },
     onFileSelected(event){
-      this.$emit('setFileSelected', event)
+      this.$emit('setImageUrl', event)
     },
     onlyNumber($event) {
       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);

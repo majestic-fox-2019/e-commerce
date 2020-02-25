@@ -1,0 +1,156 @@
+.logo-bold{
+  font-weight: bold;
+}
+
+.header-search{
+  & .search{
+    width: 450px;
+  }
+}
+
+.owl-theme .owl-nav.disabled + .owl-dots{
+  position: absolute;
+  top: 93%;
+  right: 47%;
+  left: 47%;
+}
+
+.category{
+  margin: 2rem 0;
+
+  & h3.title-section{
+    margin-bottom: 2rem;
+  }
+
+  & .card-category{
+    & .text-category{
+      text-transform: uppercase;
+    }
+
+    &:hover{
+      cursor: pointer;
+    }
+
+    & img{
+      width: 150px;
+    }
+  }
+}
+
+.banner-category{
+  & img{
+    width: 100%;
+  }
+}
+
+.content-category{
+  & .card-header{
+    color: rgba(0,0,0,1);
+    font-weight: bold;
+  }
+
+  & .card-body{
+    text-align: left;
+  }
+
+  & .title-filter{
+    color: rgba(0,0,0,1);
+    font-weight: bold;
+  }
+
+  & .menu-category{
+    display: block;
+    font-weight: bold;
+    color: rgba(0,0,0,.6);
+
+    &:hover{
+      cursor: pointer;
+      color: rgba(0,0,0,1);
+    }
+  }
+
+  & .card-product{
+    height: 345px;
+    display: flex !important;
+    flex-direction: column !important;
+
+    &:hover{
+      cursor: pointer;
+    }
+
+    & .product-name{
+      height: 50px;
+
+      & h5{
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+    }
+
+    & p.product-category{
+      margin-bottom: 5px;
+    }
+
+    & h6.product-price{
+      font-weight: bold;
+      font-size: 1rem;
+      color: #FA591D;
+    }
+
+    & .content-bottom{
+      margin-top: auto;
+    }
+  }
+}
+
+.product-detail{
+  padding: 3rem 0;
+
+  & .image-detail-product{
+    height: 400px;
+
+    & img{
+      width: 330px;
+    }
+  }
+
+  & .content-detail-product{
+    padding: 0 4rem;
+    text-align: left;
+
+    & .title-detail-product{
+      font-weight: bold;
+    }
+
+    & .price-detail-product{
+      font-weight: bold;
+      color: #FA591D;
+    }
+
+    & .cat-detail{
+      margin: 1rem 0;
+
+      & span{
+        font-size: 1.5rem;
+      }
+
+      & .cat-detail-product{
+        font-size: 1rem;
+        background-color: #343a40;
+        padding: .5rem 1.5rem;
+        margin-left: .5rem;
+        color: #ffffff;
+      }
+    }
+
+    & .btn-beli{
+      background-color: #FA591D;
+      border-color: #FA591D;
+
+      &:hover{
+        background-color: rgb(236, 108, 61);
+        border-color: rgb(236, 108, 61);
+      }
+    }
+  }
+}

@@ -9,4 +9,7 @@ router.get('/admin/product/:id', middleware.verifyToken, middleware.allAdmin, Pr
 router.put('/admin/product/:id', middleware.verifyToken, middleware.allAdmin, ProductController.updateProduct)
 router.delete('/admin/product/:id', middleware.verifyToken, middleware.allAdmin, ProductController.deleteProduct)
 
+router.get('/products', ProductController.getProductAll)
+router.get('/product/:id', ProductController.getDetailProduct)
+
 module.exports = router

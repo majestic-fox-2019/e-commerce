@@ -21,7 +21,7 @@
       :form="formProduct"
       :categories="getCategories"
       @setModal="setActiveModal"
-      @setFileSelected="setFileImage"
+      @setImageUrl="getImage"
       :status="statusModal"
     ></modal-product>
   </main>
@@ -88,8 +88,18 @@ export default {
       this.clearForm(this.formProduct)
       this.clearForm(this.getIdProduct)
     },
-    setFileImage(event){
-      this.formProduct.image_url = event.target.files[0]
+    getImage(event) {
+      const file = event.target.files[0];
+      const url = `https://storage.googleapis.com/upload/storage/v1/b/storage-example/o?name=anova/${file.name}.png&uploadType=media&key=AIzaSyDXXhdtF6Ba2Fyd3zE3xgFfv_Hx4hxJKuI`;
+      axios.post(url, file, {
+        headers: { "Content-Type": "image/png"}
+      })
+      .then(res => {
+        this.formProduct.image_url = `https://storage.googleapis.com/storage-example/${res.data.name}`;
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
     },
     getDataProducts(){
       this.$store.dispatch('getProductsDashboard')
@@ -114,7 +124,7 @@ export default {
       }else{
         let dataAddProduct = {
           name: self.formProduct.name,
-          image_url: null,
+          image_url: self.formProduct.image_url,
           price: self.formProduct.price,
           stock: self.formProduct.stock,
           CategoryId: self.formProduct.CategoryId
@@ -141,7 +151,7 @@ export default {
       }else{
         let dataEditProduct = {
           name: self.formProduct.name,
-          image_url: null,
+          image_url: self.formProduct.image_url,
           price: self.formProduct.price,
           stock: self.formProduct.stock,
           CategoryId: self.formProduct.CategoryId,
@@ -158,6 +168,7 @@ export default {
           self.getDataProducts()
         })
         .catch(err => {
+          console.log(err)
           self.$vToastify.notifError(`${err.response.data.message}`, "Failed!")
         })
       }

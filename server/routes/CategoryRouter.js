@@ -9,4 +9,6 @@ router.get('/admin/category/:id', middleware.verifyToken, middleware.allAdmin, C
 router.put('/admin/category/:id', middleware.verifyToken, middleware.allAdmin, CategoryController.updateCategory)
 router.delete('/admin/category/:id', middleware.verifyToken, middleware.allAdmin, CategoryController.deleteCategory)
 
+router.get('/categories', CategoryController.getListCategory)
+
 module.exports = router
