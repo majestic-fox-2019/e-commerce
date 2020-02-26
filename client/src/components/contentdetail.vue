@@ -45,7 +45,7 @@ export default {
         .then(response => {
           this.$Swal.fire({
             icon: "success",
-            title: "Your work has been saved",
+            title: "Succes",
             showConfirmButton: false,
             timer: 1500
           });

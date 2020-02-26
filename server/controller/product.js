@@ -24,7 +24,8 @@ class ProductController {
             image_url: req.body.image_url,
             price: req.body.price,
             stock: req.body.stock,
-            CategoryId: req.body.CategorieId
+            CategoryId: req.body.CategoryId,
+            detail: req.body.detail
         };
         Product.create(objInput)
             .then(result => {
@@ -40,7 +41,8 @@ class ProductController {
             image_url: req.body.image_url,
             price: req.body.price,
             stock: req.body.stock,
-            CategoryId: req.body.CategoryId
+            CategoryId: req.body.CategoryId,
+            detail: req.body.detail
         }
         Product.findByPk(req.params.id)
             .then(result => {

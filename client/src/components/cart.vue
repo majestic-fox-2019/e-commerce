@@ -10,9 +10,9 @@
                 <tr>
                   <th scope="col">Image</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Price</th>
                   <th scope="col">Quantity</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">Price</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
@@ -21,8 +21,8 @@
                     <img class="bild" :src="data.image_url" />
                   </td>
                   <td>{{data.name}}</td>
-                  <td>{{getmoney(data.price)}}</td>
                   <td>{{data.Cart.quantity}}</td>
+                  <td>{{getmoney(data.price)}}</td>
                   <td>
                     <i
                       @click="deleteCart(data.id,data.Cart.ProductId, data.Cart.UserId)"
@@ -30,6 +30,17 @@
                     ></i>
                   </td>
                 </tr>
+              </tbody>
+              <tbody>
+                <td></td>
+                <td></td>
+                <td>
+                  <h3>SUBTOTAL</h3>
+                </td>
+                <td>
+                  <H3>{{getmoney(getTotal)}}</H3>
+                </td>
+                <td></td>
               </tbody>
             </table>
           </div>
@@ -57,10 +68,23 @@ import axios from "axios";
 export default {
   data() {
     return {
-      carts: null
+      carts: null,
+      sum: 0
     };
   },
   methods: {
+    countTotal() {
+      let total = 0;
+      if (this.carts) {
+        for (let i = 0; i < this.carts.length; i++) {
+          total += Number(this.carts[i].price);
+        }
+        this.sum = total;
+        console.log(total);
+        console.log(this.carts);
+      }
+      return this.sum;
+    },
     getmoney(money) {
       return this.$currencyMaker(money);
     },
@@ -138,6 +162,11 @@ export default {
         });
     }
   },
+  computed: {
+    getTotal() {
+      return this.countTotal();
+    }
+  },
   created() {
     this.getAllData();
   }
@@ -148,7 +177,7 @@ export default {
   height: 80px;
 }
 .allcart {
-  padding: 150px;
+  padding: 30px;
   height: 100vh;
 }
 .but {
