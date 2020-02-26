@@ -89,6 +89,41 @@ none
 }
 ```
 
+### POST /users/google
+
+---
+
+Login with existing google account
+
+> #### Headers :
+
+```
+none
+```
+
+> #### Request Body :
+
+```
+{
+    idToken: <google idToken>
+}
+```
+
+> #### Success Reponse
+
+```
+200 : {
+    data : {
+        id: <id>,
+        name: <name>,
+        role: <role>,
+        shop_name: <shopname>
+    },
+    token : <your jwt token>,
+    msg: 'Login success'
+}
+```
+
 ### PATCH /users/create-shop
 
 ---
@@ -470,5 +505,280 @@ none
 500: {
     code: 500,
     msg: <error msg>
+}
+```
+
+## Carts Routes
+
+### GET /carts
+
+---
+
+Get all users carts
+
+> #### Headers :
+
+```
+{
+    token: <your jwt token>
+}
+```
+
+> #### Request Body :
+
+```
+none
+```
+
+> #### Success Reponse
+
+```
+200 : [
+    {
+        id: <>,
+        ProductId: <>,
+        UserId: <>,
+        qty: <>,
+        price: <>,
+        status: <>
+    }
+]
+```
+
+### POST /carts
+
+---
+
+Post user carts
+
+> #### Headers :
+
+```
+{
+    token: <your jwt token>
+}
+```
+
+> #### Request Body :
+
+```
+{
+    ProductId: <>,
+    qty: <>,
+    price: <>
+}
+```
+
+> #### Success Reponse
+
+```
+200 : [
+    {
+        id: <>,
+        ProductId: <>,
+        UserId: <>,
+        qty: <>,
+        price: <>,
+        status: <>
+    }
+]
+```
+
+### DELETE /carts/:id
+
+---
+
+Delete from carts
+
+> #### Headers :
+
+```
+{
+    token: <your jwt token>
+}
+```
+
+> #### Request Body :
+
+```
+none
+```
+
+> #### Success Reponse
+
+```
+200 : {
+    message: 'Item removed'
+}
+```
+
+### PATCH /carts/checkout
+
+---
+
+Checkout carts
+
+> #### Headers :
+
+```
+{
+    token: <your jwt token>
+}
+```
+
+> #### Request Body :
+
+```
+{
+    cart: []
+}
+```
+
+> #### Success Reponse
+
+```
+200 : {
+    message: 'Cart checkout'
+}
+```
+
+## Transaction Routes
+
+### GET /carts/transaction
+
+---
+
+Get all users active transaction cart status = 'check'
+
+> #### Headers :
+
+```
+{
+    token: <your jwt token>
+}
+```
+
+> #### Request Body :
+
+```
+none
+```
+
+> #### Success Reponse
+
+```
+200 : [
+    {
+        id: <>,
+        ProductId: <>,
+        UserId: <>,
+        qty: <>,
+        price: <>,
+        status: 'check'
+    }
+]
+```
+
+### GET /carts/transaction/history
+
+---
+
+Get all users transaction cart status = 'paid'
+
+> #### Headers :
+
+```
+{
+    token: <your jwt token>
+}
+```
+
+> #### Request Body :
+
+```
+none
+```
+
+> #### Success Reponse
+
+```
+200 : [
+    {
+        id: <>,
+        ProductId: <>,
+        UserId: <>,
+        qty: <>,
+        price: <>,
+        status: 'paid'
+    }
+]
+```
+
+### GET /carts/user/incomes
+
+---
+
+Get all users income from shop
+
+> #### Headers :
+
+```
+{
+    token: <your jwt token>
+}
+```
+
+> #### Request Body :
+
+```
+none
+```
+
+> #### Success Reponse
+
+```
+200 : [
+    {
+        id: <>,
+        ProductId: <>,
+        CartId: <>,
+        UserId: <>,
+        totalPrice: <>,
+        Product: {},
+        Cart: {}
+    }
+]
+```
+### GET /carts/confirm/:id
+
+---
+
+Post cart confirmation
+
+> #### Headers :
+
+```
+{
+    token: <your jwt token>
+}
+```
+
+> #### Request Body :
+
+```
+{
+    totalPrice: <>
+}
+```
+
+> #### Success Reponse
+
+```
+200 : {
+        id: <>,
+        ProductId: <>,
+        CartId: <>,
+        UserId: <>,
+        totalPrice: <>
 }
 ```
