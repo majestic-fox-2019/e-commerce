@@ -66,12 +66,11 @@ export default {
           return this.$emit('hasLoggedIn', true)
         })
         .catch(err => {
-          console.log(err)
+          Swal.fire('Error', err, 'error')
         })
     },
     onSignInError(error) {
-      // `error` contains any error occurred.
-      console.log('OH NOES', error)
+      Swal.fire('Error', error, 'error')
     }
   },
   computed: {
