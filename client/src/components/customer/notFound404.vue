@@ -106,8 +106,7 @@ export default {};
 </script>
 
 <style scoped>
-html,
-body {
+/* body {
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -115,7 +114,7 @@ body {
   font-size: 18px;
   font-family: "Nunito", sans-serif;
   font-weight: 700;
-}
+} */
 
 body::after {
   content: "";

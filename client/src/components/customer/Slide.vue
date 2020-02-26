@@ -42,6 +42,6 @@ export default {};
 
 <style scoped>
 .carousel-item {
-  max-height: 100vh;
+  max-height: calc(100vh - 60px);
 }
 </style>

@@ -17,6 +17,7 @@ export default new Vuex.Store({
   mutations: {
     allItem(state, payload) {
       state.items = payload
+      // console.log(payload, '<<<<< ini dari allItem')
     },
     isAdmin(state, payload) {
       console.log('payload', payload)
@@ -29,16 +30,10 @@ export default new Vuex.Store({
   actions: {
     cekAdmin(context) {
       let token = localStorage.getItem("token");
-      // if (!token) return;
-
       const user = token ? jwt.verify(token, "edo tensi") : null
-
       if (user && user.role == "admin") {
-        // this.isAdmin = true;
         context.commit("isAdmin", true);
       } else {
-        // this.isAdmin = false;
-        context.commit('isMember', true)
         context.commit("isAdmin", false);
       }
     },
@@ -46,10 +41,7 @@ export default new Vuex.Store({
       console.log('mulai fetch')
       axios({
         method: 'get',
-        url: `${server}/products`,
-        headers: {
-          token: localStorage.token
-        }
+        url: `${server}/products`
       })
         .then(({ data }) => {
           console.log('berhasil fetch')

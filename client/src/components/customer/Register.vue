@@ -2,11 +2,10 @@
   <div id="formLogin">
     <div id="login-body">
       <div id="login-head">
-        <div class="login-masukDafter" id="login-active">Masuk</div>
-
         <div class="login-masukDafter">
-          <router-link to="/register">Daftar</router-link>
+          <router-link to="/login">Masuk</router-link>
         </div>
+        <div class="login-masukDafter" id="login-active">Daftar</div>
       </div>
       <div id="login-content">
         <div id="login-social-content">
@@ -16,7 +15,11 @@
           </div>
           <p>Kami tidak akan posting atas nama Anda atau membagikan informasi apapun tanpa persetujuan Anda.</p>
         </div>
-        <form @submit.prevent="loginAdmin">
+        <form @submit.prevent="registerCustomer">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input required type="text" class="form-control" v-model="dataRegister.username" />
+          </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
             <input
@@ -25,7 +28,7 @@
               class="form-control"
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
-              v-model="dataLogin.email"
+              v-model="dataRegister.email"
             />
           </div>
           <div class="form-group">
@@ -35,11 +38,11 @@
               type="password"
               class="form-control"
               id="exampleInputPassword1"
-              v-model="dataLogin.password"
+              v-model="dataRegister.password"
             />
           </div>
           <!-- <button type="submit" class="btn btn-primary" @click="loginAdmin">login</button> -->
-          <button type="submit" class="btn btn-login btn-lg btn-block" @click="loginAdmin">Login</button>
+          <button type="submit" class="btn btn-login btn-lg btn-block">Daftar</button>
         </form>
       </div>
     </div>
@@ -55,26 +58,26 @@ const server = `http://localhost:3000`;
 export default {
   data: function() {
     return {
-      dataLogin: {
+      dataRegister: {
+        username: null,
         email: null,
         password: null
       }
     };
   },
   methods: {
-    loginAdmin() {
+    registerCustomer() {
       axios({
         method: "post",
-        url: `${server}/users/login`,
-        data: this.dataLogin
+        url: `${server}/users/register`,
+        data: this.dataRegister
       })
         .then(resultLogiAdmin => {
           localStorage.setItem("token", resultLogiAdmin.data);
-
           this.$store.dispatch("cekAdmin");
           this.$router
             .push({
-              path: "/dashboard"
+              path: "/"
             })
             .catch(_ => {});
           Swal.fire({
@@ -162,7 +165,7 @@ export default {
 #login-body {
   display: flex;
   width: 30em;
-  height: 35em;
+  /* height: 35em; */
   flex-direction: column;
   margin-top: 1em;
   background-color: #fff;

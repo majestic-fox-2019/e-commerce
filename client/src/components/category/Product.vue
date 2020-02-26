@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card" style="width: 18rem;">
+    <div class="card" style="width:18rem">
       <img :src="barang.image_url" class="card-img-top" />
       <div class="card-body">
         <h5 class="card-title">{{barang.name}}</h5>
@@ -182,7 +182,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* board card and content */
 
 .card {

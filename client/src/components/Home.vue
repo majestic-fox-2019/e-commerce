@@ -11,9 +11,13 @@ import Slide from "../components/customer/Slide";
 import Login from "../components/customer/Login";
 export default {
   components: {
-    Slide: Slide,
-    Login: Login
+    Slide: Slide
   }
 };
 </script>
-
+<style>
+/* #body-home {
+  display: flex;
+  flex-direction: column;
+} */
+</style>

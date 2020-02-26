@@ -160,7 +160,7 @@
 import axios from "axios";
 import Products from "./category/Product.vue";
 // const server = `http://localhost:3000`;
-const server = `https://mysterious-plains-04294.herokuapp.com`;
+// const server = `https://mysterious-plains-04294.herokuapp.com`;
 
 export default {
   components: {
@@ -195,7 +195,6 @@ export default {
       }
 
       let arr = this.$store.state.items;
-      // console.log(JSON.stringify(arr));
       if (this.category == "all") {
         // console.log("masuk all pak");
         return arr;
@@ -216,7 +215,7 @@ export default {
   watch: {
     $route(to, from) {
       this.category = to.params.category;
-      console.log(this.category);
+      console.log(this.category, "<<<<<<<<watch dashboard");
     }
   },
 
@@ -319,7 +318,8 @@ export default {
   color: white;
 }
 #contentDasboard {
-  width: 100%;
+  width: 80%;
+  /* border: 2px solid green; */
   display: flex;
   flex-direction: column;
 }
@@ -338,14 +338,16 @@ export default {
 }
 #btnLargeAdd {
   margin-bottom: 1em;
-  position: relative;
+  /* position: relative; */
 }
 #boardCard {
+  width: 100%;
   overflow: scroll;
   display: flex;
   flex-wrap: wrap;
   max-height: 90vh;
   justify-content: space-evenly;
+  /* border: 1px solid red; */
 }
 #addModal {
   color: black;

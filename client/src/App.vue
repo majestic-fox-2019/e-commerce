@@ -3,57 +3,80 @@
     <nav id="navbar" v-if="!isAdmin">
       <div id="content-navbar">
         <div id="logoBrand">
-          <span>
-            <i class="fab fa-shirtsinbulk"></i>
-            Pocket
-          </span>
+          <router-link to="/">
+            <span>
+              <i class="fab fa-shirtsinbulk"></i>
+              Pocket
+            </span>
+          </router-link>
         </div>
         <div id="categori-navbar">
-          <div class="menu-navbar">Baju</div>
-          <div class="menu-navbar">Celana</div>
-          <div class="menu-navbar">Jaket</div>
-          <div class="menu-navbar">Sepatu</div>
+          <div class="menu-navbar">
+            <router-link :to="{name:'Menu',params:{category:'baju'}}">Baju</router-link>
+          </div>
+          <div class="menu-navbar">
+            <router-link to="/menu/celana">Celana</router-link>
+          </div>
+          <div class="menu-navbar">
+            <router-link to="/menu/jaket">Jaket</router-link>
+          </div>
+          <div class="menu-navbar">
+            <router-link to="/menu/sepatu">Sepatu</router-link>
+          </div>
         </div>
         <div id="login-navbar">
-          <i class="fas fa-shopping-cart"></i>
+          <router-link to="/cart">
+            <i class="fas fa-shopping-cart"></i>
+          </router-link>
           <router-link to="/login">
             <i class="far fa-user"></i>
           </router-link>
-          <!-- <i class="fas fa-sign-out-alt" @click="logoutMember"></i> -->
         </div>
       </div>
     </nav>
+
     <router-view />
   </div>
 </template>
 
 <script>
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
+import ItemProducts from "./components/customer/Menu.vue";
 export default {
+  components: {
+    ItemProducts: ItemProducts
+  },
   data() {
     return {
       // isAdmin: false
+      // category: "all"
     };
   },
+
   computed: {
     isAdmin() {
       return this.$store.state.isAdmin;
-    },
-    isMember() {
-      return this.$store.state.isMember;
     }
   },
   mounted() {
     // this.cekAdmin();
-    // this.$store.commit('isAdmin', true)
+    this.$store.commit("isAdmin", true);
+    // this.$store.commit("isMember", false);
+    this.$store.dispatch("cekAdmin");
   },
+  // watch: {
+  //   $route(to, from) {
+  //     this.category = to.params.category;
+  //     console.log(this.category, "<<<<<<<<watch App");
+  //   }
+  // },
   methods: {
     logoutMember() {
       localStorage.clear();
       // this.$store.dispatch("cekAdmin");
-      // this.$router.push({
-      //   path: "/"
-      // });
+      this.$router.push({
+        path: "/"
+      });
     }
     // cekAdmin() {
     //   let token = localStorage.getItem("token");
@@ -71,31 +94,29 @@ export default {
 };
 </script>
 
-
 <style scoped>
 body {
   background-color: #fff;
   font-family: "Lato", sans-serif;
 }
-/* nav {
-   z-index: 9999; 
-   position: fixed;
-} */
+
 #app {
   display: flex;
   flex-direction: column;
 }
-#body-home {
+
+/* #body-home {
   display: flex;
   flex-direction: column;
-}
+  border: 1px pink solid;
+} */
 
 #navbar {
   color: #fff;
   background-color: #000;
   display: flex;
   /* position: fixed; */
-  width: 100%;
+  /* width: 100%; */
   height: 60px;
 }
 #content-navbar {
@@ -138,6 +159,11 @@ body {
   font-weight: 100;
   cursor: pointer;
 }
+
+#categori-navbar a {
+  text-decoration: none;
+  color: #fff;
+}
 #login-navbar a {
   text-decoration: none;
   color: #fff;
@@ -145,6 +171,24 @@ body {
 #login-navbar a:hover {
   text-decoration: none;
   color: #fff;
+}
+#logoBrand a {
+  text-decoration: none;
+  color: #fff;
+}
+
+/* style item */
+#menu-body {
+  /* margin-top: 2em; */
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#menu-inner-body {
+  width: 90em;
+  /* border: 1px solid black; */
 }
 </style>
 
