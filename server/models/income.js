@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     'Income',
     {
       UserId: DataTypes.INTEGER,
-      CartId: DataTypes.INTEGER
+      CartId: DataTypes.INTEGER,
+      ProductId: DataTypes.INTEGER
     },
     {}
   )
@@ -12,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Income.belongsTo(models.User)
     Income.belongsTo(models.Cart)
+    Income.belongsTo(models.Product)
   }
   return Income
 }

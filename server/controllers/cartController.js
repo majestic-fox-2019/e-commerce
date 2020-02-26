@@ -85,7 +85,8 @@ class CartController {
       .then(product => {
         incomeState = {
           UserId: product.UserId,
-          CartId: cart.id
+          CartId: cart.id,
+          ProductId: product.id
         }
         const newStocks = product.stocks - cart.qty
         return Product.update(
@@ -116,7 +117,7 @@ class CartController {
 
   static getUserIncome(req, res, next) {
     const id = req.loggedIn.id
-    Income.findAll({ where: { UserId: id }, include: ['Cart', 'User'] })
+    Income.findAll({ where: { UserId: id }, include: ['Cart', 'Product'] })
       .then(results => {
         res.status(200).json(results)
       })

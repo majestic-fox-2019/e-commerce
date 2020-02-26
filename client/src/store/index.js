@@ -144,6 +144,7 @@ export default new Vuex.Store({
         })
         .then(result => {
           context.commit('DIALOG_CHANGE_SHOP', false)
+          context.commit('GET_EDIT_DATA', false)
           this.dispatch('GET_USER_INFO')
           this.state.userProfile.role = 'premium'
           router.push('/panel')
