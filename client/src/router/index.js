@@ -5,6 +5,7 @@ import Login from '../views/Login.vue';
 import Cart from '../views/Cart.vue';
 import Product from '../views/ProductList.vue';
 import ProductDetails from '../views/ProductDetails.vue';
+import Error from '../views/Error.vue';
 
 Vue.use(VueRouter);
 
@@ -88,6 +89,11 @@ const routes = [
         next();
       }
     },
+  },
+  {
+    path: '*',
+    name: 'Error',
+    component: Error,
   },
 ];
 

@@ -14,6 +14,12 @@ module.exports = {
       ProductId: {
         type: Sequelize.INTEGER
       },
+      total: {
+        type: Sequelize.INTEGER
+      },
+      amount: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -21,7 +21,12 @@
           <div class="description">
             <p>{{product.description}}</p>
           </div>
-          <span class="stock">{{product.stock}} In stock</span>
+          <div v-if="product.stock > 0">
+            <span class="stock">{{product.stock}} In stock</span>
+          </div>
+          <div v-if="product.stock == 0">
+            <span class="stock">OUT OF STOCK</span>
+          </div>
           <div class="reviews">
             <ul class="stars">
               <li><i class="fa fa-star"></i></li>
@@ -40,7 +45,12 @@
           <h3><i class="fas fa-bolt"></i> ARDUISHOP <i class="fas fa-bolt"></i></h3>
         </div>
         <div class="action">
-          <button @click="addToCart(product.id)" type="button">Add to cart</button>
+          <div v-if="product.stock > 0">
+            <button @click="addToCart(product.id, product.price)" type="button">Add to cart</button>
+          </div>
+          <div v-if="product.stock == 0">
+            <h3>OUT OF STOCK</h3>
+          </div>
         </div>
       </div>
     </div>
@@ -70,9 +80,12 @@ export default {
           console.log(err.response);
         });
     },
-    addToCart(id) {
+    addToCart(id, price) {
       if (this.$store.state.loginStatus) {
-        this.$axios.post(`/carts/${id}`, {}, { headers: { token: localStorage.token } })
+        this.$axios.post(`/carts/${id}`, {
+          total: this.convertRpNumber(price),
+          amount: 1,
+        }, { headers: { token: localStorage.token } })
           .then(() => {
             Swal.fire({
               position: 'center',
@@ -84,11 +97,41 @@ export default {
             this.$router.push({ name: 'Home' });
           })
           .catch((err) => {
-            console.log(err);
+            if (err.response.data.message === 'This Product is out of stock') {
+              Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: err.response.data.message,
+                showConfirmButton: false,
+                timer: 1200,
+              });
+            } else {
+              Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: err.response.data.message,
+                showConfirmButton: false,
+                timer: 1200,
+              });
+            }
+            // console.log(err);
           });
       } else {
         this.$router.push({ name: 'Login' });
       }
+    },
+    convertRpNumber(value) {
+      const arrRp = value.split('');
+      arrRp.splice(0, 4);
+      arrRp.reverse();
+      for (let i = 0; i < arrRp.length; i += 1) {
+        if (arrRp[i] === '.') {
+          arrRp.splice(i, 1);
+        }
+      }
+      const numberPrice = arrRp.reverse().join('');
+      console.log(numberPrice);
+      return numberPrice;
     },
   },
   mounted() {

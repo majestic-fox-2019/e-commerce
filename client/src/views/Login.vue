@@ -82,6 +82,7 @@ export default {
           localStorage.setItem('name', result.data.data.name);
           localStorage.setItem('token', result.data.token);
           this.$store.dispatch('checkLogin');
+          this.$store.dispatch('listProducts');
           this.formLogin.email = '';
           this.formLogin.password = '';
           const Toast = Swal.mixin({
