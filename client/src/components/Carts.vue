@@ -21,11 +21,11 @@
       </template>
     </v-simple-table>
      <PayPal
-      :amount="total_pay"
-      currency="USD"
-      :client="paypal_credentials"
-      env="sandbox"
-      notify-url="/payment-sucess">
+        :amount="total_pay"
+        currency="USD"
+        :client="paypal_credentials"
+        env="sandbox"
+      >
     >
     </PayPal>
     <v-btn
@@ -56,14 +56,29 @@ export default {
         sandbox: 'AQWsshiaXa_uMKjhtrIcoDRLREm7em_MDjbpkoOoLRdD0wedCzFJ7iahqji_eDDruFZN2dJBQ-6XylAl',
         production: '<production client id>',
       },
+      rates: {
+        USD: 1,
+      },
     };
   },
   methods: {
     formatMoney(money) {
       return moneyFormatter(money);
     },
+    moneyConvertRate() {
+      this.$store.state.superagent
+        .get('https://api.exchangeratesapi.io/latest?base=IDR')
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          } else {
+            this.rates = res.body.rates;
+          }
+        });
+    },
   },
   created() {
+    this.moneyConvertRate();
     const objUser = parseJwt(this.$store.state.isLogin);
 
     this.$store.state.superagent
@@ -83,7 +98,13 @@ export default {
       this.carts.forEach((cart) => {
         totalPay += cart.price;
       });
-      return totalPay;
+      const strUSD = totalPay * this.rates.USD;
+      console.log(strUSD);
+      const strUSDtwoDecimals = strUSD.toString().split('.');
+      if (typeof strUSDtwoDecimals[1] !== 'undefined') {
+        return `${strUSDtwoDecimals[0]}.${strUSDtwoDecimals[1].substring(0, 2)}`;
+      }
+      return `${strUSDtwoDecimals[0]}.00`;
     },
   },
 };
