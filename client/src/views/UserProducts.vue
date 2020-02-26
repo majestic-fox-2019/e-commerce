@@ -24,6 +24,13 @@ export default {
   },
   created () {
     this.$store.dispatch('fetchShopProducts')
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (vm.$store.state.userInfo.role === 'admin') {
+        vm.$router.push('/admin/products')
+      }
+    })
   }
 }
 </script>

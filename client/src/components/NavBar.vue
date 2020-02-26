@@ -24,17 +24,17 @@
                 <button class="dropbtn"><i class="fas fa-user"></i></button>
                 <div class="dropdown-content">
                     <h4 style="text-align:center;margin:0;padding:0;">{{$store.state.userInfo.name}}</h4>
-                    <a href="#" @click="toShop" style="font-size:1.7em;" v-if="$store.state.userInfo.shopName"><i class="fas fa-store mr-3"></i>{{$store.state.userInfo.shopName}}</a>
+                    <a href="#" @click="toShop" style="font-size:1.7em;" v-if="$store.state.userInfo.shopName && $store.state.userInfo.role !== 'admin'"><i class="fas fa-store mr-3"></i>{{$store.state.userInfo.shopName}}</a>
                     <div @click="$bvModal.show('registerShop')" v-if="!$store.state.userInfo.shopName && $store.state.userInfo.role !== 'admin'" class="dropMenu my-3 custMenu">
                         <h4><i class="fas fa-plus-circle"></i></h4>
                         <h4>Register Shop</h4>
                     </div>
                     <hr style="border-top:1px solid black;height:0.1vh;">
-                    <div @click="toSales" v-if="$store.state.userInfo.shopName" class="dropMenu mb-3 custMenu">
+                    <div @click="toSales" v-if="$store.state.userInfo.shopName && $store.state.userInfo.role !== 'admin'" class="dropMenu mb-3 custMenu">
                         <h4><i class="fas fa-chart-bar"></i></h4>
                         <h4>Income Statement</h4>
                     </div>
-                    <div @click="toTransactions" class="dropMenu mb-3 custMenu">
+                    <div v-if="$store.state.userInfo.role !== 'admin'" @click="toTransactions" class="dropMenu mb-3 custMenu">
                         <h4><i class="fas fa-shopping-basket"></i></h4>
                         <h5>Transactions</h5>
                     </div>

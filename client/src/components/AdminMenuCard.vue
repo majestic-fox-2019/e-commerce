@@ -34,13 +34,13 @@ export default {
 .MenuCard {
     width: 17vw;
     height: 100%;
-    background: teal;
+    background: #5352ed;
     border-radius: 17px;
     display: flex;
     justify-content: center;
     cursor: pointer;
 }
 .MenuCard:hover {
-    background: rgb(1, 98, 98);
+    background: #6969f3;
 }
 </style>

@@ -19,6 +19,9 @@ Income.init({
   },
   finish_date: {
     type: DataTypes.DATE
+  },
+  official: {
+    type: DataTypes.BOOLEAN
   }
 },{
   sequelize

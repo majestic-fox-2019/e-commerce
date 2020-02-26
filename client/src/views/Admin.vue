@@ -23,11 +23,18 @@ export default {
           name: 'Products'
         },
         {
-          button: '<i class="fas fa-atom"></i> Admins',
+          button: '<i class="fas fa-users"></i> Admins',
           name: 'Users'
+        },
+        {
+          button: '<i class="fas fa-chart-pie"></i> Official Store Incomes',
+          name: 'Incomes'
         }
       ]
     }
+  },
+  created () {
+    this.$router.push('/admin/Products')
   },
   components: {
     AdminMenuCard

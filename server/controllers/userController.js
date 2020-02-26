@@ -129,6 +129,7 @@ class UserController {
     }
 
     static getPurchases(req, res, next) {
+        let purchaseInfo
         if (req.loggedUser.role == 'admin') {
             throw ({
                 statusCode: 403,
@@ -142,7 +143,22 @@ class UserController {
                 include: [{ model: Product }]
             })
                 .then(purchaseData => {
-                    res.status(200).json(purchaseData)
+                    purchaseInfo = purchaseData
+                    let forBuyerFind = []
+                    purchaseData.forEach(element => {
+                        forBuyerFind.push(User.findOne({
+                            where: {
+                                id: element.Product.UserId
+                            }
+                        }))
+                    });
+                    return Promise.all(forBuyerFind)
+                })
+                .then(userDatas => {
+                    for (let i = 0; i < purchaseInfo.length; i++) {
+                        purchaseInfo[i].dataValues.shop = userDatas[i].shopName
+                    }
+                    res.status(200).json(purchaseInfo)
                 })
                 .catch(err => {
                     next(err)
@@ -152,6 +168,7 @@ class UserController {
 
     static getIncomes(req, res, next) {
         let target
+        let incomeInfo
         if (req.loggedUser.role == 'admin') {
             target = {
                 official: true
@@ -180,9 +197,25 @@ class UserController {
                 }
             })
             .then(incomeData => {
-                res.status(200).json(incomeData)
+                incomeInfo = incomeData
+                let forBuyerFind = []
+                incomeData.forEach(element => {
+                    forBuyerFind.push(User.findOne({
+                        where: {
+                            id: element.buyer
+                        }
+                    }))
+                });
+                return Promise.all(forBuyerFind)
+            })
+            .then(userDatas => {
+                for (let i = 0; i < incomeInfo.length; i++) {
+                    incomeInfo[i].buyer = userDatas[i].email
+                }
+                res.status(200).json(incomeInfo)
             })
             .catch(err => {
+                console.log(err, '<==========')
                 next(err)
             })
     }
@@ -204,6 +237,21 @@ class UserController {
                 shopName: userData.shopName
             }
             res.status(200).json(userInfo)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
+    static getAllAdmins (req, res, next) {
+        User.findAll({
+            where: {
+                role: 'admin'
+            },
+            exclude: ['password']
+        })
+        .then(adminList => {
+            res.status(200).json(adminList)
         })
         .catch(err => {
             next(err)

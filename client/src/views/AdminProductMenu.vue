@@ -183,7 +183,7 @@ export default {
     height: 100%;
     overflow: scroll;
     border-radius: 15px 0 0 15px;
-    background: rgb(255, 206, 115);
+    background: #a29bfe;
 }
 .AdminProductContent {
     width: 75%;

@@ -28,7 +28,6 @@ class ProductController {
             })
             .catch(err => {
                 // console.log(err);
-
                 next(err)
             })
     }
@@ -43,7 +42,8 @@ class ProductController {
             include: [{
                 model: User,
                 attributes: ['shopName', 'email']
-            }]
+            }],
+            order: [['createdAt','DESC']]
         })
             .then(allProducts => {
                 allProducts.forEach(element => {
@@ -85,7 +85,8 @@ class ProductController {
                 stock: {
                     [Op.gt]: 0
                 }
-            }
+            },
+            order: [['createdAt','DESC']]
         })
             .then(productsByCategory => {
                 if (productsByCategory.length < 1) {
@@ -187,7 +188,8 @@ class ProductController {
             include: [{
                 model: User,
                 attributes: ['shopName', 'email']
-            }]
+            }],
+            order: [['createdAt','DESC']]
         })
         .then(officialProducts => {
             officialProducts.forEach(element => {
@@ -207,7 +209,8 @@ class ProductController {
             include: [{
                 model: User,
                 attributes: ['shopName', 'email']
-            }]
+            }],
+            order: [['createdAt','DESC']]
         })
         .then(ownerProducts => {
             ownerProducts.forEach(element => {
@@ -230,7 +233,8 @@ class ProductController {
             include: [{
                 model: User,
                 attributes: ['shopName', 'email']
-            }]
+            }],
+            order: [['createdAt','DESC']]
         })
         .then(unOfficialProducts => {
             unOfficialProducts.forEach(element => {

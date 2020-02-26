@@ -16,6 +16,8 @@ import OnGoing from '../views/OnGoing.vue'
 import TransactionHistory from '../views/TransactionHistory.vue'
 import IncomeStatement from '../views/IncomeStatement.vue'
 import errorPage from '../views/errorPage.vue'
+import AdminList from '../views/AdminList.vue'
+import AdminRegistration from '../views/AdminRegistration.vue'
 
 Vue.use(VueRouter)
 
@@ -56,12 +58,26 @@ const routes = [
     component: Admin,
     children: [
       {
-        path: '/admin/products',
+        path: 'products',
         component: AdminProductMenu
       },
       {
-        path: '/admin/users',
-        component: AdminUsers
+        path: 'users',
+        component: AdminUsers,
+        children: [
+          {
+            path: 'list',
+            component: AdminList
+          },
+          {
+            path: 'register',
+            component: AdminRegistration
+          }
+        ]
+      },
+      {
+        path: 'incomes',
+        component: IncomeStatement
       }
     ]
   },

@@ -1,6 +1,17 @@
 const { User, Product, Cart } = require('../models')
 const jwt = require('jsonwebtoken')
 
+function checkAdmin(req, res, next) {
+    if (req.loggedUser.role !== 'admin') {
+        next({
+            statusCode: 401,
+            message: 'unauthorized access'
+        })
+    } else {
+        next()
+    }
+}
+
 function createAdminAuth(req, res, next) {
     if (req.body.role !== 'admin') {
         next()
@@ -11,14 +22,15 @@ function createAdminAuth(req, res, next) {
                 message: 'unauthorized access'
             })
         }
-        let data = jwt.verify(req.headers.token, process.env.JWT_SECRET)
-        if (data.role !== 'admin') {
+        req.loggedUser = jwt.verify(req.headers.token, process.env.JWT_SECRET)
+        if (req.loggedUser.role !== 'admin') {
             next({
                 statusCode: 401,
                 message: 'unauthorized access'
             })
         } else {
             req.body.shopName = 'Official Store'
+            console.log(req.body)
             next()
         }
     }
@@ -175,5 +187,6 @@ module.exports = {
     productDeleteAuth,
     createAdminAuth,
     addToCartAuth,
-    deliveryConfirmAuth
+    deliveryConfirmAuth,
+    checkAdmin
 }

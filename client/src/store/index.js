@@ -44,7 +44,10 @@ export default new Vuex.Store({
     cart: [],
     unconfirmed: [],
     totalActiveCart: '',
-    transactionHistory: []
+    transactionHistory: [],
+    incomes: [],
+    totalIncome: 0,
+    adminList: []
   },
   mutations: {
     SET_DISPLAY_PRODUCTS (state, payload) {
@@ -88,9 +91,33 @@ export default new Vuex.Store({
     },
     SET_TRANSACTION_HISTORY (state, payload) {
       state.transactionHistory = payload
+    },
+    SET_INCOME (state, payload) {
+      state.incomes = payload
+    },
+    SET_TOTALINCOME (state, payload) {
+      state.totalIncome = payload
+    },
+    SET_ADMINLIST (state, payload) {
+      state.adminList = payload
     }
   },
   actions: {
+    fetchAdmins (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/user/admins',
+        method: 'get',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          this.commit('SET_ADMINLIST', data)
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    },
     fetchIncomes (state, payload) {
       axios({
         url: this.state.baseUrl + '/user/incomes',
@@ -100,7 +127,15 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
+          let totalIncomes = 0
+          data.forEach(element => {
+            element.Product.displayPrice = rpConvert(element.Product.price)
+            element.total = rpConvert(element.Product.price * element.qty)
+            totalIncomes += (element.Product.price * element.qty)
+          })
+          totalIncomes = rpConvert(totalIncomes)
+          this.commit('SET_TOTALINCOME', totalIncomes)
+          this.commit('SET_INCOME', data)
         })
         .catch(err => {
           console.log(err.response)
@@ -121,6 +156,7 @@ export default new Vuex.Store({
           data.forEach(element => {
             element.Product.displayPrice = rpConvert(element.Product.price)
           })
+          console.log(data)
           this.commit('SET_TRANSACTION_HISTORY', data)
         })
         .catch(err => {
@@ -141,7 +177,7 @@ export default new Vuex.Store({
             icon: 'success',
             title: 'Transaction Finished'
           })
-          this.commit('fetchPurchases')
+          this.dispatch('fetchPurchases')
         })
         .catch(err => {
           console.log(err.response)
@@ -159,7 +195,6 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
           this.dispatch('fetchUserCart')
         })
         .catch(err => {
@@ -535,6 +570,27 @@ export default new Vuex.Store({
             title: 'Oops...',
             text: err.msg
           })
+        })
+    },
+    registerAdmin (state, payload) {
+      axios({
+        method: 'post',
+        url: this.state.baseUrl + '/user/register',
+        data: payload,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          Swal.fire(
+            'Registered!',
+            'Employee has been registered successfully. Please try to login using the newly registered account',
+            'success'
+          )
+          router.push('/admin/Products')
+        })
+        .catch(err => {
+          console.log(err.response)
         })
     }
   }

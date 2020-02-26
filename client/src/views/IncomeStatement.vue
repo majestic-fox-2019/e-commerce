@@ -1,14 +1,16 @@
 <template>
   <div class="IncomeStatement-container mt-5">
-      <h1><i class="fas fa-chart-bar"></i> {{$store.state.userInfo.shopName}} Income Statement <i class="fas fa-chart-bar"></i></h1>
+      <h1 v-if="$router.currentRoute.path !== '/admin/Incomes'"><i class="fas fa-chart-bar"></i> {{$store.state.userInfo.shopName}} Income Statement <i class="fas fa-chart-bar"></i></h1>
       <div class="IncomeContent mt-5">
         <div class="incomeContent-container">
-          <div class="left"></div>
+          <div class="left">
+            <IncomeCard v-for="(incomeData, i) in $store.state.incomes" :key="i" :income="incomeData"></IncomeCard>
+          </div>
           <div class="right">
             <div class="TotalIncome">
               <div class="total-content">
                 <h3>Total Income</h3>
-                <h5>Rp.500.000,-</h5>
+                <h5>{{$store.state.totalIncome}}</h5>
               </div>
             </div>
             <div class="incomeImg">
@@ -21,8 +23,15 @@
 </template>
 
 <script>
+import IncomeCard from '../components/IncomeCard'
 export default {
-  name: 'IncomeStatement'
+  name: 'IncomeStatement',
+  components: {
+    IncomeCard
+  },
+  created () {
+    this.$store.dispatch('fetchIncomes')
+  }
 }
 </script>
 
@@ -63,6 +72,9 @@ export default {
   overflow: scroll;
   background-color: #48dbfb;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .incomeContent-container {
  height: 98%;

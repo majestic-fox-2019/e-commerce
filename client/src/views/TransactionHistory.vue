@@ -11,6 +11,12 @@
           </div>
           {{new Date(transaction.createdAt).toDateString()}}
         </div>
+        <div style=";padding-left:2%;padding-right:2%;">
+          <div>
+            Shop:
+          </div>
+          {{transaction.shop}}
+        </div>
         <div style="border-left: 1px solid black;padding-left:2%;">
           <div>
             Total Transaction:

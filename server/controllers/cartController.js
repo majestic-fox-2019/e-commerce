@@ -133,6 +133,7 @@ class CartController {
         let today = new Date()
         let newPurchase
         let cartInfo
+        let official
         Cart.findOne({
             where: {
                 id: req.params.id
@@ -151,12 +152,27 @@ class CartController {
         })
         .then(createdPurchase => {
             newPurchase = createdPurchase
+            return Product.findOne({
+                where: {
+                    id: createdPurchase.ProductId
+                },
+                include: [{model: User}]
+            })
+            
+        })
+        .then(productData => {
+            if (productData.User.role == 'admin') {
+                official = true
+            } else {
+                official = false
+            }
             return Income.create({
                 UserId: cartInfo.Product.UserId,
                 ProductId: cartInfo.ProductId,
                 qty: cartInfo.qty,
                 buyer: cartInfo.UserId,
-                finish_date: cartInfo.paid_date
+                finish_date: cartInfo.paid_date,
+                official: official
             })
         })
         .then(incomeCreated => {
