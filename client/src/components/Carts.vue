@@ -25,6 +25,7 @@
         currency="USD"
         :client="paypal_credentials"
         env="sandbox"
+        @payment-completed="onComplete"
       >
     >
     </PayPal>
@@ -76,6 +77,9 @@ export default {
           }
         });
     },
+    onComplete() {
+      this.$router.push({ name: 'payment_success' });
+    },
   },
   created() {
     this.moneyConvertRate();
@@ -99,7 +103,6 @@ export default {
         totalPay += cart.price;
       });
       const strUSD = totalPay * this.rates.USD;
-      console.log(strUSD);
       const strUSDtwoDecimals = strUSD.toString().split('.');
       if (typeof strUSDtwoDecimals[1] !== 'undefined') {
         return `${strUSDtwoDecimals[0]}.${strUSDtwoDecimals[1].substring(0, 2)}`;
