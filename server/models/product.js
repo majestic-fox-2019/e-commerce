@@ -1,11 +1,18 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  const { Model } = sequelize.Sequelize
+  const Sequelize = sequelize.Sequelize
+  const Model = Sequelize.Model
 
   class Product extends Model {}
 
   Product.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.INTEGER
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -67,6 +74,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Product.associate = function(models) {
     Product.belongsTo(models.Category)
+    Product.belongsToMany(models.User, { through : models.Cart })
   };
 
   return Product;

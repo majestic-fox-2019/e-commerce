@@ -27,6 +27,7 @@ class UserController {
               payload: {
                 Token: token,
                 users: {
+                  id: user.id,
                   name: user.name,
                   email: user.email,
                   role: user.role

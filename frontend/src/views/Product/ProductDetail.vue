@@ -15,7 +15,7 @@
               <span>Category : </span>
               <span class="cat-detail-product">{{ categoryUppercase }}</span>
             </div>
-            <b-button class="btn-beli mt-3 mr-2" size="lg"><i class="fa fa-shopping-cart"></i>&nbsp;Masukan Keranjang</b-button>
+            <b-button class="btn-beli mt-3 mr-2" size="lg" @click="doAddCart(detailProduct.id)"><i class="fa fa-shopping-cart"></i>&nbsp;Masukan Keranjang</b-button>
             <b-button class="mt-3" variant="dark" size="lg" @click="backHome"><i class="fa fa-chevron-circle-left"></i>&nbsp;Kembali Belanja</b-button>
           </div>
         </b-col>
@@ -61,6 +61,28 @@ export default {
     }
   },
   methods: {
+    doAddCart(id){
+      if(!localStorage.getItem('token')){
+        this.$store.commit('SET_MODAL', true)
+      }else{
+        const token = localStorage.getItem('token')
+        const user_id = JSON.parse(localStorage.getItem('user')).id
+        let objAddCart = {
+          UserId: user_id,
+          ProductId: id
+        }
+        axios.post(`${this.url}/cart`, objAddCart, {
+          headers: { Bearer : token }
+        })
+        .then(res => {
+          this.$vToastify.notifSuccess('Berhasil ditambah ke keranjang', 'Yeay!')
+          this.$router.push({ name: 'Cart' })
+        })
+        .catch(err => {
+          this.$vToastify.notifError('Gagal masukan cart', 'Gagal!')
+        })
+      }
+    },
     backHome(){
       this.$router.push({ name: 'Home' })
     },

@@ -5,6 +5,9 @@ import Category from '../views/Category/Category.vue'
 import ContentCategory from '../views/Category/ContentCategory.vue'
 import ProductDetail from '../views/Product/ProductDetail.vue'
 import Register from '../views/Register/Register.vue'
+import Cart from '../views/Cart/Cart.vue'
+import Payment from '../views/Payment/Payment.vue'
+import Setting from '../views/Setting/Setting.vue'
 
 Vue.use(VueRouter)
 
@@ -36,6 +39,22 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart
+  },
+  {
+    path: '/payment/:id',
+    name: 'Payment',
+    component: Payment,
+    props: true
+  },
+  {
+    path: '/setting',
+    name: 'Setting',
+    component: Setting
   }
 ]
 

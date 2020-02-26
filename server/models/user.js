@@ -3,11 +3,18 @@
 const bcrypt = require('bcrypt')
 
 module.exports = (sequelize, DataTypes) => {
-  const { Model } = sequelize.Sequelize
+  const Sequelize = sequelize.Sequelize
+  const Model = Sequelize.Model
 
   class User extends Model {}
 
   User.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.INTEGER
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -64,7 +71,8 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   User.associate = function(models) {
-    
+    User.hasMany(models.Cart)
+    User.belongsToMany(models.Product, { through : models.Cart })
   };
 
   return User;

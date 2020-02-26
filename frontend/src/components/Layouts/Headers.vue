@@ -18,22 +18,23 @@
         <b-navbar-nav class="ml-auto right-nav">
           <b-nav-item @click="goCart">
             <span><i class="fa fa-shopping-cart"></i></span>
-            <b-badge class="badge-cart" variant="danger">0</b-badge>
+            <b-badge class="badge-cart" variant="danger">{{ getCarts.length }}</b-badge>
           </b-nav-item>
           <b-nav-form class="ml-4" v-if="!statusLogin">
             <b-button size="sm" class="mr-2" variant="dark" @click="goDaftar">Sign Up</b-button>
-            <b-button size="sm" variant="outline-dark" @click="modal = true">Login</b-button>
+            <b-button size="sm" variant="outline-dark" @click="openModal">Login</b-button>
           </b-nav-form>
           <b-nav-item-dropdown class="ml-4" right v-if="statusLogin">
             <template v-slot:button-content>
               <span>{{ name }}</span>
             </template>
+            <b-dropdown-item @click="goSetting">Setting</b-dropdown-item>
             <b-dropdown-item @click="doLogout">Keluar</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <b-modal v-model="modal" size="sm" centered no-close-on-backdrop no-close-on-esc hide-header-close>
+    <b-modal v-model="getModal" size="sm" centered no-close-on-backdrop no-close-on-esc hide-header-close>
       <h5 class="mb-4 text-center">Masuk</h5>
       <b-form-group>
         <label for="email-login">Email</label>
@@ -77,7 +78,6 @@ export default {
   data(){
     return {
       statusLogin: false,
-      modal: false,
       formLogin: {
         email: null,
         password: null
@@ -86,6 +86,8 @@ export default {
   },
   created(){
     this.checkLogin()
+    this.getAllCart()
+    this.getAllCategories()
   },
   computed: {
     name(){
@@ -94,7 +96,13 @@ export default {
     },
     getCategories(){
       return this.$store.state.categories
-    }
+    },
+    getCarts(){
+      return this.$store.state.carts
+    },
+    getModal(){
+      return this.$store.state.modalLogin
+    },
   },
   methods: {
     checkLogin(){
@@ -102,15 +110,24 @@ export default {
         this.statusLogin = true
       }
     },
+    openModal(){
+      this.$store.commit('SET_MODAL', true)
+    },
     setCloseModal(){
-      this.modal = false
+      this.$store.commit('SET_MODAL', false)
       this.clearForm(this.formLogin)
     },
     getAllCategories(){
       this.$store.dispatch('getCategories')
     },
+    getAllCart(){
+      this.$store.dispatch('getCart')
+    },
     getToCategory(cat){
       this.$router.push({ name: `CategoryName`, params: { catname: cat.name, id: cat.id }}).catch(err => {})
+    },
+    goSetting(){
+      this.$router.push({ name: 'Setting' })
     },
     goCart(){
       if(localStorage.getItem('token')){
@@ -136,7 +153,9 @@ export default {
         }
         axios.post(`${this.url}/login`, objData)
         .then(res => {
+          this.$store.commit('SET_ISLOGIN', true)
           this.$vToastify.notifSuccess('Login berhasil!', "Yeah!")
+          this.$store.commit('SET_MODAL', false)
           this.clearForm(this.formLogin)
           localStorage.setItem('token', res.data.payload.Token)
           localStorage.setItem('user', JSON.stringify(res.data.payload.users))

@@ -240,3 +240,228 @@ section{
     font-weight: bold;
   }
 }
+
+.cart{
+  margin-top: 5rem;
+
+  & .item-cart{
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+
+  & .bg-stock{
+    background-color: rgba(216, 133, 103, .3);
+  }
+
+  & .content-item-cart{
+    & .cart-price{
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #FA591D;
+      margin-bottom: 0px;
+    }
+
+    & .sisa-stock{
+      width: fit-content;
+      background-color: #dc3645;
+      border-radius: 5px;
+      margin: .5rem 0 0 0;
+      padding: 5px 10px;
+      color: #ffffff;
+
+      & p{
+        font-weight: bold;
+        margin: 0;
+      }
+    }
+
+    & .btn-minus,
+    & .btn-plus{
+      border-radius: 50%;
+    }
+
+    & .right-cart{
+      width: 90px;
+      float: right;
+
+      & .quantity{
+        & p{
+          text-align: center;
+          margin-bottom: 3px;
+        }
+  
+        & .btn-minus,
+        & .btn-plus{
+          padding: 0 6px;
+        }
+  
+        & i{
+          font-size: 12px;
+        }
+  
+        & span.total-quantity{
+          margin: 0 .65rem;
+        }
+      }
+    }
+  }
+
+  & .cart-checkout{
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+
+    & .pengiriman{
+      margin-bottom: 2rem;
+
+      & h5{
+        font-size: 1rem;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+    }
+
+    & .total-belanja{
+      & h5.title-total{
+        font-size: 1rem;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+      & .price-total-belanja{
+        font-weight: bold;
+        color: #FA591D;
+      }
+    }
+  }
+}
+
+.payment{
+  margin: 0 5rem;
+  padding: 0 3rem;
+
+  & .desc-payment{
+    border: 1px solid rgba(0,0,0,.1);
+    display: flex;
+
+    & .image-payment{
+      & img{
+        width: 170px;
+      }
+    }
+
+    & .content-payment{
+      text-align: left;
+      margin-top: 2rem;
+      padding: 1rem;
+    }
+  }
+
+  & h4.no-transaksi{
+    font-weight: bold;
+  }
+
+  & .detail-atm{
+    display: flex;
+
+    & .atm{
+      width: 300px;
+      border: 1px solid rgba(0,0,0,.1);
+      padding: 1rem 1rem;
+
+      & img{
+        width: 100px;
+        margin-bottom: 10px;
+      }
+
+      & p{
+        margin-bottom: 5px;
+      }
+
+      & .an-nama{
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      & .rek{
+        font-weight: bold;
+      }
+    }
+  }
+
+  & .detail-pembelian{
+    display: flex;
+
+    & .pembayaran{
+      & .total-transfer{
+        width: 300px;
+        border: 1px solid rgba(0,0,0,.1);
+        padding: 1rem 2rem;
+    
+        & h3{
+          font-weight: bold;
+          color: #FA591D;
+        }
+      }
+    }
+
+    & .detail-belanja{
+      text-align: left;
+      width: 100%;
+      margin-left: 1rem;
+      border: 1px solid rgba(0,0,0,.1);
+      padding: 1rem;
+
+      & ul{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        & li{
+          margin-bottom: .5rem;
+        }
+      }
+    }
+  }
+
+}
+
+.header-table{
+  .search-table{
+    display: inline-block;
+    width: 100%;
+    height: calc(2rem + 2px);
+    padding: 0.625rem 0.75rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #000000;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #cad1d7;
+    border-radius: 0.25rem;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  & > span{
+    position: absolute;
+    right: 10px;
+    top: 7px;
+  }
+
+  & > span:hover{
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  & span i{
+    font-size: 1.3rem
+  }
+}

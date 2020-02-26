@@ -4,6 +4,11 @@ import router from './router'
 import store from './store'
 import { BootstrapVue } from 'bootstrap-vue'
 import VueToastify from 'vue-toastify'
+import moment from 'moment'
+
+Vue.filter('formatDate', function(value) {
+  if (value) return moment(String(value)).format('DD MMMM YYYY')
+});
 
 Vue.config.productionTip = false
 
