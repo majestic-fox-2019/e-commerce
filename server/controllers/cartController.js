@@ -104,7 +104,10 @@ class CartController {
 
   static getHistoryTransaction(req, res, next) {
     const id = req.loggedIn.id
-    Cart.findAll({ where: { UserId: id, status: 'paid' } })
+    Cart.findAll({
+      where: { UserId: id, status: 'paid' },
+      include: ['Product']
+    })
       .then(results => {
         res.status(200).json(results)
       })
@@ -113,7 +116,7 @@ class CartController {
 
   static getUserIncome(req, res, next) {
     const id = req.loggedIn.id
-    Income.findAll({ where: { UserId: id } })
+    Income.findAll({ where: { UserId: id }, include: ['Cart', 'User'] })
       .then(results => {
         res.status(200).json(results)
       })

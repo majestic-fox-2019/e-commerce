@@ -21,8 +21,7 @@
         <v-divider></v-divider>
         <h4 class="mb-3">Detail Product :</h4>
         <p>{{ detailProduct.description }}</p>
-
-        <div v-if="detailProduct.UserId !== this.$store.state.userProfile.id">
+        <div v-if="userProfile.length == 0 || detailProduct.UserId !== userProfile.id">
           <v-slider
             label="How many?"
             v-model="qty"
@@ -37,9 +36,11 @@
             class="mt-4"
             style="color: white;"
             color="green"
+            :disabled="userProfile.length == 0"
             @click.prevent="addToCart(detailProduct.id)"
             >Add to cart</v-btn
           >
+          <h4 v-if="userProfile.length == 0" style="color: red;" class="mt-3">Please login if you want to purchase this product</h4>
         </div>
         <h4 v-else>
           Edit item?
@@ -106,6 +107,9 @@ export default {
     },
     totalPrice() {
       return this.detailProduct.price * this.qty
+    },
+    userProfile() {
+      return this.$store.state.userProfile
     }
   },
   watch: {

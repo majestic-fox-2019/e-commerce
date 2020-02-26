@@ -23,9 +23,10 @@
 
       <div class="isLogin" v-show="loginStatus">
         <v-btn text @click.prevent="showCart">
-          <v-badge color="red" :content="carts.length">
+          <v-badge color="red" :content="carts.length" v-if="carts.length > 0">
             <v-icon>mdi-cart</v-icon>
           </v-badge>
+          <v-icon v-else>mdi-cart</v-icon>
         </v-btn>
 
         <v-btn text @click="openShop">

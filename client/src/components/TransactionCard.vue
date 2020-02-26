@@ -1,5 +1,5 @@
 <template>
-  <v-card color="blue" dark>
+  <v-card :color="transaction.status == 'paid' ? 'green' : 'blue'" dark>
     <div class="d-flex flex-no-wrap justify-space-between">
       <div style="width: 80%;">
         <v-card-title class="headline">{{
@@ -7,37 +7,49 @@
         }}</v-card-title>
         <v-card-text>
           <h3>Qty : {{ transaction.qty }}</h3>
-          <h3>Price : {{ changeFormat(transaction.price) }}</h3>
-          <v-select
-            :items="items"
-            label="Courier"
-            v-model="form.courier"
-            outlined
-            class="mt-4"
-            style="width: 35%;"
-            @change="ubah"
-          >
-          </v-select>
-          <v-text-field
-            style="width: 35%;"
-            outlined
-            v-model="form.weight"
-            type="number"
-            disabled
-            label="Weight (in Kg)"
-            min="1"
-            required
-          ></v-text-field>
-          <h4>Ongkir: {{ changeFormat(ongkir.value) }}</h4>
+          <div v-if="transaction.status !== 'paid'">
+            <h3>Price : {{ changeFormat(transaction.price) }}</h3>
+            <v-select
+              :items="items"
+              label="Courier"
+              v-model="form.courier"
+              outlined
+              class="mt-4"
+              style="width: 35%;"
+              @change="checkCost"
+            >
+            </v-select>
+            <v-text-field
+              style="width: 35%;"
+              outlined
+              v-model="form.weight"
+              type="number"
+              disabled
+              label="Weight (in Kg)"
+              min="1"
+              required
+            ></v-text-field>
+            <h4>Ongkir: {{ changeFormat(ongkir.value) }}</h4>
+          </div>
           <h2 style="margin-bottom: 10px;">
             Total Price:
-            {{ changeFormat(Number(ongkir.value) + Number(transaction.price)) }}
+            {{ changeFormat(totalPrice) }}
           </h2>
-          <v-btn color="success">Confirm</v-btn>
+          <v-btn
+            v-if="transaction.status !== 'paid'"
+            color="success"
+            @click.prevent="confirmTransaction"
+            >Confirm</v-btn
+          >
         </v-card-text>
       </div>
 
-      <v-avatar class="ma-3" size="290" tile>
+      <v-avatar
+        class="ma-3"
+        size="290"
+        tile
+        v-if="transaction.status !== 'paid'"
+      >
         <img
           :src="transaction.Product.image_url"
           style="min-width: auto; min-height: auto;"
@@ -48,6 +60,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Formatter from '@/helpers/formatter'
 
 export default {
@@ -78,20 +91,38 @@ export default {
         destination: this.$store.state.userProfile.userLocationId,
         weight: 30,
         courier: null
+      },
+      ongkir: {
+        value: 0
       }
     }
   },
   computed: {
-    ongkir() {
-      return this.$store.state.ongkir
+    totalPrice() {
+      return Number(this.ongkir.value) + Number(this.transaction.price)
     }
   },
   methods: {
     changeFormat(val) {
       return Formatter(val)
     },
-    ubah() {
-      this.$store.dispatch('FETCH_ONGKIR', this.form)
+    checkCost() {
+      axios
+        .post(`${this.$store.state.BASE_URL}/api/cost`, this.form)
+        .then(({ data }) => {
+          this.ongkir = data
+        })
+        .catch(({ response }) => {
+          const errors = response.data
+          console.log(errors)
+        })
+    },
+    confirmTransaction() {
+      const data = {
+        id: this.transaction.id,
+        totalPrice: this.totalPrice
+      }
+      this.$store.dispatch('CONFIRM_TRANSACTION', data)
     }
   },
   props: ['transaction']

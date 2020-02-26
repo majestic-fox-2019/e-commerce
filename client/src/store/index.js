@@ -11,7 +11,7 @@ export default new Vuex.Store({
     BASE_URL: 'http://localhost:3000',
     loading: false,
     loginStatus: false,
-    userProfile: null,
+    userProfile: [],
     registerStatus: false,
     allProducts: [],
     myProducts: [],
@@ -21,8 +21,12 @@ export default new Vuex.Store({
     dialogShop: false,
     userCarts: [],
     activeTransaction: null,
+    confirmedTransaction: null,
     cityList: [],
-    ongkir: null
+    incomeData: [],
+    ongkir: {
+      value: 0
+    }
   },
   mutations: {
     CHANGE_LOGIN(state, val) {
@@ -32,7 +36,7 @@ export default new Vuex.Store({
     CLEAR_STATUS(state) {
       state.loginStatus = false
       state.registerStatus = false
-      state.userProfile = null
+      state.userProfile = []
       state.myProducts = []
       state.editProduct = []
       state.userCarts = []
@@ -73,6 +77,12 @@ export default new Vuex.Store({
     },
     GET_ONGKIR(state, val) {
       state.ongkir = val
+    },
+    GET_CONFIRMED(state, val) {
+      state.confirmedTransaction = val
+    },
+    GET_INCOMES(state, val) {
+      state.incomeData = val
     }
   },
   actions: {
@@ -342,6 +352,19 @@ export default new Vuex.Store({
           Swal.fire('Error', errors[0], 'error')
         })
     },
+    FETCH_CONFIRMED_TRANSACTION(context) {
+      axios
+        .get(`${this.state.BASE_URL}/carts/transaction/history`, {
+          headers: { token: localStorage.getItem('token') }
+        })
+        .then(({ data }) => {
+          context.commit('GET_CONFIRMED', data)
+        })
+        .catch(({ response }) => {
+          const errors = response.data
+          Swal.fire('Error', errors[0], 'error')
+        })
+    },
     FETCH_CITY(context) {
       axios
         .get(`${this.state.BASE_URL}/api/city`)
@@ -353,11 +376,32 @@ export default new Vuex.Store({
           Swal.fire('Error', errors[0], 'error')
         })
     },
-    FETCH_ONGKIR(context, data) {
+    CONFIRM_TRANSACTION(context, data) {
+      const id = data.id
+      const total = {
+        totalPrice: data.totalPrice
+      }
       axios
-        .post(`${this.state.BASE_URL}/api/cost`, data)
+        .post(`${this.state.BASE_URL}/carts/confirm/${id}`, total, {
+          headers: { token: localStorage.getItem('token') }
+        })
         .then(({ data }) => {
-          context.commit('GET_ONGKIR', data)
+          console.log(data)
+          this.dispatch('FETCH_ACTIVE_TRANSACTION')
+          Swal.fire('Thank you!', 'Transaction success', 'success')
+        })
+        .catch(({ response }) => {
+          const errors = response.data
+          Swal.fire('Error', errors[0], 'error')
+        })
+    },
+    FETCH_USER_INCOME(context) {
+      axios
+        .get(`${this.state.BASE_URL}/carts/user/incomes`, {
+          headers: { token: localStorage.getItem('token') }
+        })
+        .then(({ data }) => {
+          context.commit('GET_INCOMES', data)
         })
         .catch(({ response }) => {
           const errors = response.data

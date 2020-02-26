@@ -4,14 +4,8 @@
       <li :class="{ active: active === 'item' }" @click.prevent="getItems">
         All Items
       </li>
-      <li
-        :class="{ active: active === 'transaction' }"
-        @click.prevent="getTransaction"
-      >
-        Transaction
-      </li>
       <li :class="{ active: active === 'revenue' }" @click.prevent="getRevenue">
-        Revenue
+        Shop Income
       </li>
     </ul>
   </div>

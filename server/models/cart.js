@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   )
   Cart.associate = function(models) {
     // associations can be defined here
+    Cart.hasMany(models.Income)
     Cart.belongsTo(models.User)
     Cart.belongsTo(models.Product)
   }
