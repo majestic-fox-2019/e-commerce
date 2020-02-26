@@ -95,56 +95,6 @@ export default {
           console.log(err.message);
         });
     }
-    // googleSignIn() {
-    //   var provider = new firebase.auth.GoogleAuthProvider();
-    //   firebase
-    //     .auth()
-    //     .signInWithPopup(provider)
-    //     .then(function(result) {
-    //       // This gives you a Google Access Token. You can use it to access the Google API.
-    //       var token = result.credential.accessToken;
-    //       // The signed-in user info.
-    //       var user = result.user;
-    //       // ...
-    //       return axios({
-    //         method: "post",
-    //         url: `${server}/users/googleLogin`,
-    //         data: {
-    //           name: user.displayName,
-    //           email: user.email
-    //         }
-    //       });
-    //     })
-    //     .then(({ data }) => {
-    //       localStorage.setItem("token", data.token);
-    //       console.log(data.token, "<<<<<<<<<<<<<<<<<<<");
-    // this.$emit("googleSign");
-    // this.$store.dispatch("cekAdmin");
-    // this.$router
-    //   .push({
-    //     path: "/dashboard"
-    //   })
-    //   .catch(_ => {});
-    // Swal.fire({
-    //   position: "center",
-    //   icon: "success",
-    //   title: "Welcome",
-    //   showConfirmButton: false,
-    //   timer: 1500
-    // });
-    // })
-    // .catch(function(error) {
-    //   // Handle Errors here.
-    //   var errorCode = error.code;
-    //   var errorMessage = error.message;
-    //   // The email of the user's account used.
-    //   var email = error.email;
-    //   // The firebase.auth.AuthCredential type that was used.
-    //   var credential = error.credential;
-    //   // ...
-    //   console.log(error);
-    // });
-    // }
   }
 };
 </script>

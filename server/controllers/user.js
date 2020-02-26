@@ -16,7 +16,7 @@ class ControllerUser {
         role: member
       })
       .then(registerUser => {
-        const token = jwt.sign({ email: registerUser.email, id: registerUser.id }, process.env.EDOTENSI)
+        const token = jwt.sign({ email: registerUser.email, id: registerUser.id, role: registerUser.role }, process.env.EDOTENSI)
         // res.status(200).json(token)
         res.status(201).json(token)
       })

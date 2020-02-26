@@ -82,7 +82,6 @@ export default {
   watch: {
     carts() {
       this.totalPembayaran = 0;
-
       this.carts.forEach(cart => {
         this.totalPembayaran += cart.qty * cart.Product.price;
       });

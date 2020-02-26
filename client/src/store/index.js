@@ -12,7 +12,8 @@ export default new Vuex.Store({
   state: {
     items: [],
     isAdmin: false,
-    isMember: false
+    isLogin: false
+    // isMember: false
   },
   mutations: {
     allItem(state, payload) {
@@ -22,10 +23,14 @@ export default new Vuex.Store({
     isAdmin(state, payload) {
       console.log('payload', payload)
       state.isAdmin = payload
+      state.isLogin = true
     },
-    isMember(state, payload) {
-      state.isMember = payload
+    isLoginMut(state) {
+      state.isLogin = false
     }
+    // isMember(state, payload) {
+    //   state.isMember = payload
+    // }
   },
   actions: {
     cekAdmin(context) {

@@ -28,9 +28,10 @@
           <router-link to="/cart">
             <i class="fas fa-shopping-cart"></i>
           </router-link>
-          <router-link to="/login">
+          <router-link to="/login" v-show="!isLogin">
             <i class="far fa-user"></i>
           </router-link>
+          <i class="fas fa-sign-out-alt" v-show="isLogin" @click="logoutMember"></i>
         </div>
       </div>
     </nav>
@@ -50,12 +51,33 @@ export default {
     return {
       // isAdmin: false
       // category: "all"
+      isLogin: false
     };
   },
-
+  created() {
+    if (localStorage.getItem("token") != "undefined") {
+      // this.$store.commit("isLoginMut", false);
+      this.isLogin = true;
+      console.log(this.isLogin, "<<<<<< ????");
+    }
+  },
   computed: {
     isAdmin() {
       return this.$store.state.isAdmin;
+    }
+    // isLogin() {
+    //   return this.$store.state.isLogin;
+    // }
+    // iniLogin() {
+    //   isLogin =
+    // }
+  },
+  watch: {
+    liatLogin() {
+      this.isLoginMember();
+    },
+    iniLogin() {
+      this.isLogin;
     }
   },
   mounted() {
@@ -63,6 +85,8 @@ export default {
     this.$store.commit("isAdmin", true);
     // this.$store.commit("isMember", false);
     this.$store.dispatch("cekAdmin");
+    this.isLoginMember();
+    console.log("apapap");
   },
   // watch: {
   //   $route(to, from) {
@@ -71,9 +95,19 @@ export default {
   //   }
   // },
   methods: {
+    isLoginMember() {
+      if (localStorage.token) {
+        this.isLogin = true;
+      } else {
+        this.isLogin = false;
+      }
+    },
+
     logoutMember() {
       localStorage.clear();
       // this.$store.dispatch("cekAdmin");
+      // this.$store.commit("isLoginMut");
+      this.isLoginMember();
       this.$router.push({
         path: "/"
       });

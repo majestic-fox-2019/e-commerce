@@ -81,7 +81,7 @@ const routes = [
       } else {
         const token = localStorage.getItem('token')
         const user = jwt.verify(token, 'edo tensi')
-        console.log(user.role)
+
         if (user.role == 'member') {
           next()
         } else {

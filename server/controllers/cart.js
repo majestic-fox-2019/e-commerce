@@ -16,6 +16,7 @@ class ControllerCart {
         console.log(err)
       })
   }
+
   static addCart(req, res, next) {
     let { ProductId } = req.body
     Cart
@@ -55,7 +56,6 @@ class ControllerCart {
   }
 
   static deleteCart(req, res, next) {
-
     let id = req.params.id
     let isi = null
     Cart
@@ -78,11 +78,42 @@ class ControllerCart {
       .catch(err => {
         res.status(500)
       })
-
   }
 
 
-}
+  static checkout(req, res, next) {
+    Cart
+      .findAll({
+        include: [{ model: Product }, { model: User }]
+      })
+      .then(result => {
+        let arrCheckout = []
+        result.forEach(res => {
+          if (res.qty > res.Product.stock) {
+            arrCheckout.push('stock habis')
+          }
+        })
+        if (arrCheckout.length != 0) {
+          throw (arrCheckout)
+        } else {
+          result.forEach(el => {
+            el.Product.update({ stock: el.Product.stock - el.qty })
+            el.destroy()
+          })
+          return result
+        }
+      })
+      .then(result => {
+        res.status(200).json(result)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
+
+
+
+}
 
 module.exports = ControllerCart
