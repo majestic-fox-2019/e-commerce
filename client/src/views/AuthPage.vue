@@ -5,6 +5,17 @@
       <h1 v-else>Register</h1>
       <LoginForm v-if="!register" />
       <RegisterForm v-else />
+      <v-btn color="primary" class="mt-4" style="width: 39%;">
+        <v-icon>mdi-google</v-icon>
+        <g-signin-button
+          id="gSign"
+          :params="googleSignInParams"
+          @success="onSignInSuccess"
+          @error="onSignInError"
+        >
+          Login with google
+        </g-signin-button>
+      </v-btn>
       <h4 v-if="register">
         Already have an account?
         <a href="#" @click.prevent="changeRegisterStatus(false)">Login here</a>
@@ -22,11 +33,18 @@
 <script>
 import LoginForm from '@/components/LoginForm'
 import RegisterForm from '@/components/RegisterForm'
+import key from '@/config/key'
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'AuthPage',
   data() {
-    return {}
+    return {
+      googleSignInParams: {
+        client_id: key.googleClientId
+      }
+    }
   },
   components: {
     LoginForm,
@@ -35,6 +53,25 @@ export default {
   methods: {
     changeRegisterStatus(val) {
       this.$store.commit('CHANGE_REGISTER', val)
+    },
+    onSignInSuccess(googleUser) {
+      const idToken = googleUser.getAuthResponse().id_token
+      axios
+        .post(`${this.$store.state.BASE_URL}/users/google`, {
+          idToken: idToken
+        })
+        .then(({ data }) => {
+          localStorage.setItem('token', data.token)
+          Swal.fire('Welcome', 'Login success', 'success')
+          return this.$emit('hasLoggedIn', true)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    onSignInError(error) {
+      // `error` contains any error occurred.
+      console.log('OH NOES', error)
     }
   },
   computed: {

@@ -66,6 +66,46 @@ class UserController {
       .catch(next)
   }
 
+  static googleSign(req, res, next) {
+    let payload
+    let data
+    client
+      .verifyIdToken({
+        idToken: req.body.idToken,
+        audience: process.env.CLIENT_ID
+      })
+      .then(ticket => {
+        payload = ticket.getPayload()
+        data = {
+          name: payload.name,
+          email: payload.email,
+          password: process.env.DEFAULT_PASS
+        }
+        return User.findOne({ where: { email: payload.email } })
+      })
+      .then(result => {
+        if (result) {
+          const token = sign({ id: result.id, email: result.email })
+          res.status(200).json({
+            id: result.id,
+            token: token
+          })
+        } else {
+          return User.create(data)
+        }
+      })
+      .then(data => {
+        const token = sign({ id: data.id, email: data.email })
+        res.status(200).json({
+          result: data,
+          token: token
+        })
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
+
   static getUserInfo(req, res, next) {
     const id = req.loggedIn.id
     User.findOne({
