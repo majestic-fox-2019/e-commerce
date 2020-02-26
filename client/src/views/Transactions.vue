@@ -48,6 +48,7 @@ export default {
     toHistory () {
       this.onGoing = false
       this.history = true
+      this.$router.push('/transactions/history')
     }
   },
   created () {
@@ -59,8 +60,8 @@ export default {
 <style scoped>
 .left-content {
   height: 84%;
-  background-color: #eeeeee;
   width: 100%;
+  background: white;
   border-radius: 10px;
 }
 .underlineDiv {

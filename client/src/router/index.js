@@ -13,10 +13,18 @@ import UserProducts from '../views/UserProducts.vue'
 import UserAddProduct from '../views/UserAddProduct.vue'
 import Transactions from '../views/Transactions.vue'
 import OnGoing from '../views/OnGoing.vue'
+import TransactionHistory from '../views/TransactionHistory.vue'
+import IncomeStatement from '../views/IncomeStatement.vue'
+import errorPage from '../views/errorPage.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/sales',
+    name: 'IncomeStatement',
+    component: IncomeStatement
+  },
   {
     path: '/transactions',
     name: 'transactions',
@@ -25,6 +33,10 @@ const routes = [
       {
         path: 'ongoing',
         component: OnGoing
+      },
+      {
+        path: 'history',
+        component: TransactionHistory
       }
     ]
   },
@@ -91,6 +103,11 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+  },
+  {
+    path: '*',
+    name: 'NotFound',
+    component: errorPage
   }
 ]
 

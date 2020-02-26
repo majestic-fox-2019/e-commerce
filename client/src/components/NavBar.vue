@@ -18,7 +18,7 @@
           </div>
           <div v-if="$store.state.userInfo && !$store.state.loading.userInfo" id="afterLoginMenu">
               <div @click="toCart" id="cartMenu" v-if="$store.state.userInfo.role !== 'admin'">
-                <p style="margin:0;padding:0;" class="mx-3"><i class="fas fa-shopping-cart"></i></p>
+                <p style="margin:0;padding:0;" class="mx-3"><i class="fas fa-shopping-cart"></i><sup class="cartQty" v-if="$store.state.cart.length > 0">{{$store.state.cart.length}}</sup></p>
             </div>
           <div class="dropdown">
                 <button class="dropbtn"><i class="fas fa-user"></i></button>
@@ -30,7 +30,7 @@
                         <h4>Register Shop</h4>
                     </div>
                     <hr style="border-top:1px solid black;height:0.1vh;">
-                    <div v-if="$store.state.userInfo.shopName" class="dropMenu mb-3 custMenu">
+                    <div @click="toSales" v-if="$store.state.userInfo.shopName" class="dropMenu mb-3 custMenu">
                         <h4><i class="fas fa-chart-bar"></i></h4>
                         <h4>Income Statement</h4>
                     </div>
@@ -79,6 +79,9 @@ export default {
     }
   },
   methods: {
+    toSales () {
+      this.$router.push('/sales')
+    },
     toTransactions () {
       this.$router.push('/transactions')
     },
@@ -121,6 +124,12 @@ export default {
 </script>
 
 <style scoped>
+.cartQty {
+  z-index: 5;
+  border-radius: 100%;
+  padding: 0 0.3em 0 0.3em;
+  background-color: #2ed573;
+}
 #shopNameRegist {
   border-radius: 10px;
   width: 80%;

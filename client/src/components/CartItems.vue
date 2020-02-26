@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 export default {
   name: 'CartItems',
   props: {
@@ -33,8 +34,20 @@ export default {
   },
   methods: {
     confirmDelivery (id) {
-      this.$store.dispatch('confirmDelivery', {
-        id: id
+      Swal.fire({
+        title: 'Are you sure you want to confirm this transaction?',
+        text: "Please make sure there's no problem with the product",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirm'
+      }).then((result) => {
+        if (result.value) {
+          this.$store.dispatch('confirmDelivery', {
+            id: id
+          })
+        }
       })
     },
     deleteItem (id) {

@@ -53,7 +53,7 @@ export default {
 
 <style scoped>
 .header-line {
-    border-bottom: 2px solid #f67878;
+    border-bottom: 6px solid #3742fa;
     height: 5%;
     width: 100%;
 }
@@ -64,7 +64,7 @@ export default {
 }
 .menu-items {
     height: 100%;
-    width: 25%;
+    width: 50%;
     cursor: pointer;
 }
 .userContents {
@@ -90,7 +90,7 @@ export default {
     width: 73%;
     height: 100%;
     border-radius: 15px;
-    background-color: #dff9fb;
+    background-color: #70a1ff;
 }
 .mainShop {
     display: flex;

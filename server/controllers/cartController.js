@@ -146,7 +146,7 @@ class CartController {
                 UserId: req.loggedUser.id,
                 ProductId: CartData.ProductId,
                 qty: CartData.qty,
-                finish_date: today
+                finish_date: CartData.paid_date
             })
         })
         .then(createdPurchase => {
@@ -156,7 +156,7 @@ class CartController {
                 ProductId: cartInfo.ProductId,
                 qty: cartInfo.qty,
                 buyer: cartInfo.UserId,
-                finish_date: today
+                finish_date: cartInfo.paid_date
             })
         })
         .then(incomeCreated => {

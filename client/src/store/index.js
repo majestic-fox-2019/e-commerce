@@ -43,7 +43,8 @@ export default new Vuex.Store({
     displayDetail: null,
     cart: [],
     unconfirmed: [],
-    totalActiveCart: ''
+    totalActiveCart: '',
+    transactionHistory: []
   },
   mutations: {
     SET_DISPLAY_PRODUCTS (state, payload) {
@@ -84,9 +85,48 @@ export default new Vuex.Store({
     },
     SET_TOTAL (state, payload) {
       state.totalActiveCart = payload
+    },
+    SET_TRANSACTION_HISTORY (state, payload) {
+      state.transactionHistory = payload
     }
   },
   actions: {
+    fetchIncomes (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/user/incomes',
+        method: 'get',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    },
+    fetchPurchases (state, payload) {
+      axios({
+        url: this.state.baseUrl + '/user/purchases',
+        method: 'get',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          data = data.sort(function (a, b) {
+            return new Date(b.finish_date).getTime() - new Date(a.finish_date).getTime()
+          })
+          data.forEach(element => {
+            element.Product.displayPrice = rpConvert(element.Product.price)
+          })
+          this.commit('SET_TRANSACTION_HISTORY', data)
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    },
     confirmDelivery (state, payload) {
       axios({
         url: this.state.baseUrl + '/cart/deliveryConfirmation/' + payload.id,
@@ -96,8 +136,12 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
           this.dispatch('fetchUserCart')
+          Swal.fire({
+            icon: 'success',
+            title: 'Transaction Finished'
+          })
+          this.commit('fetchPurchases')
         })
         .catch(err => {
           console.log(err.response)
@@ -162,6 +206,9 @@ export default new Vuex.Store({
           active.forEach(element => {
             element.Product.displayPrice = rpConvert(element.Product.price)
           })
+          checkedOut.forEach(element => {
+            element.Product.displayPrice = rpConvert(element.Product.price)
+          })
           this.commit('SET_UNCONFIRMED', checkedOut)
           this.commit('SET_CART', active)
         })
@@ -186,6 +233,7 @@ export default new Vuex.Store({
             icon: 'success',
             title: 'Successfully added to cart'
           })
+          this.dispatch('fetchUserCart')
         })
         .catch(err => {
           console.log(err.response)

@@ -43,5 +43,6 @@ export default {
   width: 100%;
   height: 20%;;
   display: flex;
+  border-top: solid 1px black;
 }
 </style>

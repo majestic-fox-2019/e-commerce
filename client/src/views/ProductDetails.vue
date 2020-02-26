@@ -14,7 +14,7 @@
             <div class="mb-4">
                 <h1>{{$store.state.displayDetail.price}}</h1>
             </div>
-            <div class="my-3" id="qty" v-if="$store.state.userInfo">
+            <div class="my-3" id="qty" v-if="$store.state.userInfo && $store.state.displayDetail.stock">
                 <a href="" style="margin:0;padding:0;font-size:1.5em;" class="mx-3" @click.prevent="subQty"><i class="fas fa-minus-circle"></i></a>
                 <p style="margin:0;padding:0;border-bottom:1px solid black;font-size:1.5em;">{{qty}}</p>
                 <a href="" style="margin:0;padding:0;font-size:1.5em;" class="mx-3" @click.prevent="addQty"><i class="fas fa-plus-circle"></i></a>
@@ -23,7 +23,8 @@
                 <h5 style="color:#5a5a5aa2;">Available Stock: {{$store.state.displayDetail.stock}}</h5>
             </div>
             <div class="mt-4" v-if="$store.state.userInfo">
-                <b-button @click.prevent="addToCart($store.state.displayDetail.id)">Add to Cart</b-button>
+                <b-button v-if="$store.state.displayDetail.stock > 0" @click.prevent="addToCart($store.state.displayDetail.id)">Add to Cart</b-button>
+                <b-button variant="danger" disabled v-if="$store.state.displayDetail.stock < 1">Out of Stock</b-button>
             </div>
         </b-col>
     </b-row>
