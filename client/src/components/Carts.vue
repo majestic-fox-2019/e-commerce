@@ -20,6 +20,14 @@
         </tbody>
       </template>
     </v-simple-table>
+     <PayPal
+      :amount="total_pay"
+      currency="USD"
+      :client="paypal_credentials"
+      env="sandbox"
+      notify-url="/payment-sucess">
+    >
+    </PayPal>
     <v-btn
       block
       color="primary"
@@ -33,13 +41,21 @@
 </template>
 
 <script>
+import PayPal from 'vue-paypal-checkout';
 import moneyFormatter from '../helpers/formatMoney';
 import parseJwt from '../helpers/jwtParser';
 
 export default {
+  components: {
+    PayPal,
+  },
   data() {
     return {
       carts: [],
+      paypal_credentials: {
+        sandbox: 'AQWsshiaXa_uMKjhtrIcoDRLREm7em_MDjbpkoOoLRdD0wedCzFJ7iahqji_eDDruFZN2dJBQ-6XylAl',
+        production: '<production client id>',
+      },
     };
   },
   methods: {
@@ -60,6 +76,15 @@ export default {
           this.carts = res.body;
         }
       });
+  },
+  computed: {
+    total_pay() {
+      let totalPay = 0;
+      this.carts.forEach((cart) => {
+        totalPay += cart.price;
+      });
+      return totalPay;
+    },
   },
 };
 </script>
