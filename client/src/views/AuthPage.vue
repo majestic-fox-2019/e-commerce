@@ -50,6 +50,9 @@ export default {
         next()
       }
     })
+  },
+  mounted() {
+    this.$store.dispatch('FETCH_CITY')
   }
 }
 </script>

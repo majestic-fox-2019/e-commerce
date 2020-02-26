@@ -4,6 +4,9 @@
     <v-row>
       <v-col md="8" sm="12" style="max-height: 82vh; overflow-y: scroll">
         <v-row>
+          <div v-if="carts.length == 0">
+            <h2>You dont have any product in carts</h2>
+          </div>
           <v-col v-for="(item, i) in carts" :key="i" cols="12">
             <v-card color="white">
               <div class="d-flex flex-no-wrap justify-space-between">

@@ -36,16 +36,16 @@ const routes = [
     component: () => import('@/views/AdminPage'),
     children: [
       {
-        path: 'transaction',
-        name: 'TransactionHistory',
-        component: () => import('@/components/Transaction')
-      },
-      {
-        path: 'revenue',
-        name: 'RevenueHistory',
-        component: () => import('@/components/Revenue')
+        path: 'income',
+        name: 'IncomeHistory',
+        component: () => import('@/components/Income')
       }
     ]
+  },
+  {
+    path: '/user/transaction',
+    name: 'TransactionHistory',
+    component: () => import('@/views/TransactionPage')
   },
   {
     path: '*',

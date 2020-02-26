@@ -24,6 +24,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      userLocation: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      userLocationId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       role: {
         type: Sequelize.STRING
       },

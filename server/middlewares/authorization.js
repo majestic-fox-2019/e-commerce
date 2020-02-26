@@ -1,4 +1,4 @@
-const { Product, User } = require('../models')
+const { Product, User, Cart } = require('../models')
 
 function normalAuthorization(req, res, next) {
   const productId = req.params.id
@@ -31,4 +31,17 @@ function shopAuthorization(req, res, next) {
     })
 }
 
-module.exports = { normalAuthorization, shopAuthorization }
+function cartAuthorization(req, res, next) {
+  const userId = req.loggedIn.id
+  Cart.findOne({ where: { id: req.params.id, UserId: userId } })
+    .then(result => {
+      if (result) {
+        next()
+      } else {
+        throw { code: 403, msg: 'Forbidden, you are not authorized' }
+      }
+    })
+    .catch(next)
+}
+
+module.exports = { normalAuthorization, shopAuthorization, cartAuthorization }

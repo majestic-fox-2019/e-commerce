@@ -49,6 +49,12 @@ module.exports = (sequelize, DataTypes) => {
           notNull: { msg: 'Email is required' }
         }
       },
+      userLocation: {
+        type: DataTypes.STRING
+      },
+      userLocationId: {
+        type: DataTypes.INTEGER
+      },
       role: DataTypes.STRING,
       shop_name: DataTypes.STRING
     },
@@ -64,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     // associations can be defined here
     User.hasMany(models.Product)
-    User.belongsToMany(models.Product, {through: models.Cart})
+    User.belongsToMany(models.Product, { through: models.Cart })
   }
   return User
 }

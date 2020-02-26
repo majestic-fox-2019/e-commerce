@@ -8,16 +8,18 @@
         />
       </v-col>
       <v-col md="7" lg="7" sm="12" xs="12" style="padding: 40px;">
-        <h2>{{ detailProduct.name }}</h2>
+        <h2 class="mb-3">{{ detailProduct.name }}</h2>
+        <h4>Seller : {{ detailProduct.User.shop_name }}</h4>
+        <h4 class="mb-3">Location : {{ detailProduct.User.userLocation }}</h4>
         <v-divider></v-divider>
-        <h1>
+        <h1 class="mb-3">
           <span style="color: red;">{{
             changeFormat(detailProduct.price)
           }}</span>
         </h1>
-        <h3>Avalaible Stocks : {{ detailProduct.stocks }}</h3>
+        <h3 class="mb-3">Avalaible Stocks : {{ detailProduct.stocks }}</h3>
         <v-divider></v-divider>
-        <h4>Detail Product :</h4>
+        <h4 class="mb-3">Detail Product :</h4>
         <p>{{ detailProduct.description }}</p>
 
         <div v-if="detailProduct.UserId !== this.$store.state.userProfile.id">
@@ -119,7 +121,7 @@ export default {
 
 <style lang="scss" scoped>
 #detail {
-  height: 47vh;
+  height: 57vh;
 }
 #products {
   display: flex;

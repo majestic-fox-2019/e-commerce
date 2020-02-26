@@ -20,7 +20,9 @@ export default new Vuex.Store({
     dialogItem: false,
     dialogShop: false,
     userCarts: [],
-    cartDialog: false
+    activeTransaction: null,
+    cityList: [],
+    ongkir: null
   },
   mutations: {
     CHANGE_LOGIN(state, val) {
@@ -34,6 +36,7 @@ export default new Vuex.Store({
       state.myProducts = []
       state.editProduct = []
       state.userCarts = []
+      state.activeTransaction = null
     },
     CHANGE_REGISTER(state, val) {
       state.registerStatus = val
@@ -61,6 +64,15 @@ export default new Vuex.Store({
     },
     CART_DIALOG(state, val) {
       state.cartDialog = val
+    },
+    GET_TRANSACTION(state, val) {
+      state.activeTransaction = val
+    },
+    GET_CITY(state, val) {
+      state.cityList = val
+    },
+    GET_ONGKIR(state, val) {
+      state.ongkir = val
     }
   },
   actions: {
@@ -110,6 +122,7 @@ export default new Vuex.Store({
         })
         .then(({ data }) => {
           const user = data
+          console.log(data)
           context.commit('CHANGE_LOGIN', user)
         })
         .catch(({ response }) => {})
@@ -303,13 +316,52 @@ export default new Vuex.Store({
           }
         )
         .then(({ data }) => {
-          console.log(data)
           this.dispatch('SHOW_USER_CARTS')
           Swal.fire(
             'Thank you',
             'Your transaction are now processed',
             'success'
           )
+          router.push('/user/transaction')
+        })
+        .catch(({ response }) => {
+          const errors = response.data
+          Swal.fire('Error', errors[0], 'error')
+        })
+    },
+    FETCH_ACTIVE_TRANSACTION(context) {
+      axios
+        .get(`${this.state.BASE_URL}/carts/transaction`, {
+          headers: { token: localStorage.getItem('token') }
+        })
+        .then(({ data }) => {
+          context.commit('GET_TRANSACTION', data)
+        })
+        .catch(({ response }) => {
+          const errors = response.data
+          Swal.fire('Error', errors[0], 'error')
+        })
+    },
+    FETCH_CITY(context) {
+      axios
+        .get(`${this.state.BASE_URL}/api/city`)
+        .then(({ data }) => {
+          context.commit('GET_CITY', data)
+        })
+        .catch(({ response }) => {
+          const errors = response.data
+          Swal.fire('Error', errors[0], 'error')
+        })
+    },
+    FETCH_ONGKIR(context, data) {
+      axios
+        .post(`${this.state.BASE_URL}/api/cost`, data)
+        .then(({ data }) => {
+          context.commit('GET_ONGKIR', data)
+        })
+        .catch(({ response }) => {
+          const errors = response.data
+          Swal.fire('Error', errors[0], 'error')
         })
     }
   },

@@ -1,4 +1,4 @@
-const { Cart, Product } = require('../models')
+const { Cart, Product, Income } = require('../models')
 
 class CartController {
   static getUserCart(req, res, next) {
@@ -44,31 +44,78 @@ class CartController {
     const cart = req.body.cart
     let checkout = []
     for (let i = 0; i < cart.length; i++) {
-      let newStocks = cart[i].Product.stocks - cart[i].qty
       checkout.push(
-        Product.update(
-          { stocks: newStocks },
-          { where: { id: cart[i].ProductId }, returning: true }
+        Cart.update(
+          { status: 'check' },
+          { where: { id: cart[i].id }, returning: true }
         )
       )
     }
     Promise.all(checkout)
-      .then(result => {
-        let update = []
-        for (let i = 0; i < cart.length; i++) {
-          update.push(
-            Cart.update(
-              { status: 'paid' },
-              { where: { id: cart[i].id }, returning: true }
-            )
-          )
-        }
-        return Promise.all(update)
-      })
       .then(final => {
         res.status(200).json({
           message: 'Cart checkout'
         })
+      })
+      .catch(next)
+  }
+
+  static getActiveTransaction(req, res, next) {
+    const id = req.loggedIn.id
+    Cart.findAll({ where: { UserId: id, status: 'check' }, include: [Product] })
+      .then(results => {
+        res.status(200).json(results)
+      })
+      .catch(next)
+  }
+
+  static confirmTransaction(req, res, next) {
+    const id = req.params.id
+    const totalPrice = req.body.totalPrice
+    let cart = null
+    let incomeState = null
+    Cart.update(
+      { status: 'paid', price: totalPrice },
+      { where: { id: id }, returning: true }
+    )
+      .then(result => {
+        cart = result[1][0]
+        return Product.findOne({ where: { id: cart.ProductId } })
+      })
+      .then(product => {
+        incomeState = {
+          UserId: product.UserId,
+          CartId: cart.id
+        }
+        const newStocks = product.stocks - cart.qty
+        return Product.update(
+          { stocks: newStocks },
+          { where: { id: product.id } }
+        )
+      })
+      .then(final => {
+        return Income.create(incomeState)
+      })
+      .then(income => {
+        res.status(201).json(income)
+      })
+      .catch(next)
+  }
+
+  static getHistoryTransaction(req, res, next) {
+    const id = req.loggedIn.id
+    Cart.findAll({ where: { UserId: id, status: 'paid' } })
+      .then(results => {
+        res.status(200).json(results)
+      })
+      .catch(next)
+  }
+
+  static getUserIncome(req, res, next) {
+    const id = req.loggedIn.id
+    Income.findAll({ where: { UserId: id } })
+      .then(results => {
+        res.status(200).json(results)
       })
       .catch(next)
   }

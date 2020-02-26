@@ -32,9 +32,37 @@
           <h2>Sell Item</h2>
         </v-btn>
 
-        <v-btn text @click.prevent="logout">
-          <h2>Logout</h2>
-        </v-btn>
+        <v-menu open-on-hover bottom offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn icon v-on="on">
+              <v-icon>mdi-account</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item>
+              <v-list-item-title>
+                <v-btn
+                  color="green"
+                  style="color: white; width: 100%;"
+                  @click.prevent="transaction"
+                >
+                  Your Transaction
+                </v-btn>
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>
+                <v-btn
+                  color="red"
+                  style="color: white; width: 100%;"
+                  @click.prevent="logout"
+                  >Logout</v-btn
+                >
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
     </v-app-bar>
     <CreateShop />
@@ -85,6 +113,10 @@ export default {
     },
     showCart() {
       this.$router.push('/carts')
+    },
+    transaction() {
+      console.log('HEHEHEHE')
+      this.$router.push('/user/transaction')
     }
   },
   computed: {
@@ -93,6 +125,9 @@ export default {
     },
     carts() {
       return this.$store.state.userCarts
+    },
+    userProfile() {
+      return this.$store.state.userProfile
     }
   }
 }

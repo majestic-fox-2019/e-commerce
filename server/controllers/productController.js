@@ -3,7 +3,7 @@ const { Product, User } = require('../models')
 class ProductController {
   static getAllProducts(req, res, next) {
     Product.findAll({
-      include: [{ model: User, attributes: ['name', 'shop_name'] }]
+      include: [{ model: User, attributes: ['name', 'shop_name', 'userLocation'] }]
     })
       .then(results => {
         res.status(200).json(results)
@@ -17,7 +17,7 @@ class ProductController {
     const userId = req.loggedIn.id
     Product.findAll({
       where: { UserId: userId },
-      include: [{ model: User, attributes: ['name', 'shop_name'] }]
+      include: [{ model: User, attributes: ['name', 'shop_name', 'userLocation'] }]
     })
       .then(results => {
         res.status(200).json(results)
@@ -32,7 +32,7 @@ class ProductController {
     console.log(category)
     Product.findAll({
       where: { category: category },
-      include: [{ model: User, attributes: ['name', 'shop_name'] }]
+      include: [{ model: User, attributes: ['name', 'shop_name', 'userLocation'] }]
     })
       .then(results => {
         res.status(200).json(results)
@@ -43,7 +43,7 @@ class ProductController {
   static getOneDetail(req, res, next) {
     Product.findOne({
       where: { id: req.params.id },
-      include: [{ model: User, attributes: ['name', 'shop_name'] }]
+      include: [{ model: User, attributes: ['name', 'shop_name', 'userLocation'] }]
     })
       .then(result => {
         res.status(200).json(result)

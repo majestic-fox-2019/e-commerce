@@ -15,6 +15,14 @@
       required
     ></v-text-field>
 
+    <v-autocomplete
+      v-model="form.userLocationId"
+      :items="cityList"
+      dense
+      filled
+      label="Your City"
+    ></v-autocomplete>
+
     <v-text-field
       v-model="form.email"
       type="email"
@@ -46,11 +54,32 @@ export default {
   name: 'LoginForm',
   data() {
     return {
+      value: '',
       form: {
         name: null,
         phone: null,
         email: null,
+        userLocation: null,
+        userLocationId: null,
         password: null
+      }
+    }
+  },
+  computed: {
+    cityList() {
+      return this.$store.state.cityList
+    }
+  },
+  watch: {
+    form: {
+      deep: true,
+      handler(val, old) {
+        if (val) {
+          const data = this.cityList.filter(
+            el => el.value === val.userLocationId
+          )
+          this.form.userLocation = data[0].text
+        }
       }
     }
   },
@@ -63,6 +92,8 @@ export default {
       this.form.password = null
       this.form.phone = null
       this.form.name = null
+      this.form.userLocation = null
+      this.form.userLocationId = null
     }
   }
 }

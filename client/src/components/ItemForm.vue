@@ -121,9 +121,23 @@ export default {
     },
     saveProduct() {
       this.$store.dispatch('POST_PRODUCT', this.item)
+      this.item.name = null
+      this.item.description = null
+      this.item.price = null
+      this.item.stocks = null
+      this.item.category = null
+      this.item.image_url = null
+      this.item.status = null
     },
     editProduct() {
       this.$store.dispatch('EDIT_PRODUCT', this.item)
+      this.item.name = null
+      this.item.description = null
+      this.item.price = null
+      this.item.stocks = null
+      this.item.category = null
+      this.item.image_url = null
+      this.item.status = null
     }
   },
   watch: {

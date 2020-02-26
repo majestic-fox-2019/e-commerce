@@ -36,7 +36,7 @@ export default {
     },
     getRevenue() {
       this.active = 'revenue'
-      this.$router.push('/panel/revenue')
+      this.$router.push('/panel/income')
     }
   }
 }

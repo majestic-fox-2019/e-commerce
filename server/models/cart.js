@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       price: DataTypes.STRING,
       status: {
         type: DataTypes.STRING,
-        validate: { isIn: [['paid', 'unpaid']] }
+        validate: { isIn: [['check', 'unpaid', 'paid']] }
       }
     },
     {}

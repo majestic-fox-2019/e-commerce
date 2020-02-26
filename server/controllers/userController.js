@@ -9,6 +9,8 @@ class UserController {
       email: req.body.email,
       password: req.body.password,
       phone: req.body.phone,
+      userLocation: req.body.userLocation,
+      userLocationId: req.body.userLocationId,
       role: 'basic',
       shop_name: null
     }
@@ -21,6 +23,8 @@ class UserController {
             id: result.id,
             name: result.name,
             role: result.role,
+            userLocation: result.userLocation,
+            userLocationId: result.userLocationId,
             shop_name: result.shop_name
           },
           msg: 'User Created'
@@ -50,6 +54,8 @@ class UserController {
                 id: result.id,
                 name: result.name,
                 role: result.role,
+                userLocation: result.userLocation,
+                userLocationId: result.userLocationId,
                 shop_name: result.shop_name
               },
               msg: 'Login Success'
@@ -70,6 +76,8 @@ class UserController {
           id: result.id,
           name: result.name,
           role: result.role,
+          userLocation: result.userLocation,
+          userLocationId: result.userLocationId,
           shop_name: result.shop_name
         }
         res.status(200).json(user)

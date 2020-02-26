@@ -39,6 +39,7 @@
         Item out of stocks!
       </div>
       <div v-else>Stocks : {{ product.stocks }}</div>
+      <div>Location : {{ product.User.userLocation }}</div>
     </v-card-text>
   </v-card>
 </template>
