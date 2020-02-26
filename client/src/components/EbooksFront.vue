@@ -98,6 +98,11 @@
               Close
           </v-btn>
       </v-snackbar>
+      <v-text-field
+        v-model='search_value'
+        label='Search Ebook'
+        @input="search"
+      ></v-text-field>
       <v-row dense>
         <v-col
           v-for="ebook in ebooks"
@@ -167,13 +172,22 @@ export default {
   data: () => ({
     alert: false,
     message: '',
+    ebooks_ori: [],
     ebooks: [],
     objBook: null,
     dialog_buy: false,
     dialog_love: false,
     dialog_bookmark: false,
+    search_value: '',
   }),
   methods: {
+    search() {
+      this.ebooks = this.ebooks_ori.filter((ebook) => {
+        const ebookName = ebook.name.toLowerCase();
+        const searchValue = this.search_value.toLowerCase();
+        return ebookName.includes(searchValue);
+      });
+    },
     buy() {
       const objUser = parseJwt(this.$store.state.isLogin);
       this.$store.state.superagent
@@ -256,6 +270,7 @@ export default {
             return ebook;
           });
           this.ebooks = ebooks;
+          this.ebooks_ori = ebooks;
         }
       });
   },
