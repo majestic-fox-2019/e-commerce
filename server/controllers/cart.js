@@ -1,5 +1,5 @@
-const {Cart, Product, User} = require('../models')
 
+const {Cart, Product, User, Transaction} = require('../models')
 class CartController {
 
   static add(req, res, next){
@@ -25,7 +25,6 @@ class CartController {
       }
     })
     .then(cart => {
-      console.log(cart, 'masuk then')
       if (cart) {
         let updateData = {
           amount: cart.amount += 1
@@ -80,7 +79,9 @@ class CartController {
   }
 
   static deleteAll(req, res, next){
+    console.log(req.user)
     let arrCart = []
+    let arrName = []
     User.findByPk(req.user.id, {include: Product})
     .then(result => {
       let arrUpdate = []
@@ -90,6 +91,7 @@ class CartController {
         data.amount = cart.Cart.amount
         data.stock = cart.stock
         data.name = cart.name
+        arrName.push(cart.name)
         arrCart.push(data)
       })
       arrCart.forEach(el => {
@@ -113,6 +115,14 @@ class CartController {
       return Promise.all(arrUpdate)
     })
     .then(product => {
+      let transactionData = {
+        UserId: req.user.id,
+        products: arrName,
+        date: formatDate(new Date())
+      }
+      return Transaction.create(transactionData)
+    })
+    .then(transaction => {
       let deleteAll = {
         where: {
           UserId: req.user.id
@@ -121,6 +131,7 @@ class CartController {
       return Cart.destroy(deleteAll)
     })
     .then(result => {
+      sentEmail(req.user.email)
       res.status(200).json({message: 'Succesfully checkout!'})
     })
     .catch(err => {

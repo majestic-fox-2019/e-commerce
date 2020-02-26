@@ -6,29 +6,9 @@ import Cart from '../views/Cart.vue';
 import Product from '../views/ProductList.vue';
 import ProductDetails from '../views/ProductDetails.vue';
 import Error from '../views/Error.vue';
+import Transactions from '../views/Transactions.vue';
 
 Vue.use(VueRouter);
-
-// const beforeEnter = (to, from, next) => {
-//   if (localStorage.token) {
-//     if (localStorage.admin) {
-//       next({ name: 'Admin' });
-//     } else {
-//       next({ path: from.path });
-//     }
-//   } else {
-//     next();
-//   }
-// };
-
-// const beforeEnterAdmin = (to, from, next) => {
-//   if (localStorage.admin && localStorage.token) {
-//     console.log('masuk');
-//     next({ name: 'Admin' });
-//   } else {
-//     next();
-//   }
-// };
 
 const routes = [
   {
@@ -82,6 +62,18 @@ const routes = [
     path: '/product/:productId',
     name: 'Product',
     component: ProductDetails,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.admin && localStorage.token) {
+        next({ name: 'Admin' });
+      } else {
+        next();
+      }
+    },
+  },
+  {
+    path: '/transactions',
+    name: 'Transactions',
+    component: Transactions,
     beforeEnter: (to, from, next) => {
       if (localStorage.admin && localStorage.token) {
         next({ name: 'Admin' });

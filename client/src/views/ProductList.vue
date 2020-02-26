@@ -89,25 +89,28 @@
             <div class="modal-body">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input v-model="formAdd.name" type="text" class="form-control" id="name">
+                  <input v-model="formAdd.name" type="text" maxlength="15"
+                  class="form-control" id="name" required>
                 </div>
                 <div class="form-group">
                   <label for="description">Description</label>
                   <textarea v-model="formAdd.description"
-                  class="form-control" id="description"></textarea>
+                  class="form-control" id="description" req></textarea>
                 </div>
                 <div class="form-group">
                   <label for="price">Price</label>
-                  <input v-model="formAdd.price" type="number" class="form-control" id="price">
+                  <input v-model="formAdd.price" type="number" class="form-control" id="price"
+                  required>
                 </div>
                 <div class="form-group">
                   <label for="stock">Stock</label>
-                  <input v-model="formAdd.stock" type="number" class="form-control" id="stock">
+                  <input v-model="formAdd.stock" type="number" class="form-control" id="stock"
+                  required>
                 </div>
                 <div class="form-group">
                   <label for="image_url">Image Url</label>
                   <input v-model="formAdd.image_url" type="text"
-                  class="form-control" id="image_url">
+                  class="form-control" id="image_url" required>
                 </div>
             </div>
             <div class="modal-footer">
@@ -134,7 +137,9 @@
             <div class="modal-body">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input v-model="formUpdate.name" type="text" class="form-control" id="name">
+                  <input required v-model="formUpdate.name" maxlength="15"
+                  type="text" class="form-control"
+                  id="name">
                 </div>
                 <div class="form-group">
                   <label for="description">Description</label>
@@ -143,15 +148,17 @@
                 </div>
                 <div class="form-group">
                   <label for="price">Price</label>
-                  <input v-model="formUpdate.price" type="number" class="form-control" id="price">
+                  <input required v-model="formUpdate.price" type="number" class="form-control"
+                  id="price">
                 </div>
                 <div class="form-group">
                   <label for="stock">Stock</label>
-                  <input v-model="formUpdate.stock" type="number" class="form-control" id="stock">
+                  <input required v-model="formUpdate.stock" type="number" class="form-control"
+                  id="stock">
                 </div>
                 <div class="form-group">
                   <label for="image_url">Image Url</label>
-                  <input v-model="formUpdate.image_url" type="text"
+                  <input required v-model="formUpdate.image_url" type="text"
                   class="form-control" id="image_url">
                 </div>
             </div>
@@ -179,16 +186,18 @@
             <div class="modal-body">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input v-model="formAddUser.name" type="text" class="form-control" id="name">
+                  <input required v-model="formAddUser.name" maxlength="15"
+                  type="text" class="form-control"
+                  id="name">
                 </div>
                 <div class="form-group">
                   <label for="description">Email</label>
-                  <input v-model="formAddUser.email" type="text"
+                  <input required v-model="formAddUser.email" type="text"
                   class="form-control" id="description">
                 </div>
                 <div class="form-group">
                   <label for="price">Password</label>
-                  <input v-model="formAddUser.password"
+                  <input required v-model="formAddUser.password"
                   type="password" class="form-control" id="price">
                 </div>
                 <div class="form-group">
@@ -223,7 +232,9 @@
             <div class="modal-body">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input v-model="formUpdateUser.name" type="text" class="form-control" id="name">
+                  <input required v-model="formUpdateUser.name" maxlength="15"
+                  type="text" class="form-control"
+                  id="name">
                 </div>
                 <div class="form-group">
                   <label for="stock">Role</label>
@@ -299,6 +310,7 @@ export default {
       this.allUsers = false;
     },
     addUser() {
+      window.$('#addUser').modal('hide');
       this.$axios.post('/register', {
         name: this.formAddUser.name,
         email: this.formAddUser.email,
@@ -307,7 +319,6 @@ export default {
       }, { headers: { token: localStorage.token } })
         .then((user) => {
           console.log(user);
-          window.$('#addUser').modal('hide');
           this.formAddUser.name = '';
           this.formAddUser.email = '';
           this.formAddUser.password = '';
@@ -326,20 +337,31 @@ export default {
         });
     },
     deleteUser(id) {
-      this.$axios.delete(`/users/${id}`, { headers: { token: localStorage.token } })
-        .then((user) => {
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: `${user.data}`,
-            showConfirmButton: false,
-            timer: 1700,
-          });
-          this.showUser();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      Swal.fire({
+        title: 'Are you sure?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+      }).then((result) => {
+        if (result.value) {
+          this.$axios.delete(`/users/${id}`, { headers: { token: localStorage.token } })
+            .then((user) => {
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: `${user.data}`,
+                showConfirmButton: false,
+                timer: 1700,
+              });
+              this.showUser();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
     },
     setUserUpdate(value) {
       this.formUpdateUser.name = value.name;
@@ -348,12 +370,12 @@ export default {
       console.log(this.userId);
     },
     updateUser() {
+      window.$('#updateUser').modal('hide');
       this.$axios.put(`/users/${this.userId}`, {
         name: this.formUpdateUser.name,
         role: this.formUpdateUser.role,
       }, { headers: { token: localStorage.token } })
         .then(() => {
-          window.$('#updateUser').modal('hide');
           this.formUpdateUser.name = '';
           this.formUpdateUser.role = '';
           Swal.fire({
@@ -378,6 +400,7 @@ export default {
       return this.$store.getters.getListProducts;
     },
     addProduct() {
+      window.$('#addProduct').modal('hide');
       this.$axios.post('/products', {
         name: this.formAdd.name,
         description: this.formAdd.description,
@@ -386,7 +409,6 @@ export default {
         image_url: this.formAdd.image_url,
       }, { headers: { token: localStorage.token } })
         .then((result) => {
-          window.$('#addProduct').modal('hide');
           this.formAdd.name = '';
           this.formAdd.description = '';
           this.formAdd.stock = '';
@@ -402,24 +424,35 @@ export default {
           this.$store.dispatch('listProducts');
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response);
         });
     },
     deleteProduct(id) {
-      this.$axios.delete(`/products/${id}`, { headers: { token: localStorage.token } })
-        .then((result) => {
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: `${result.data}`,
-            showConfirmButton: false,
-            timer: 1700,
-          });
-          this.$store.dispatch('listProducts');
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      Swal.fire({
+        title: 'Are you sure?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+      }).then((result) => {
+        if (result.value) {
+          this.$axios.delete(`/products/${id}`, { headers: { token: localStorage.token } })
+            .then((msg) => {
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: `${msg.data}`,
+                showConfirmButton: false,
+                timer: 1700,
+              });
+              this.$store.dispatch('listProducts');
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
     },
     setDataUpdate(value) {
       this.formUpdate.name = value.name;
@@ -430,6 +463,7 @@ export default {
       this.productId = value.id;
     },
     updateProduct() {
+      window.$('#updateProduct').modal('hide');
       this.$axios.put(`/products/${this.productId}`, {
         name: this.formUpdate.name,
         description: this.formUpdate.description,
@@ -438,7 +472,6 @@ export default {
         image_url: this.formUpdate.image_url,
       }, { headers: { token: localStorage.token } })
         .then(() => {
-          window.$('#updateProduct').modal('hide');
           Swal.fire({
             position: 'center',
             icon: 'success',

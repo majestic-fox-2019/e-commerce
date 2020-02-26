@@ -3,6 +3,7 @@
   <div style="display: flex; justify-content: center;">
     <div style="margin-top: 30px" v-if="carts.length == 0">
       <h1>Add to cart some product</h1>
+      <img src="https://cdn.dribbble.com/users/812639/screenshots/6486869/shooping_1-800x600.gif" style="width: 80%;">
     </div>
 <table class="table" v-if="carts.length > 0">
   <thead class="thead-light">
@@ -160,16 +161,37 @@ export default {
       });
     },
     checkout() {
+      let tableCheckout = `Name: ${localStorage.name}
+      <br>
+      <br>
+        <table style="width: 100%;">
+          <tr>
+            <th>Product</th>
+            <th>Amount</th>
+            <th>Price</th>
+          </tr>`;
+      this.carts.forEach((cart) => {
+        tableCheckout += `<tr>
+        <td>${cart.name}</td>
+        <td>${cart.Cart.amount}</td>
+        <td>${this.totalPrice(cart.price, cart.Cart.amount)}</td></tr>`;
+      });
+      tableCheckout += `
+      </table>
+      <hr>
+      Subtotal = ${this.$formatterRupiah(this.total)}`;
       Swal.fire({
         title: 'Are you sure?',
-        icon: 'warning',
+        html: tableCheckout,
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, Checkout Now!',
       }).then((result) => {
         if (result.value) {
-          this.$axios.delete('/carts', { headers: { token: localStorage.token } })
+          this.$axios.post('/transactions', {
+            total: this.total,
+          }, { headers: { token: localStorage.token } })
             .then((msg) => {
               Swal.fire(
                 'Success!',
@@ -177,6 +199,8 @@ export default {
                 'success',
               );
               this.listCart();
+              this.$router.push({ name: 'Transactions' });
+              this.$store.dispatch('listProducts');
             })
             .catch((err) => {
               Swal.fire({

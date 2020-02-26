@@ -18,6 +18,10 @@
         <a class="nav-link" ><router-link :to="{name: 'Cart'}">
           <i class="fas fa-shopping-cart"></i> Cart</router-link></a>
       </li>
+      <li class="nav-item" v-if="hasLoggedIn()">
+        <a class="nav-link" ><router-link :to="{name: 'Transactions'}">
+          Transactions</router-link></a>
+      </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <div class="name-profile">

@@ -12,7 +12,7 @@
             <form @submit.prevent="login">
               <div class="group">
                 <label for="user" class="label">Email</label>
-                <input v-model="formLogin.email" id="user" type="text" class="input">
+                <input v-model="formLogin.email" id="user" type="email" class="input">
               </div>
               <div class="group">
                 <label for="pass" class="label">Password</label>
@@ -33,7 +33,7 @@
               </div>
               <div class="group">
                 <label for="pass" class="label">Email Address</label>
-                <input v-model="formRegis.email" id="pass" type="text" class="input">
+                <input v-model="formRegis.email" id="pass" type="email" class="input">
               </div>
               <div class="group">
                 <label for="pass" class="label">Password</label>

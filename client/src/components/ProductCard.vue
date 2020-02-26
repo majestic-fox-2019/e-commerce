@@ -11,21 +11,25 @@
       <img src="https://images.unsplash.com/photo-1553063085-dbbf64d936ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80" class="d-block" style="height: 500px; width: 100%;" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h1>Arduino</h1>
-        <p style="font-size: 20px;">Arduino is an open-source electronics platform based on easy-to-use hardware and software.</p>
+        <p style="font-size: 20px;">Arduino is an open-source electronics platform
+          based on easy-to-use hardware and software.</p>
       </div>
     </div>
     <div class="carousel-item">
       <img src="https://images.unsplash.com/photo-1553408226-d7bf0d27f9e7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" class="d-block" style="height: 500px; width: 100%;" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h1>Arduino</h1>
-        <p style="font-size: 20px;">Arduino boards are able to read inputs - light on a sensor, a finger on a button, or a Twitter message - and turn it into an output - activating a motor, turning on an LED, publishing something online.</p>
+        <p style="font-size: 20px;">Arduino boards are able to read inputs - light on a sensor,
+          a finger on a button, or a Twitter message - and turn it into an output - activating a
+          motor, turning on an LED, publishing something online.</p>
       </div>
     </div>
     <div class="carousel-item">
       <img src="https://images.unsplash.com/photo-1555543451-eeaff357e0f3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80" class="d-block" style="height: 500px; width: 100%;" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h1>Arduino</h1>
-        <p style="font-size: 20px;">You can tell your board what to do by sending a set of instructions to the microcontroller on the board.</p>
+        <p style="font-size: 20px;">You can tell your board what to do by sending a set
+          of instructions to the microcontroller on the board.</p>
       </div>
     </div>
   </div>
@@ -54,7 +58,8 @@
         <div class = "items price">
           <p class="new">{{product.price}}</p>
         </div>
-        <div class="items cart" @click="addToCart(product.id, product.price)">
+        <div class="items cart" @click="addToCart(product.id, product.price)"
+        style="cursor: pointer;">
           <i class="fa fa-shopping-cart"></i>
           <span>ADD TO CART</span>
       </div>
@@ -161,22 +166,23 @@ body {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  margin-top: 40px;
 }
 
 .container {
   width: 300px;
-  height: 400px;
+  height: 300px;
   position: relative;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
-  margin: 10px;
+  margin: 15px 10px;
   background-color: #F4F4F4;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  cursor: pointer;
+  /* cursor: pointer; */
   -webkit-box-shadow: 0 0 5px #000;
   box-shadow: 0 0 5px #000;
 }

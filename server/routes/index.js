@@ -4,6 +4,7 @@ const productController = require('../controllers/product')
 const productRouter = require('./product')
 const cartRouter = require('./cart')
 const userRouter = require('./user')
+const transactionRouter = require('./transaction')
 const authentication = require('../middlewares/authentication')
 
 indexRouter.post('/login', userController.login)
@@ -13,6 +14,7 @@ indexRouter.get('/products/:id', productController.getById)
 indexRouter.use(authentication)
 indexRouter.use('/users', userRouter)
 indexRouter.use('/carts', cartRouter)
+indexRouter.use('/transactions', transactionRouter)
 indexRouter.use('/products',productRouter)
 
 module.exports = indexRouter
