@@ -1,5 +1,5 @@
 "use strict"
-const {Transaction, User} = require('../models');
+const {Transaction} = require('../models');
 class TransactionController {
     static addToCart(req, res, next) {
         const {UserId, ProductId, price} = req.body;
@@ -14,19 +14,16 @@ class TransactionController {
     }
 
     static listTransactionByUser(req, res, next) {
-        User
+        Transaction
           .findAll({
               where: {
-                  id: req.params.UserId
+                  UserId: req.params.UserId,
+                  isSettled: null
               },
-              include: [
-                {
-                    model: Transaction, include: [ "Product" ]
-                }
-              ]
+              include: [ "Product" ]
           })
           .then(transactions => {
-              res.status(200).json(transactions[0].Transactions);
+            res.status(200).json(transactions);
           })
           .catch(err => {
               next(err);
@@ -37,7 +34,8 @@ class TransactionController {
         Transaction
             .findAll({
                 where: {
-                    UserId: req.params.UserId
+                    UserId: req.params.UserId,
+                    isSettled: null
                 }
             })
             .then(transactions => {
@@ -46,6 +44,23 @@ class TransactionController {
             .catch(err => {
                 next(err);
             });
+    }
+
+    static settledTransactionsByUser(req, res, next) {
+        Transaction
+            .update({isSettled: true}, {
+                where: {
+                    UserId: req.params.UserId,
+                    isSettled: null
+                }
+            })
+            .then(() => {
+                res.status(200).json("Products has been settled");
+            })
+            .catch(err => {
+                next(err);
+            })
+
     }
 }
 

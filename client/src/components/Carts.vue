@@ -29,7 +29,7 @@
       >
     >
     </PayPal>
-    <v-btn
+    <!-- <v-btn
       block
       color="primary"
       class="ma-2 white--text"
@@ -37,7 +37,7 @@
     >
       Checkout
       <v-icon right dark>mdi-credit-card-outline</v-icon>
-    </v-btn>
+    </v-btn> -->
   </div>
 </template>
 
@@ -78,7 +78,19 @@ export default {
         });
     },
     onComplete() {
-      this.$router.push({ name: 'payment_success' });
+      const objUser = parseJwt(this.$store.state.isLogin);
+      this.$store.state.superagent
+        .post(`${this.$store.state.url_backend}/transactions/${objUser.id}/settled`)
+        .set('accesstoken', this.$store.state.isLogin)
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(res);
+            this.$store.dispatch('getCartTotal');
+            this.$router.push({ name: 'payment_success' });
+          }
+        });
     },
   },
   created() {
@@ -114,5 +126,8 @@ export default {
 </script>
 
 <style scoped>
-
+.paypal-button{
+  margin: 2% 2% 0 0;
+  text-align: right;
+}
 </style>

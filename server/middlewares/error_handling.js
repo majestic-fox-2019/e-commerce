@@ -11,7 +11,7 @@ function errorHandling(err, req, res, next){
             res.status(400).json({error: arrValidations});                        
         }            
     } catch (error) { // 500
-        res.status(500).json({msg:"Something went wrong... it's not your fault, that's our server problem!"});
+        res.status(500).json({msg:"Something went wrong... it's not your fault, that's our server problem!", error, err});
     }
 }
 

@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   Transaction.init({
     UserId: DataTypes.INTEGER,
     ProductId: DataTypes.INTEGER,
-    price: DataTypes.INTEGER
+    price: DataTypes.INTEGER,
+    isSettled: DataTypes.BOOLEAN
   }, {
     sequelize
   })
