@@ -266,7 +266,22 @@ class CartController {
     })
   }
 
-  static getAllTransaction(req, res, next){
+  static getAllTransactions(req, res, next){
+    Transaction.findAll()
+    .then(transactions => {
+      res.status(200).json({
+        code: 200,
+        message: 'Get all transactions successfull',
+        payload: transactions
+      })
+    })
+    .catch(err => {
+      console.log('masuk sini')
+      next(err)
+    })
+  }
+
+  static getAllTransactionUser(req, res, next){
     const user_id = Number(req.params.id)
     User.findOne({
       where: { id: user_id }

@@ -21,6 +21,9 @@
       <template v-slot:cell(no)="data">
         {{ data.index + 1 + ((currentPage - 1) * per_page) }}
       </template>
+      <template v-slot:cell(image_url)="data">
+        <img :src="data.item.image_url" style="height:60px">
+      </template>
       <template v-slot:cell(createdAt)="data">
         {{ data.item.createdAt | formatDateDashboard }}
       </template>

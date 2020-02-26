@@ -4,15 +4,18 @@
     <div class="mt-5">
       <router-view/>
     </div>
+    <Footers />
   </div>
 </template>
 
 <script>
 import Headers from '@/components/Layouts/Headers.vue'
+import Footers from '@/components/Layouts/Footers.vue'
 export default {
   name: 'App',
   components: {
-    Headers
+    Headers,
+    Footers
   }
 }
 </script>

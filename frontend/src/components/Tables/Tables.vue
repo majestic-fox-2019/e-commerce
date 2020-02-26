@@ -28,7 +28,7 @@
         {{ data.item.createdAt | formatDate }}
       </template>
       <template v-slot:cell(action)="data">
-        <b-button size="sm" variant="danger" class="btn-xs" @click="goDelete(data.item)"><i class="fa fa-trash"></i></b-button>
+        <b-button size="sm" variant="danger" class="btn-xs" @click="goDelete(data.item)"><i class="fa fa-trash"></i>&nbsp;Delete</b-button>
       </template>
       <template slot="empty">
         <div v-if="busy" class="text-center empty-table">

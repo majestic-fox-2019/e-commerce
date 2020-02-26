@@ -8,8 +8,10 @@ router.post('/cart', middleware.verifyToken, CartController.addItem)
 router.get('/cart/minquantity/:id', middleware.verifyToken, CartController.minusCart)
 router.get('/cart/plusquantity/:id', middleware.verifyToken, CartController.plusCart)
 router.delete('/cart/:id', middleware.verifyToken, CartController.deleteCart)
+
+router.get('/admin/transactions', middleware.verifyToken, middleware.allAdmin, CartController.getAllTransactions)
+router.get('/transactions/:id', middleware.verifyToken, CartController.getAllTransactionUser)
 router.post('/transaction/:id', middleware.verifyToken, CartController.doTransaction)
-router.get('/transactions/:id', middleware.verifyToken, CartController.getAllTransaction)
 router.delete('/transaction/:id', middleware.verifyToken, CartController.deleteTransaction)
 
 module.exports = router

@@ -26,6 +26,7 @@ export default {
   components:{
     'table-component': Table
   },
+  mixins: [url],
   data(){
     return {
       isBusyTransaction: false,
@@ -55,7 +56,26 @@ export default {
       this.$store.dispatch('getTransaction')
     },
     deleteTransaction(data){
-      console.log(data)
+      const token = localStorage.getItem('token')
+      this.$vToastify.prompt({
+        title: "Delete",
+        body: "Anda ingin hapus history ini?",
+        answers: { Yes: true, No: false }
+      })
+      .then(value => {
+        if(value){
+          axios.delete(`${this.url}/transaction/${data.id}`, {
+            headers: { Bearer : token }
+          })
+          .then(res => {
+            this.$vToastify.notifSuccess('History berhasil dihapus', 'Yeay!')
+            this.getAllCart()
+          })
+          .catch(err => {
+            this.$vToastify.notifError(`${err.response.data.message}`, "Gagal!")
+          })
+        }
+      })
     }
   }
 }

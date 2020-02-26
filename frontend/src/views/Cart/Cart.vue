@@ -7,7 +7,7 @@
           <b-col md="7">
             <div v-if="getCarts.length === 0" class="item-cart">
               <div class="content-item-cart text-center">
-                <h4>Keranjang anda masih kosong</h4>
+                <h4 class="keranjang-kosong">Keranjang anda masih kosong</h4>
               </div>
             </div>
             <div v-else v-for="(cart, idx) in getCarts" :key="idx">
@@ -58,7 +58,7 @@
                 <h5 class="title-total">Total Belanja</h5>
                 <h3 class="price-total-belanja">{{ toIDRprice(getTotalPrice) }}</h3>
               </div>
-              <b-button class="btn-beli w-100" :disabled="formPembayaran.address == ''" @click="doPembayaran"><i class="fa fa-chevron-circle-right"></i>&nbsp;Pembayaran</b-button>
+              <b-button class="btn-beli w-100" :disabled="formPembayaran.address == '' || getCarts.length > 0" @click="doPembayaran"><i class="fa fa-chevron-circle-right"></i>&nbsp;Pembayaran</b-button>
             </div>
           </b-col>
         </b-row>
@@ -128,8 +128,8 @@ export default {
     deleteCart(id){
       const token = localStorage.getItem('token')
       this.$vToastify.prompt({
-        title: "Delete Data",
-        body: "Are you sure delete this data?",
+        title: "Delete",
+        body: "Anda ingin hapus produk ini dari cart?",
         answers: { Yes: true, No: false }
       })
       .then(value => {

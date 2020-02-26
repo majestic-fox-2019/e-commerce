@@ -9,7 +9,8 @@ export default new Vuex.Store({
   state: {
     products_dashboard: [],
     users_dashboard: [],
-    categories_dashboard: []
+    categories_dashboard: [],
+    transactions_dashboard: []
   },
   mutations: {
     setProductsDashboard(state, payload){
@@ -20,6 +21,9 @@ export default new Vuex.Store({
     },
     setUsersDashboard(state, payload){
       state.users_dashboard = payload
+    },
+    setTransactionsDashboard(state, payload){
+      state.transactions_dashboard = payload
     }
   },
   actions: {
@@ -54,6 +58,18 @@ export default new Vuex.Store({
       })
       .then(res => {
         context.commit('setUsersDashboard', res.data.payload)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    getTransactionsDashboard(context){
+      const token = localStorage.getItem('token')
+      axios.get(`${config.connections.server}/admin/transactions`, {
+        headers: { Bearer : token }
+      })
+      .then(res => {
+        context.commit('setTransactionsDashboard', res.data.payload)
       })
       .catch(err => {
         console.log(err)

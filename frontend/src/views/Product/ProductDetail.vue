@@ -13,7 +13,11 @@
             <h1 class="price-detail-product">{{ toIDRprice }}</h1>
             <div class="cat-detail mb-3">
               <span>Category : </span>
-              <span class="cat-detail-product">{{ categoryUppercase }}</span>
+              <span class="cat-detail-product mr-3">{{ categoryUppercase }}</span>
+            </div>
+            <div class="cat-detail mb-3">
+              <span>Status : </span>
+              <span class="cat-detail-product">{{ detailProduct.stock > 0 ? 'IN STOCK' : 'OUT OF STOCK' }}</span>
             </div>
             <b-button class="btn-beli mt-3 mr-2" size="lg" @click="doAddCart(detailProduct.id)"><i class="fa fa-shopping-cart"></i>&nbsp;Masukan Keranjang</b-button>
             <b-button class="mt-3" variant="dark" size="lg" @click="backHome"><i class="fa fa-chevron-circle-left"></i>&nbsp;Kembali Belanja</b-button>

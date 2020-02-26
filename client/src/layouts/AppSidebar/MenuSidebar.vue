@@ -26,6 +26,12 @@
           </ul>
         </div>
       </li>
+      <li class="sidebar-single" :class="this.$route.name === 'transaction' ? 'active' : '' ">
+        <router-link to="/transactions">
+          <i class="fa fa-list-alt"></i>
+          <span>Transactions</span>
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>

@@ -1,7 +1,9 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="light" variant="light" fixed="top">
-      <b-navbar-brand to="/" class="logo-bold">NIKE</b-navbar-brand>
+      <b-navbar-brand to="/" class="logo-header">
+        <img src="@/assets/icons/logo-nike.png">
+      </b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
@@ -24,12 +26,12 @@
             <b-button size="sm" class="mr-2" variant="dark" @click="goDaftar">Sign Up</b-button>
             <b-button size="sm" variant="outline-dark" @click="openModal">Login</b-button>
           </b-nav-form>
-          <b-nav-item-dropdown class="ml-4" right v-if="statusLogin">
+          <b-nav-item-dropdown class="ml-4" left v-if="statusLogin">
             <template v-slot:button-content>
               <span>{{ name }}</span>
             </template>
-            <b-dropdown-item @click="goSetting">Setting</b-dropdown-item>
-            <b-dropdown-item @click="doLogout">Keluar</b-dropdown-item>
+            <b-dropdown-item @click="goSetting"><i class="fa fa-cog"></i>&nbsp;Setting</b-dropdown-item>
+            <b-dropdown-item @click="doLogout"><i class="fa fa-sign-out-alt"></i>&nbsp;Keluar</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>

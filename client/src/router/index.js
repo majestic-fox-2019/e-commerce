@@ -6,6 +6,7 @@ import Dashboard from '@/components/Dashboard/Dashboard.vue'
 import Users from '@/components/Users/Users.vue'
 import Categories from '@/components/Categories/Categories.vue'
 import Products from '@/components/Products/Products.vue'
+import Transactions from '@/components/Transactions/Transactions.vue'
 
 Vue.use(VueRouter)
 
@@ -56,6 +57,15 @@ const routes = [
         path: '/products',
         name: 'products',
         component: Products,
+        meta: { 
+          requiresAuth: true,
+          role: true
+        }
+      },
+      {
+        path: '/transactions',
+        name: 'transactions',
+        component: Transactions,
         meta: { 
           requiresAuth: true,
           role: true

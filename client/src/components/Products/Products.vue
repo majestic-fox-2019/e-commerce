@@ -60,12 +60,11 @@ export default {
       filterOnProducts: [],
       fieldProducts: [
         'no',
+        {key: 'image_url', label: 'Image'},
         {key: 'name', label: 'Name', sortable: true, filterByFormatted: true},
         {key: 'Category.name', label: 'Category', sortable: true, filterByFormatted: true},
         {key: 'price', label: 'Price', sortable: true, filterByFormatted: true},
         {key: 'stock', label: 'Stock', sortable: true, filterByFormatted: true},
-        {key: 'createdAt', label:'Created Date', sortable: true, filterByFormatted: true},
-        {key: 'updatedAt', label:'Updated Date', sortable: true, filterByFormatted: true},
         {key: 'action', label:'Action'}
       ],
     }

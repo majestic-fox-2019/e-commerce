@@ -6,8 +6,10 @@ section{
   }
 }
 
-.logo-bold{
-  font-weight: bold;
+.logo-header{
+  & img{
+    height: 30px;
+  }
 }
 
 .header-search{
@@ -257,6 +259,11 @@ section{
   }
 
   & .content-item-cart{
+
+    & .keranjang-kosong{
+      padding: 5.95rem 0;
+    }
+
     & .cart-price{
       font-size: 1.5rem;
       font-weight: bold;
@@ -463,5 +470,49 @@ section{
 
   & span i{
     font-size: 1.3rem
+  }
+}
+
+.footer{
+  background-color: #f8f9fa;
+  padding: 3rem;
+
+  & img.logo-footer{
+    width: 200px;
+  }
+
+  & .kategori-footer{
+    margin-left: 2rem;
+
+    & ul{
+      text-align: text;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      & li{
+        &:hover{
+          cursor: pointer;
+          color: #000000;
+        }
+      }
+    }
+  }
+
+  & .footer-pembayaran{
+    display: flex;
+    text-align: center;
+
+    & img.image-bank-footer{
+      height: 40px;
+      margin: .3rem;
+    }
+  }
+
+  & .toko-kami{
+    margin-left: 2rem;
+    & p{
+      text-align: left;
+    }
   }
 }
