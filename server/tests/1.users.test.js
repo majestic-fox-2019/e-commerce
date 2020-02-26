@@ -198,26 +198,26 @@ describe('Test User Login Router', function () {
             expect(res.body).toHaveProperty('token')
         })
 
-        it('should return status code 400 when password wrong', async () => {
+        it('should return status code 404 when password wrong', async () => {
             const res = await request(app)
                 .post('/users/login')
                 .send({
                     email: 'azp@gmail.com',
                     password: 'beda password',
                 })
-            expect(res.statusCode).toEqual(400)
+            expect(res.statusCode).toEqual(404)
             expect(res.body).toHaveProperty('message')
             expect(res.body.message).toEqual('email/password wrong')
         })
 
-        it('should return status code 400 when email wrong', async () => {
+        it('should return status code 404 when email wrong', async () => {
             const res = await request(app)
                 .post('/users/login')
                 .send({
                     email: 'azo@gmail.com',
                     password: '123456',
                 })
-            expect(res.statusCode).toEqual(400)
+            expect(res.statusCode).toEqual(404)
             expect(res.body).toHaveProperty('message')
             expect(res.body.message).toEqual('email/password wrong')
         })

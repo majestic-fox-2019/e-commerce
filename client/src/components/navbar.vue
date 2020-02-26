@@ -45,7 +45,7 @@
         style="margin-top: 0.5%;"
       >
         <router-link
-          v-if="$store.state.whoIsLogin == 'customer' && $store.state.isLogin || !$store.state.isLogin || roleLogin == 'customer' && $store.state.isLogin"
+          v-if="roleLogin == 'customer' && isLoged || !isLoged || roleLogin == 'customer' && isLoged"
           to="/"
           class="col"
         >
@@ -56,7 +56,7 @@
           />
         </router-link>
         <router-link
-          v-if="$store.state.whoIsLogin === 'admin' && $store.state.isLogin || roleLogin === 'admin' && $store.state.isLogin"
+          v-if="roleLogin === 'admin' && isLoged || roleLogin === 'admin' && isLoged"
           to="/seller"
           class="col"
         >
@@ -80,20 +80,15 @@
           </div>
         </div>
         <div class="col-md-3 flex" style="display: flex; flex-direction: row-reverse;">
-          <div v-if="$store.state.isLogin === true">
-            <button
-              @click="goLogout"
-              class="text-black px-3 rounded btn-danger"
-              style="outline:none;"
-            >Logout</button>
+          <div v-if="isLoged">
+            <button @click="goLogout" class="btn-logout">Logout</button>
           </div>
-          <router-link
-            v-if="roleLogin === 'customer' && $store.state.isLogin || $store.state.whoIsLogin === 'customer'"
-            class="cart-cool mr-5 ml-5"
-            to="/cart"
-          >
-            <i class="fas fa-shopping-cart"></i>
-          </router-link>
+          <div v-if="isLoged && roleLogin === 'customer'">
+            <button @click="goToCart" class="btn-carts mr-5">
+              <i class="fas fa-shopping-cart mr-3"></i>
+              <span class="badge badge-light">{{$store.state.carts.length}}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -104,7 +99,10 @@
 export default {
   computed: {
     roleLogin: function() {
-      return localStorage.getItem("role");
+      return this.$store.state.whoIsLogin;
+    },
+    isLoged: function() {
+      return this.$store.state.isLogin;
     }
   },
   methods: {
@@ -114,12 +112,64 @@ export default {
     goHome() {
       this.$store.state.searchCategory = "";
       this.$store.dispatch("findAllProduct");
+    },
+    goToCart() {
+      this.$router.push("/cart");
+    }
+  },
+  mounted() {
+    if (localStorage.getItem("role") === "customer") {
+      this.$store.state.whoIsLogin = "customer";
+      this.$store.dispatch("findAllCart");
+    } else {
+      this.$store.state.whoIsLogin = localStorage.getItem("role");
     }
   }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.btn-logout {
+  float: right;
+  position: relative;
+  top: 1px;
+  display: block;
+  padding: 0px 10px;
+  border-radius: 3px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 15px;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
+  background: #ee4d2d;
+  transition: background-position 0.2s ease-in;
+  box-shadow: 0 3px 0 #ee4d2d91;
+  outline: none;
+  height: 4.5vh;
+}
+.btn-carts {
+  float: right;
+  position: relative;
+  top: 1px;
+  display: block;
+  padding: 0px 10px;
+  border-radius: 3px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 15px;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
+  background: #ee4d2d;
+  transition: background-position 0.2s ease-in;
+  box-shadow: 0 3px 0 #ee4d2d91;
+  outline: none;
+  height: 4.5vh;
+}
+.btn {
+  padding: 0.1rem 0.9rem;
+}
 .row {
   margin-top: 11.5vh;
   margin-right: 0px !important;

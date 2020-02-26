@@ -16,6 +16,7 @@ export default {
     if (localStorage.getItem("token")) {
       this.$store.state.isLogin = true;
       this.$store.dispatch("findAllProduct");
+      this.$store.dispatch("findProductAdmin");
     } else {
       this.$store.state.isLogin = false;
       this.$store.dispatch("findAllProduct");

@@ -4,6 +4,10 @@ import Home from '../views/Home.vue'
 import Account from '../views/Account.vue';
 import AdminRegister from '../views/AdminRegister.vue';
 import AdminPage from '../views/AdminPage.vue';
+import TampilanUtama from '../views/TampilanUtama.vue';
+import cardDetail from '../components/cardDetail.vue';
+import carts from '../components/carts.vue';
+import historyCheckout from '../components/historyCheckout.vue';
 
 Vue.use(VueRouter)
 
@@ -12,6 +16,28 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+    children: [
+      {
+        path: '',
+        name: 'TampilanUtama',
+        component: TampilanUtama
+      },
+      {
+        path: 'cart',
+        name: 'carts',
+        component: carts
+      },
+      {
+        path: 'history',
+        name: 'historyCheckout',
+        component: historyCheckout
+      },
+      {
+        path: 'product/:id',
+        name: 'cardDetail',
+        component: cardDetail
+      },
+    ]
   },
   {
     path: '/account',

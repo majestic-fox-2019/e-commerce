@@ -5,7 +5,20 @@ const createError = require("http-errors")
 
 class ProductController {
     static getAll(req, res, next) {
-        Product.findAll()
+        Product.findAll({
+            order: [['id', 'DESC']]
+        })
+            .then((product) => {
+                res.status(200).json(product)
+            })
+            .catch(next);
+    }
+    static getAllProductAdmin(req, res, next) {
+        Product.findAll({
+            where: {
+                UserId: req.user.id
+            }
+        })
             .then((product) => {
                 res.status(200).json(product)
             })
@@ -27,17 +40,24 @@ class ProductController {
     }
     static create(req, res, next) {
         const { name, description, image_url, price, stock, category } = req.body
-        Product.create({
-            name,
-            description,
-            image_url,
-            price,
-            stock,
-            category
-        })
-            .then((product) => {
-                res.status(201).json(product)
-            }).catch(next);
+        if (stock == "") {
+            throw (createError(400, "please fill stock"))
+        } else if (stock < 1) {
+            throw (createError(400, "minimal stock 1"))
+        } else {
+            Product.create({
+                name,
+                description,
+                image_url,
+                price,
+                stock,
+                category,
+                UserId: req.user.id
+            })
+                .then((product) => {
+                    res.status(201).json(product)
+                }).catch(next);
+        }
     }
     static update(req, res, next) {
         const { name, description, image_url, price, stock, category } = req.body

@@ -6,18 +6,18 @@
           <div class="product">
             <img :src="product.image_url" />
             <div class="buttons">
-              <button class="buy" href="#">Add to cart</button>
-              <button class="preview" href="#">View item</button>
+              <button @click="addCart(product.id)" class="buy">Add to cart</button>
+              <button @click="viewDetail(product.id)" class="preview">View Detail</button>
             </div>
           </div>
 
           <div class="info">
-            <h4>{{product.name}}</h4>
-            <span class="description">{{product.description}}</span>
+            <h4 class="text-panjang">{{product.name}}</h4>
+            <span class="description text-panjang">{{product.description}}</span>
             <span
               class="price"
             >Rp. {{product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</span>
-            <button class="buy_now" href="#">Buy Now</button>
+            <button @click="addCart(product.id)" class="buy_now">Buy Now</button>
           </div>
         </div>
       </div>
@@ -45,11 +45,26 @@ export default {
         return this.$store.state.products;
       }
     }
+  },
+  methods: {
+    viewDetail(id) {
+      this.$store.dispatch("findOneProduct", id);
+      this.$router.push(`product/${id}`);
+    },
+    addCart(productId) {
+      this.$store.dispatch("addToCart", { quantity: 1, productId: productId });
+    }
   }
 };
 </script>
 
 <style scoped>
+.text-panjang {
+  white-space: nowrap;
+  width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .col {
   padding: 0;
 }

@@ -1,94 +1,84 @@
 <template>
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col">
-              <img src="../assets/home-carousel/home-c-1.jpg" alt srcset />
-            </div>
-            <div class="col">
-              <section class="product_details_area">
-                <div class="container">
-                  <div class="row">
-                    <div class="col">
-                      <div class="product_details_text">
-                        <h3>Nike Flex Run Tracksuit</h3>
-                        <ul class="p_rating">
-                          <li>
-                            <a href="#">
-                              <i class="fa fa-star"></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i class="fa fa-star"></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i class="fa fa-star"></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i class="fa fa-star"></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i class="fa fa-star"></i>
-                            </a>
-                          </li>
-                        </ul>
-                        <h6>
-                          Available In
-                          <span>Stock</span>
-                        </h6>
-                        <h4>Rp. 10000</h4>
-                        <p>
-                          Curabitur semper varius lectus sed consequat. Nam accumsan dapibus sem, sed lobortis nisi
-                          porta vitae. Ut quam tortor, facilisis nec laoreet consequat, malesuada a massa. Proin
-                          pretium tristique leo et imperdiet.
-                        </p>
-                        <div class="p_color">
-                          <h4 class="p_d_title">
-                            size
-                            <span>*</span>
-                          </h4>
-                          <select class="select-css">
-                            <option>Select your size</option>
-                            <option>Select your size M</option>
-                            <option>Select your size XL</option>
-                          </select>
-                        </div>
-                        <div class="quantity">
-                          <div class="custom">
-                            <button class="reduced items-count" type="button">
-                              <i class="icon_minus-06"></i>
-                            </button>
-                            <input
-                              type="text"
-                              name="qty"
-                              id="sst"
-                              maxlength="12"
-                              value="1"
-                              title="Quantity:"
-                              class="input-text qty"
-                            />
-                            <button class="increase items-count" type="button">
-                              <i class="icon_plus"></i>
-                            </button>
-                          </div>
-                          <button class="add_cart_btn" href="#">add to cart</button>
-                        </div>
+  <div class="card col-md-10 offset-md-1">
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <img class="progress" :src="$store.state.product.image_url" alt srcset />
+        </div>
+        <div class="col">
+          <section class="product_details_area">
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <div class="product_details_text">
+                    <h3>{{$store.state.product.name}}</h3>
+                    <ul class="p_rating">
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                    </ul>
+                    <h6>
+                      Available In
+                      <span>Stock</span>
+                    </h6>
+                    <h4>Rp. {{$store.state.product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</h4>
+                    <p>{{$store.state.product.description}}</p>
+                    <div class="p_color">
+                      <h4 class="p_d_title">
+                        Stock : {{$store.state.product.stock}}
+                        <span>*</span>
+                      </h4>
+                    </div>
+                    <div class="quantity">
+                      <div class="custom">
+                        <button @click="min" class="reduced items-count" type="button">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                        <input
+                          type="text"
+                          name="qty"
+                          id="sst"
+                          maxlength="12"
+                          v-model="qty"
+                          title="Quantity:"
+                          class="input-text qty"
+                        />
+                        <button @click="plus" class="increase items-count" type="button">
+                          <i class="fas fa-plus"></i>
+                        </button>
                       </div>
+                      <button
+                        @click="addCart($store.state.product.id)"
+                        class="add_cart_btn"
+                      >add to cart</button>
                     </div>
                   </div>
                 </div>
-              </section>
+              </div>
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </div>
@@ -96,97 +86,73 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+import Swal from "sweetalert2";
+export default {
+  data() {
+    return {
+      qty: 1
+    };
+  },
+  methods: {
+    min() {
+      if (this.qty < 1) {
+        this.qty = 0;
+      } else {
+        this.qty -= 1;
+      }
+    },
+    plus() {
+      this.qty += 1;
+    },
+    addCart(id) {
+      this.$store.dispatch("addToCart", { quantity: this.qty, productId: id });
+    }
+  },
+  created() {
+    axios({
+      url: `http://localhost:3000/products/${this.$route.params.id}`,
+      method: "GET"
+    })
+      .then(({ data }) => {
+        this.$store.state.product = data;
+      })
+      .catch(({ response }) => {
+        Swal.fire("Error!", response.data.message, "error");
+      });
+  }
+};
 </script>
 
 <style lang="scss" scoped>
+.progress {
+  cursor: progress;
+}
 .card {
   box-shadow: 0 7px 10px rgba(128, 128, 128, 0.57);
   background: #ffffff;
+  margin-top: 1.5vh;
 }
 .card:hover {
   box-shadow: 0 7px 10px rgba(22, 21, 21, 0.57);
 }
 img {
-  max-height: 73vh;
+  max-height: 78vh;
+  max-width: 36vw;
+  min-width: 36vw;
+  min-height: 79vh;
   transition: transform 1s, filter 2s ease-in-out;
   filter: blur(2px);
   transform: scale(1);
 }
 img:hover {
-  max-height: 74vh;
+  max-height: 79vh;
   filter: blur(0);
   transform: scale(1);
 }
-.product_details_slider .tp-thumbs {
-  margin-top: 18px;
-}
-
-.product_details_slider
-  .tp-thumbs
-  .tp-thumb-mask
-  .tp-thumbs-inner-wrapper
-  .tp-thumb
-  .tp-thumb-over {
-  background: transparent;
-}
-
-.product_details_slider
-  .tp-thumbs
-  .tp-thumb-mask
-  .tp-thumbs-inner-wrapper
-  .tp-thumb
-  .tp-thumb-title {
-  padding: 0px;
-}
-
-.product_details_slider
-  .tp-thumbs
-  .tp-thumb-mask
-  .tp-thumbs-inner-wrapper
-  .tp-thumb.selected
-  .tp-thumb-over {
-  background: transparent;
-  border: 1px solid #000;
-}
-
-.product_details_slider #product_slider2 .tp-thumbs {
-  margin-top: 0px;
-  padding-right: 20px !important;
-}
-
-.product_details_slider
-  #product_slider2
-  .tp-thumbs
-  .tp-thumbs-inner-wrapper
-  .tp-thumb
-  .tp-thumb-img-wrap {
-  background: transparent;
-  padding: 0px;
-  border: 1px solid transparent;
-}
-
-.product_details_slider
-  #product_slider2
-  .tp-thumbs
-  .tp-thumbs-inner-wrapper
-  .tp-thumb
-  .tp-thumb-img-wrap
-  .tp-thumb-image {
-  padding: 0px;
-}
-
-.product_details_slider
-  #product_slider2
-  .tp-thumbs
-  .tp-thumbs-inner-wrapper
-  .tp-thumb.selected
-  .tp-thumb-img-wrap {
-  border: 1px solid #000;
-}
 
 .product_details_text {
-  max-width: 570px;
+  max-width: 450px;
 }
 
 .product_details_text h3 {
@@ -472,204 +438,5 @@ img:hover {
   box-shadow: 0 3px 0 #e04b2dda;
   outline: none;
   height: 6.5vh;
-}
-
-.shareing_icon h5 {
-  display: inline-block;
-  font-size: 13px;
-  font-weight: bold;
-  color: #666666;
-  letter-spacing: 0.325px;
-  text-transform: uppercase;
-  font-family: "Lato", sans-serif;
-}
-
-.shareing_icon ul {
-  display: inline-block;
-  padding-left: 10px;
-}
-
-.shareing_icon ul li {
-  display: inline-block;
-  margin-right: 13px;
-}
-
-.shareing_icon ul li a {
-  font-size: 14px;
-  color: #999999;
-  -webkit-transition: all 400ms linear 0s;
-  -o-transition: all 400ms linear 0s;
-  transition: all 400ms linear 0s;
-}
-
-.shareing_icon ul li:last-child {
-  margin-right: 0px;
-}
-
-.shareing_icon ul li:hover a {
-  color: #000;
-}
-
-.product_description_area {
-  padding-top: 60px;
-}
-
-.product_description_area .tab_menu .nav-tabs a {
-  padding: 0px;
-  border: none;
-  padding-right: 25px;
-  border-bottom: 1px solid #cccccc;
-  font-size: 16px;
-  color: #cccccc;
-  font-family: "Poppins", sans-serif;
-  text-transform: uppercase;
-  line-height: 50px;
-}
-
-.product_description_area .tab_menu .nav-tabs a.active {
-  color: #000;
-  border-bottom: 1px solid #000;
-}
-
-.product_description_area .tab-content {
-  padding: 35px 0px;
-}
-
-.product_description_area .tab-content p {
-  font-size: 14px;
-  font-family: "Poppins", sans-serif;
-  line-height: 26px;
-  color: #666666;
-  letter-spacing: 0.35px;
-}
-
-.product_description_area .tab-content h4 {
-  font-size: 18px;
-  font-family: "Montserrat", sans-serif;
-  font-weight: bold;
-  color: #000;
-  padding-bottom: 15px;
-}
-
-.product_description_area .tab-content ul li {
-  display: inline-block;
-}
-
-.product_description_area .tab-content ul li a {
-  color: #efb504;
-  font-size: 15px;
-}
-
-.related_product_area {
-  padding-top: 20px;
-  padding-bottom: 80px;
-}
-
-.related_product_inner .single_c_title {
-  padding-bottom: 45px;
-  text-transform: uppercase;
-}
-
-.related_product_inner .pagination_area {
-  margin-top: 30px;
-}
-
-.product_table_details {
-  max-width: 535px;
-  padding-top: 25px;
-}
-
-.product_table_details .table tr {
-  padding-bottom: 15px;
-  display: block;
-}
-
-.product_table_details .table tr th {
-  padding: 0px;
-  width: 120px;
-  font-size: 14px;
-  color: #000;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  border: none;
-}
-
-.product_table_details .table tr td {
-  border: none;
-  padding: 0px;
-}
-
-.product_table_details .table tr td h6 {
-  font-size: 14px;
-  font-family: "Poppins", sans-serif;
-  line-height: 20px;
-  color: #333333;
-  padding-bottom: 8px;
-}
-
-.product_table_details .table tr td h5 {
-  font-size: 12px;
-  font-family: "Poppins", sans-serif;
-  color: #000000;
-  padding-bottom: 5px;
-}
-
-.product_table_details .table tr td p {
-  font-size: 12px;
-  font-family: "Poppins", sans-serif;
-  color: #666666;
-  line-height: 20px;
-}
-
-.product_table_details .table tr td p span {
-  color: #000;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.product_table_details .table tr td img {
-  padding-bottom: 5px;
-}
-
-.product_table_details .table tr:first-child p {
-  padding-bottom: 5px;
-}
-.select-css {
-  display: block;
-  font-size: 16px;
-  font-family: sans-serif;
-  font-weight: 700;
-  color: #444;
-  line-height: 1.3;
-  padding: 0.6em 1.4em 0.5em 0.8em;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  margin: 0;
-  border: 1px solid #aaa;
-  box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
-  border-radius: 0.5em;
-  appearance: none;
-  background-color: #fff;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"),
-    linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
-  background-repeat: no-repeat, repeat;
-  background-position: right 0.7em top 50%, 0 0;
-  background-size: 0.65em auto, 100%;
-}
-.select-css::-ms-expand {
-  display: none;
-}
-.select-css:hover {
-  border-color: #888;
-}
-.select-css:focus {
-  border-color: #aaa;
-  color: #222;
-  outline: none;
-}
-.select-css option {
-  font-weight: normal;
 }
 </style>

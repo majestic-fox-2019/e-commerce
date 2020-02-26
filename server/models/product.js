@@ -54,10 +54,6 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: "please fill stock"
-        },
-        min: {
-          args: 1,
-          msg: "minimal stock 1"
         }
       }
     },
@@ -76,6 +72,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Product.associate = function (models) {
     // associations can be defined here
+    Product.belongsTo(models.User)
     Product.belongsToMany(models.User, { through: models.Cart })
   };
   return Product;

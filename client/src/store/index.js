@@ -15,7 +15,10 @@ export default new Vuex.Store({
     product: { name: "", description: "", price: "", stock: "", image: "", category: "" },
     idProduct: "",
     search: "",
-    searchCategory: ""
+    searchCategory: "",
+    carts: [],
+    history: [],
+    productAdmin: []
   },
   mutations: {
     successRegister(state, payload) {
@@ -30,8 +33,14 @@ export default new Vuex.Store({
     setProducts(state, payload) {
       state.products = payload
     },
+    setProductAdmin(state, payload) {
+      state.productAdmin = payload
+    },
     setProduct(state, payload) {
       state.product = payload
+    },
+    setCarts(state, payload) {
+      state.carts = payload
     }
   },
   actions: {
@@ -63,11 +72,6 @@ export default new Vuex.Store({
           Swal.fire('Error!', response.data.message, 'error');
         })
     },
-    logout(context) {
-      localStorage.clear()
-      context.commit('LogoutSuccess', false)
-      router.push("/");
-    },
     login(context, payload) {
       const email = payload.email;
       const password = payload.password;
@@ -91,11 +95,17 @@ export default new Vuex.Store({
             router.push('/seller')
           } else {
             context.commit('whoLogin', "customer")
+            context.dispatch('findAllCart')
             router.push('/')
           }
         }).catch(({ response }) => {
           Swal.fire('Error!', response.data, 'error');
         });
+    },
+    logout(context) {
+      router.push("/");
+      context.commit('LogoutSuccess', false)
+      localStorage.clear()
     },
     register(context, payload) {
       const username = payload.username;
@@ -122,6 +132,7 @@ export default new Vuex.Store({
             router.push('/seller')
           } else {
             context.commit('whoLogin', "customer")
+            context.dispatch('findAllCart')
             router.push('/')
           }
         })
@@ -146,8 +157,14 @@ export default new Vuex.Store({
         }
       })
         .then(() => {
-          Swal.fire('Success!', 'Create Question Success', 'success');
-          context.dispatch('findAllProduct')
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Success Created Product',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          context.dispatch('findProductAdmin')
         })
         .catch(({ response }) => {
           Swal.fire('Error!', response.data.message, 'error');
@@ -160,6 +177,22 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           context.commit('setProducts', data)
+        })
+        .catch(({ response }) => {
+          Swal.fire('Error!', response.data.message, 'error');
+        })
+    },
+    findProductAdmin(context) {
+      axios({
+        url: `${baseUrl}/products/admin`,
+        method: 'GET',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          console.log(data);
+          context.commit('setProductAdmin', data)
         })
         .catch(({ response }) => {
           Swal.fire('Error!', response.data.message, 'error');
@@ -202,8 +235,14 @@ export default new Vuex.Store({
         data: formData
       })
         .then(() => {
-          Swal.fire('Success!', 'Create Question Success', 'success');
-          context.dispatch('findAllProduct')
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Success Update Product',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          context.dispatch('findProductAdmin')
           this.product = { name: "", description: "", price: "", stock: "", image: "", category: "" }
         })
         .catch(({ response }) => {
@@ -219,8 +258,96 @@ export default new Vuex.Store({
         }
       })
         .then(() => {
-          Swal.fire('Success!', 'Create Question Success', 'success');
-          context.dispatch('findAllProduct')
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Success Remove Product',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          context.dispatch('findProductAdmin')
+        })
+        .catch(({ response }) => {
+          Swal.fire('Error!', response.data.message, 'error');
+        })
+    },
+    addToCart(context, payload) {
+      axios({
+        url: `${baseUrl}/carts`,
+        method: 'POST',
+        data: {
+          productId: payload.productId,
+          qty: payload.quantity
+        },
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(() => {
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Success Added To Cart',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          context.dispatch('findAllCart')
+        }).catch(({ response }) => {
+          if (response.data.message === "Unauthorized Invalid Token") {
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Please Login First',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          } else {
+            Swal.fire('Error!', response.data.message, 'error');
+          }
+        });
+    },
+    findAllCart(context) {
+      axios({
+        url: `${baseUrl}/carts`,
+        method: 'GET',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          context.commit('setCarts', data)
+        })
+        .catch(({ response }) => {
+          if (response.data.message === "Unauthorized Invalid Token") {
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Please Login First',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          } else {
+            Swal.fire('Error!', response.data.message, 'error');
+          }
+        })
+    },
+    removeCartUser(context, payload) {
+      axios({
+        url: `${baseUrl}/carts/${payload}`,
+        method: 'DELETE',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(() => {
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Success Remove Cart',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          context.dispatch('findAllCart')
         })
         .catch(({ response }) => {
           Swal.fire('Error!', response.data.message, 'error');

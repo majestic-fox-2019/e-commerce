@@ -195,7 +195,6 @@ export default {
         image: this.image,
         category: this.category
       };
-      console.log("masuk");
       this.$store.dispatch("addProduct", dataProduct);
       this.goReset();
     },

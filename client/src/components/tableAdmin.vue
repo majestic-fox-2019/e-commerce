@@ -19,15 +19,19 @@
         <th>Action</th>
       </tr>
 
-      <tr v-for="(product, index) in this.$store.state.products" :key="index">
+      <tr v-for="(product, index) in this.$store.state.productAdmin" :key="index">
         <td>{{product.id}}</td>
         <td>
           <img :src="product.image_url" alt />
         </td>
-        <td>{{product.name}}</td>
+        <td>
+          <p class="text-panjang">{{product.name}}</p>
+        </td>
         <td>{{product.stock}}</td>
         <td>Rp. {{product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</td>
-        <td>{{product.description}}</td>
+        <td>
+          <p class="text-panjang">{{product.description}}</p>
+        </td>
         <td style="text-align: center;">{{product.category}}</td>
         <td style="display: flex; justify-content: space-around;">
           <button
@@ -75,6 +79,17 @@ body {
   * {
     box-sizing: border-box;
   }
+}
+
+.text-panjang {
+  white-space: nowrap;
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-panjang:hover {
+  overflow: visible;
 }
 
 .remove-btn {
