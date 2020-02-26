@@ -13,6 +13,23 @@ class BookmarkController {
           });
     }
 
+
+    static listBookmarkByUser(req, res, next) {
+        Bookmark
+          .findAll({
+              where: {
+                  UserId: req.params.UserId
+              },
+              include: [ "Product" ]
+          })
+          .then(bookmarks => {
+            res.status(200).json(bookmarks);
+          })
+          .catch(err => {
+              next(err);
+          });
+    }
+
     static getTotalByUser(req, res, next) {
         Bookmark
             .findAll({

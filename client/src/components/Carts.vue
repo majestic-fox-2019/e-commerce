@@ -21,6 +21,7 @@
       </template>
     </v-simple-table>
      <PayPal
+        v-if="carts.length > 0"
         :amount="total_pay"
         currency="USD"
         :client="paypal_credentials"
@@ -29,6 +30,9 @@
       >
     >
     </PayPal>
+    <div v-if="carts.length <= 0" class="no-product">
+      There is no product in your cart. belanja gih... :)
+    </div>
     <!-- <v-btn
       block
       color="primary"
@@ -129,5 +133,12 @@ export default {
 .paypal-button{
   margin: 2% 2% 0 0;
   text-align: right;
+}
+
+.no-product {
+  position: absolute;
+  top: 40%;
+  left: 25%;
+  font-size: 24pt;
 }
 </style>

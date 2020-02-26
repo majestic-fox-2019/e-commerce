@@ -13,6 +13,22 @@ class LoveController {
           });
     }
 
+    static listLoveByUser(req, res, next) {
+        Love
+          .findAll({
+              where: {
+                  UserId: req.params.UserId
+              },
+              include: [ "Product" ]
+          })
+          .then(loves => {
+            res.status(200).json(loves);
+          })
+          .catch(err => {
+              next(err);
+          });
+    }
+
     static getTotalByUser(req, res, next) {
         Love
             .findAll({

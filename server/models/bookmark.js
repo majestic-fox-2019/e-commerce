@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Bookmark.associate = function(models) {
     // associations can be defined here
-
+    Bookmark.belongsTo(models.Product, {foreignKey: 'ProductId', sourceKey: 'id'})
   };
   return Bookmark;
 };

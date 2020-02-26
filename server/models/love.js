@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Love.associate = function(models) {
     // associations can be defined here
+    Love.belongsTo(models.Product, {foreignKey: 'ProductId', sourceKey: 'id'})
   };
   return Love;
 };

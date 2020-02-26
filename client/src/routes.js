@@ -11,6 +11,8 @@ import TutorialsFront from './components/TutorialsFront.vue';
 import Carts from './components/Carts.vue';
 import PaymentSuccess from './components/PaymentSuccess.vue';
 import EbooksFront from './components/EbooksFront.vue';
+import Loves from './components/Loves.vue';
+import Bookmarks from './components/Bookmarks.vue';
 
 Vue.use(VueRouter);
 
@@ -77,6 +79,18 @@ const routes = [
     path: 'payment_success',
     component: PaymentSuccess,
     name: 'payment_success',
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/loves',
+    component: Loves,
+    name: 'loves',
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/bookmarks',
+    component: Bookmarks,
+    name: 'bookmarks',
     meta: { requiresAuth: true },
   },
 ];
