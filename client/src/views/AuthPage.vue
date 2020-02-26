@@ -5,7 +5,7 @@
       <h1 v-else>Register</h1>
       <LoginForm v-if="!register" />
       <RegisterForm v-else />
-      <v-btn color="primary" class="mt-4" style="width: 39%;">
+      <v-btn color="primary" class="mt-4">
         <v-icon>mdi-google</v-icon>
         <g-signin-button
           id="gSign"
@@ -13,7 +13,7 @@
           @success="onSignInSuccess"
           @error="onSignInError"
         >
-          Login with google
+          Google Sign
         </g-signin-button>
       </v-btn>
       <h4 v-if="register">
@@ -97,7 +97,7 @@ export default {
 <style lang="css" scoped>
 div {
   position: relative;
-  top: 70%;
+  top: 80%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
