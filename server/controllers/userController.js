@@ -1,6 +1,9 @@
 const { User, Cart, Product } = require('../models')
 const { createToken } = require('../helpers/jwt')
 const { comparePass } = require('../helpers/bcrypt')
+const { OAuth2Client } = require('google-auth-library')
+const client = new OAuth2Client(process.env.CLIENT_ID)
+
 
 class UserController {
   static register(req, res, next) {
