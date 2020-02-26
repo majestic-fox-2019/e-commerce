@@ -114,7 +114,6 @@ export default {
             localStorage.setItem('username', data.username)
             localStorage.setItem('email', data.email)
             this.$store.state.isLogin = true
-            console.log(data.isAdmin)
             if (data.isAdmin) {
               localStorage.setItem('isAdmin', data.isAdmin)
               this.$router.replace('/admin/dashboard')
@@ -132,7 +131,7 @@ export default {
             // console.log(err.response.data)
             this.$q.notify({
               type: 'negative',
-              message: err.response.data.msg.toUpperCase()
+              message: 'Wrong email or password'
             })
           })
       }

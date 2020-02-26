@@ -9,7 +9,11 @@ export default new Vuex.Store({
     isLogin: false,
     isAdmin: false,
     productList: [],
-    bannerList: []
+    productDetail: {},
+    bannerList: [],
+    cartList: [],
+    orderList: [],
+    transactionList: []
   },
   mutations: {
     SAVE_LOGIN_STATUS(state, data) {
@@ -21,6 +25,18 @@ export default new Vuex.Store({
     },
     SAVE_BANNER_LIST(state, data) {
       state.bannerList = data
+    },
+    SAVE_PRODUCT_DETAIL(state, data) {
+      state.productDetail = data
+    },
+    SAVE_USER_CART(state, data) {
+      state.cartList = data
+    },
+    SAVE_ON_CONFIRM_ORDERS(state, data) {
+      state.orderList = data
+    },
+    SAVE_TRANSACTION_LIST(state, data) {
+      state.transactionList = data
     }
   },
   actions: {
@@ -48,10 +64,7 @@ export default new Vuex.Store({
     GET_ALL_PRODUCT_LIST({ commit }) {
       axios({
         method: 'GET',
-        url: '/products',
-        headers: {
-          token: localStorage.token
-        }
+        url: '/products'
       })
         .then(({ data }) => {
           commit('SAVE_PRODUCT_LIST', data)
@@ -63,16 +76,70 @@ export default new Vuex.Store({
     GET_ALL_BANNER_LIST({ commit }) {
       axios({
         method: 'GET',
-        url: '/banners',
-        headers: {
-          token: localStorage.token
-        }
+        url: '/banners'
       })
         .then(({ data }) => {
           commit('SAVE_BANNER_LIST', data)
         })
         .catch((err) => {
           console.log(err)
+        })
+    },
+    GET_PRODUCT_DETAIL({ commit }, id) {
+      axios({
+        method: 'GET',
+        url: `/products/${id}`
+      })
+        .then(({ data }) => {
+          commit('SAVE_PRODUCT_DETAIL', data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    GET_USER_CART({ commit }) {
+      axios({
+        method: 'GET',
+        url: '/carts',
+        headers: {
+          token: localStorage.token
+        }
+      })
+        .then(({ data }) => {
+          commit('SAVE_USER_CART', data)
+        })
+        .catch(({ response }) => {
+          console.log(response.data)
+        })
+    },
+    GET_ON_CONFIRM_ORDERS({ commit }) {
+      axios({
+        method: 'GET',
+        url: '/carts/confirm',
+        headers: {
+          token: localStorage.token
+        }
+      })
+        .then(({ data }) => {
+          commit('SAVE_ON_CONFIRM_ORDERS', data)
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    },
+    GET_TRANSACTION_LIST({ commit }) {
+      axios({
+        method: 'GET',
+        url: '/transactions/',
+        headers: {
+          token: localStorage.token
+        }
+      })
+        .then(({ data }) => {
+          commit('SAVE_TRANSACTION_LIST', data)
+        })
+        .catch((err) => {
+          console.log(err.response.data)
         })
     }
   },

@@ -32,6 +32,16 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       },
+      approved: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'Approved is required'
+          }
+        }
+      },
       quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,

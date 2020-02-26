@@ -1,29 +1,32 @@
-const { Transaction, User } = require('../models')
+const { Transaction, User, Product } = require('../models')
 
 class Controller {
   static readAll(req, res, next) {
-    User.findOne({
-      where: {
-        id: req.userInfo.id
-      }
-    })
-      .then((user) => {
-        if (!user.isAdmin) {
-          return Transaction.findAll({
-            where: {
-              UserId: req.userInfo.id
-            }
-          })
-        } else {
-          return Transaction.findAll()
+    let target = {}
+    if (!req.userInfo.isAdmin) {
+      target.UserId = req.userInfo.id
+    }
+    Transaction.findAll(
+      {
+        where: target,
+        include: [
+        {
+          model: User, 
+          attributes: {
+            exclude: ['password', 'createdAt', 'updatedAt']
+          }
+        },{
+          model: Product
         }
-      })
-      .then((transactions) => {
-        res.status(200).json(transactions)
-      })
-      .catch((err) => {
-        next(err)
-      })
+      ]
+      }
+    )
+    .then((transactions) => {
+      res.status(200).json(transactions)
+    })
+    .catch((err) => {
+      next(err)
+    })
   }
 
   //   static delete(req, res, next) {

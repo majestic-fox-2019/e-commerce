@@ -23,6 +23,11 @@ module.exports = function(err, req, res, next) {
     res.status(err.status).json({
       msg: 'Invalid email or password'
     })
+  } else if (err.name == 'Insufficient Stock') {
+    res.status(err.status).json({
+      msg: err.message,
+      title: err.name
+    })
   } else if (err.status >= 300 && err.status < 500) {
     res.status(err.status).json({
       msg: err.message

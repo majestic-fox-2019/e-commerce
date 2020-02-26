@@ -23,12 +23,12 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       },
-      date_purchased: {
-        type: DataTypes.DATE,
+      quantity: {
+        type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          notEmpty: {
-            msg: 'Date Purchased is required'
+          notNull: {
+            msg: 'Quantity is required'
           }
         }
       }

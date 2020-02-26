@@ -22,7 +22,9 @@ class Controller {
   }
 
   static readAll(req, res, next) {
-    Product.findAll()
+    Product.findAll({
+      order: [['updatedAt', 'DESC']]
+    })
       .then((result) => {
         res.status(200).json(result)
       })

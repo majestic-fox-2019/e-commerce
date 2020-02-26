@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
     .then((products) => {
       items.forEach((item) => {
         let orderedProduct = products.find((product) => product.id == item.id)
-        if (orderedProduct.stock < item.stock) {
+        if (orderedProduct.stock < item.quantity) {
           errors.push(orderedProduct)
         } else {
           let calibratedStock = orderedProduct.stock - item.quantity
@@ -33,9 +33,9 @@ module.exports = (req, res, next) => {
         let error = {
           status: 400,
           name: 'Insufficient Stock',
-          msg: errors
+          messsage: errors
         }
-        next(error)
+        throw error
       } else {
         req.orderItems = orderItems
         next()
@@ -45,5 +45,3 @@ module.exports = (req, res, next) => {
       next(err)
     })
 }
-
-// module.exports = checkStock

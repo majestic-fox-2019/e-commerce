@@ -20,6 +20,9 @@ module.exports = {
       confirm: {
         type: Sequelize.BOOLEAN
       },
+      approved: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

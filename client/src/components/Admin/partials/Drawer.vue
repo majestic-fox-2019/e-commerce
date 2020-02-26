@@ -28,6 +28,15 @@
           <q-item-label>Banner List</q-item-label>
         </q-item-section>
       </q-item>
+
+      <q-item clickable tag="a" @click="toOrderList">
+        <q-item-section avatar>
+          <q-icon name="assignment_turned_in" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Order List</q-item-label>
+        </q-item-section>
+      </q-item>
     </q-list>
   </q-drawer>
 </template>
@@ -58,6 +67,10 @@ export default {
     toBannerList() {
       this.$emit('drawer')
       this.$router.push('/admin/banners')
+    },
+    toOrderList() {
+      this.$emit('drawer')
+      this.$router.push('/admin/orders')
     }
   }
 }

@@ -8,15 +8,18 @@
     <div
       class="row flex justify-around q-mt-md bg-teal-1 q-py-md rounded-borders"
     >
-      <div class="col-12 q-mb-md">
-        <h3 class="q-pa-none text-center text-weight-bold">Kategori</h3>
-        <q-separator />
-      </div>
+      <h4
+        class="q-pa-none text-center text-weight-bold flex justify-center content-center items-center"
+      >
+        Kategori
+      </h4>
+      <q-separator vertical inset />
       <q-card
         class="col-2 own-card"
         v-for="item in category.options"
         :key="item.name"
-        @click="detail(item.id)"
+        @click="groupBy = item.name"
+        style="width: 10%;"
       >
         <q-img :src="item.image" basic style="cursor: pointer;">
           <div
@@ -31,50 +34,61 @@
 
     <q-card class="bg-teal-1 row flex q-mt-md q-pa-md justify-evenly">
       <div class="col-12 q-mb-md q-pa-none">
-        <h3 class="text-weight-bold text-center">{{ groupBy.name }}</h3>
+        <h3 class="text-weight-bold text-center q-pa-none">{{ groupBy }}</h3>
+        <div class="flex justify-end full-width">
+          <q-select
+            class="q-mb-md"
+            bg-color="bg-indigo-5"
+            style="width: 10rem;"
+            v-model="groupBy"
+            outlined
+            :options="options"
+            label="Kategori"
+          />
+        </div>
         <q-separator />
       </div>
       <!-- Product card -->
-      <q-card
-        class="col-2 own-card q-ma-md rounded"
-        style="cursor:pointer;"
-        v-for="product in products"
-        :key="product.id"
-      >
-        <q-img :src="product.image_url" basic>
-          <div class="absolute-bottom">
-            {{ product.price }}
-          </div>
-        </q-img>
-
-        <q-card-section class="ellipsis inline">
-          {{ product.name }}
-        </q-card-section>
-      </q-card>
+      <div class="row justify-center q-mb-xl">
+        <q-intersection
+          v-for="product in products"
+          :key="product.id"
+          once
+          transition="scale"
+          class="example-item q-my-md"
+        >
+          <ProductCard class="" :product="product" />
+        </q-intersection>
+      </div>
       <!-- End of product card -->
-      <!-- <pre>{{ products }}</pre> -->
     </q-card>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import ProductCard from '../components/User/ProductCard'
 import Carousel from '../components/User/Carousel'
 
 export default {
   name: 'Home',
   components: {
-    Carousel
+    Carousel,
+    ProductCard
   },
   created() {
-    this.$store.dispatch('GET_ALL_PRODUCT_LIST')
+    this.getAllProducts()
   },
   data() {
     return {
-      groupBy: {
-        name: 'Semua Produk',
-        type: 'all'
-      },
+      groupBy: 'Semua Produk',
+      options: [
+        'Semua Produk',
+        'Desktop',
+        'Laptop',
+        'Keyboard',
+        'Monitor',
+        'Mouse'
+      ],
       category: {
         options: [
           {
@@ -108,11 +122,19 @@ export default {
   },
   computed: {
     products() {
-      return this.$store.state.productList
+      if (this.groupBy && this.groupBy != 'Semua Produk') {
+        return this.$store.state.productList.filter(
+          (el) => el.category == this.groupBy
+        )
+      } else {
+        return this.$store.state.productList
+      }
     }
   },
   methods: {
-    detail(productId) {}
+    getAllProducts() {
+      this.$store.dispatch('GET_ALL_PRODUCT_LIST')
+    }
   }
 }
 </script>
@@ -122,13 +144,16 @@ export default {
   background-color: rgba(76, 0, 130, 0.335);
 }
 
+.example-item {
+  height: 290px;
+  width: 290px;
+}
+
 .own-card {
   transition: 0.7s !important;
-  opacity: 90%;
 }
 
 .own-card:hover {
-  opacity: unset;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 </style>

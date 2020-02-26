@@ -14,8 +14,8 @@ module.exports = {
       ProductId: {
         type: Sequelize.INTEGER
       },
-      date_purchased: {
-        type: Sequelize.DATE
+      quantity: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

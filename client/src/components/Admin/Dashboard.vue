@@ -3,18 +3,80 @@
     <div class="flex justify-center full-width">
       <h3 class=" full-width">Dashboard <q-separator class="q-mt-md" /></h3>
     </div>
+
     <q-card
       elevated
-      class="q-pa-md bg-indigo-1 shadow-5 q-mx-auto"
-      style="width: 60%;"
+      class="bg-indigo-1 shadow-5 q-mx-auto"
+      style=" width: 60%;"
     >
-      <h3 class="text-center">Welcome {{ username }}</h3>
+      <h3 class="q-pa-md text-center">Welcome {{ username }}</h3>
     </q-card>
 
-    <div class="row q-mt-xl flex justify-center">
-      <q-card class="col-4 q-mr-xl bg-indigo-1">
+    <div class="row flex justify-center q-mb-xl">
+      <q-card
+        class="col-12 col-sm-12 col-md-4 q-mr-xl bg-green-1 own-card"
+        @click="$router.push('/admin/orders')"
+      >
         <q-list bordered padding class="rounded-borders">
-          <q-item-label header class="text-body1">Products</q-item-label>
+          <q-item-label header class="text-body1 text-weight-bold"
+            >Order</q-item-label
+          >
+          <q-separator />
+          <q-item v-ripple>
+            <q-item-section avatar top>
+              <q-avatar
+                icon="assignment_turned_in"
+                color="primary"
+                text-color="white"
+              />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label lines="1">Order's to approve</q-item-label>
+              <q-item-label caption>Total Record</q-item-label>
+            </q-item-section>
+
+            <q-item-section side class="text-body1 text-black">
+              {{ orders }}
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+
+      <q-card
+        class="col-12 col-sm-12 col-md-4 bg-green-1 own-card"
+        @click="$router.push('/admin/dashboard')"
+      >
+        <q-list bordered padding class="rounded-borders">
+          <q-item-label header class="text-body1 text-weight-bold"
+            >Transaction</q-item-label
+          >
+          <q-separator />
+          <q-item v-ripple>
+            <q-item-section avatar top>
+              <q-avatar icon="store" color="primary" text-color="white" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label lines="1">This month's sale</q-item-label>
+              <q-item-label caption>Total Record</q-item-label>
+            </q-item-section>
+
+            <q-item-section side class="text-body1 text-black">
+              xx
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+    </div>
+
+    <div class="row q-my-xl flex justify-center">
+      <q-card
+        class="col-12 col-sm-12 col-md-4 q-mr-xl bg-indigo-1 own-card"
+        @click="$router.push('/admin/products')"
+      >
+        <q-list bordered padding class="rounded-borders">
+          <q-item-label header class="text-body1 text-weight-bold"
+            >Products</q-item-label
+          >
           <div v-for="category in categories" :key="category.name">
             <q-separator />
             <q-item v-ripple>
@@ -41,9 +103,14 @@
         </q-list>
       </q-card>
 
-      <q-card class="col-4 bg-indigo-1">
+      <q-card
+        class="col-12 col-sm-12 col-md-4 bg-indigo-1 own-card"
+        @click="$router.push('/admin/products')"
+      >
         <q-list bordered padding class="rounded-borders">
-          <q-item-label header class="text-body1">Banners</q-item-label>
+          <q-item-label header class="text-body1 text-weight-bold"
+            >Banners</q-item-label
+          >
           <q-separator />
           <q-item v-ripple>
             <q-item-section avatar top>
@@ -83,6 +150,7 @@ export default {
   created() {
     this.$store.dispatch('GET_ALL_PRODUCT_LIST')
     this.$store.dispatch('GET_ALL_BANNER_LIST')
+    this.$store.dispatch('GET_ON_CONFIRM_ORDERS')
   },
   computed: {
     products() {
@@ -90,9 +158,21 @@ export default {
     },
     banners() {
       return this.$store.state.bannerList
+    },
+    orders() {
+      return this.$store.state.orderList.length
     }
   }
 }
 </script>
 
-<style></style>
+<style scoped>
+.own-card {
+  cursor: pointer;
+  transition: 0.7s !important;
+}
+
+.own-card:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+</style>

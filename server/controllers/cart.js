@@ -1,16 +1,78 @@
-const { Cart, Product, Transaction } = require('../models')
+const { Cart, User, Product, Transaction } = require('../models')
+const createError = require('http-errors')
 class Controller {
+  static checkStock(req, res, next){
+  let errors = []
+  let queries = []
+  let { items } = req.body
+
+  items.forEach((item) => {
+    queries.push(
+      Product.findOne({
+        where: {
+          id: item.id
+        }
+      })
+    )
+  })
+
+  Promise.all(queries)
+    .then((products) => {
+      items.forEach((item) => {
+        let orderedProduct = products.find((product) => product.id == item.id)
+        if (orderedProduct.stock < item.quantity) {
+          errors.push(orderedProduct.name)
+        } 
+      })
+      if (errors.length > 0) {
+        let error = {
+          status: 400,
+          name: 'Insufficient Stock',
+          message: errors
+        }
+        throw error
+      } else {
+        res.status(200).json({
+          msg: 'Transaction available'
+        })
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      next(err)
+    })
+  }
+
   static create(req, res, next) {
     const data = {
       UserId: req.userInfo.id,
       ProductId: req.body.id,
       quantity: req.body.quantity
     }
-    Cart.create(data)
-      .then((result) => {
+    Cart.findOne({
+      where: {
+        ProductId: req.body.id,
+        UserId: req.userInfo.id,
+        confirm: false
+      }
+    })
+    .then((cart)=> {
+      if (cart) {
+        return Cart.increment('quantity', { 
+          by: req.body.quantity,
+          where: {
+            ProductId: req.body.id,
+            UserId : req.userInfo.id
+          }
+        })
+      } else {
+        return Cart.create(data)
+      }
+    })
+    .then((result) => {
         res.status(201).json(result)
       })
-      .catch((err) => {
+    .catch((err) => {
         next(err)
       })
   }
@@ -18,8 +80,45 @@ class Controller {
   static read(req, res, next) {
     Cart.findAll({
       where: {
-        UserId: req.userInfo.id
+        UserId: req.userInfo.id,
+        confirm: false
+      },
+      order: [['createdAt', 'ASC']],
+      include: [{model: Product}]
+    })
+      .then((result) => {
+        res.status(200).json(result)
+      })
+      .catch((err) => {
+        next(err)
+      })
+  }
+
+  static readOnConfirm(req, res, next) {
+    let target = {
+        confirm: true
       }
+    if (!req.userInfo.isAdmin) {
+      target.UserId = req.userInfo.id
+    }
+    const sequelize = require('sequelize')
+    Cart.findAll({
+      where: target,
+      order: [['updatedAt', 'DESC']],
+      include: [
+        {
+          model: User, 
+          attributes: { 
+            exclude : ['password', 'createdAt', 'updatedAt', 'platform', 'isAdmin']
+          }
+        }, 
+        {
+          model: Product,
+          attributes: {
+            exclude: ['UserId']
+          }
+        }
+      ]
     })
       .then((result) => {
         res.status(200).json(result)
@@ -36,7 +135,9 @@ class Controller {
       },
       {
         where: {
-          UserId: req.userInfo.id
+          UserId: req.userInfo.id,
+          ProductId : req.body.id,
+          confirm: false
         },
         returning: true,
         plain: true
@@ -69,16 +170,23 @@ class Controller {
     })
     Promise.all(queries)
       .then(() => {
-        return Cart.update(
-          {
-            confirm: true
-          },
-          {
-            where: {
-              UserId: req.userInfo.id
-            }
-          }
-        )
+        queries = []
+        orderItems.forEach((item) => {
+          queries.push(
+            Cart.update(
+              {
+                confirm: true
+              },
+              {
+                where: {
+                  UserId: req.userInfo.id,
+                  ProductId: item.id
+                }
+              }
+            )
+          )
+        }) 
+        return Promise.all(queries)
       })
       .then(() => {
         res.status(200).json({
@@ -90,36 +198,75 @@ class Controller {
       })
   }
 
+  static approve (req, res, next) {
+    Cart.findOne({
+      where: {
+        UserId: req.body.userId,
+        ProductId: req.body.productId,
+        confirm: true,
+        approved: false
+      }
+    })
+    .then((cart)=> {
+      return Cart.update(
+        {
+          approved: true
+        },
+        {
+          where: {
+            UserId: req.body.userId,
+            ProductId: req.body.productId,
+            confirm: true,
+            approved: false
+          },
+          returning: true,
+          plain: true
+        }
+      )
+    })
+    .then((result)=> {
+      res.status(200).json(result[1])
+    })
+    .catch((err) => {
+      next(err)
+    })
+  }
+
   static confirmOrder(req, res, next) {
-    let cartList = []
-    Cart.findAll({
+    let product
+    Cart.findOne({
       where: {
         UserId: req.userInfo.id,
-        confirm: true
+        ProductId: req.body.productId,
+        confirm: true,
+        approved: true
       },
-      attributes: ['id']
+      include: [{
+        model:Product
+      }],
     })
-      .then((carts) => {
-        carts.forEach((cart) => {
-          cartList.push(
-            Transaction.create({
-              UserId: req.userInfo.id,
-              ProductId: cart.id,
-              date_purchased: new Date()
-            })
-          )
+      .then((cart) => {
+        product = cart
+        return Transaction.create({
+          UserId: req.userInfo.id,
+          ProductId: cart.ProductId,
+          quantity: cart.quantity
         })
-        return Promise.all(cartList)
       })
       .then(() => {
-        Cart.destroy({
+        return Cart.destroy({
           where: {
             UserId: req.userInfo.id,
-            confirm: true
+            ProductId: product.ProductId,
+            confirm: true,
+            approved: true
           }
         })
+      })
+      .then(()=> {
         res.status(200).json({
-          msg: 'Cart dismissed due to order confirmation'
+          msg: 'Order has been confirmed',
+          product: product.Product.name
         })
       })
       .catch((err) => {
@@ -128,16 +275,31 @@ class Controller {
   }
 
   static delete(req, res, next) {
-    Cart.destroy({
+    let product
+    Cart.findOne({
       where: {
         UserId: req.userInfo.id,
+        ProductId : req.body.id,
         confirm: false
+      },
+      include: [Product]
+    })
+    .then((cart) => {
+      product = cart.Product
+      if (!cart) {
+        createError(404, 'Product not found')
+      } else {
+        return Cart.destroy({
+          where: {
+            UserId: req.userInfo.id,
+            ProductId : req.body.id,
+            confirm: false
+          }
+        })  
       }
     })
-      .then((result) => {
-        res.status(200).json({
-          deleted_row: result
-        })
+      .then(() => {
+        res.status(200).json(product)
       })
       .catch((err) => {
         next(err)
