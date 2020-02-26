@@ -6,8 +6,8 @@ const cart = require("./cartRoute")
 const router = express.Router();
 const authentication = require("../middlewares/authentication");
 router.use("/users", user);
-router.use(authentication);
 router.use("/categorie", categorie)
+router.use(authentication);
 router.use("/products", product);
 router.use("/carts", cart)
 

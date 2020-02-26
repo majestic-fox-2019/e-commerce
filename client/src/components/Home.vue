@@ -1,33 +1,14 @@
 <template>
   <div>
-    <Menu></Menu>
-    <div class="row">
-      <div class="col-10 offset-md-1 box">
-        <div class="row">
-          <div class="col-3 kiste" v-for="(product, idx) in getAllData()" :key="idx">
-            <div class="card inhalt">
-              <img class="card-img-top" :src="product.image_url" />
-              <div class="card-body">
-                <p class="card-text">{{product.name}}</p>
-                <p>{{product.price}}</p>
-                <button class="btn btn-primary" @click="addcart(product.id)">Add Cart</button>
-                <router-link
-                  class="btn btn-primary"
-                  :to="{name:'Detail', params:{id:product.id}}"
-                >Show Detail</router-link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <AllContent></AllContent>
   </div>
 </template>
 <script>
 import axios from "axios";
 import Menu from "./menu.vue";
+import AllContent from "./allcontent.vue";
 export default {
-  components: { Menu },
+  components: { Menu, AllContent },
   methods: {
     getAllData() {
       return this.$store.state.products;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light">
       <router-link :to="{name:'Home'}" class="navbar-brand" href="#">Home</router-link>
       <button
         class="navbar-toggler"
@@ -21,21 +21,20 @@
               <span class="sr-only">(current)</span>
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link :to="{name:'Detail'}" class="nav-link" href="#">TEST</router-link>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Disabled</a>
-          </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          <button
+            type="button"
+            @click="logout"
+            class="btn btn-secondary"
+            v-show="checkOnline"
+          >Log Out</button>
+          <router-link
+            :to="{name:'Login'}"
+            type="button"
+            class="btn btn-secondary"
+            v-show="!checkOnline"
+          >Log in</router-link>
         </form>
       </div>
     </nav>
@@ -43,8 +42,43 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["checkOnline"],
+  methods: {
+    checklogin() {
+      if (localStorage.getItem("token")) {
+        this.$emit("submit", true);
+      } else {
+        this.$emit("submit", false);
+      }
+    },
+    logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      this.checklogin();
+      this.$router.push({ name: "Login" });
+    }
+  },
+  created() {
+    console.log("created");
+    this.checklogin();
+  },
+  mounted() {
+    console.log("mounted");
+    this.checklogin();
+  },
+  watch: {
+    checkOnline() {
+      console.log("watchs");
+      this.checklogin();
+    }
+  }
+};
 </script>
 
-<style>
+<style scooped>
+.navbar {
+  background-color: #f4fff4;
+  padding: 20px;
+}
 </style>

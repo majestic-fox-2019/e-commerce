@@ -78,11 +78,52 @@ class CartController {
             });
     }
     static checkout(req, res, next) {
-        Cart.destroy({
-            where: {
-                UserId: req.user.id
-            }
-        })
+        User.findByPk(
+            req.user.id,
+            { include: Product }
+        )
+            .then(response => {
+                let checker = true;
+                let objProduct = [];
+                let products = response.Products
+
+                for (let i = 0; i < products.length; i++) {
+                    let newObj = {
+                        id: products[i].id,
+                        stock: products[i].stock,
+                        quantity: products[i].Cart.quantity
+                    }
+                    objProduct.push(newObj)
+                }
+                for (let i = 0; i < objProduct.length; i++) {
+                    if (objProduct[i].stock === 0) {
+                        res.status(400).json({ message: "out of stock" })
+                    }
+                    else {
+                        objProduct[i].stock -= objProduct[i].quantity
+                    }
+                }
+                let promiseArr = [];
+                for (let i = 0; i < objProduct.length; i++) {
+                    let objInput = {
+                        stock: objProduct[i].stock
+                    };
+                    let objIndex = {
+                        where: {
+                            id: objProduct[i].id
+                        }
+                    }
+                    promiseArr.push(Product.update(objInput, objIndex))
+                }
+                return Promise.all(promiseArr)
+            })
+            .then(response => {
+                return Cart.destroy({
+                    where: {
+                        UserId: req.user.id
+                    }
+                })
+            })
             .then(result => {
                 if (result === 0) {
                     res.status(404).json(err.message);

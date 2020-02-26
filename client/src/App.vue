@@ -1,14 +1,28 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <Menu :checkOnline="checkOnline" @submit="changeStatus"></Menu>
+    <div class="content">
+      <router-view @isLogin="checkOnline=true"></router-view>
+    </div>
   </div>
 </template>
 
 
 <script>
 import Login from "./components/Login.vue";
+import Menu from "./components/menu.vue";
 export default {
-  components: { Login }
+  components: { Login, Menu },
+  data() {
+    return {
+      checkOnline: false
+    };
+  },
+  methods: {
+    changeStatus(bool) {
+      this.checkOnline = bool;
+    }
+  }
 };
 </script>
 
@@ -16,12 +30,14 @@ export default {
 <style lang="scss">
 @import "@/assets/scss/style.scss";
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Yeon Sung", Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
-
+.content {
+  background-color: #f4fff4 !important;
+}
 #nav {
   padding: 30px;
 

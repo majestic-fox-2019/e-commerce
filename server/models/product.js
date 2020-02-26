@@ -15,6 +15,17 @@ module.exports = (sequelize, DataTypes) => {
                     }
                 }
             },
+            detail: {
+                type: DataTypes.TEXT,
+                allowNull: false,
+                validate: {
+                    notNull: true,
+                    notEmpty: {
+                        args: true,
+                        message: "Text must be filled"
+                    }
+                }
+            },
             image_url: {
                 type: DataTypes.STRING,
                 allowNull: false,

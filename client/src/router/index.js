@@ -9,6 +9,7 @@ import EditContent from "../components/EditContent.vue"
 import Category from "../components/CategoryContent.vue"
 import Cart from "../components/cart.vue"
 import Detail from '../components/contentdetail.vue';
+import NotFound from "../components/404page.vue"
 Vue.use(VueRouter)
 
 
@@ -41,6 +42,11 @@ const routes = [
     path: '/Detail/:id',
     name: 'Detail',
     component: Detail
+  },
+  {
+    path: '*',
+    name: 'NotFound',
+    component: NotFound
   },
   {
     path: '/admin',

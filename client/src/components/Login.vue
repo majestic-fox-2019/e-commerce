@@ -60,7 +60,6 @@ export default {
       this.loginShow = !this.loginShow;
     },
     register() {
-      console.log(1234);
       axios({
         method: "POST",
         url: "http://localhost:3000/users/register",
@@ -72,7 +71,13 @@ export default {
       })
         .then(data => {
           localStorage.setItem("token", data.data.token);
-          this.$router.push({ name: "Content" });
+          localStorage.setItem("role", data.role);
+          console.log(data);
+          if (data.data.role === "user") {
+            this.$router.push({ name: "Home" });
+          } else {
+            this.$router.push({ name: "Content" });
+          }
         })
         .catch(err => {
           Swal.fire(err.response.data);
@@ -89,7 +94,13 @@ export default {
       })
         .then(data => {
           localStorage.setItem("token", data.data.token);
-          this.$router.push({ name: "Content" });
+          localStorage.setItem("role", data.data.role);
+          if (data.data.role === "user") {
+            this.$emit("isLogin");
+            this.$router.push({ name: "Home" });
+          } else {
+            this.$router.push({ name: "Content" });
+          }
         })
         .catch(err => {
           this.$Swal.fire(err.response.data);

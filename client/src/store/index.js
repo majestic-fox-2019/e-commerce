@@ -5,13 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin: null,
+    isLogin: false,
     products: null,
     categories: null,
     carts: null
   },
   mutations: {
-    LOGIN(state, data) { },
+    LOGIN(state, data) {
+      state.isLogin = !state.isLogin;
+    },
     GETPRODUCT(state, data) {
       state.products = data
     },
@@ -54,22 +56,7 @@ export default new Vuex.Store({
         })
     },
     login({ commit }) {
-      axios({
-        method: "POST",
-        url: `http://localhost:3000/users/login`,
-        data: {
-          email: this.email,
-          password: this.password
-        }
-      })
-        .then(data => {
 
-          localStorage.setItem("token", data.data.token);
-          this.$router.push({ name: "Admin" });
-        })
-        .catch(err => {
-          Swal.fire(err.response.data);
-        });
     }
   },
   modules: {

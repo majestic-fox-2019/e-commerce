@@ -1,10 +1,10 @@
+  .body{
+    font-family: 'Yeon Sung' ;
+  }
   .login {
     width: 400px;
     margin: 16px auto;
     font-size: 16px;
-  }
-  body{
-    background-color: #efe2ba;
   }
   /* Reset top and bottom margins from certain elements */
   .login-header,
@@ -12,7 +12,6 @@
     margin-top: 0;
     margin-bottom: 0;
   }
-  
   .login-header {
     background: #4056A1;
     padding: 20px;

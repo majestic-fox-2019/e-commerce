@@ -15,9 +15,6 @@
             <div class="col-6">
               <i class="fas fa-trash-alt tipebutton" v-on:click="deleteOne(product.id)"></i>
             </div>
-            <div class="col-6">
-              <router-link class="far fa-edit" :to="{name:'EditContent', params:{id:product.id}}"></router-link>
-            </div>
           </div>
         </div>
       </div>

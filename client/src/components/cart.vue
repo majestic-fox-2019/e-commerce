@@ -1,80 +1,53 @@
 <template>
   <div>
-    <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <router-link :to="{name:'Home'}" class="navbar-brand" href="#">Home</router-link>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <router-link :to="{name:'Cart'}" class="nav-link" href="#">
-                Cart
-                <span class="sr-only">(current)</span>
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-          </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input
-              class="form-control mr-sm-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+    <div v-if="carts">
+      <div class="allcart" v-if="carts.length !== 0">
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-10">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Image</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(data,idx) in carts" :key="idx">
+                  <td>
+                    <img class="bild" :src="data.image_url" />
+                  </td>
+                  <td>{{data.name}}</td>
+                  <td>{{getmoney(data.price)}}</td>
+                  <td>{{data.Cart.quantity}}</td>
+                  <td>
+                    <i
+                      @click="deleteCart(data.id,data.Cart.ProductId, data.Cart.UserId)"
+                      class="fas fa-trash-alt but"
+                    ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-1"></div>
         </div>
-      </nav>
-    </div>
-    <div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">number</th>
-            <th scope="col">Image</th>
-            <th scope="col">Name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(data,idx) in carts" :key="idx">
-            <th scope="row">{{idx}}</th>
-            <td>
-              <img class="bild" :src="data.image_url" />
-            </td>
-            <td>{{data.name}}</td>
-            <td>{{data.price}}</td>
-            <td>{{data.Cart.quantity}}</td>
-            <td>
-              <i
-                @click="deleteCart(data.id,data.Cart.ProductId, data.Cart.UserId)"
-                class="fas fa-trash-alt but"
-              ></i>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <button @click="checkout" type="button" class="btn btn-primary btn-lg">Check Out</button>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-10">
+            <button @click="checkout" type="button" class="btn btn-primary btn-lg">Check Out</button>
+          </div>
+          <div class="col-1"></div>
+        </div>
+      </div>
+      <div class="emptycart" v-if="carts.length === 0">
+        <div class="jumbotron" style="padding:200px; height:90.5vh; margin-bottom:0">
+          <h1>CART IS EMPTY</h1>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -88,6 +61,9 @@ export default {
     };
   },
   methods: {
+    getmoney(money) {
+      return this.$currencyMaker(money);
+    },
     getAllData() {
       axios({
         method: "GET",
@@ -144,14 +120,22 @@ export default {
     checkout() {
       axios({
         method: "DELETE",
-        url: "http://localhost:3000/carts/checkout",
+        url: "http://localhost:3000/carts",
         headers: {
           token: localStorage.getItem("token")
         }
-      }).then(response => {
-        this.$Swal.fire("Good job!", "You clicked the button!", "success");
-        this.$router.push({ name: "Home" });
-      });
+      })
+        .then(response => {
+          this.$Swal.fire("Good job!", "You clicked the button!", "success");
+          this.$router.push({ name: "Home" });
+        })
+        .catch(error => {
+          this.$Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `${error.response.data.message}`
+          });
+        });
     }
   },
   created() {
@@ -161,7 +145,11 @@ export default {
 </script>
 <style scoped>
 .bild {
-  height: 40px;
+  height: 80px;
+}
+.allcart {
+  padding: 150px;
+  height: 100vh;
 }
 .but {
   cursor: pointer;
