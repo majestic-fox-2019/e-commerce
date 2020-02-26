@@ -4,7 +4,7 @@
     <!-- {{reviews}} -->
     <div class="d-flex">
       <div class="col">
-        <img :src="detailProduct.image_url" img-height="500" img-width="500" alt="Ini baju" />
+        <img :src="detailProduct.image_url" class="imageNya" alt="Ini baju" />
       </div>
       <div class="col-md-6">
         <div class="mt-5">
@@ -121,6 +121,8 @@ export default {
     addToCart() {
       if (!localStorage.getItem("token")) {
         this.$bvModal.show(`bv-modal-example`);
+      } else if (this.detailProduct.stock == 0) {
+        Swal.fire("Oops", "Out of stock", "error");
       } else if (this.stockBeli == 0 || this.stockBeli < 0) {
         Swal.fire("Oops", "Your stock does not seem right", "error");
       } else if (this.stockBeli > this.detailProduct.stock) {
@@ -151,6 +153,8 @@ export default {
         review: this.reviewKu
       };
       this.$store.dispatch("postReview", objPostReview).then(() => {
+        let id = this.$route.params.idProduct;
+        this.$store.dispatch("getDetailProduct", id);
         this.getReviews();
         this.ratingKu = "";
         this.review = 0;
@@ -273,5 +277,10 @@ export default {
 .subtit {
   font-size: 20px;
   color: grey;
+}
+
+.imageNya {
+  max-width: 500px;
+  max-height: 500px;
 }
 </style>

@@ -43,15 +43,15 @@
           <b-nav-item v-if="role !== 'admin'">
             <router-link to="/cart" class="links">
               <!-- <i class="el-icon-goods"></i> -->
-              <div v-if="tokenKu">
+              <div v-if="isLogin">
                 <el-badge :value="myCarts.length" class="item">
                   <i class="fas fa-shopping-cart"></i>
                 </el-badge>
               </div>
-              <div v-else>
-                <i class="fas fa-shopping-cart"></i>
-              </div>
             </router-link>
+            <div v-if="!isLogin">
+              <i class="fas fa-shopping-cart"></i>
+            </div>
           </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
@@ -79,6 +79,13 @@ export default {
       this.$store.commit("changeLogin", false);
       this.$store.commit("changeRole", "");
       this.$store.commit("setUsername", "");
+      if (
+        this.currentRoute.path === "/admin" ||
+        this.currentRoute.path == "/cart" ||
+        this.currentRoute.path("/user")
+      ) {
+        this.$router.push("/");
+      }
     },
     getCart() {
       if (localStorage.getItem("token")) {
@@ -107,12 +114,14 @@ export default {
         return this.$store.state.myCarts;
       }
     },
-    tokenKu() {
-      if (localStorage.getItem("token")) {
-        return true;
-      } else {
-        return false;
-      }
+    successLogin() {
+      return this.$store.state.successLogin;
+    },
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+    currentRoute() {
+      return this.$route;
     }
   },
   watch: {
@@ -122,10 +131,15 @@ export default {
     role() {
       return this.$store.state.role;
     },
-    tokenKu() {
-      // return this.tokenKu();
-      alert("HOI");
-      this.cekLogin();
+    successLogin() {
+      this.$message({
+        message: this.$store.state.successLogin,
+        type: "success"
+      });
+      this.getCart();
+    },
+    isLogin() {
+      this.getCart();
     }
   },
   mounted() {

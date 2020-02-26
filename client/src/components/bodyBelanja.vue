@@ -6,7 +6,10 @@
     </td>
     <td>{{price}}</td>
     <td>{{dateNya}}</td>
-    <td>wait</td>
+    <td>
+      <!-- <a :href=></a> -->
+      <router-link :to="'/detail/'+detailHistoryBelanja.Product.id">Give Review</router-link>
+    </td>
   </tr>
 </template>
 

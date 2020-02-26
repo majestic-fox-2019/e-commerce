@@ -74,6 +74,30 @@ class ControlUser {
                 next(err)
             })
     }
+
+    static socialLogin(req, res, next) {
+        User.findOne({ where: { email: req.body.email } })
+            .then(user => {
+                if (user) {
+                    return user
+                } else {
+                    return User.create({
+                        email: req.body.email,
+                        name: req.body.name,
+                        password: "HAHAHAHA",
+                        role: "user"
+                    })
+                }
+            })
+            .then(userSocialLogin => {
+                let token = generateToken({ id: userSocialLogin.id })
+                req.headers.token = token
+                res.status(201).json({ userSocialLogin, token })
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
 }
 
 module.exports = ControlUser

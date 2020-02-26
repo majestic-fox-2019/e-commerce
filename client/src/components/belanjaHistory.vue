@@ -7,7 +7,7 @@
           <th>Picture</th>
           <th>Total Price</th>
           <th>Date</th>
-          <th>Action</th>
+          <th>Give Review</th>
         </tr>
       </thead>
       <tbody>

@@ -7,6 +7,7 @@ import DetailProduct from "../views/DetailProduct.vue"
 import Category from "../views/PerCategory.vue"
 import UserPage from "../views/UserProfile.vue"
 import Cart from "../views/Cart.vue"
+import ErrorPage from "../views/ErrorPage.vue"
 
 Vue.use(VueRouter)
 
@@ -53,6 +54,11 @@ const routes = [
     path: "/cart",
     name: "cart",
     component: Cart
+  },
+  {
+    path: "*",
+    name: "errorPage",
+    component: ErrorPage
   }
 ]
 

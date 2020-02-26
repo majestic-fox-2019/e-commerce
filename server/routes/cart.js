@@ -12,5 +12,6 @@ routes.get("/history", authentication, controlCart.getTransactionHistory)
 routes.get("/history/myShop", authentication, controlCart.getAllTransactionOfMyShop)
 routes.get("/history/all", authentication, forAdmin, controlCart.getAllTransactionOfAllShop)
 routes.get("/have/ibought/:idProduct", authentication, controlCart.getCartYangPaidOfThisProductDanUserIdnyaAku)
+routes.post("/ongkir/berapa", controlCart.getOngkir)
 module.exports = routes
 

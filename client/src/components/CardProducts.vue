@@ -1,6 +1,6 @@
 <template>
   <!-- <div class="col"></div> -->
-  <div class="col-3 mt-2 cardIni" @click="goToDetail">
+  <div class="col-sm-3 col-md-3 col-sm-2 mt-2 cardIni" @click="goToDetail">
     <b-card
       :title="product.name"
       img-height="250"
@@ -105,5 +105,9 @@ export default {
 
 .leftin {
   text-align: left;
+}
+
+.descC {
+  height: 80vh;
 }
 </style>

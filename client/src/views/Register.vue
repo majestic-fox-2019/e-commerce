@@ -29,11 +29,18 @@
           </el-form-item>
         </el-form>
       </div>
+      <div class="mt-5 ml-5 container">
+        <el-button type="primary" @click="google">
+          <i class="fab fa-google mr-3"></i>Sign in with Google
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Swal from "sweetalert2";
+import firebase from "firebase";
 export default {
   name: "Register",
   data() {
@@ -98,6 +105,35 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    google() {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then(result => {
+          let data = {
+            name: result.additionalUserInfo.profile.name,
+            email: result.additionalUserInfo.profile.email
+          };
+          this.$store.dispatch("socialLogin", data).then(() => {
+            Swal.fire("Yay!", "Welcome to cherrychenka!", "success");
+            this.$router.push("/");
+          });
+        })
+        .catch(function(error) {
+          // Handle Errors here.
+          // var errorCode = error.code;
+          // var errorMessage = error.message;
+          // // The email of the user's account used.
+          // var email = error.email;
+          // // The firebase.auth.AuthCredential type that was used.
+          // var credential = error.credential;
+          // console.log("error");
+          // console.log(errorCode, errorMessage, email, credential);
+          // ...
+          Swal.fire("Oops", error.message, "error");
+        });
     }
   },
   computed: {

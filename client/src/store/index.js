@@ -24,7 +24,8 @@ export default new Vuex.Store({
     myCarts: null,
     myBelanjaHistory: null,
     reviews: null,
-    haveIBought: false
+    haveIBought: false,
+    successLogin: null,
     // allTransactionsAllShop: []
   },
   mutations: {
@@ -72,6 +73,9 @@ export default new Vuex.Store({
     },
     haveIBought(state, status) {
       state.haveIBought = status
+    },
+    setSuccessLogin(state, message) {
+      state.successLogin = message
     }
   },
   actions: {
@@ -107,19 +111,23 @@ export default new Vuex.Store({
           context.commit("changeLogin", true);
           context.commit("changeRole", data.userLoginFound.role);
           context.commit("setUsername", data.userLoginFound.name);
-          Swal.fire(
-            "Sweet!", "Welcome to CherryChenka!", "success"
-          ).then(() => {
 
-            if (data.userLoginFound.role == "admin") {
-              router.push("/admin")
-            } else {
-              // console.log(router, "<< ini router")
-              if (router.options.base !== "/") {
-                router.push("/")
-              }
-            }
-          })
+          context.commit("setSuccessLogin", `Welcome to Cherrychenka, ${data.userLoginFound.name}!!`)
+          // context.dispatch("getMyCart")
+
+          // Swal.fire(
+          //   "Sweet!", `Welcome to CherryChenka, ${data.userLoginFound.name}!`, "success"
+          // ).then(() => {
+
+          if (data.userLoginFound.role == "admin") {
+            router.push("/admin")
+          } else {
+            // console.log(router, "<< ini router")
+            // if (router.options.base !== "/") {
+            //   router.push("/")
+            // }
+          }
+          // })
 
         })
         .catch(err => {
@@ -165,6 +173,30 @@ export default new Vuex.Store({
           } else {
             context.commit("setErrMSG", "Oops, something went wrong")
           }
+        })
+    },
+    socialLogin(context, data) {
+      let { name, email } = data
+      return axios({
+        method: "POST",
+        url: `${this.state.baseUrl}/users/socialLogin`,
+        data: {
+          name,
+          email
+        }
+      })
+        .then(({ data }) => {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("role", data.userSocialLogin.role);
+          localStorage.setItem("userId", data.userSocialLogin.id);
+          localStorage.setItem("username", data.userSocialLogin.name);
+          context.commit("changeLogin", true);
+          context.commit("changeRole", data.userSocialLogin.role);
+          context.commit("setUsername", data.userSocialLogin.name);
+        })
+        .catch(err => {
+          Swal.fire("Oops", "something went wrong", "error")
+          context.commit("dummy", err)
         })
     },
     sellProduct(context, dataProduct) {

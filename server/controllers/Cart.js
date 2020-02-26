@@ -1,6 +1,7 @@
 const Cart = require("../models").Cart
 const Product = require("../models").Product
 const User = require("../models").User
+const axios = require("axios")
 class ControlCart {
     static addToCart(req, res, next) {
         if (req.body.qty < 0) {
@@ -200,6 +201,30 @@ class ControlCart {
             .catch(err => {
                 next(err)
             })
+    }
+
+    static getOngkir(req, res, next) {
+        axios({
+            method: "POST",
+            url: "https://api.rajaongkir.com/starter/cost",
+            headers: {
+                key: process.env.APIKEYRAJAONGKIR
+            },
+            data: {
+                origin: "501",
+                destination: req.body.destination,
+                weight: 1,
+                courier: "jne"
+            }
+        })
+            .then(result => {
+                // console.log(result.data.rajaongkir.results[0].costs[0].cost[0].value, "<< ini result")
+                res.status(200).json(result.data.rajaongkir.results[0].costs[0].cost[0].value)
+            })
+            .catch(err => {
+                // console.log(err, "<< ini error");
+                next(err)
+            });
     }
 
 }
