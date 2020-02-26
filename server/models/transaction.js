@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
   class Transaction extends Model{}
   Transaction.init({
     UserId: DataTypes.INTEGER,
-    ProductId: DataTypes.INTEGER
+    ProductId: DataTypes.INTEGER,
+    
   },{sequelize})
   Transaction.associate = function(models) {
     // associations can be defined here
