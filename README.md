@@ -334,12 +334,7 @@ Link Deploy: https://skin-type-dila.firebaseapp.com/
 * Request body:
     ```
     {
-      "name": type data string,
-      "price": type data integer,
-      "stock": type data integer,
-      "category": type data string,
-      "image_url": type data string,
-      "description: type data string"
+      "total": "type data number"
     }
     ```
 
@@ -350,20 +345,6 @@ Link Deploy: https://skin-type-dila.firebaseapp.com/
       err: {
         "code": 500, 
         "message": "internal server error"
-      }
-    }
-    ```
-
-    code 400:
-    ```
-    {
-      err: {
-        "code": 500, 
-        "message": [
-          "please filled product name",
-          "please filled price product",
-          "please filled stock product"
-          ]
       }
     }
     ```
@@ -433,4 +414,305 @@ Link Deploy: https://skin-type-dila.firebaseapp.com/
       "image_url": type data string,
       "description: type data string"
     }
+    ```
+
+## Add to cart
+* Method: POST
+* Route: http://localhost:3000/products/:id
+* Request Headers:
+    ```
+    {
+      "token": type data string
+    }
+    ```
+
+* Result:
+    code 500: 
+    ```
+    {
+      err: {
+        "code": 500, 
+        "message": "internal server error"
+      }
+    }
+    ```
+
+    code 401:
+    ```
+    {
+      err: {
+        "code": 401, 
+        "message": "invalid token"
+      }
+    }
+    ```
+
+    code 201:
+    ```
+    {
+      "id": type data integer,
+      "name": type data string,
+      "email": type data string,
+      "address": type data string,
+      "phone_number": type data string,
+      "role": type data string
+    }
+    
+    ```
+
+## Show cart
+* Method: GET
+* Route: http://localhost:3000/user-cart
+* Request Headers:
+    ```
+    {
+      "token": type data string
+    }
+    ```
+
+* Result:
+    code 500: 
+    ```
+    {
+      err: {
+        "code": 500, 
+        "message": "internal server error"
+      }
+    }
+    ```
+
+    code 401:
+    ```
+    {
+      err: {
+        "code": 401, 
+        "message": "invalid token"
+      }
+    }
+    ```
+
+    code 201:
+    ```
+    {
+      "id": type data integer,
+      "name": type data string,
+      "email": type data string,
+      "address": type data string,
+      "phone_number": type data string,
+      "role": type data string,
+      "Products": 
+        [
+          {
+            "id": type data integer,
+            "name": type data string,
+            "price": type data integer,
+            "stock": type data integer,
+            "category": type data string,
+            "image_url": type data string,
+            "description: type data string",
+            "Carts": 
+                {
+                  "ProductId": type data integer,
+                  "UserId": type data integer,
+                  "total": type data integer
+                }
+          }
+      ]
+    }
+    
+    ```
+
+## Remove Product from cart
+* Method: DELETE
+* Route: http://localhost:3000/products/:id
+* Request Headers:
+    ```
+    {
+      "token": type data string
+    }
+    ```
+
+* Result:
+    code 500: 
+    ```
+    {
+      err: {
+        "code": 500, 
+        "message": "internal server error"
+      }
+    }
+    ```
+
+    code 401:
+    ```
+    {
+      err: {
+        "code": 401, 
+        "message": "invalid token"
+      }
+    }
+    ```
+
+    code 201:
+    ```
+    {
+      "data": 1
+    }
+    
+    ```
+
+## Edit quantity of Product from cart
+* Method: DELETE
+* Route: http://localhost:3000/products/:id
+* Request Headers:
+    ```
+    {
+      "token": type data string
+    }
+    ```
+
+* Request Body:
+    ```
+    {
+      "total": type data integer
+    }
+    ```
+
+* Result:
+    code 500: 
+    ```
+    {
+      err: {
+        "code": 500, 
+        "message": "internal server error"
+      }
+    }
+    ```
+
+    code 401:
+    ```
+    {
+      err: {
+        "code": 401, 
+        "message": "invalid token"
+      }
+    }
+    ```
+
+    code 201:
+    ```
+    {
+      "data": 1
+    }
+    
+    ```
+
+## Checkout Product from cart
+* Method: PATCH
+* Route: http://localhost:3000/products
+* Request Headers:
+    ```
+    {
+      "token": type data string
+    }
+    ```
+
+* Result:
+    code 500: 
+    ```
+    {
+      err: {
+        "code": 500, 
+        "message": "internal server error"
+      }
+    }
+    ```
+
+    code 401:
+    ```
+    {
+      err: {
+        "code": 401, 
+        "message": "invalid token"
+      }
+    }
+    ```
+
+    code 201:
+    ```
+    {
+      "data": 1
+    }
+    
+    ```
+
+## Send email to customer 
+* Method: POST
+* Route: http://localhost:3000/send-email
+* Request Headers:
+    ```
+    {
+      "token": type data string
+    }
+    ```
+
+* Result:
+    code 500: 
+    ```
+    {
+      err: {
+        "code": 500, 
+        "message": "internal server error"
+      }
+    }
+    ```
+
+    code 401:
+    ```
+    {
+      err: {
+        "code": 401, 
+        "message": "invalid token"
+      }
+    }
+    ```
+
+    code 201:
+    ```
+    {
+      "message": "email send"
+    }
+    
+    ```
+
+## Edit Profile User
+* Method: PATCH
+* Route: http://localhost:3000/user
+* Request Body :
+    ```
+    {
+      "id": type data integer,
+      "name": type data string,
+      "email": type data string,
+      "address": type data string,
+      "phone_number": type data string,
+    }
+    ```
+* Result:
+    code 500: 
+    ```
+    {
+      err: {
+        "code": 500, 
+        "message": "internal server error"
+      }
+    }
+    ```
+
+    code 201:
+    ```
+    {
+      "data": "1"
+    }
+    
     ```

@@ -13,7 +13,7 @@
                 <form @submit.prevent="editCart(data.Cart.ProductId, data.Cart.total)">
                   <div class="d-flex">
                     <div class="form-group">
-                      <input @change="buttonEdit(data.Cart.ProductId)" type="number" class="form-control" style="max-width:70px" v-model="data.Cart.total">
+                      <input @change="buttonEdit(data.Cart.ProductId)" type="number" class="form-control" style="max-width:70px" v-model="data.Cart.total" :max="data.stock" min="0">
                     </div>
                     <div v-if="statusButton && activeId == data.Cart.ProductId">
                       <button type="submit" class="btn btn-light" style="margin-left:30px;" title="edit quantity"><i class="far fa-edit"></i></button>
@@ -36,7 +36,7 @@
       <div></div>
       </div>
       <hr>
-    <div class="container">
+    <div class="container" v-if="!statusButton">
     <button type="button" class="btn btn-success btn-lg btn-block" title="chekout!" @click="checkOut()"><i class="fas fa-shopping-basket"></i> Check Out!</button>
     </div>
       </div>
@@ -169,6 +169,7 @@ name: 'Cart',
           title: 'Oops...',
           text: err.response.data.msg
         })
+        total = 0
       })
     },
     checkOut(){
