@@ -37,16 +37,25 @@ module.exports = (sequelize, DataTypes) => {
       admin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
-      }
-    },
-    {
-      sequelize
-    }
+      },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Password cannot be null"
+          },
+        }
+      },
+    }, { sequelize }
   );
 
   User.associate = function (models) {
     // associations can be defined here
-    User.belongsToMany(models.Product, { through: "UserProduct" });
+    // User.belongsTo(models.Product)
+    User.hasMany(models.UserProduct)
+    // User.belongsToMany(models.Product, { through: "UserProduct" });
   };
   return User;
 };

@@ -1,5 +1,5 @@
 import loginregister from './components/loginregister.vue';
-import homepage from './components/homepage.vue';
+import homepageadmin from './components/homepageadmin.vue';
 import update from './components/update.vue';
 
 
@@ -12,7 +12,7 @@ export default [
   {
     path: '/homepage',
     name: 'homepage',
-    component: homepage,
+    component: homepageadmin,
     // beforeEnter(to, from, next) {
     //   if (this.localstorage.token) {
     //     next();

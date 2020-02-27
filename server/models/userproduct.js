@@ -7,13 +7,16 @@ module.exports = (sequelize, DataTypes) => {
   UserProduct.init(
     {
       UserId: DataTypes.INTEGER,
-      ProductId: DataTypes.INTEGER
+      ProductId: DataTypes.INTEGER,
+      quantity: DataTypes.INTEGER
     },
     { sequelize }
   );
 
   UserProduct.associate = function(models) {
     // associations can be defined here
+    UserProduct.belongsTo(models.Product)
+    UserProduct.belongsTo(models.User)
   };
   return UserProduct;
 };

@@ -5,6 +5,11 @@ import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import routes from './routes';
 
+const superagent = require('superagent');
+require('dotenv').config();
+
+const urlBase = 'http://localhost:3000';
+const token = localStorage.getItem('token');
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
@@ -19,31 +24,32 @@ const store = new Vuex.Store({
   state: {
     url_base: 'http://localhost:3000',
     isLogin: localStorage.getItem('token'),
-    idUpdate: null,
-    nameUpdate: null,
-    image_urlUpdate: null,
-    priceUpdate: null,
-    stockUpdate: null,
-    ratingUpdate: null,
-    descriptionUpdate: null,
     isUpdate: false,
     dataUpdate: {},
     loadData: [],
+    isAdmin: localStorage.getItem('isAdmin'),
+    username: localStorage.getItem('username'),
+    products: [],
+    showCart: false,
+    isDetails: false,
+    dataDetails: {},
+    carts: [],
   },
   mutations: {
     loginsetter(state, alreadyLogin) {
-      state.isLogin = alreadyLogin;
+      state.isLogin = alreadyLogin.token;
+      // state.isAdmin = alreadyLogin.data;
+      // console.log(state.isAdmin, 'masuk gakkkk');
     },
     dataUpdate(state, dataUpdate) {
-      state.idUpdate = dataUpdate.id;
-      state.nameUpdate = dataUpdate.name;
-      state.image_urlUpdate = dataUpdate.image_url;
-      state.priceUpdate = dataUpdate.price;
-      state.stockUpdate = dataUpdate.stock;
-      state.descriptionUpdate = dataUpdate.description;
-      state.ratingUpdate = dataUpdate.rating;
+      state.dataUpdate = dataUpdate;
       state.isUpdate = true;
       console.log(dataUpdate, 'ini nihh state', state.isUpdate, 'awkakwakwka');
+    },
+    dataDetails(state, data) {
+      console.log(data);
+      state.dataDetails = data;
+      state.isDetails = true;
     },
     logoutupdate(state, status) {
       state.isUpdate = status;
@@ -65,9 +71,40 @@ const store = new Vuex.Store({
       state.descriptionUpdate = null;
       state.ratingUpdate = null;
     },
-    // loadData(state, data) {
-
-    // },
+    GETDATA(state, data) {
+      state.products = [];
+      console.log(data, 'masukkah???');
+      state.products = data;
+    },
+    GETCART(state, data) {
+      state.carts = data;
+    },
+    showCart(state, argument) {
+      state.showCart = argument;
+    },
+  },
+  actions: {
+    loadData({ commit }) {
+      // this.products = [];
+      superagent
+        .get(`${urlBase}/products`)
+        .set('token', token)
+        .end((err, res) => {
+          // alert('ulalaaaa');
+          console.log(res.body, 'INI BODY LOAD DATA');
+          commit('GETDATA', res.body);
+        });
+    },
+    getCart() {
+      // alert('ulalaaa');
+      superagent
+        .get(`${urlBase}/carts`)
+        .set('token', token)
+        .end((err, res) => {
+          console.log(res.body, 'getCart nihhh');
+          this.commit('GETCART', res.body);
+        });
+    },
   },
 });
 

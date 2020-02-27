@@ -17,6 +17,17 @@
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
       <div v-if="alreadyLogin">
+       <v-btn v-if="!isAdmin" text @click="showCart">
+        <span class="mr-2"></span>
+        <v-icon>mdi-open-in-new</v-icon>
+        Look Your Items: {{$store.state.carts.length}}
+      </v-btn>
+      </div>
+      <v-spacer></v-spacer>
+      <h2 v-if="alreadyLogin">
+        Heyhoo, {{$store.state.username}}
+        </h2>
+      <div v-if="alreadyLogin">
        <v-btn text @click="logoutHidden">
         <span class="mr-2"></span>
         <v-icon>mdi-open-in-new</v-icon>
@@ -32,11 +43,25 @@
 
 export default {
   name: 'navbar',
+  data() {
+    return {
+      cartItems: this.$store.state.carts,
+    };
+  },
   computed: {
     alreadyLogin() {
       return this.$store.state.isLogin;
     },
+    isAdmin() {
+      return this.$store.state.isAdmin;
+    },
   },
+  beforeCreate() {
+    return this.$store.dispatch('getCart');
+  },
+  // watch: {
+  //   cartItems:
+  // },
   methods: {
     login() {
       if (this.$router.path !== '/') {
@@ -45,10 +70,15 @@ export default {
     },
     logoutHidden() {
       localStorage.removeItem('token');
+      localStorage.removeItem('isAdmin');
+      localStorage.removeItem('username');
       this.$store.commit('loginsetter', false);
       this.$store.commit('logoutupdate', false);
       this.login();
     },
+    showCart() {
+      this.$store.commit('showCart', true)
+    }
   },
 };
 </script>

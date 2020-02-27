@@ -58,8 +58,10 @@
 </template>
 
 <script>
+// import dotenv from 'dotenv';
 // import axios from 'axios';
 const superagent = require('superagent');
+// const jwt = require('jsonwebtoken');
 
 export default {
   name: 'loginregister',
@@ -75,6 +77,9 @@ export default {
       erroralert: false,
       text: null,
     };
+  },
+  destroyed() {
+    this.$store.dispatch('loadData');
   },
   methods: {
     showothers() {
@@ -100,8 +105,17 @@ export default {
             this.text = res.body;
           } else {
             const { token } = res.body;
+            const { data } = res.body;
+            const { username } = res.body;
+            const { id } = res.body;
+            console.log(username, data, 'masukkk gakkk????');
             localStorage.setItem('token', token);
-            this.$store.commit('loginsetter', token);
+            localStorage.setItem('usernameId', id);
+            localStorage.setItem('username', username);
+            if (data === true) {
+              localStorage.setItem('isAdmin', data);
+            }
+            this.$store.commit('loginsetter', { token });
             this.showhomepage();
           }
         });
@@ -123,6 +137,7 @@ export default {
             email: this.emailReg,
             password: this.passwordReg,
             admin: false,
+            username: this.usernameReg,
           })
           .end(() => {
             this.erroralert = true;

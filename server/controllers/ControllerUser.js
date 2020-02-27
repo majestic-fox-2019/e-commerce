@@ -6,11 +6,12 @@ const jwt = require("jsonwebtoken");
 class ControllerUser {
   static register(req, res, next) {
     // console.log("Masuk");
-    const { email, password, admin } = req.body;
+    const { username, email, password, admin } = req.body;
     // console.log(email, password, admin);
     const hashing1 = hashing(password);
     // console.log(hashing1);
     User.create({
+      username: username,
       email: email,
       password: hashing1,
       admin: admin
@@ -39,11 +40,12 @@ class ControllerUser {
             {
               id: result.id,
               email: result.email,
-              // admin: result.admin
+              admin: result.admin,
+              username: result.username
             },
             process.env.secret
           );
-          res.status(200).json({ token });
+          res.status(200).json({ token, data: result.admin, id: result.id, username: result.username });
         } else {
           throw {
             status: 404,

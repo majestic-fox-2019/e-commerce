@@ -1,11 +1,11 @@
 <template>
-<div class='container' v-if="alreadyLogin && !isUpdated">
+<div class='container' v-if="alreadyLogin && !isUpdated && !isDetails">
   <!-- <div> -->
   <!-- ADD PRODUCT -->
     <v-row>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn text v-on="on" color='primary' dark>
+        <v-btn v-if="isAdmin" text v-on="on" color='primary' dark>
         <span class="mr-2"></span>
         <v-icon>mdi-pencil</v-icon>
         Add Product
@@ -58,7 +58,8 @@
   </v-row>
 <!-- PRODUCT -->
     <v-row justify="center">
-  <div class="card" v-for="product in products" :key="product.id">
+  <div class="card" v-for="product in $store.state.products" :key="product.id">
+    <!-- {{allProduct}} -->
     <v-col>
   <v-card
     class="mx-auto my-12"
@@ -90,7 +91,7 @@
         ></v-rating>
 
       <!-- Rating Barang Angka -->
-        <div class="grey--text ml-4">{{product.rating}} </div>
+        <div class="grey--text ml-4">{{product.rating}}</div>
       </v-row>
 
       <!-- HARGA BARANG  -->
@@ -98,7 +99,7 @@
         $ • {{product.price}}
       </div>
 
-      <div>{{product.description}}.</div>
+      <div v-if="$store.state.isAdmin">{{product.description}}.</div>
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
@@ -112,7 +113,7 @@
       </v-chip-group>
     </v-card-text>
 
-    <v-card-actions>
+    <v-card-actions v-if="isAdmin">
       <v-btn
         @click="deleteProduct(product.id)"
         color="red"
@@ -129,6 +130,22 @@
         EDIT
       </v-btn>
     </v-card-actions>
+    <v-card-actions v-if="!isAdmin">
+      <v-btn
+        @click="detailsProduct(product.id)"
+        color="red"
+        text
+      >
+        DETAILS
+      </v-btn>
+     <v-btn
+        @click="addCart(product.id)"
+        color="primary"
+        text
+      >
+        Add Cart
+      </v-btn>
+    </v-card-actions>
   </v-card>
     </v-col>
   </div>
@@ -136,18 +153,14 @@
 </div>
 </template>
 <script>
-// import edit from './addorupdate.vue';
-
 const superagent = require('superagent');
 
 export default {
-  name: 'homepage',
+  name: 'homepageadmin',
   // components: {
-  //   edit,
   // },
   data() {
     return {
-      products: [],
       dialog: false,
       name: null,
       image_url: null,
@@ -155,33 +168,31 @@ export default {
       stock: null,
       description: null,
       selected: null,
+      // isAdmin: this.$store.state.isAdmin,
     };
   },
   computed: {
+    allProduct() {
+      return this.$store.state.products;
+    },
     alreadyLogin() {
       return this.$store.state.isLogin;
     },
     isUpdated() {
       return this.$store.state.isUpdate;
     },
+    isAdmin() {
+      return this.$store.state.isAdmin;
+    },
+    isDetails() {
+      return this.$store.state.isDetails;
+    },
   },
   created() {
-    return this.loadData();
+    console.log(this.$store.state.products, 'productssss<<<<<<<<<');
+    return this.$store.dispatch('loadData');
   },
   methods: {
-    loadData() {
-      this.products = [];
-      superagent
-        .get(`${this.$store.state.url_base}/products`)
-        .set('token', this.$store.state.isLogin)
-        .end((err, res) => {
-          // alert('ulalaaaa');
-          // console.log(res.body, 'INI BODY LOAD DATA');
-          res.body.forEach((element) => {
-            this.products.push(element);
-          });
-        });
-    },
     deleteProduct(id) {
       console.log(id, 'uvuvuevue');
       superagent
@@ -216,12 +227,11 @@ export default {
         })
         .end(() => {
           this.name = null;
-          this.image_url = null;
           this.price = null;
           this.stock = null;
           this.rating = null;
           this.description = null;
-
+          this.image_url = null;
           this.dialog = false;
           this.loadData();
         });
@@ -232,10 +242,37 @@ export default {
         .set('token', this.$store.state.isLogin)
         .end((err, res) => {
           const data = res.body;
-          // console.log(res.body, 'masukkk??');
+          console.log(res.body, 'masukkk??');
           this.$store.commit('dataUpdate', data);
           this.$router.push({ name: 'update' });
           // this.$store.commit('isupdate', true)
+        });
+    },
+    detailsProduct(id) {
+      // console.log('masukkk??');
+      superagent
+        .get(`${this.$store.state.url_base}/products/${id}`)
+        .set('token', this.$store.state.isLogin)
+        .end((err, res) => {
+          // console.log(res.body);
+          const dataDetails = res.body;
+          this.$store.commit('dataDetails', dataDetails);
+          // this.$router.push({ name: 'details' });
+        });
+    },
+    addCart(id) {
+      superagent
+        .post(`${this.$store.state.url_base}/carts`)
+        .set('token', this.$store.state.isLogin)
+        .send({
+          ProductId: id,
+          quantity: 1,
+        })
+        .end((err, res) => {
+          // const carts = this.$store.state.carts;
+          console.log(res.body);
+          this.$store.state.carts.push(res.body);
+          this.$store.dispatch('getCart');
         });
     },
   },
@@ -258,5 +295,14 @@ div.card {
 }
 div.row.justify-center{
   width: 100%
+}
+.input {
+  margin-left: 30%;
+}
+.input input{
+  /* background: lightpink; */
+  border: solid grey 1px;
+  width: 50%;
+  margin-left: 10%;
 }
 </style>
