@@ -1,12 +1,10 @@
-const {Product, Category} = require('../models')
+const {Category} = require('../models')
 const createError = require('http-errors')
 
 class Controller{
     static findAll(req, res, next){
-        Product
-        .findAll({
-            include: [Category]
-        })
+        Category
+        .findAll()
         .then(data =>{
             if (data.length > 0) {
                 res.status(200).json(data)
@@ -20,9 +18,8 @@ class Controller{
     }
     static findOne(req, res, next){
         const {id} = req.params
-        Product
+        Category
         .findOne({
-            include: [Category],
             where:{id:id}
         })
         .then(data =>{
@@ -37,15 +34,10 @@ class Controller{
         })
     }
     static create(req, res, next){
-        const { name, image_url, price, stock, CategoryId, description } = req.body
-        Product
+        const { name } = req.body
+        Category
         .create({ 
-            name, 
-            image_url, 
-            price, 
-            stock, 
-            description,
-            CategoryId
+            name
         })
         .then(data =>{
             res.status(201).json(data)
@@ -56,15 +48,10 @@ class Controller{
     }
     static update(req, res, next){
         const {id} = req.params
-        const {name, image_url, price, stock } = req.body
-        Product
+        const {name} = req.body
+        Category
         .update({
-            name, 
-            image_url, 
-            price, 
-            stock,
-            description,
-            CategoryId
+            name
         }, { 
             where:{id:id},
             returning : true
@@ -78,8 +65,8 @@ class Controller{
     }
     static destroy(req, res, next){
         const {id} = req.params
-        const findOne = Product.findOne({where:{id:id}})
-        const destroy = Product.destroy({ where:{id:id}})
+        const findOne = Category.findOne({where:{id:id}})
+        const destroy = Category.destroy({ where:{id:id}})
         Promise.all([findOne, destroy])
         .then(data =>{
             res.status(200).json(data[0])

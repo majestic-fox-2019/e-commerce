@@ -9,7 +9,16 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notEmpty:true,
 
-      }},
+      }
+    },
+    CategoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+
+      }
+    },
     image_url: {
       type:DataTypes.STRING,
       allowNull:false,
@@ -32,12 +41,21 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty:true,
         isInt: true,
         min: 0,
-      }}
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }
+    }
   }, {sequelize})
   Product.associate = function(models) {
     // associations can be defined here
-    // Product.belongsTo(models.User)
-    Product.belongsToMany(models.User, {through: 'Transaction'})
+    Product.belongsTo(models.Category)
+    Product.hasMany(models.Transaction)
+    // Product.belongsToMany(models.User, { through: 'Transaction' })
 
   };
   return Product;

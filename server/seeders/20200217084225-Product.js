@@ -15,6 +15,8 @@ module.exports = {
             image_url: 'https://eigerindostore.com/media/catalog/product/9/1/910003757001_1.jpg',
             price: '1000000',
             stock: 30,
+            description: 'kualitas nomor satu di kelasnya, terbuat dai bahan-bahan berkualitas tinggi dengan standar internasional',
+            CategoryId: 1,
             createdAt: new Date(),
             updatedAt: new Date()
           },
@@ -23,6 +25,8 @@ module.exports = {
             image_url: 'https://eigerindostore.com/media/catalog/product/cache/image/700x700/e9c3970ab036de70892d86c6d221abfe/9/1/910003775009_1.jpg',
             price: '500000',
             stock: 30,
+            description: 'kualitas nomor satu di kelasnya, terbuat dai bahan-bahan berkualitas tinggi dengan standar internasional',
+            CategoryId: 2,
             createdAt: new Date(),
             updatedAt: new Date()
           }
