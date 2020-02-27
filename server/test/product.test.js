@@ -53,7 +53,7 @@ describe('User Activity', () => {
   it('should create an user product successfully', done => {
     let newProduct = {
       name: 'contoh barang',
-      imageUrl: 'https://hytsit.com/assets/frontend/images/noproduct.png',
+      file: 'https://hytsit.com/assets/frontend/images/noproduct.png',
       stock: 12,
       price: '2000000',
       category: 'drum'
@@ -67,9 +67,6 @@ describe('User Activity', () => {
           done(err.body)
         } else {
           expect(res.body.name).toBe('contoh barang')
-          expect(res.body.imageUrl).toBe(
-            'https://hytsit.com/assets/frontend/images/noproduct.png'
-          )
           expect(res.body.stock).toBe(12)
           expect(res.body.price).toBe('2000000')
           done()
@@ -80,7 +77,7 @@ describe('User Activity', () => {
   it('should create an user product successfully', done => {
     let newProduct = {
       name: 'contoh barang',
-      imageUrl: 'https://hytsit.com/assets/frontend/images/noproduct.png',
+      file: 'https://hytsit.com/assets/frontend/images/noproduct.png',
       stock: 12,
       price: '2000000',
       category: 'keyboard'
@@ -94,9 +91,6 @@ describe('User Activity', () => {
           done(err)
         } else {
           expect(res.body.name).toBe('contoh barang')
-          expect(res.body.imageUrl).toBe(
-            'https://hytsit.com/assets/frontend/images/noproduct.png'
-          )
           expect(res.body.stock).toBe(12)
           expect(res.body.price).toBe('2000000')
           done()
@@ -144,7 +138,7 @@ describe('User Activity', () => {
   it('should edit a product successfully', done => {
     let newProduct = {
       name: 'contoh barang edit',
-      imageUrl: 'https://hytsit.com/assets/frontend/images/noproduct.png',
+      file: 'https://hytsit.com/assets/frontend/images/noproduct.png',
       stock: 13,
       price: '100123',
       category: 'guitar'
@@ -159,9 +153,6 @@ describe('User Activity', () => {
         } else {
           //   console.log(res.body, 'ini setelah patch')
           expect(res.body[1].name).toBe('contoh barang edit')
-          expect(res.body[1].imageUrl).toBe(
-            'https://hytsit.com/assets/frontend/images/noproduct.png'
-          )
           expect(res.body[1].price).toBe('100123')
           expect(res.body[1].stock).toBe(13)
           done()
@@ -177,9 +168,6 @@ describe('User Activity', () => {
           done(err.body)
         } else {
           expect(res.body.name).toBe('contoh barang edit')
-          expect(res.body.imageUrl).toBe(
-            'https://hytsit.com/assets/frontend/images/noproduct.png'
-          )
           expect(res.body.price).toBe('100123')
           expect(res.body.stock).toBe(13)
           done()

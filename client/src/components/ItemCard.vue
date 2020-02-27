@@ -1,18 +1,22 @@
 <template>
   <b-row style="margin-left:10vw; margin-right:10vw; margin-top:10vh;">
-    <b-col cols="3" v-for="i in items" :key="i">
+    <b-col cols="3" v-for="(item, i) in items" :key="i">
       <b-card
-        title="Card Title"
-        img-src="https://picsum.photos/600/300/?image=25"
-        img-alt="Image"
+        :title="item.name"
+        :img-src="item.imageUrl"
+        img-alt="ItemCardImage"
         img-top
-        tag="article"
+        tag="ItemCardImage"
         style="max-width: 20rem;"
         class="mb-2"
       >
         <b-card-text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+          <p>
+            {{ item.category }}
+          </p>
+          <p>
+            {{ item.stock }}
+          </p>
         </b-card-text>
 
         <b-button href="#" variant="primary">Go somewhere</b-button>

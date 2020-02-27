@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     { sequelize }
   )
   Mall.associate = function(models) {
-    // associations can be defined here
+    Mall.hasMany(models.ChartMall)
   }
   return Mall
 }

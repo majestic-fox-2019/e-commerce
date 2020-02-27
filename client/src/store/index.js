@@ -9,7 +9,11 @@ export default new Vuex.Store({
     categoryItem: null,
     userLogin: null,
     baseUrl: 'http://localhost:3000',
-    userProduct: null
+    mallProduct: null,
+    userProduct: null,
+    quantity: 0,
+    mallQuantity: 0,
+    email: null
   },
   mutations: {
     SET_CATEGORYITEM(state, payload) {
@@ -20,6 +24,18 @@ export default new Vuex.Store({
     },
     SET_USERPRODUCT(state, payload) {
       state.userProduct = payload
+    },
+    SET_QUANTITY(state, payload) {
+      state.quantity = payload
+    },
+    SET_MALLQUANTITY(state, payload) {
+      state.mallQuantity = payload
+    },
+    SET_EMAIL(state, payload) {
+      state.email = payload
+    },
+    SET_MALLPRODUCT(state, payload) {
+      state.mallProduct = payload
     }
   },
   actions: {
@@ -30,7 +46,7 @@ export default new Vuex.Store({
         name: payload.name,
         email: payload.email,
         password: payload.password,
-        role: 'user'
+        role: payload.role
       }
       axios({
         method: 'post',
@@ -60,7 +76,9 @@ export default new Vuex.Store({
           console.log('user login successfully with data: ', data)
           localStorage.setItem('e_musicToken', data.token)
           localStorage.setItem('e_musicEmail', data.email)
-          commit('SET_USERLOGIN', payload)
+          localStorage.setItem('e_musicId', data.id)
+          commit('SET_USERLOGIN', data)
+          commit('SET_EMAIL', data.email)
           router.push({
             path: '/'
           })
@@ -108,6 +126,19 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
+        })
+    },
+    findMallProduct({ state, commit }) {
+      axios({
+        method: 'get',
+        url: `${state.baseUrl}/malls`
+      })
+        .then(({ data }) => {
+          console.log('ini adalah seluruh data mall', data)
+          commit('SET_MALLPRODUCT', data)
+        })
+        .catch(err => {
+          console.log(err.response)
         })
     }
   },

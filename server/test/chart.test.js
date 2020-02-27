@@ -154,9 +154,6 @@ describe('add User and Mall Product', () => {
           done(err)
         } else {
           expect(res.body.name).toBe(newProduct.name)
-          expect(res.body.imageUrl).toBe(
-            'https://hytsit.com/assets/frontend/images/noproduct.png'
-          )
           expect(res.body.stock).toBe(12)
           expect(res.body.price).toBe('2000000')
           done()
@@ -181,9 +178,6 @@ describe('add User and Mall Product', () => {
           done(err)
         } else {
           expect(res.body.name).toBe(newProduct.name)
-          expect(res.body.imageUrl).toBe(
-            'https://hytsit.com/assets/frontend/images/noproduct.png'
-          )
           expect(res.body.stock).toBe(12)
           expect(res.body.price).toBe('2000000')
           done()
@@ -208,9 +202,6 @@ describe('add User and Mall Product', () => {
           done(err.body)
         } else {
           expect(res.body.name).toBe('contoh barang')
-          expect(res.body.imageUrl).toBe(
-            'https://hytsit.com/assets/frontend/images/noproduct.png'
-          )
           expect(res.body.stock).toBe(12)
           expect(res.body.price).toBe('2000000')
           done()
@@ -235,9 +226,6 @@ describe('add User and Mall Product', () => {
           done(err)
         } else {
           expect(res.body.name).toBe('contoh barang')
-          expect(res.body.imageUrl).toBe(
-            'https://hytsit.com/assets/frontend/images/noproduct.png'
-          )
           expect(res.body.stock).toBe(12)
           expect(res.body.price).toBe('2000000')
           done()

@@ -2,10 +2,10 @@ const { Mall } = require('../models/index')
 
 module.exports = class {
   static addProduct(req, res, next) {
-    let { name, imageUrl, price, stock, category } = req.body
+    let { name, file, price, stock, category } = req.body
     Mall.create({
       name,
-      imageUrl,
+      imageUrl: file,
       price,
       stock,
       category

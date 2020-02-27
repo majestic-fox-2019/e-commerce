@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
   )
   ChartMall.associate = function(models) {
     // associations can be defined here
-    ChartMall.belongsTo(models.Product)
+    ChartMall.belongsTo(models.Mall)
     ChartMall.belongsTo(models.User)
   }
   return ChartMall

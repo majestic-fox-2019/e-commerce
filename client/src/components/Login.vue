@@ -1,12 +1,6 @@
 <template>
   <div>
-    <el-form
-      :model="ruleForm"
-      status-icon
-      ref="ruleForm"
-      label-width="120px"
-      class="demo-ruleForm"
-    >
+    <el-form :model="ruleForm" status-icon ref="ruleForm" label-width="120px" class="demo-ruleForm">
       <el-form-item
         prop="email"
         label="Email"
@@ -36,17 +30,11 @@
           }
         ]"
       >
-        <el-input
-          type="password"
-          v-model="ruleForm.pass"
-          autocomplete="off"
-        ></el-input>
+        <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >Submit</el-button
-        >
+        <el-button type="primary" @click="submitForm('ruleForm')">Submit</el-button>
         <el-button @click="resetForm('ruleForm')">Reset</el-button>
       </el-form-item>
     </el-form>
@@ -73,6 +61,7 @@ export default {
             password: this.ruleForm.pass
           }
           this.$store.dispatch('login', userLogin)
+          this.$emit('login')
         } else {
           console.log('error submit!!')
           return false

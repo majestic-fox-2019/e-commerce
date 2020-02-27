@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ItemCard from '@/components/ItemCard'
+import ItemCard from '@/components/CategoryCard.vue'
 export default {
   name: 'categoryView',
   components: {
@@ -27,7 +27,7 @@ export default {
   watch: {
     category: function(newVal, oldVal) {
       if (newVal) {
-        console.log(newVal)
+        this.$store.dispatch('findByCategory', newVal)
       } else {
         console.log('kepencet kali yaaa')
       }

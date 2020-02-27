@@ -5,6 +5,8 @@ module.exports = {
   authentication: (req, res, next) => {
     try {
       const payload = jwt.verifyToken(req.headers.token)
+      console.log(payload)
+
       User.findOne({
         where: {
           id: payload.id

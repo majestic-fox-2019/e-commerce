@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <router-view />
+    <router-view @login="login" />
   </div>
 </template>
 
@@ -11,6 +11,9 @@ export default {
   name: 'app',
   components: {
     Navbar
+  },
+  methods: {
+    login() {}
   }
 }
 </script>

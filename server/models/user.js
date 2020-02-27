@@ -36,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     { sequelize }
   )
   User.associate = function(models) {
+    User.hasMany(models.ChartMall)
     User.hasMany(models.Product)
   }
   return User

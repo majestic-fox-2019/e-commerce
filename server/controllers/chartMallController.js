@@ -35,4 +35,42 @@ module.exports = class {
       })
       .catch(err => {})
   }
+
+  static getAll(req, res, next) {
+    ChartMall.findAll({
+      include: ['Mall', 'User']
+    })
+      .then(result => {
+        // console.log(result, 'in loh ')
+        res.status(200).json(result)
+      })
+      .catch(err => {
+        err.status = 400
+        console.log(err)
+        next(err)
+      })
+  }
+
+  static getUserChart(req, res, next) {
+    // console.log(res.user)
+    console.log('this is in mall controllers')
+
+    ChartMall.findAll({
+      where: {
+        UserId: res.user.id,
+        status: req.body.status
+      },
+      include: ['Mall']
+    })
+      .then(result => {
+        // console.log(result, 'in loh ')
+
+        res.status(200).json(result)
+      })
+      .catch(err => {
+        err.status = 400
+        console.log(err)
+        next(err)
+      })
+  }
 }
