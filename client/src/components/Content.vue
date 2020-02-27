@@ -49,7 +49,7 @@ export default {
           if (result.value) {
             axios({
               method: "DELETE",
-              url: `http://localhost:3000/products/${id}`,
+              url: `https://sleepy-fjord-45887.herokuapp.com/products/${id}`,
               headers: { token: localStorage.token }
             }).then(res => {
               this.$store.dispatch("getAllProduct");

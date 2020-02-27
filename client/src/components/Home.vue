@@ -16,7 +16,7 @@ export default {
     addcart(id) {
       axios({
         method: "POST",
-        url: `http://localhost:3000/carts/${id}`,
+        url: `https://sleepy-fjord-45887.herokuapp.com/carts/${id}`,
         data: { quantity: 1 },
         headers: {
           token: localStorage.token

@@ -62,7 +62,7 @@ export default {
     register() {
       axios({
         method: "POST",
-        url: "http://localhost:3000/users/register",
+        url: "https://sleepy-fjord-45887.herokuapp.com/users/register",
         data: {
           email: this.email,
           password: this.password,
@@ -86,7 +86,7 @@ export default {
     login() {
       axios({
         method: "POST",
-        url: `http://localhost:3000/users/login`,
+        url: `https://sleepy-fjord-45887.herokuapp.com/users/login`,
         data: {
           email: this.email,
           password: this.password

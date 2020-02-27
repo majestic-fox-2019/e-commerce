@@ -28,7 +28,7 @@ export default new Vuex.Store({
     getAllProduct({ commit }) {
       axios({
         method: "GET",
-        url: `http://localhost:3000/products`,
+        url: `https://sleepy-fjord-45887.herokuapp.com/products`,
         headers: {
           token: localStorage.getItem("token")
         }
@@ -43,7 +43,7 @@ export default new Vuex.Store({
     getAllCarts({ commit }) {
       axios({
         method: "GET",
-        url: `http://localhost:3000/carts`,
+        url: `https://sleepy-fjord-45887.herokuapp.com/carts`,
         headers: {
           token: localStorage.getItem("token")
         }
@@ -54,9 +54,6 @@ export default new Vuex.Store({
         .catch(err => {
           console.log(err)
         })
-    },
-    login({ commit }) {
-
     }
   },
   modules: {

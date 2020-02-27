@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="badan">
     <div v-if="carts">
       <div class="allcart" v-if="carts.length !== 0">
         <div class="row">
@@ -25,7 +25,7 @@
                   <td>{{getmoney(data.price)}}</td>
                   <td>
                     <i
-                      @click="deleteCart(data.id,data.Cart.ProductId, data.Cart.UserId)"
+                      @click="deleteCart(data.Cart.id, data.Cart.UserId,data.Cart.ProductId,)"
                       class="fas fa-trash-alt but"
                     ></i>
                   </td>
@@ -55,7 +55,10 @@
         </div>
       </div>
       <div class="emptycart" v-if="carts.length === 0">
-        <div class="jumbotron" style="padding:200px; height:90.5vh; margin-bottom:0">
+        <div
+          class="jumbotron"
+          style="padding:200px; height:90.5vh; margin-bottom:0; background-color:#f4fff4 !important"
+        >
           <h1>CART IS EMPTY</h1>
         </div>
       </div>
@@ -80,8 +83,6 @@ export default {
           total += Number(this.carts[i].price);
         }
         this.sum = total;
-        console.log(total);
-        console.log(this.carts);
       }
       return this.sum;
     },
@@ -91,7 +92,7 @@ export default {
     getAllData() {
       axios({
         method: "GET",
-        url: `http://localhost:3000/carts`,
+        url: `https://sleepy-fjord-45887.herokuapp.com/carts`,
         headers: {
           token: localStorage.getItem("token")
         }
@@ -118,7 +119,7 @@ export default {
           if (result.value) {
             axios({
               method: "DELETE",
-              url: `http://localhost:3000/carts/${id}`,
+              url: `https://sleepy-fjord-45887.herokuapp.com/carts/${id}`,
               data: {
                 UserId: userid,
                 ProductId: productid
@@ -144,7 +145,7 @@ export default {
     checkout() {
       axios({
         method: "DELETE",
-        url: "http://localhost:3000/carts",
+        url: "https://sleepy-fjord-45887.herokuapp.com/carts",
         headers: {
           token: localStorage.getItem("token")
         }

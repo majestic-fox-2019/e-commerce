@@ -28,6 +28,15 @@
               <option value="3">Strategy</option>
             </select>
           </div>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Example textarea</label>
+            <textarea
+              class="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+              v-model="form.detail"
+            ></textarea>
+          </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
@@ -46,7 +55,8 @@ export default {
         stock: null,
         price: null,
         image_url: null,
-        CategoryId: null
+        CategoryId: null,
+        detail: null
       }
     };
   },
@@ -54,7 +64,7 @@ export default {
     editOne() {
       axios({
         method: "PUT",
-        url: `http://localhost:3000/products/${this.$route.params.id}`,
+        url: `https://sleepy-fjord-45887.herokuapp.com/products/${this.$route.params.id}`,
         data: {
           name: this.form.name,
           stock: this.form.stock,
@@ -78,7 +88,7 @@ export default {
     getData() {
       axios({
         method: "GET",
-        url: `http://localhost:3000/products/${this.$route.params.id}`,
+        url: `https://sleepy-fjord-45887.herokuapp.com/products/${this.$route.params.id}`,
         headers: { token: localStorage.token }
       })
         .then(res => {

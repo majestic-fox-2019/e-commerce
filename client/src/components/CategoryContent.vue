@@ -38,7 +38,7 @@ export default {
     getCategory() {
       axios({
         method: "GET",
-        url: `http://localhost:3000/products/category/${this.$route.params.id}`,
+        url: `https://sleepy-fjord-45887.herokuapp.com/products/category/${this.$route.params.id}`,
         headers: {
           token: localStorage.getItem("token")
         }

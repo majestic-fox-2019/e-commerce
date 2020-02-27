@@ -43,6 +43,7 @@ class UserController {
                         },
                         "wiesoo"
                     );
+                    console.log
                     res.status(200).json({ token: restoken, role: result.role });
                 } else {
                     throw "password is false";

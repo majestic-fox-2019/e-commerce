@@ -21,12 +21,21 @@
             <input type="text" class="form-control" v-model="form.image_url" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlSelect1">Example select</label>
+            <label for="exampleFormControlSelect1">Category</label>
             <select class="form-control" id="exampleFormControlSelect1" v-model="form.CategoryId">
               <option value="1">Party Game</option>
               <option value="2">Negotiation</option>
               <option value="3">Strategy</option>
             </select>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Detail</label>
+            <textarea
+              class="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+              v-model="form.detail"
+            ></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -46,7 +55,8 @@ export default {
         stocks: null,
         price: null,
         image_url: null,
-        CategoryId: null
+        CategoryId: null,
+        detail: null
       }
     };
   },
@@ -54,7 +64,7 @@ export default {
     addOne() {
       axios({
         method: "POST",
-        url: `http://localhost:3000/products`,
+        url: `https://sleepy-fjord-45887.herokuapp.com/products`,
         data: this.form,
         headers: { token: localStorage.token }
       })
@@ -75,6 +85,9 @@ export default {
 </script>
 
 <style>
+.row {
+  height: auto;
+}
 .card-header {
   font-size: 20px;
 }

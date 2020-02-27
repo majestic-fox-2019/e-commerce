@@ -36,7 +36,7 @@ export default {
     addcart() {
       axios({
         method: "POST",
-        url: `http://localhost:3000/carts/${this.$route.params.id}`,
+        url: `https://sleepy-fjord-45887.herokuapp.com/carts/${this.$route.params.id}`,
         data: { quantity: 1 },
         headers: {
           token: localStorage.token
@@ -65,7 +65,7 @@ export default {
       console.log(this.$route.params.id);
       axios({
         method: "GET",
-        url: `http://localhost:3000/products/${this.$route.params.id}`,
+        url: `https://sleepy-fjord-45887.herokuapp.com/products/${this.$route.params.id}`,
         headers: { token: localStorage.token }
       })
         .then(res => {
