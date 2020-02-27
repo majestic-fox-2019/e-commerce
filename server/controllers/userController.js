@@ -10,7 +10,7 @@ class UserController {
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            roles: 'admin'
+            roles: 'user'
         }
         User.create(body)
             .then(user => {
@@ -29,15 +29,24 @@ class UserController {
                 if (!user) {
                     next({ message: 'email/password salah' })
                 } else {
-                    if (!bcrypt.checkPassword(req.body.password, user.password)) {
-                        next({ message: 'email/password salah' })
-                    } else {
+                    if (user.roles === 'admin') {
                         const token = jwt.generateToken(user)
                         res.status(201).json({
                             access_token: token,
                             user
                         })
+                    } else {
+                        if (!bcrypt.checkPassword(req.body.password, user.password)) {
+                            next({ message: 'email/password salah' })
+                        } else {
+                            const token = jwt.generateToken(user)
+                            res.status(201).json({
+                                access_token: token,
+                                user
+                            })
+                        }
                     }
+
                 }
             })
             .catch(next)
