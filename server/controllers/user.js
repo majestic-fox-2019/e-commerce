@@ -59,7 +59,7 @@ class UserController{
             email:result.email
           }
           let token = jwtSignIn(payload)
-          res.status(200).json({token,name:result.name})
+          res.status(200).json({token,name:result.name,role:result.role})
         }else{
           throw createError(400,"Password is empty or false")
         }
