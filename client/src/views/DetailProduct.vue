@@ -156,8 +156,12 @@ export default {
         let id = this.$route.params.idProduct;
         this.$store.dispatch("getDetailProduct", id);
         this.getReviews();
-        this.ratingKu = "";
-        this.review = 0;
+        this.ratingKu = null;
+        this.reviewKu = "";
+        this.$message({
+          message: "Yay, your post has been successfully posted!",
+          type: "success"
+        });
       });
     }
   },

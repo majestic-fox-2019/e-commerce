@@ -151,19 +151,24 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("role", data.userRegistered.role);
-          localStorage.setItem("userId", data.userRegistered.id);
-          localStorage.setItem("username", data.userRegistered.name);
-          context.commit("changeLogin", true);
-          context.commit("changeRole", data.userRegistered.role);
-          context.commit("setUsername", data.userRegistered.name);
-          Swal.fire(
-            "Sweet!", "Welcome to CherryChenka!", "success"
-          ).then(() => {
+          if (data.userRegistered.role !== "admin") {
 
-            router.push("/")
-          })
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("role", data.userRegistered.role);
+            localStorage.setItem("userId", data.userRegistered.id);
+            localStorage.setItem("username", data.userRegistered.name);
+            context.commit("changeLogin", true);
+            context.commit("changeRole", data.userRegistered.role);
+            context.commit("setUsername", data.userRegistered.name);
+            Swal.fire(
+              "Sweet!", "Welcome to CherryChenka!", "success"
+            ).then(() => {
+
+              router.push("/")
+            })
+          } else {
+            Swal.fire("Yay", `${data.userRegistered.name} has been successfulyy registered!`, "success")
+          }
 
         })
         .catch(err => {
