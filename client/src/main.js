@@ -17,7 +17,7 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 
 // Vue.prototype.$axios = axios.create({ baseURL: 'https://e-commerce-hacktiv.herokuapp.com/' });
-Vue.prototype.$axios = axios.create({ baseURL: 'http://localhost:3000/' });
+Vue.prototype.$axios = axios.create({ baseURL: 'https://e-commerce-hacktiv.herokuapp.com' });
 Vue.prototype.$Swal = Swal;
 
 new Vue({
