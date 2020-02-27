@@ -13,16 +13,28 @@
   - **User Endpoints**
     - [Login](#post-login)
     - [Register](#post-register)
+    - [List of Users](#get-users)
+    - [Verify User](#get-users-verify)
   - **Product Endpoint**
     - [Show All](#get-products)
     - [Create Product](#post-products)
     - [Show Product by Id](#get-products-by-id)
     - [Change Product Category](#patch-products)
     - [Delete Product](#delete-products)
+    - [Filter Products by Category](#get-products-by-category)
+    - [Show Products Banner](#get-products-banner)
   - **Category Endpoint**
     - [Show All Categories](#get-categories)
     - [Create Category](#post-categories)
     - [Delete Category](#delete-categories)
+  - **History Endpoint**
+    - [Show All User Transaction History](#get-histories)
+  - **Carts Endpoint**
+    - [Show All User Carts](#get-carts)
+    - [Add Product into Cart](#post-carts)
+    - [Checkout Cart](#put-carts)
+    - [Change Qty Product on Cart](#patch-carts)
+    - [Delete Cart](#delete-carts)
 
 ------
 
@@ -197,17 +209,16 @@ $ npm run dev
         }
     }
     ```
-  ```
-  
-  ```
-  
-- **Status:** `500`
-  
-    ```javascript
-    {
-        "errors": "Server currently unable to handle this request"
-    }
-    ```
+    
+  - **Status:** `500`
+    
+      ```javascript
+      {
+          "errors": "Server currently unable to handle this request"
+      }
+      ```
+      
+      
 
 ## GET Users
 
@@ -1034,7 +1045,122 @@ $ npm run dev
 
 - **Method:** `GET`
 
-- **Description:** `Retrieve transaction history of users `
+- **Description:** `Show all user carts `
+
+- **Request Header:**
+
+  ```javascript
+  {
+      "token": eyJhbGciOiJIUzI1NiIsInR, //required
+  }
+  ```
+
+- **Success Response:**
+
+  - **Status:** `200`
+
+    ```javascript
+    {
+        "id": 2,
+        "name": "user",
+        "email": "user@gmail.com",
+        "role": "Member",
+        "createdAt": "2020-02-22T11:31:08.727Z",
+        "updatedAt": "2020-02-22T11:31:08.727Z",
+        "Carts": [
+            {
+                "UserId": 2,
+                "ProductId": 6,
+                "amount": 1,
+                "status": true,
+                "createdAt": "2020-02-27T03:24:48.285Z",
+                "updatedAt": "2020-02-27T03:24:48.285Z",
+                "id": 7,
+                "Product": {
+                    "id": 6,
+                    "name": "The Witcher 3: Wild Hunt",
+                    "image_url": "https://storage.googleapis.com/storage-example/hafizul/Witcher.jpg.png",
+                    "price": 170000,
+                    "stock": 10,
+                    "CategoryId": 4,
+                    "createdAt": "2020-02-22T16:35:43.388Z",
+                    "updatedAt": "2020-02-27T03:24:24.197Z"
+                }
+            }
+        ]
+    }
+    ```
+  
+- **Error Response:**
+
+  - **Status:** `500`
+
+    ```javascript
+    {
+        "msg": "Server currently unable to handle this request"
+    }
+    ```
+
+## POST Carts
+
+------
+
+- **URL:** `/carts`
+
+- **Method:** `POST`
+
+- **Description:** `Add item into user cart `
+
+- **Request Header:**
+
+  ```javascript
+  {
+      "token": eyJhbGciOiJIUzI1NiIsInR, //required
+  }
+  ```
+
+- **Request Body:**
+
+  ```javascript
+  {
+      "ProductId": 1,
+  }
+  ```
+
+- **Success Response:**
+
+  - **Status:** `201`
+
+    ```javascript
+    {
+        "UserId": 2,
+        "ProductId": 1,
+        "updatedAt": "2020-02-27T04:23:47.107Z",
+        "createdAt": "2020-02-27T04:23:47.107Z",
+        "amount": 1,
+        "id": 220
+    }
+    ```
+
+- **Error Response:**
+
+  - **Status:** `500`
+
+    ```javascript
+    {
+        "msg": "Server currently unable to handle this request"
+    }
+    ```
+
+## PUT Carts
+
+------
+
+- **URL:** `/carts`
+
+- **Method:** `PUT`
+
+- **Description:** `Proceed checkout and update stock of products and clear user carts `
 
 - **Request Header:**
 
@@ -1051,35 +1177,119 @@ $ npm run dev
     ```javascript
     [
         {
-            "id": 9,
+            "id": 3,
+            "name": "Age of Empire",
+            "image_url": "IMAGEURL",
+            "price": 25000,
+            "stock": 9,
+            "CategoryId": 12,
+            "createdAt": "2020-02-22T16:27:20.964Z",
+            "updatedAt": "2020-02-27T04:31:45.592Z"
+        },
+        1,
+        {
+            "id": 5,
             "UserId": 2,
             "product": [
                 {
-                    "name": "Nier:Automata",
-                    "qty": 2,
-                    "price": 260000,
-                    "subTotal": 520000
-                },
-                {
-                    "name": "Nier:Automata",
-                    "qty": 2,
-                    "price": 260000,
-                    "subTotal": 520000
-                },
-                {
-                    "name": "Nier:Automata",
+                    "name": "Age of Empire",
                     "qty": 1,
-                    "price": 260000,
-                    "subTotal": 260000
+                    "price": 25000,
+                    "subTotal": 25000
                 }
             ],
-            "totalQty": 5,
-            "totalPrice": 1300000,
-            "createdAt": "2020-02-26T16:32:54.293Z",
-            "updatedAt": "2020-02-26T16:32:54.293Z"
-        },
-        ...
+            "totalQty": 1,
+            "totalPrice": 25000,
+            "updatedAt": "2020-02-27T04:31:45.593Z",
+            "createdAt": "2020-02-27T04:31:45.593Z"
+        }
     ]
+    ```
+
+- **Error Response:**
+
+  - **Status:** `500`
+
+    ```javascript
+    {
+        "msg": "Server currently unable to handle this request"
+    }
+    ```
+
+## PATCH Carts
+
+------
+
+- **URL:** `/carts/:id`
+
+- **Method:** `PATCH`
+
+- **Description:** `Change quantity of product on carts  `
+
+- **Request Header:**
+
+  ```javascript
+  {
+      "token": eyJhbGciOiJIUzI1NiIsInR, //required
+  }
+  ```
+
+- **Success Response:**
+
+  - **Status:** `200`
+
+    ```javascript
+    {
+        "UserId": 2,
+        "ProductId": 1,
+        "updatedAt": "2020-02-27T04:23:47.107Z",
+        "createdAt": "2020-02-27T04:23:47.107Z",
+        "amount": 1,
+        "id": 220
+    }
+    ```
+
+- **Error Response:**
+
+  - **Status:** `500`
+
+    ```javascript
+    {
+        "msg": "Server currently unable to handle this request"
+    }
+    ```
+
+## DELETE Carts
+
+------
+
+- **URL:** `/carts/:id`
+
+- **Method:** `DELETE`
+
+- **Description:** `Delete product on carts  `
+
+- **Request Header:**
+
+  ```javascript
+  {
+      "token": eyJhbGciOiJIUzI1NiIsInR, //required
+  }
+  ```
+
+- **Success Response:**
+
+  - **Status:** `200`
+
+    ```javascript
+    {
+        "UserId": 2,
+        "ProductId": 1,
+        "updatedAt": "2020-02-27T04:23:47.107Z",
+        "createdAt": "2020-02-27T04:23:47.107Z",
+        "amount": 1,
+        "id": 220
+    }
     ```
 
 - **Error Response:**
