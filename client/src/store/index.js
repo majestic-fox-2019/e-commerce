@@ -3,8 +3,8 @@ import Vuex from 'vuex';
 import axios from 'axios';
 
 const api = axios.create({
-  // baseURL: 'https://e-commerce-hacktiv.herokuapp.com/',
-  baseURL: 'https://e-commerce-hacktiv.herokuapp.com',
+  baseURL: 'https://e-commerce-hacktiv.herokuapp.com/',
+  // baseURL: 'https://e-commerce-hacktiv.herokuapp.com',
 });
 Vue.use(Vuex);
 
