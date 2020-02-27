@@ -1,5 +1,6 @@
 const Product = require('../models').Product
 const User = require('../models').User
+const Cart = require('../models').Cart
 function authorisationRole(req, res, next) {
   let user
   User.findOne({where:{id:req.user}})
@@ -16,26 +17,6 @@ function authorisationRole(req, res, next) {
   })
 }
 
-function authorisationProduct(req, res, next) {
-  let product 
-  let user
-  User.findOne({where:{id:req.user}})
-  .then(data => {
-    user = data
-    return Product.findOne({where:{UserId:user.id}})
-  })
-  .then(product => {
-    if(product) {
-      next()
-    } else {
-      next({code: 401, message: "user not allowed to do this task"})
-      console.log("masuk else")
-    }
-  })
-  .catch(err => {
-    next({code: 401, message: "user not allowed to do this task"})
-    console.log(err)
-  })
-}
 
-module.exports = {authorisationRole, authorisationProduct}
+
+module.exports = {authorisationRole}

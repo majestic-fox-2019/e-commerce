@@ -1,7 +1,7 @@
 <template>
 <div>
   <navbar></navbar>
-  <div class="container d-flex row justify-content-center mt-5">
+  <div class="container d-flex row justify-content-center mx-auto" style="margin-top:80px;">
     <div>
 
     </div>

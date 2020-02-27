@@ -21,7 +21,6 @@ describe('POST /register', function() {
     expect(res.body.email).toEqual(input.email)
     expect(res.body.address).toEqual(input.address)
     expect(res.body.phone_number).toEqual(input.phone_number)
-    expect(res.body.role).toEqual(input.role)
   })
 })
 

@@ -46,8 +46,14 @@ export default {
           console.log(res)
           localStorage.setItem("token", res.data.token)
           localStorage.setItem("role", res.data.user.role)
-          this.$router.push('/admin')
+          localStorage.setItem("name", res.data.user.name) 
+          localStorage.setItem("address", res.data.user.address)
+          localStorage.setItem("phone_number", res.data.user.phone_number)
+          localStorage.setItem("email", res.data.user.email)
+          
+            
           if(res.data.user.role == "admin") {
+            this.$router.push('/admin')   
             Swal.fire({
               icon: 'success',
               title: 'Welcome admin!',
@@ -56,10 +62,12 @@ export default {
             })
           } else {
             Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: `sorry! you not allowed to enter yet` 
-        })
+              icon: 'success',
+              title: `Wellcome ${res.data.user.name}`,
+              showConfirmButton: false,
+              timer: 1500
+            })
+            this.$router.push('/user')
           }
 
         })

@@ -7,6 +7,12 @@ import Detail from '../views/Detail.vue'
 import AddProduct from '../views/AddProduct.vue'
 import zFilter from '../views/Filter.vue'
 import CustRegis from '../views/CustRegis.vue'
+import CustMain from '../views/CustMain.vue'
+import Error404 from '../views/error404.vue'
+import DetailUser from '../views/DetailUser.vue'
+import Cart from '../views/Cart'
+import FilterUser from '../views/FilterUser.vue'
+import Profile from '../views/Profile'
 
 Vue.use(VueRouter)
 
@@ -23,7 +29,12 @@ const routes = [
     path: '/admin',
     name: 'Home',
     component: Home,
-    meta: {Auth: true}
+    meta: {Auth: true, Role:true}
+  },
+  {
+    path: '/user',
+    name:'CustMain',
+    component: CustMain
   },
   {
     path: '/about',
@@ -49,27 +60,54 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register,
-    meta: {Auth: true}
+    meta: {Auth: true , Role:true}
   },
   {
     path: '/products/:id',
     name: 'Detail',
     component: Detail,
-    meta: {Auth: true}
+    meta: {Auth: true, Role:true}
+  },
+  {
+    path: '/user-products/:id',
+    name:'DetailUser',
+    component: DetailUser
+  },
+  {
+    path:'/user-cart',
+    name:"Cart",
+    component: Cart
   },
   {
     path:'/add',
     name:'AddProduct',
     component: AddProduct,
-    meta: {Auth: true}
+    meta: {Auth: true, Role:true}
   },
   {
     path:'/filter/:category',
     name:'zFilter',
     component: zFilter,
-    meta: {Auth: true}
+    meta: {Auth: true, Role:true}
+  },
+  {
+    path:'/filter-user/:category',
+    name:'FilterUser',
+    component: FilterUser
+  },
+  {
+    path:'/user-profile',
+    name:'Profile',
+    component: Profile
+  },
+  {
+    path: '*',
+    name: 'Error404',
+    component: Error404,
+    meta: {Auth:false, Role: false}
   }
 ]
+
 
 const router = new VueRouter({
   mode: 'history',
@@ -79,14 +117,16 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.Auth)) {
-    if(localStorage.token) {
-      if(localStorage.role === "admin") {
-        next()
-      } else {
-        next({path: from.path});
-      }
+    if(localStorage.token) { 
+      if(to.matched.some(record => record.meta.Role)) {
+        if(localStorage.role === "admin") {
+          next()
+        } else {
+          next({name: 'CustMain'})
+        }
+      } 
     } else {
-      next({name:'Login'});
+      next({name:'CustMain'});
     }
   } else {
     next();

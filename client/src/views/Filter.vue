@@ -48,7 +48,6 @@ export default {
       .then(res => {
         console.log(res.data)
         this.filterData = res.data
-        // this.$router.push(`/zfilter/${input}`)
       })
       .catch(err => {
         console.log(err)
