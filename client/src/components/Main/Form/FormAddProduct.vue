@@ -95,7 +95,8 @@ export default {
           description : '',
         }
       }, 
-      imageWrongFormat : null
+      imageWrongFormat : null,
+      imageStatus: ''
     }
   },
   created(){
@@ -114,22 +115,22 @@ export default {
       let imageTitle = Date.now().toString()
 
       if(this.form.image !== ''){
-        this.form.image_url = `https://storage.googleapis.com/storage-example/arona/${imageTitle}.png`
+        this.form.image_url = `https://storage.googleapis.com/disekrip/product/${imageTitle}.png`
 
         axios({
           headers : {
             'Content-Type' : 'image/png'
           },
           method : 'post',
-          url : `https://storage.googleapis.com/upload/storage/v1/b/storage-example/o?name=arona/${imageTitle}.png&uploadType=media&key=AIzaSyDXXhdtF6Ba2Fyd3zE3xgFfv_Hx4hxJKuI`,
+          url : `https://storage.googleapis.com/upload/storage/v1/b/disekrip/o?name=product/${imageTitle}.png&uploadType=media&key=AIzaSyCOIgGP3XatX7gfeEG__KhYWw1mWemXlYs`,
           data : this.form.image
         })
         .then(response => {
-          console.log(response)
+          this.imageStatus = response.data
           // this.form.image_url = `https://storage.googleapis.com/storage-example/arona/${imageTitle}.png`
         })
         .catch(err => {
-          console.log(err)
+          this.imageStatus = err.data
         })
       }
             

@@ -10,7 +10,7 @@ class UserController {
       name : req.body.name,
       email : req.body.email,
       password : req.body.password,
-      roles : req.body.roles
+      roles : 'user'
     }
 
     User
@@ -48,6 +48,39 @@ class UserController {
       })
       .then(response => {
         if(response != null && response.roles === 'admin'){
+          let user = {
+            id : response.id,
+            name : response.name,
+            email : response.email
+          }
+          if(AuthHelper.comparePassword(password, response.password)){
+            let token = AuthHelper.signToken(user)
+            res.status(200).json({
+              id: response.id,
+              email : response.email,
+              token : token
+            })
+          }else{
+            throw createError(404, { name: 'Nodata', message: `Wrong email or password!` })
+          }
+        }else{
+          throw createError(404, { name: 'Nodata', message: `Email doesn't exist!` })
+        }
+      })
+      .catch(next)
+  }
+
+  static login(req, res, next){
+    let email = req.body.email
+    let password = req.body.password
+    User
+      .findOne({
+        where : {
+          email : email
+        }
+      })
+      .then(response => {
+        if(response != null && roles == 'user'){
           let user = {
             id : response.id,
             name : response.name,

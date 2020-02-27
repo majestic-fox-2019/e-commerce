@@ -35,9 +35,8 @@ class ProductController {
       .findOne({
         where : {
           id : req.params.product_id,
-          status_product : 'published'
         },
-        includes : {
+        include : {
           model : Category,
           required: false,
         }

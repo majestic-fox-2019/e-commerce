@@ -19,7 +19,7 @@
             <td>{{ product.name }}</td>
             <td>{{ product.Category ? product.Category.category_name : '' }}</td>
             <td>{{ product.price }}</td>
-            <th>{{ product.stock }}</th>
+            <th><span :class="product.stock === 0 ? 'text-danger' : 'text-primary'">{{ product.stock }}</span></th>
             <th><img v-if="product.image_url !== ''" class="img" :src="product.image_url" /><span v-else class="text-danger">N/A</span></th>
             <th :class="`${product.status_product == 'published' ? 'text-success' : 'text-danger'}`">{{ product.status_product }}</th>
             <td>

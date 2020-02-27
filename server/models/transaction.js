@@ -2,6 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
 
   const { Model } = sequelize.Sequelize
+  const { Product } = sequelize.models
 
   class Transaction extends Model {}
 
@@ -11,10 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     qty: {
       type : DataTypes.INTEGER,
       validate : {
-        min : {
-          args : 0,
-          msg : 'Quantity minimum 1 item'
-        }
+        min : 0
       }
     },
     total: DataTypes.FLOAT,
@@ -26,10 +24,21 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     }
-  }, { sequelize })
+  }, { hooks: {
+    beforeCreate: (instance, options) => {
+      console.log('masuk')
+      return Product
+        .findByPk(instance.ProductId)
+        .then(product => {
+          instance.total = instance.qty * product.price
+        })
+    }
+  },
+  sequelize })
 
   Transaction.associate = function(models) {
-    // associations can be defined here
+    Transaction.belongsTo(models.User)
+    Transaction.belongsTo(models.Product)
   };
   return Transaction;
 };
