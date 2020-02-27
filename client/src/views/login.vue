@@ -50,7 +50,7 @@
       </div>
     </div>
   </div>
-</template>
+</template> 
 
 <script>
 import Loading from "vue-loading-overlay";
