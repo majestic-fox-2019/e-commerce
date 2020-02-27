@@ -1,5 +1,10 @@
 <template>
   <div class="admin-list">
+    <div class="vld-parent">
+    <loading :active.sync="isLoading" 
+    :can-cancel="true" 
+    :is-full-page="fullPage" :loader="'bars'" :color="'#1161EE'"></loading>
+    </div>
     <nav class="menu" tabindex="0">
       <div class="smartphone-menu-trigger"></div>
       <header class="avatar">
@@ -257,11 +262,16 @@
 
 <script>
 import Swal from 'sweetalert2';
+import Loading from 'vue-loading-overlay';
 
 export default {
   name: 'Product',
+  components: {
+    Loading,
+  },
   data() {
     return {
+      isLoading: false,
       allProducts: true,
       allUsers: false,
       users: null,
@@ -295,13 +305,16 @@ export default {
   },
   methods: {
     showUser() {
+      this.isLoading = true;
       this.$axios.get('/users', { headers: { token: localStorage.token } })
         .then((user) => {
+          this.isLoading = false;
           this.allProducts = false;
           this.allUsers = true;
           this.users = user.data;
         })
         .catch((err) => {
+          this.isLoading = false;
           console.log(err);
         });
     },
@@ -311,6 +324,7 @@ export default {
     },
     addUser() {
       window.$('#addUser').modal('hide');
+      this.isLoading = true;
       this.$axios.post('/register', {
         name: this.formAddUser.name,
         email: this.formAddUser.email,
@@ -318,7 +332,7 @@ export default {
         role: this.formAddUser.role,
       }, { headers: { token: localStorage.token } })
         .then((user) => {
-          console.log(user);
+          this.isLoading = false;
           this.formAddUser.name = '';
           this.formAddUser.email = '';
           this.formAddUser.password = '';
@@ -333,6 +347,7 @@ export default {
           this.showUser();
         })
         .catch((err) => {
+          this.isLoading = false;
           console.log(err);
         });
     },
@@ -345,9 +360,11 @@ export default {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!',
       }).then((result) => {
+        this.isLoading = true;
         if (result.value) {
           this.$axios.delete(`/users/${id}`, { headers: { token: localStorage.token } })
             .then((user) => {
+              this.isLoading = false;
               Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -358,6 +375,7 @@ export default {
               this.showUser();
             })
             .catch((err) => {
+              this.isLoading = false;
               console.log(err);
             });
         }
@@ -371,11 +389,13 @@ export default {
     },
     updateUser() {
       window.$('#updateUser').modal('hide');
+      this.isLoading = true;
       this.$axios.put(`/users/${this.userId}`, {
         name: this.formUpdateUser.name,
         role: this.formUpdateUser.role,
       }, { headers: { token: localStorage.token } })
         .then(() => {
+          this.isLoading = false;
           this.formUpdateUser.name = '';
           this.formUpdateUser.role = '';
           Swal.fire({
@@ -388,6 +408,7 @@ export default {
           this.showUser();
         })
         .catch((err) => {
+          this.isLoading = false;
           console.log(err);
         });
     },
@@ -401,6 +422,7 @@ export default {
     },
     addProduct() {
       window.$('#addProduct').modal('hide');
+      this.isLoading = true;
       this.$axios.post('/products', {
         name: this.formAdd.name,
         description: this.formAdd.description,
@@ -409,6 +431,7 @@ export default {
         image_url: this.formAdd.image_url,
       }, { headers: { token: localStorage.token } })
         .then((result) => {
+          this.isLoading = false;
           this.formAdd.name = '';
           this.formAdd.description = '';
           this.formAdd.stock = '';
@@ -424,6 +447,7 @@ export default {
           this.$store.dispatch('listProducts');
         })
         .catch((err) => {
+          this.isLoading = false;
           console.log(err.response);
         });
     },
@@ -436,9 +460,11 @@ export default {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!',
       }).then((result) => {
+        this.isLoading = true;
         if (result.value) {
           this.$axios.delete(`/products/${id}`, { headers: { token: localStorage.token } })
             .then((msg) => {
+              this.isLoading = false;
               Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -449,6 +475,7 @@ export default {
               this.$store.dispatch('listProducts');
             })
             .catch((err) => {
+              this.isLoading = false;
               console.log(err);
             });
         }
@@ -464,6 +491,7 @@ export default {
     },
     updateProduct() {
       window.$('#updateProduct').modal('hide');
+      this.isLoading = true;
       this.$axios.put(`/products/${this.productId}`, {
         name: this.formUpdate.name,
         description: this.formUpdate.description,
@@ -472,6 +500,7 @@ export default {
         image_url: this.formUpdate.image_url,
       }, { headers: { token: localStorage.token } })
         .then(() => {
+          this.isLoading = false;
           Swal.fire({
             position: 'center',
             icon: 'success',
@@ -482,6 +511,7 @@ export default {
           this.$store.dispatch('listProducts');
         })
         .catch((err) => {
+          this.isLoading = false;
           console.log(err);
         });
     },

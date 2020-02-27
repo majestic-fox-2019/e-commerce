@@ -1,5 +1,10 @@
 <template>
   <div class="card">
+    <div class="vld-parent">
+    <loading :active.sync="isLoading" 
+    :can-cancel="true" 
+    :is-full-page="fullPage" :loader="'bars'" :color="'#1161EE'"></loading>
+    </div>
       <div class="card__title">
         <div class="icon" @click="backHome" style="cursor: pointer;">
           <a><i class="fa fa-arrow-left"></i></a>
@@ -58,11 +63,17 @@
 
 <script>
 import Swal from 'sweetalert2';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   name: 'ProductDetails',
+  components: {
+    Loading,
+  },
   data() {
     return {
+      isLoading: false,
       id: this.$route.params.productId,
       product: {},
     };
@@ -72,8 +83,10 @@ export default {
       this.$router.push({ name: 'Home' });
     },
     showProduct() {
+      this.isLoading = true;
       this.$axios.get(`/products/${this.id}`)
         .then((user) => {
+          this.isLoading = false;
           this.product = user.data;
         })
         .catch((err) => {
@@ -81,12 +94,14 @@ export default {
         });
     },
     addToCart(id, price) {
+      this.isLoading = true;
       if (this.$store.state.loginStatus) {
         this.$axios.post(`/carts/${id}`, {
           total: this.convertRpNumber(price),
           amount: 1,
         }, { headers: { token: localStorage.token } })
           .then(() => {
+            this.isLoading = false;
             Swal.fire({
               position: 'center',
               icon: 'success',
@@ -97,6 +112,7 @@ export default {
             this.$router.push({ name: 'Home' });
           })
           .catch((err) => {
+            this.isLoading = false;
             if (err.response.data.message === 'This Product is out of stock') {
               Swal.fire({
                 position: 'center',

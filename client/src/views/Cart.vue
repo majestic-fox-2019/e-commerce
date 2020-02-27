@@ -52,6 +52,11 @@
   </div>
   <div @click="checkout" class="checkout" v-if="carts.length > 0">
   <hr>
+  <div class="vld-parent">
+  <loading :active.sync="isLoading" 
+  :can-cancel="true" 
+  :is-full-page="fullPage" :loader="'bars'" :color="'#1161EE'"></loading>
+  </div>
 <button>Checkout</button>
 </div>
   </div>
@@ -59,11 +64,17 @@
 
 <script>
 import Swal from 'sweetalert2';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   name: 'Cart',
+  components: {
+    Loading,
+  },
   data() {
     return {
+      isLoading: false,
       carts: [],
       updateButton: false,
       amount: null,
@@ -86,11 +97,13 @@ export default {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes',
       }).then((result) => {
+        this.isLoading = true;
         if (result.value) {
           this.$axios.put(`/carts/${id}`, {
             amount: amountChange,
           }, { headers: { token: localStorage.token } })
             .then(() => {
+              this.isLoading = false;
               this.updateButton = false;
               Swal.fire({
                 position: 'center',
@@ -102,6 +115,7 @@ export default {
               this.listCart();
             })
             .catch((err) => {
+              this.isLoading = false;
               Swal.fire({
                 position: 'center',
                 icon: 'error',
@@ -116,8 +130,10 @@ export default {
       });
     },
     listCart() {
+      this.isLoading = true;
       this.$axios.get('/carts', { headers: { token: localStorage.token } })
         .then((cart) => {
+          this.isLoading = false;
           let harga = 0;
           cart.data.forEach((price) => {
             harga += (price.price * price.Cart.amount);
@@ -126,6 +142,7 @@ export default {
           this.carts = cart.data;
         })
         .catch((err) => {
+          this.isLoading = false;
           console.log(err, 'masuk');
         });
     },
@@ -141,9 +158,11 @@ export default {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!',
       }).then((result) => {
+        this.isLoading = true;
         if (result.value) {
           this.$axios.delete(`/carts/${id}`, { headers: { token: localStorage.token } })
             .then((msg) => {
+              this.isLoading = false;
               console.log(msg);
               Swal.fire({
                 position: 'center',
@@ -155,6 +174,7 @@ export default {
               this.listCart();
             })
             .catch((err) => {
+              this.isLoading = false;
               console.log(err);
             });
         }
@@ -188,11 +208,13 @@ export default {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, Checkout Now!',
       }).then((result) => {
+        this.isLoading = true;
         if (result.value) {
           this.$axios.post('/transactions', {
             total: this.total,
           }, { headers: { token: localStorage.token } })
             .then((msg) => {
+              this.isLoading = false;
               Swal.fire(
                 'Success!',
                 `${msg.data.message}`,
@@ -203,6 +225,7 @@ export default {
               this.$store.dispatch('listProducts');
             })
             .catch((err) => {
+              this.isLoading = false;
               Swal.fire({
                 position: 'center',
                 icon: 'error',

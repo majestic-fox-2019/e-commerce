@@ -20,7 +20,13 @@
                 class="input" data-type="password">
               </div>
               <div class="group">
-                <input type="submit" class="button" style="cursor: pointer" value="Sign In">
+                <div class="vld-parent">
+                  <loading :active.sync="isLoading" 
+                  :can-cancel="true" 
+                  :is-full-page="fullPage" :loader="'bars'" :color="'#1161EE'"></loading>
+                  </div>     
+                <input type="submit"
+                class="button" style="cursor: pointer" value="Sign In">
               </div>
             </form>
             <div class="hr"></div>
@@ -41,6 +47,11 @@
                 type="password" class="input" data-type="password">
                 </div>
               <div class="group">
+                <div class="vld-parent">
+                  <loading :active.sync="isLoading" 
+                  :can-cancel="true" 
+                  :is-full-page="fullPage" :loader="'bars'" :color="'#1161EE'"></loading>
+                  </div>
                 <input type="submit" class="button" style="cursor: pointer" value="Sign Up">
               </div>
             </form>
@@ -56,11 +67,18 @@
 
 <script>
 import Swal from 'sweetalert2';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   name: 'LoginPage',
+  components: {
+    Loading,
+  },
   data() {
     return {
+      isLoading: false,
+      fullPage: true,
       formLogin: {
         email: null,
         password: null,
@@ -74,11 +92,13 @@ export default {
   },
   methods: {
     login() {
+      this.isLoading = true;
       this.$axios.post('/login', {
         email: this.formLogin.email,
         password: this.formLogin.password,
       })
         .then((result) => {
+          this.isLoading = false;
           localStorage.setItem('name', result.data.data.name);
           localStorage.setItem('token', result.data.token);
           this.$store.dispatch('checkLogin');
@@ -109,6 +129,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.isLoading = false;
           Swal.fire({
             position: 'center',
             icon: 'error',
@@ -119,12 +140,14 @@ export default {
         });
     },
     register() {
+      this.isLoading = true;
       this.$axios.post('/register', {
         name: this.formRegis.name,
         email: this.formRegis.email,
         password: this.formRegis.password,
       })
         .then((result) => {
+          this.isLoading = false;
           localStorage.setItem('name', result.data.user.name);
           localStorage.setItem('token', result.data.token);
           this.$store.dispatch('checkLogin');
@@ -150,6 +173,7 @@ export default {
           });
         })
         .catch((err) => {
+          this.isLoading = false;
           Swal.fire({
             position: 'center',
             icon: 'error',

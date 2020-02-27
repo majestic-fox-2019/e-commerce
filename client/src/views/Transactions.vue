@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div class="vld-parent">
+    <loading :active.sync="isLoading" 
+  :can-cancel="true" 
+  :is-full-page="fullPage" :loader="'bars'" :color="'#1161EE'"></loading>
+  </div>
   <div style="display: flex; justify-content: center;">
     <div style="margin-top: 30px" v-if="transactions.length == 0">
       <h1>Make some transaction</h1>
@@ -38,20 +43,30 @@
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   name: 'Transaction',
+  components: {
+    Loading
+  },
   data() {
     return {
+      isLoading: false,
       transactions: [],
     };
   },
   methods: {
     listTransaction() {
+    this.isLoading = true;
       this.$axios.get('/transactions', { headers: { token: localStorage.token } })
         .then((transaction) => {
+          this.isLoading = false;
           this.transactions = transaction.data;
         })
         .catch((err) => {
+          this.isLoading = true;
           console.log(err);
         });
     },
