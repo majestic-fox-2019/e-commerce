@@ -3,12 +3,13 @@ const user = require('./user')
 const userController = require('../controllers/user')
 const category = require('./category')
 const product = require('./product')
-const auth = require('../middlewares/authToken')
+const cart = require('./cart')
 
 index
     .post('/login', userController.login)
+    .post('/google-signin', userController.googleSignIn)
     .use('/users', user)
-    .use(auth)
+    .use('/carts', cart)
     .use('/categories', category)
     .use('/products', product)
 

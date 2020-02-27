@@ -1,6 +1,7 @@
-const { User } = require('../database/models/index')
+const { User, Role, Product } = require('../database/models/index')
 const { compare, sign } = require('../helpers/helper')
 const createError = require('http-errors')
+const { OAuth2Client } = require('google-auth-library');
 
 class UserController {
     static login(req, res, next) {
@@ -10,22 +11,49 @@ class UserController {
             const options = {
                 where: {
                     email: req.body.email
-                }
+                },
+                include: [Role, Product]
             }
             User
                 .findOne(options)
                 .then(user => {
                     if (user) {
+                        console.log(user)
                         if (compare(req.body.password, user.password)) {
                             const access_token = sign({ id: user.id })
-                            res.status(200).json({ access_token, email: user.email })
+                            res.status(200).json({ access_token, email: user.email, role: user.Role.name, carts: user.Products })
+                        } else {
+                            next(createError(404, 'Invalid email or password'))
                         }
                     } else {
                         next(createError(404, 'Invalid email or password'))
                     }
                 })
-                .catch(next)
+                .catch(next => console.log(next))
         }
+    }
+
+    static googleSignIn(req, res, next) {
+        const client = new OAuth2Client(process.env.CLIENT_ID);
+        let newEmail = null
+        client.verifyIdToken({
+            idToken: req.body.id_token,
+            audience: process.env.CLIENT_ID
+        }).then(ticket => {
+            const payload = ticket.getPayload()
+            newEmail = payload.email
+            return User.findOne({ where: { email: newEmail }, include: [Role, Product] })
+        }).then(user => {
+            if (user) {
+                return user
+            } else {
+                const value = { email: newEmail, password: 'google-sign', RoleId: 3 }
+                return User.create(value)
+            }
+        }).then(user => {
+            const access_token = sign({ id: user.id })
+            res.status(200).json({ access_token, email: user.email, carts: user.Products || [], role: user.Role ? user.Role.name : 'member' })
+        }).catch(next => console.log(next))
     }
 
     static getUsers(req, res, next) {
@@ -42,6 +70,7 @@ class UserController {
     }
 
     static postUser(req, res, next) {
+
         if (!req.body.email || !req.body.password) {
             res.status(400).json({ message: 'Email or password cannot be empty' })
         } else {
@@ -58,7 +87,8 @@ class UserController {
                     } else {
                         const value = {
                             email: req.body.email,
-                            password: req.body.password
+                            password: req.body.password,
+                            RoleId: req.body.RoleId
                         }
                         return User.create(value)
                     }
@@ -97,8 +127,8 @@ class UserController {
         User
             .destroy({ where: { id: req.params.id } })
             .then(result => {
-                if(result){
-                    res.status(200).json({message: 'Successfully deleted user'})
+                if (result) {
+                    res.status(200).json({ message: 'Successfully deleted user' })
                 }
             })
             .catch(next)

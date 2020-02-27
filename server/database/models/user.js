@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Password must be at least 8 characters long'
         }
       }
-    }
+    },
+    RoleId: DataTypes.INTEGER
   }, {
     hooks: {
       beforeCreate(user, options) {
@@ -36,6 +37,8 @@ module.exports = (sequelize, DataTypes) => {
   });
   User.associate = function (models) {
     // associations can be defined here
+    User.belongsTo(models.Role)
+    User.belongsToMany(models.Product, { through: 'Carts' })
   };
   return User;
 };

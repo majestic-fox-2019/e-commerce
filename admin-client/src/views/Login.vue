@@ -29,7 +29,10 @@
             />
           </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-primary w-50 font-weight-bold mt-4">Login</button>
+            <button type="submit" class="btn btn-primary w-50 font-weight-bold mt-4" :disabled="loginProcess">
+              <span v-if="loginProcess" class="spinner-border spinner-border-sm mr-2"></span>
+              <span>Login</span>
+            </button>
           </div>
         </form>
       </div>
@@ -38,32 +41,35 @@
 </template>
 
 <script>
-import api from '../helper/api'
+import api from "../helper/api";
 export default {
-  name: 'Home',
-  data () {
+  name: "Home",
+  data() {
     return {
-      email: '',
-      password: ''
-    }
+      email: "",
+      password: "",
+      loginProcess: false
+    };
   },
   methods: {
-    login () {
+    login() {
+      this.loginProcess = !this.loginProcess;
       api
-        .post('/login', { email: this.email, password: this.password })
+        .post("/login", { email: this.email, password: this.password })
         .then(({ data }) => {
-          console.log(data)
           if (data.access_token) {
-            localStorage.setItem('access_token', data.access_token)
-            this.$router.push({ name: 'Home' })
+            localStorage.setItem("access_token", data.access_token);
+            this.$router.push({ name: "Home" });
           } else {
-            console.log('No user')
+            console.log("No user");
           }
+          this.loginProcess = !this.loginProcess;
         })
-        .catch((err) => {
-          console.log(err)
-        })
+        .catch(err => {
+          this.loginProcess = !this.loginProcess;
+          console.log(err);
+        });
     }
   }
-}
+};
 </script>
