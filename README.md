@@ -763,5 +763,225 @@ If request failed caused by server:
 Internal Server Error
 ```
 
+## 13. PUT /api/carts/:productId
+
+    Edit amount cart
+
+* **EXAMPLE URL:**
+
+http://localhost:3000/api/carts/1
+
+* **REQUEST HEADER**
+
+```javascript
+{
+    "Content-Type": "application/json; charset=utf-8",
+    "token": "<<jwt_token>>"
+}
+```
+
+* **REQUEST BODY**
+
+```javascript
+{
+   "amount": 2
+}
+```
+
+* **RESPONSE**
+
+If request success:
+
+* Status Code: 200
+
+```javascript
+{
+   "message": "Successfully Edit Amount"
+}
+```
+
+
+If request failed because validation is not complete:
+
+* Status Code: 400
+
+```javascript
+[
+    {
+        "status": 400,
+        "msg": "<<params_that_empty"
+    }
+]
+```
+
+If request failed because project not found:
+
+* Status Code: 404
+
+```javascript
+{
+    "error": "Not Found"
+}
+```
+
+If request failed caused by server:
+
+* Status Code: 500
+
+```javascript
+Internal Server Error
+```
+
+## 14. DELETE /api/carts/:productId
+
+    Delete products on cart
+
+* **EXAMPLE URL:**
+
+http://localhost:3000/api/carts/1
+
+* **REQUEST HEADER**
+
+```javascript
+{
+    "Content-Type": "application/json; charset=utf-8",
+    "token": "<<jwt_token>>"
+}
+```
+
+* **RESPONSE**
+
+If request success:
+
+* Status Code: 200
+
+```javascript
+{
+     "messages": "Successfully deleted cart"
+}
+```
+
+If request failed because project not found:
+
+* Status Code: 404
+
+```javascript
+{
+    "error": "Not Found"
+}
+```
+
+If request failed caused by server:
+
+* Status Code: 500
+
+```javascript
+Internal Server Error
+```
+
+# -- TRANSACTION --
+
+## 15. GET /api/transactions
+
+    Get all transactions
+
+* **EXAMPLE URL:**
+
+http://localhost:3000/api/transactions
+
+* **RESPONSE**
+
+If request success:
+
+* Status Code: 200
+
+```javascript
+[
+    {
+        "id": 1,
+        "products": [
+            "Arduino Uno",
+            "Arduino Mega"
+        ],
+        "status": false,
+        "date": "27 February 2020",
+        "amount": [
+            1,
+            6
+        ],
+        "UserId": 2,
+        "createdAt": "2020-02-27T04:25:29.827Z",
+        "updatedAt": "2020-02-27T04:25:29.827Z"
+    }
+]
+```
+
+If request failed caused no data found:
+
+* Status Code: 404
+
+```javascript
+{
+    "error": "Not Found"
+}
+```
+
+If request failed caused by server:
+
+* Status Code: 500
+
+```javascript
+Internal Server Error
+```
+
+## 16. POST /api/transactions
+
+    Add transaction, update stock product, and delete the whole cart
+
+* **EXAMPLE URL:**
+
+http://localhost:3000/api/transactions
+
+* **REQUEST HEADER**
+
+```javascript
+{
+    "Content-Type": "application/json; charset=utf-8",
+    "token": "<<jwt_token>>"
+}
+```
+
+* **RESPONSE**
+
+If request success:
+
+* Status Code: 200
+
+```javascript
+{
+    "message": "Succesfully checkout!"
+}
+```
+
+If request failed because validation is not complete:
+
+* Status Code: 400
+
+```javascript
+[
+    {
+        "status": 400,
+        "msg": "<<params_is_empty>>"
+    }
+]
+```
+
+If request failed caused by server:
+
+* Status Code: 500
+
+```javascript
+Internal Server Error
+```
 
 ## 
