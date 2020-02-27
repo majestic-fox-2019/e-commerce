@@ -7,8 +7,8 @@ import router from '../router'
 
 Vue.use(Vuex)
 
-// let baseURL = 'http://localhost:3000'
-let baseURL = 'https://ecomm-km.herokuapp.com'
+let baseURL = 'http://localhost:3000'
+// let baseURL = 'https://ecomm-km.herokuapp.com'
 
 export default new Vuex.Store({
   state: {
@@ -239,7 +239,7 @@ export default new Vuex.Store({
         })
       } else {
         axios({
-          url: `${baseURL}/product/${payload}`,
+          url: `${baseURL}/product/category/${payload}`,
           method: 'GET',
         })
         .then(({ data }) => {

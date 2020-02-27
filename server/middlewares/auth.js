@@ -21,7 +21,6 @@ function authentication(req, res, next) {
 
 function authorization(req, res, next) {
     const id = req.userLoggedIn.id
-
     User.findByPk(id)
     .then(user => {
         if(user) {

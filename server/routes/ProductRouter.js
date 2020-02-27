@@ -4,7 +4,7 @@ const { authentication, authorization } = require('../middlewares/auth')
 const upload = require('../middlewares/unggah')
 
 router.get('/', ProductController.readAll)
-router.get('/:category', ProductController.readAll)
+router.get('/category/:category', ProductController.readAll)
 
 router.use(authentication)
 router.post('/', authorization, upload.single('image_url'), ProductController.create)

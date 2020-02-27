@@ -18,7 +18,6 @@ class ProductController {
     }
 
     static readAll(req, res, next) {
-        // const { like } = Sequelize.op
         const categoryFilter = req.params.category
         if(categoryFilter === undefined || categoryFilter === 'all') {
             Product.findAll({})
@@ -27,7 +26,6 @@ class ProductController {
             })
             .catch(next)
         } else {
-            console.log('this is category')
             Product.findAll({
                 where: {
                     category: categoryFilter
@@ -52,7 +50,6 @@ class ProductController {
     static update(req, res, next) {
         const id = req.params.id
         const { name, image_url, price, stock, category, description } = req.body
-        console.log('req body', req.body)
         Product.update(
             {
                 name,
