@@ -1,7 +1,16 @@
 <template>
   <!-- eslint-disable max-len -->
-
   <div>
+    <div class="vld-parent">
+      <loading
+        :active.sync="isLoading"
+        :can-cancel="true"
+        :is-full-page="true"
+        :color="'#d47a90'"
+        :loader="'dots'"
+        :width="100"
+      ></loading>
+    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-white justify-content-center fixed-top">
       <a class="navbar-brand">
         <router-link to="/" class="home">Face UP</router-link>
@@ -48,11 +57,17 @@
 </template>
 
 <script>
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 export default {
+  components: {
+    Loading
+  },
   data() {
     return {
       amounts: null,
-      isLogin: false
+      isLogin: false,
+      isLoading: false
     };
   },
   mounted() {
@@ -91,11 +106,16 @@ export default {
         .then(result => {
           this.isLogin = false;
           if (result.value) {
+            this.isLoading = true;
             localStorage.removeItem("token");
             localStorage.removeItem("role");
+          } else {
+            this.isLoading = false;
           }
+          this.isLoading = false;
         })
         .catch(err => {
+          this.isLoading = false;
           console.log(err.response, "< err navbar logout");
           this.$swal.fire({
             title: "We're sorry",

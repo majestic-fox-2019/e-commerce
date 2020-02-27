@@ -1,5 +1,15 @@
 <template>
   <div v-if="getCarts">
+    <div class="vld-parent">
+      <loading
+        :active.sync="isLoading"
+        :can-cancel="true"
+        :is-full-page="true"
+        :color="'#d47a90'"
+        :loader="'dots'"
+        :width="100"
+      ></loading>
+    </div>
     <div class="mycart" v-if="getCarts.length > 0">
       <h5 clas="titlecart">MY SHOPPING CARTS</h5>
       <table class="table">
@@ -20,7 +30,6 @@
             </td>
             <td class="center">{{$formatRupiah(cart.price)}}</td>
             <td class="center">
-              <!-- <input type="number" class="form-check-input" v-model="cart.UserProduct.amount" /> -->
               <button
                 type="button"
                 class="btn btn-secondary"
@@ -66,12 +75,18 @@
 </template>
 
 <script>
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 export default {
+  components: {
+    Loading
+  },
   data() {
     return {
       mycarts: null,
       total: null,
-      subtotal: 0
+      subtotal: 0,
+      isLoading: false
     };
   },
   created() {
@@ -87,6 +102,7 @@ export default {
   },
   methods: {
     deleteItem(ProductId) {
+      this.isLoading = true;
       this.$axios({
         method: "delete",
         url: `${this.$server}/carts/${ProductId}`,
@@ -95,9 +111,11 @@ export default {
         }
       })
         .then(result => {
+          this.isLoading = false;
           this.$store.dispatch("userCarts");
         })
         .catch(err => {
+          this.isLoading = false;
           this.$swal.fire({
             title: "We're sorry",
             text: err.response.data,
@@ -124,6 +142,7 @@ export default {
       return count;
     },
     checkout() {
+      this.isLoading = true;
       this.$axios({
         method: "put",
         url: `${this.$server}/carts`,
@@ -132,6 +151,7 @@ export default {
         }
       })
         .then(result => {
+          this.isLoading = false;
           this.$swal.fire({
             icon: "success",
             title: `Thank you for shopping!`,
@@ -141,6 +161,7 @@ export default {
           this.$store.dispatch("userCarts");
         })
         .catch(err => {
+          this.isLoading = false;
           this.$swal.fire({
             title: "We're sorry",
             text: err.response.data,
