@@ -1,78 +1,112 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import axios from 'axios';
-import App from './App.vue';
-import loginPage from './components/loginPage.vue';
-import registerPage from './components/registerPage.vue';
-import admin from './components/admin.vue';
-import table from './components/table.vue';
-import homePage from './components/homePage.vue';
-import store from '../store';
-import detailProduct from './components/detailProduct.vue';
-import tableCategory from './components/tableCategory.vue';
+import Vue from "vue";
+import VueRouter from "vue-router";
+import axios from "axios";
+import App from "./App.vue";
+import loginPage from "./components/loginPage.vue";
+import registerPage from "./components/registerPage.vue";
+import admin from "./views/admin.vue";
+import table from "./components/table.vue";
+import homePage from "./views/homePage.vue";
+import store from "../store";
+import detailProduct from "./components/detailProduct.vue";
+import tableCategory from "./components/tableCategory.vue";
+import cartDetail from "./views/cartDetail.vue";
+import errorPage from "./views/404.vue";
 
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
-Vue.prototype.$axios = axios.create({ baseURL: 'https://ma-tea.herokuapp.com' });
+// Vue.prototype.$axios = axios.create({ baseURL: "https://ma-tea.herokuapp.com" });
+Vue.prototype.$axios = axios.create({ baseURL: "http://localhost:3000" });
+Vue.prototype.$currencyFormatter = input => {
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR"
+  });
+  return formatter.format(input);
+};
 const routes = [
   {
-    path: '/',
+    path: "/",
     component: homePage,
-    name: 'homePage',
-    meta: { Auth: false },
-    children: [
-      {
-        path: '/register',
-        component: registerPage,
-        name: 'registerPage',
-      },
-      {
-        path: '/login',
-        component: loginPage,
-        name: 'loginPage',
-        meta: { Auth: false },
-      },
-    ],
+    name: "homePage",
+    meta: { Auth: false }
   },
-
   {
-    path: '/admin',
+    path: "/register",
+    component: registerPage,
+    name: "registerPage",
+    beforeEnter: (to, from, next) => {
+      if (localStorage.token) {
+        next({
+          name: "homePage"
+        });
+      } else {
+        next();
+      }
+    }
+  },
+  {
+    path: "/login",
+    component: loginPage,
+    name: "loginPage",
+    beforeEnter: (to, from, next) => {
+      if (localStorage.token) {
+        next({
+          name: "homePage"
+        });
+      } else {
+        next();
+      }
+    }
+  },
+  {
+    path: "/cart",
+    component: cartDetail,
+    name: "cartDetail"
+  },
+  {
+    path: "/admin",
     component: admin,
-    name: 'admin',
+    name: "admin",
     meta: { Auth: true, isAdmin: true },
     children: [
       {
-        path: '/',
+        path: "/",
         component: table,
-        name: 'tableProduct',
+        name: "tableProduct"
       },
       {
-        path: '/detail/:id',
+        path: "/detail/:id",
         component: detailProduct,
-        name: 'detailProduct',
+        name: "detailProduct"
       },
       {
-        path: '/category',
+        path: "/category",
         component: tableCategory,
-        name: 'categoryDetail',
-      },
-    ],
+        name: "categoryDetail"
+      }
+    ]
   },
+  {
+    path: "*",
+    component: errorPage,
+    name: "errorPage"
+  }
 ];
 
 const router = new VueRouter({
-  mode: 'history',
-  routes,
+  mode: "history",
+  routes
 });
 
 router.beforeEach((to, from, next) => {
   // next();
-  if (!to.matched.some((record) => record.meta.Auth)) {
+  if (!to.matched.some(record => record.meta.Auth)) {
     if (localStorage.token) {
-      if (localStorage.role === 'admin') {
+      if (localStorage.role === "admin") {
         next({
-          name: 'tableProduct',
+          name: "tableProduct"
         });
       } else {
         next();
@@ -80,17 +114,17 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  } else if (to.matched.some((record) => record.meta.Auth)) {
+  } else if (to.matched.some(record => record.meta.Auth)) {
     if (!localStorage.token) {
       next({
-        name: 'homePage',
+        name: "homePage"
       });
-    } else if (to.matched.some((record) => record.meta.isAdmin)) {
-      if (localStorage.role === 'admin') {
+    } else if (to.matched.some(record => record.meta.isAdmin)) {
+      if (localStorage.role === "admin") {
         next();
       } else {
         next({
-          name: 'homePage',
+          name: "homePage"
         });
       }
     } else {
@@ -99,7 +133,7 @@ router.beforeEach((to, from, next) => {
   }
 });
 new Vue({
-  render: (h) => h(App),
+  render: h => h(App),
   router,
-  store,
-}).$mount('#app');
+  store
+}).$mount("#app");

@@ -1,5 +1,11 @@
 # e-commerce
 
+
+
+link :https://matea-c9762.firebaseapp.com
+
+
+
 ## Getting Started
 
 #### Install Package
@@ -30,15 +36,25 @@ npm install
 
 #### EndPoints /category
 
-| Method | EndPoints | Description       |
-| ------ | --------- | ----------------- |
-| POST   | /category | Create a category |
-| GET    | /category | Get a category    |
-| Delete | /category | Delete a category |
+| Method | EndPoints  | Description       |
+| ------ | ---------- | ----------------- |
+| POST   | /category/ | Create a category |
+| GET    | /category  | Get a category    |
+| Delete | /category  | Delete a category |
+
+#### EndPoints /cart
+
+| Method | EndPoints      | Description                                   |
+| ------ | -------------- | --------------------------------------------- |
+| GET    | /cart          | Get an user include cart with product         |
+| POST   | /cart          | Create a cart                                 |
+| PUT    | /cart          | Update a cart                                 |
+| DELETE | /cart/:id      | Delete a cart                                 |
+| put    | /cart/checkout | Update stock for product and delete user cart |
 
 
 
-## 1. POST /products (create)
+## 1. POST /products
 
 #### EndPoint:
 
@@ -119,12 +135,6 @@ npm install
 | ------- | --------- | ---------------- |
 | GET     | /products | Get all products |
 
-##### Request Parameter:
-
-```javascript
-http://localhost:3000/products
-```
-
 ##### Request Header:
 
 ```json
@@ -158,7 +168,7 @@ http://localhost:3000/products
 
 
 
-# 4. Put /products/:id (update)
+# 4. Put /products/:id
 
 #### EndPoint:
 
@@ -243,7 +253,7 @@ http://localhost:3000/products/12
 
 
 
-# 5. Delete products/:id
+# 5. Delete /products/:id
 
 #### EndPoint:
 
@@ -338,13 +348,13 @@ http://localhost:3000/products/1
 
 
 
-## 7.POST LOGIN
+## 7.POST /login
 
 #### EndPoint:
 
-| Methods | EndPoints | Description   |
-| ------- | --------- | ------------- |
-| POST    | /user/    | Login an user |
+| Methods | EndPoints   | Description   |
+| ------- | ----------- | ------------- |
+| POST    | /user/login | Login an user |
 
 ##### Request Body
 
@@ -377,7 +387,7 @@ http://localhost:3000/products/1
 
 
 
-## 8.POST Category
+## 8.POST /category
 
 #### EndPoint:
 
@@ -438,7 +448,7 @@ http://localhost:3000/products/1
 
 
 
-# 9. Get /Category 
+# 9. Get /category 
 
 #### EndPoint:
 
@@ -528,4 +538,290 @@ http://localhost:3000/category/1
 ```
 
 
+
+# 11. Get /cart
+
+#### EndPoint:
+
+| Methods | EndPoints | Description                           |
+| ------- | --------- | ------------------------------------- |
+| GET     | /cart     | Get an user include cart with product |
+
+##### Request Header:
+
+```json
+{
+	"token": your_OwnToken
+}
+```
+
+##### Response:
+
+##### 	Success
+
+- 200
+
+```javascript
+{
+    "id": 7,
+    "email": "user@mail.com",
+    "password": "$2a$10$f41I3D7nbRnvpTtt6qCny.0bg/P0yPmHrWZOnb2Iln9KOxEAyhhRS",
+    "username": "user",
+    "role": "user",
+    "createdAt": "2020-02-21T12:39:50.992Z",
+    "updatedAt": "2020-02-21T12:39:50.992Z",
+    "Products": [
+        {
+            "id": 21,
+            "name": "Ding Dong",
+            "image_url": "https://havillatea.com/wp-content/uploads/2017/06/dongding-510x510.jpg",
+            "price": 200000,
+            "stock": 200,
+            "CategoryId": 2,
+            "createdAt": "2020-02-19T10:11:53.164Z",
+            "updatedAt": "2020-02-19T12:09:24.642Z",
+            "Cart": {
+                "UserId": 7,
+                "ProductId": 21,
+                "total": 5,
+                "createdAt": "2020-02-25T06:42:57.710Z",
+                "updatedAt": "2020-02-25T15:53:57.897Z"
+            }
+        },
+        {
+            "id": 28,
+            "name": "Earl Grey Tea",
+            "image_url": "https://havillatea.com/wp-content/uploads/2019/06/classic-earl-grey-510x510.jpg",
+            "price": 100000,
+            "stock": 30,
+            "CategoryId": 3,
+            "createdAt": "2020-02-20T05:11:40.996Z",
+            "updatedAt": "2020-02-20T05:11:40.996Z",
+            "Cart": {
+                "UserId": 7,
+                "ProductId": 28,
+                "total": 6,
+                "createdAt": "2020-02-25T11:00:39.445Z",
+                "updatedAt": "2020-02-25T13:52:12.532Z"
+            }
+        }
+    ]
+}
+```
+
+##### 
+
+# 12. POST /cart
+
+#### EndPoint:
+
+| Methods | EndPoints | Description                           |
+| ------- | --------- | ------------------------------------- |
+| GET     | /cart     | Get an user include cart with product |
+
+
+
+#### Schema:
+
+​	Value :
+
+* total: integer,
+
+* ProductId:integer
+
+* UserId:integer
+
+  
+
+##### Request Header:
+
+```json
+{
+	"token": your_OwnToken
+}
+```
+
+
+
+##### Request Body:
+
+```json
+{
+	"name": "Jasmine",
+}
+```
+
+#### Response:
+
+##### 		success:
+
+* 201
+
+```json
+{
+    "total": 10,
+    "ProductId": 21,
+    "UserId": 7,
+    "updatedAt": "2020-02-27T04:35:23.458Z",
+    "createdAt": "2020-02-27T04:35:23.458Z",
+    "id": 49
+}
+```
+
+##### 	error:
+
+* 400
+
+  ```json
+  {
+      "message": "Validation error: total must be filled"
+  }
+  ```
+
+
+
+## 13. PUT /cart
+
+#### EndPoint:
+
+| Methods | EndPoints | Description   |
+| ------- | --------- | ------------- |
+| PUT     | /cart     | update a cart |
+
+Value :
+
+* total: integer,
+* ProductId:integer
+* UserId:integer
+
+#### Response :
+
+##### 	Success
+
+- 200
+
+```javascript
+{
+    "id": 49,
+    "UserId": 7,
+    "ProductId": 21,
+    "total": 19,
+    "createdAt": "2020-02-27T04:35:23.458Z",
+    "updatedAt": "2020-02-27T04:49:18.723Z"
+}
+```
+
+#### 	Error:
+
+- 400
+
+```json
+{
+ "message": "Validation error: title must be filled"
+ }
+```
+
+- 404
+
+```json
+{
+    "message": "command not found"
+}
+```
+
+
+
+## 14. Delete /cart/:id
+
+#### EndPoint:
+
+| Methods | EndPoints | Description   |
+| ------- | --------- | ------------- |
+| DELETE  | /cart/:id | delete a cart |
+
+##### Request parameter:
+
+```javascript
+http://localhost:3000/cart/21
+```
+
+##### Request Header:
+
+```json
+{
+	"token": your_OwnToken
+}
+```
+
+
+
+##### Response:
+
+##### 	Success
+
+- 200
+
+```javascript
+{
+   
+}
+```
+
+##### Error:
+
+- 404
+
+```json
+{
+    "message": "command not found"
+}
+```
+
+
+
+# 15. PUT /cart/checkout
+
+#### EndPoint:
+
+| Methods | EndPoints      | Description                                   |
+| ------- | -------------- | --------------------------------------------- |
+| PUT     | /cart/checkout | Update stock for product and delete user cart |
+
+Value :
+
+* cart: integer
+
+
+
+##### Request Header:
+
+```json
+{
+	"token": your_OwnToken
+}
+```
+
+
+
+##### Response:
+
+##### 	Success
+
+- 200
+
+```javascript
+{
+   "message":"checkout Success"
+}
+```
+
+##### Error:
+
+- 400
+
+```json
+{
+    "message": "stock chai on me is not enough"
+}
+```
 

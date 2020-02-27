@@ -1,7 +1,6 @@
-const { User } = require("../models");
+const { User, Product } = require("../models");
 let bcrypt = require("bcryptjs");
 let jwt = require("jsonwebtoken");
-
 class userController {
   static Register(req, res, next) {
     User.create({
@@ -11,9 +10,11 @@ class userController {
       role: req.body.role
     })
       .then(user => {
-        let token = jwt.sign({ email: user.email, id: user.id }, "ini rahasia");
+        let token = jwt.sign(
+          { email: user.email, id: user.id },
+          process.env.JWT_SECRET
+        );
         res.status(201).json({ token: token, id: user.id });
-        // res.status(201).json(user)
       })
       .catch(err => {
         if (err.message) {
@@ -36,7 +37,7 @@ class userController {
           if (bcrypt.compareSync(password, user.password)) {
             let token = jwt.sign(
               { email: user.email, id: user.id },
-              "ini rahasia"
+              process.env.JWT_SECRET
             );
             res
               .status(201)
@@ -46,9 +47,6 @@ class userController {
               StatusCode: "404",
               message: "Username or password wrong"
             };
-            // next(msg)
-            console.log("erornya disini", msg);
-
             res.status(401).json(msg);
           }
         } else {
@@ -56,10 +54,34 @@ class userController {
             StatusCode: "404",
             message: "command not found"
           };
-          console.log("erornya ini", msg);
-
           res.status(404).json(msg);
           // next(msg)
+        }
+      })
+      .catch(err => {
+        if (err.message) {
+          err.StatusCode = 400;
+        }
+        next(err);
+      });
+  }
+
+  static findUser(req, res, next) {
+    console.log("masuk");
+    console.log;
+    User.findOne({
+      where: { id: req.user.id },
+      include: [Product]
+    })
+      .then(data => {
+        if (data) {
+          res.status(200).json(data);
+        } else {
+          let msg = {
+            StatusCode: "404",
+            message: "Username or password wrong"
+          };
+          res.status(401).json(msg);
         }
       })
       .catch(err => {

@@ -21,7 +21,7 @@ class ProductController {
   }
 
   static getProduct(req, res, next) {
-    Product.findAll({ include: Category })
+    Product.findAll({ order: [["id", "DESC"]], include: Category })
       .then(data => {
         res.status(200).json(data);
       })
@@ -56,9 +56,8 @@ class ProductController {
       }
     )
       .then(data => {
-        console.log(data);
         if (data[0] != 0) {
-          res.status(200).json(data[1][0]);
+          res.status(200).json(data[1][0].dataValues);
         } else {
           let msg = {
             StatusCode: "404",
@@ -80,7 +79,6 @@ class ProductController {
       .then(data => {
         console.log(data, "<<<<");
         if (data != null) {
-          console.log("aaaaa");
           return Product.destroy({ where: { id: req.params.id } });
         } else {
           let msg = {
