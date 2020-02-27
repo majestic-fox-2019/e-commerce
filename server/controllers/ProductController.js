@@ -18,11 +18,26 @@ class ProductController {
     }
 
     static readAll(req, res, next) {
-        Product.findAll({})
-        .then(products => {
-            res.status(200).json(products)
-        })
-        .catch(next)
+        // const { like } = Sequelize.op
+        const categoryFilter = req.params.category
+        if(categoryFilter === undefined || categoryFilter === 'all') {
+            Product.findAll({})
+            .then(products => {
+                res.status(200).json(products)
+            })
+            .catch(next)
+        } else {
+            console.log('this is category')
+            Product.findAll({
+                where: {
+                    category: categoryFilter
+                }
+            })
+            .then(products => {
+                res.status(200).json(products)
+            })
+            .catch(next)
+        }
     }
 
     static readOne(req, res, next) {

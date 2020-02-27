@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="table-product">
+        <h5>List of Product :</h5>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -12,7 +13,10 @@
             </thead>
             <tbody >
                 <tr v-for="(product) in $store.state.products" :key="product.id">
-                    <td>{{ product.name }}</td>
+                    <td>
+                        <p class="mb-0">{{ product.name }}</p>
+                        <p class="mb-0">{{ product.description }}</p>
+                    </td>
                     <td><img width="100" :src="product.image_url" alt="product"></td>
                     <td>{{ product.price.toLocaleString('id') }}</td>
                     <td>{{ product.stock }}</td>
@@ -29,9 +33,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Swal from 'sweetalert2'
-
 export default {
     name: 'list-product',
     created() {
@@ -50,7 +51,7 @@ export default {
 </script>
 
 <style scoped>
-table {
+.table-product {
     margin-top: 80px;
 }
 

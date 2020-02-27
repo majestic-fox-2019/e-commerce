@@ -14,7 +14,13 @@ class UserController {
             role
         })
         .then(user => {
-            const token = generateToken(user.dataValues)
+            let obj = {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+            }
+            const token = generateToken(obj)
             res.status(201).json({
                 id: user.id,
                 name: user.name,
@@ -38,7 +44,13 @@ class UserController {
         .then(user => {
             if(user) {
                 if(compareHash(password, user.password)) {
-                    const token = generateToken(user.dataValues)
+                    let obj = {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        role: user.role,
+                    }
+                    const token = generateToken(obj)
                     res.status(201).json({
                         id: user.id,
                         name: user.name,

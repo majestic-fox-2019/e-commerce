@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
+          args: true,
           msg: 'Name is required'
         },
         nameRequired(value) {
@@ -33,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
+          args: true,
           msg: 'Email is required'
         },
         emailRequired(value) {
@@ -41,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
         isEmail: {
+          args: true,
           msg: 'Use a valid email format'
         },
         isUnique(value) {
@@ -62,6 +65,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
+          args: true,
           msg: 'Phone is required'
         },
         phoneRequired(value) {
@@ -83,6 +87,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
+          args: true,
           msg: 'Address is required'
         },
         addressRequired(value) {
@@ -97,6 +102,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
+          args: true,
           msg: 'Password is required'
         },
         passRequired(value) {
@@ -120,6 +126,8 @@ module.exports = (sequelize, DataTypes) => {
   });
   User.associate = function(models) {
     // associations can be defined here
+    User.hasMany(models.Cart)
+    User.hasMany(models.Transaction)
   };
   return User;
 };

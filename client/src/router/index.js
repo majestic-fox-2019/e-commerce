@@ -4,14 +4,27 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Product from '../views/Product.vue'
 import RegisterAdmin from '../views/RegisterAdmin.vue'
+import CardProduct from '@/components/CardProduct.vue'
+import Cart from '../views/Cart.vue'
+import Transaction from '../views/Transaction.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    // name: 'Home',
+    component: Home,
+    children: [
+      {
+        path: '',
+        component: CardProduct
+      },
+      {
+        path: '/cart',
+        component: Cart
+      }
+    ]
   },
   {
     path: '/about',
@@ -40,7 +53,12 @@ const routes = [
     path: '/product',
     name: 'Product',
     component: Product
-  }
+  },
+  {
+    path: '/transaction',
+    name: 'Transaction',
+    component: Transaction
+  },
 ]
 
 const router = new VueRouter({

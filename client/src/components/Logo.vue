@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a href="" v-on:click.prevent="gotoAdmin">
+        <a href="" v-on:click.prevent="gotoHome">
             <img src="../assets/logo_tokokita.png">
         </a>
     </div>
@@ -10,8 +10,10 @@
 export default {
     name: 'logo',
     methods: {
-        gotoAdmin() {
-            this.$router.push('/admin');
+        gotoHome() {
+            if(this.$router.app._route.path != '/') {
+                this.$router.push('/');
+            }
         }
     }
 }

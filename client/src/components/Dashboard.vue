@@ -3,18 +3,20 @@
         <div class="card-header d-flex justify-content-between">
             <button class="btn btn-white" @click.prevent="goLogin" v-if="$store.state.isLogin===false">LOG IN</button>
             <button class="btn btn-white" @click.prevent="goLogout" v-if="$store.state.isLogin===true">LOG OUT</button>
-            <button class="btn btn-white" @click.prevent="goRegister">REGISTER</button>
+            <button class="btn btn-white" @click.prevent="goRegister" v-if="$store.state.isLogin===false">REGISTER</button>
+            <p class="mb-0 text-primary pt-2" v-if="$store.state.isLogin===true">{{ $store.state.email }}</p>
         </div>
         <div class="card-body">
             <img src="../assets/cart.png">
             <div>
-                <h5>Rp. 123.456.789</h5>
-                <h6>10 items</h6>
+                <h5>Rp {{ $store.state.totalRp.toLocaleString('id') }}</h5>
+                <h6>{{ $store.state.totalItem }} items</h6>
             </div>
         </div>
         <div class="card-footer d-flex justify-content-between">
-            <button class="btn btn-white">VIEW CART</button>
-            <button class="btn btn-white">CHECK OUT</button>
+            <button class="btn btn-white col-5" v-if="$store.state.isLogin===true" v-on:click.prevent="gotoCart">VIEW CART</button>
+            <button class="btn btn-white col-5" v-if="$store.state.isLogin===true" v-on:click.prevent="gotoCheckout">CHECK OUT</button>
+            <a href="" class="col-0" v-on:click.prevent="gotoAdmin" style="text-decoration:none;color:lightgray;">.</a>
         </div>
     </div>
 </template>
@@ -28,13 +30,28 @@ export default {
             this.$router.push('/login')
         },
         goLogout() {
-            this.$store.commit('SET_LOGOUT')
+            this.$store.dispatch('logout')
         },
         goRegister() {
             this.$store.state.page = 'register';
             this.$router.push('/register')
         },
+        gotoAdmin() {
+            this.$router.push('/admin')
+        },
+        gotoCart() {
+            this.$router.push('/cart')
+        },
+        gotoCheckout() {
+            this.$store.dispatch('checkoutCart')
+        }
+    },
+    created() {
+        if(localStorage.token) {
+            this.$store.dispatch('getCart')
+        } else {
 
+        }
     }
 }
 </script>

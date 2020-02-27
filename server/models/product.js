@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
+          args: true,
           msg: 'Name is required'
         },
         isRequired(value) {
@@ -35,7 +36,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       validate: {
-        isDecimal: false,
+        isDecimal: {
+          args: false,
+          msg: 'Price cannot decimal',
+        },
         isNegative(value) {
           if(value < 0) {
             throw new Error('Negatif value is not allow')
@@ -47,7 +51,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       validate: {
-        isDecimal: false,
+        isDecimal: {
+          args: false,
+          msg: 'Stock cannot decimal',
+        },
         isNegative(value) {
           if(value < 0) {
             throw new Error('Negatif value is not allow')
@@ -60,6 +67,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
+          args: true,
           msg: 'Category is required'
         },
         isRequired(value) {
@@ -74,6 +82,8 @@ module.exports = (sequelize, DataTypes) => {
   });
   Product.associate = function(models) {
     // associations can be defined here
+    Product.hasMany(models.Cart)
+    Product.hasMany(models.Transaction)
   };
   return Product;
 };

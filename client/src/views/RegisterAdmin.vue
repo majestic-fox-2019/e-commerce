@@ -23,18 +23,6 @@
                 <label for="inputPassword">Password</label>
                 <input type="password" class="form-control" id="inputPassword" v-model="password">
             </div>
-            <!-- <div class="form-group">
-                <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputRole">Role</label>
-                </div>
-                <select class="custom-select" id="inputRole" v-model="role">
-                    <option selected>Choose...</option>
-                    <option value="admin">Admin</option>
-                    <option value="user">User</option>
-                </select>
-                </div>
-            </div> -->
 
             <div class="d-flex justify-content-between">
                 <div>
