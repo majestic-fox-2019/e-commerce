@@ -19,7 +19,7 @@
             show-password
           ></el-input>
           <el-button @click="login" round>Login</el-button>
-          <el-button round>Register</el-button>
+          <el-button @click="register" round>Register</el-button>
         </div>
       </div>
     </div>
@@ -55,6 +55,25 @@ export default {
           this.$router.push({
             path: '/'
           })
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    register() {
+      let newUser = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        role: 'admin'
+      }
+      axios({
+        method: 'post',
+        url: `${this.$store.state.baseUrl}/users/register`,
+        data: newUser
+      })
+        .then(({ data }) => {
+          console.log('user register successfully with data: ', data)
         })
         .catch(err => {
           console.log(err)

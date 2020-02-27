@@ -61,6 +61,11 @@ export default {
     }
   },
   created() {
+    if (!localStorage['e_musicToken_admin']) {
+      this.$router.push({
+        path: '/registerlogin'
+      })
+    }
     axios({
       method: 'get',
       url: `${this.$store.state.baseUrl}/malls`

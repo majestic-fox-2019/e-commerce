@@ -118,6 +118,13 @@ export default {
     baseUrl() {
       return this.$store.state.baseUrl
     }
+  },
+  created() {
+    if (!localStorage['e_musicToken_admin']) {
+      this.$router.push({
+        path: '/registerlogin'
+      })
+    }
   }
 }
 </script>
