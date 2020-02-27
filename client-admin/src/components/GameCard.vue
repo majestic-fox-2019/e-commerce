@@ -106,16 +106,7 @@ export default {
               });
               this.$store.dispatch("getAllGames");
             })
-            .catch(({ response }) => {
-              console.log(response);
-              // if (error.response.status == 403) {
-              //   Swal.fire({
-              //     icon: "error",
-              //     title: "Oops...",
-              //     text: "You are not authorized to delete this task!"
-              //   });
-              // }
-            });
+            .catch(() => {});
         }
       });
     }

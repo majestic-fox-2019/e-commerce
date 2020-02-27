@@ -63,7 +63,8 @@
           </div>
           <div class="form-group">
             <label>Category</label>
-            <select class="form-control" required v-model="productData.CategoryId">
+            <select class="form-control" v-model="productData.CategoryId">
+              <option disabled>Select category</option>
               <option
                 v-for="category in categories"
                 :key="category.id"
@@ -153,7 +154,7 @@ export default {
         image_url: null,
         price: null,
         stock: null,
-        CategoryId: null
+        CategoryId: "Select category"
       };
       if (!this.formStatus) {
         this.formType = "add";
@@ -266,6 +267,15 @@ export default {
 </script>
 
 <style scoped>
+option {
+  font-size: 14px;
+}
+
+select {
+  color: #9e9e9e;
+  font-size: 13px;
+}
+
 .container {
   width: 39vw;
 }

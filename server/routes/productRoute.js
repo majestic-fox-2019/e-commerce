@@ -1,13 +1,16 @@
 const productRoute = require('express').Router()
 
+const authentication = require('../middlewares/authentication')
 const productController = require('../controllers/productController')
 
-productRoute.post('/', productController.addItem) //
-productRoute.get('/', productController.listProduct) //
-productRoute.get('/:id', productController.getProductById) //
-productRoute.put('/:id', productController.updateProduct) //
-productRoute.delete('/:id', productController.deleteProduct) //
-productRoute.get('/find/:category', productController.getFilteredList)
+productRoute.get('/', productController.listProduct)
+productRoute.get('/banner', productController.showBanner)
+productRoute.get('/find/:category', productController.listProduct)
+productRoute.get('/:id', productController.getProductById)
+
+productRoute.post('/', authentication, productController.addItem)
+productRoute.put('/:id', authentication, productController.updateProduct)
+productRoute.delete('/:id', authentication, productController.deleteProduct)
 
 
 module.exports = productRoute

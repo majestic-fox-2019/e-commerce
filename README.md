@@ -55,25 +55,43 @@ $ npm run dev
 | /login    | POST     | Log in and get an access token based on credentials |
 | /register | POST     | Sign up new user                                    |
 | /list     | GET      | Show all registered member                          |
+| /verify   | GET      | Verify access token credentials of user             |
 
 #### **List of Products Routes:**
 
-| **Route**                | **HTTP** | **Description**                                              |
-| ------------------------ | -------- | ------------------------------------------------------------ |
-| /products                | GET      | Show all products *(login required)*                         |
-| /products                | POST     | Create new product *(login required)*                        |
-| /products/:id            | GET      | Retrieve details of a product by id *(login required)*       |
-| /products/:id            | PUT      | Update details of a product by id *(login required)*         |
-| /products/:id            | DELETE   | Delete specified product by id *(login required)*            |
-| /products/find/:category | GET      | Retrieve every products filtered by category selected *(login required)* |
+| **Route**                | **HTTP** | **Description**                                          |
+| ------------------------ | -------- | -------------------------------------------------------- |
+| /products                | GET      | Show all products                                        |
+| /products                | POST     | Create new product ***(login required)***                |
+| /products/:id            | GET      | Retrieve details of a product by id                      |
+| /products/:id            | PUT      | Update details of a product by id ***(login required)*** |
+| /products/:id            | DELETE   | Delete specified product by id ***(login required)***    |
+| /products/find/:category | GET      | Retrieve every products filtered by category selected    |
+| /products/banner         | GET      | Retrieve newly added products limit by 10                |
 
 #### **List of Categories Routes:**
 
-| **Route**       | **HTTP** | **Description**                                    |
-| --------------- | -------- | -------------------------------------------------- |
-| /categories     | GET      | Show all categories *(login required)*             |
-| /categories     | POST     | Create new category *(login required)*             |
-| /categories/:id | DELETE   | Delete specified category by id *(login required)* |
+| **Route**       | **HTTP** | **Description**                                        |
+| --------------- | -------- | ------------------------------------------------------ |
+| /categories     | GET      | Show all categories ***(login required)***             |
+| /categories     | POST     | Create new category ***(login required)***             |
+| /categories/:id | DELETE   | Delete specified category by id ***(login required)*** |
+
+#### **List of Histories Routes:**
+
+| **Route**  | **HTTP** | **Description**                                              |
+| ---------- | -------- | ------------------------------------------------------------ |
+| /histories | GET      | Show all transaction history of current user logged in ***(login required)*** |
+
+#### **List of Carts Routes:**
+
+| **Route**  | **HTTP** | **Description**                                              |
+| ---------- | -------- | ------------------------------------------------------------ |
+| /carts     | GET      | Show all current user cart log ***(login required)***        |
+| /carts     | POST     | Create new cart of products ***(login required)***           |
+| /carts     | PUT      | Checkout cart and decrease product stock according to cart amount ***(login required)*** |
+| /carts/:id | PATCH    | Update cart amount value by input ***(login required)***     |
+| /carts/:id | DELETE   | Delete specified cart by id ***(login required)***           |
 
 #### **List of Errors:**
 
@@ -178,6 +196,9 @@ $ npm run dev
             "password": "Please enter password"
         }
     }
+    ```
+  ```
+  
   ```
   
 - **Status:** `500`
@@ -233,6 +254,49 @@ $ npm run dev
     }
     ```
 
+## GET Users Verify
+
+------
+
+- **URL:** `/verify`
+
+- **Method:** `GET`
+
+- **Description:** `Verify given access token into valid credentials`
+
+- **Request Header:**
+
+  ```javascript
+  {
+      "token": eyJhbGciOiJIUzI1NiIsInR, //required
+  }
+  ```
+
+- **Success Response:**
+
+  - **Status:** `200`
+
+    ```javascript
+    {
+        "user": {
+            "id": 1,
+            "email": "user@gmail.com",
+            "role": "Member",
+            "iat": 1582735239
+        }
+    }
+    ```
+
+- **Error Response:**
+
+  - **Status:** `500`
+
+    ```javascript
+    {
+        "msg": "Server currently unable to handle this request"
+    }
+    ```
+
 
 
 ## GET Products
@@ -244,14 +308,6 @@ $ npm run dev
 - **Method:** `GET`
 
 - **Description:** `Show all list of product on e-commerce`
-
-- **Request Header:**
-
-  ```javascript
-  {
-      "token": eyJhbGciOiJIUzI1NiIsInR, //required
-  }
-  ```
 
 - **Success Response:**
 
@@ -419,17 +475,9 @@ $ npm run dev
   "id": 1, //required
   ```
 
-- **Request Header:**
-
-  ```javascript
-  {
-      "token": eyJhbGciOiJIUzI1NiIsInR, //required
-  }
-  ```
-
 - **Success Response:**
 
-  - **Status:** `201`
+  - **Status:** `200`
   
     ```javascript
     {
@@ -633,13 +681,6 @@ $ npm run dev
   "category": "Role-Playing" //required
   ```
 
-- **Request Header:**
-
-  ```javascript
-  {
-      "token": eyJhbGciOiJIUzI1NiIsInR, //required
-  }
-  ```
 
 
 - **Success Response:**
@@ -695,7 +736,55 @@ $ npm run dev
       }
     ```
 
+## GET Products Banner
 
+------
+
+- **URL:** `/products/banner`
+
+- **Method:** `GET`
+
+- **Description:** `Fetch a newly 10 newly added products`
+
+- **Success Response:**
+
+  - **Status:** `200`
+
+    ```javascript
+    [
+        {
+            "id": 3,
+            "name": "Nier:Automata",
+            "image_url": "imageURL",
+            "price": 260000,
+            "stock": 4,
+            "CategoryId": 6,
+            "createdAt": "2020-02-20T04:39:30.344Z",
+            "updatedAt": "2020-02-20T04:47:15.644Z",
+        },
+        {
+            "id": 2,
+            "name": "Battlefield V",
+            "image_url": "imageURL",
+            "price": 569000,
+            "stock": 12,
+            "CategoryId": 2,
+            "createdAt": "2020-02-22T08:17:27.992Z",
+            "updatedAt": "2020-02-22T08:17:27.992Z",
+        },
+        ...
+    ]
+    ```
+
+- **Error Response:**
+
+  - **Status:** `500`
+
+    ```javascript
+      {
+          "errors": "Server currently unable to handle this request"
+      }
+    ```
 
 ## GET Categories
 
@@ -862,6 +951,138 @@ $ npm run dev
         "errors": "Product not found"
     }
     ```
+
+  - **Status:** `500`
+
+    ```javascript
+    {
+        "msg": "Server currently unable to handle this request"
+    }
+    ```
+
+## GET Histories
+
+------
+
+- **URL:** `/histories`
+
+- **Method:** `GET`
+
+- **Description:** `Retrieve transaction history of users `
+
+- **Request Header:**
+
+  ```javascript
+  {
+      "token": eyJhbGciOiJIUzI1NiIsInR, //required
+  }
+  ```
+
+- **Success Response:**
+
+  - **Status:** `200`
+
+    ```javascript
+    [
+        {
+            "id": 9,
+            "UserId": 2,
+            "product": [
+                {
+                    "name": "Nier:Automata",
+                    "qty": 2,
+                    "price": 260000,
+                    "subTotal": 520000
+                },
+                {
+                    "name": "Nier:Automata",
+                    "qty": 2,
+                    "price": 260000,
+                    "subTotal": 520000
+                },
+                {
+                    "name": "Nier:Automata",
+                    "qty": 1,
+                    "price": 260000,
+                    "subTotal": 260000
+                }
+            ],
+            "totalQty": 5,
+            "totalPrice": 1300000,
+            "createdAt": "2020-02-26T16:32:54.293Z",
+            "updatedAt": "2020-02-26T16:32:54.293Z"
+        },
+        ...
+    ]
+    ```
+
+- **Error Response:**
+
+  - **Status:** `500`
+
+    ```javascript
+    {
+        "msg": "Server currently unable to handle this request"
+    }
+    ```
+
+## GET Carts
+
+------
+
+- **URL:** `/carts`
+
+- **Method:** `GET`
+
+- **Description:** `Retrieve transaction history of users `
+
+- **Request Header:**
+
+  ```javascript
+  {
+      "token": eyJhbGciOiJIUzI1NiIsInR, //required
+  }
+  ```
+
+- **Success Response:**
+
+  - **Status:** `200`
+
+    ```javascript
+    [
+        {
+            "id": 9,
+            "UserId": 2,
+            "product": [
+                {
+                    "name": "Nier:Automata",
+                    "qty": 2,
+                    "price": 260000,
+                    "subTotal": 520000
+                },
+                {
+                    "name": "Nier:Automata",
+                    "qty": 2,
+                    "price": 260000,
+                    "subTotal": 520000
+                },
+                {
+                    "name": "Nier:Automata",
+                    "qty": 1,
+                    "price": 260000,
+                    "subTotal": 260000
+                }
+            ],
+            "totalQty": 5,
+            "totalPrice": 1300000,
+            "createdAt": "2020-02-26T16:32:54.293Z",
+            "updatedAt": "2020-02-26T16:32:54.293Z"
+        },
+        ...
+    ]
+    ```
+
+- **Error Response:**
 
   - **Status:** `500`
 

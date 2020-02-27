@@ -9,7 +9,7 @@ import Page404 from "@/views/404.vue"
 import UnderConstruction from '@/views/UnderConstruction'
 import TableUsers from '@/components/TableUsers'
 
-import jwt from 'jsonwebtoken'
+import axios from '@/api/axios.js'
 
 Vue.use(VueRouter);
 
@@ -66,22 +66,42 @@ router.beforeEach((to, from, next) => {
     if (!localStorage.token) {
       next({ name: "Login" })
     } else {
-      let user = jwt.verify(localStorage.token, 'APTX4869')
-      if (user.role == "Member") {
-        next({ name: "Store" })
-      } else {
-        next()
-      }
+      axios
+        .get('/users/verify', {
+          headers: {
+            token: localStorage.token
+          }
+        })
+        .then(({ data }) => {
+          if (data.user.role == "Member") {
+            next({ name: "Store" })
+          } else {
+            next()
+          }
+        })
+        .catch(() => {
+          next({ name: "Login" })
+        })
     }
   } else {
     if (to.name == 'Login' && localStorage.token) {
-      let user = jwt.verify(localStorage.token, 'APTX4869')
-      if (user.role == "Member") {
-        localStorage.clear()
-        next({ name: "Store" })
-      } {
-        next({ name: "HomeCategory" })
-      }
+      axios
+        .get('/users/verify', {
+          headers: {
+            token: localStorage.token
+          }
+        })
+        .then(({ data }) => {
+          if (data.user.role == "Member") {
+            localStorage.clear()
+            next({ name: "Store" })
+          } {
+            next({ name: "HomeCategory" })
+          }
+        })
+        .catch(() => {
+          next({ name: "Login" })
+        })
     } else {
       next()
     }

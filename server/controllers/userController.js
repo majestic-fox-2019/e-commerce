@@ -73,6 +73,16 @@ class UserController {
             })
             .catch(next)
     }
+
+    static verify(req, res, next) {
+        let token = req.headers.token
+        if (jwt.verifyToken(token)) {
+            let user = jwt.verifyToken(token)
+            res.status(200).json({ user })
+        } else {
+            res.status(401).json({ message: 'Invalid Token' })
+        }
+    }
 }
 
 module.exports = UserController

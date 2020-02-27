@@ -20,9 +20,23 @@ class ProductController {
     }
 
     static listProduct(req, res, next) {
+        let option = {
+            name: req.params.category
+        }
+
+        if (req.params.category == 'undefined' || !req.params.category || req.params.category == 'all') {
+            option = {}
+        }
+
         Product
             .findAll({
-                include: [Category]
+                include: [{
+                    model: Category,
+                    where: option
+                }],
+                order: [
+                    ['updatedAt', 'DESC'],
+                ],
             })
             .then(products => {
                 res.status(200).json(products)
@@ -93,24 +107,14 @@ class ProductController {
             .catch(next)
     }
 
-    static getFilteredList(req, res, next) {
-        let option = {
-            name: req.params.category
-        }
-
-        if (req.params.category == 'all') {
-            option = {}
-        }
-
+    static showBanner(req, res, next) {
         Product
             .findAll({
-                include: [{
-                    model: Category,
-                    where: option
-                }],
+                limit: 10,
+                order: [['createdAt', 'DESC']]
             })
-            .then(list => {
-                res.status(200).json(list)
+            .then(result => {
+                res.status(200).json(result)
             })
             .catch(next)
     }

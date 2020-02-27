@@ -1,11 +1,12 @@
 const categoryRoute = require('express').Router()
 
+const authentication = require('../middlewares/authentication')
 const categoryController = require('../controllers/categoryController')
 
 categoryRoute.get('/', categoryController.showAll)
-categoryRoute.post('/', categoryController.addCategory)
-categoryRoute.delete('/:id', categoryController.deleteCategory)
-categoryRoute.put('/:id', categoryController.editCategory)
+categoryRoute.post('/', authentication, categoryController.addCategory)
+categoryRoute.delete('/:id', authentication, categoryController.deleteCategory)
+categoryRoute.put('/:id', authentication, categoryController.editCategory)
 
 
 module.exports = categoryRoute

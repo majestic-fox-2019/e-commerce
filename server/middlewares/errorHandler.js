@@ -9,6 +9,7 @@ module.exports = (err, req, res, next) => {
             }
             err.message = errorMsg
         }
+
         res
             .status(err.statusCode || 400)
             .json({ errors: err.message })

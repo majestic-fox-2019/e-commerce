@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="container mt-4">
-      <div class="row justify-content-start mx-auto overflow-auto">
+      <div class="category-home row justify-content-start mx-auto overflow-auto">
         <div v-for="category in categories" :key="category.id">
           <router-link :to="{ name: 'ProductByCategory', params: { categoryname: category.name }}">
-            <div class="card bg-dark text-white ml-2">
+            <div class="card bg-dark text-white ml-5">
               <img class="card-img category-image" :src="category.image" alt="Card image" />
               <div class="card-img-overlay">
                 <h5 class="card-title">{{ category.name }}</h5>
@@ -38,9 +38,13 @@ export default {
 
 .card {
   height: 150px;
-  width: 500px;
+  width: 450px;
   border-radius: 20px;
   cursor: pointer;
+}
+
+.container {
+  width: 80vw;
 }
 
 .category-image {
