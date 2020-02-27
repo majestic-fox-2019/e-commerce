@@ -4,7 +4,6 @@
           <img src="../../assets/image/admin.png" width="100vw">
       </div>
     <form class="form-signin" @submit.prevent="loginAdmin">
-        <img class="mb-4" src="" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Admin sign in</h1>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" id="inputEmail" class="form-control" placeholder="Email address"
@@ -55,8 +54,10 @@ export default {
             title: 'Signed in successfully',
           });
           localStorage.setItem('token', data.token);
-          this.$store.dispatch('isLogin');
-          this.$router.push({ name: 'Dashboard' });
+          // this.$store.dispatch('isLogin');
+          if (localStorage.getItem('token')) {
+            this.$router.push({ name: 'Product' });
+          }
         })
         .catch((error) => {
           this.$Swal.fire({

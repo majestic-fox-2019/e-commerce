@@ -1,5 +1,5 @@
 <template>
-      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" >
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
        align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Product list</h1>
@@ -19,7 +19,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(product, idx) in this.getallProducts()" :key="product.id">
+            <tr v-for="(product, idx) in allProducts" :key="product.id">
               <td>{{idx+1}}</td>
               <td><img :src="product.image_url" :alt="product.name" class="img-thumbnail img"></td>
               <td>{{product.name}}</td>
@@ -43,14 +43,20 @@
 <script>
 export default {
   name: 'AllProduct',
-  methods: {
-    getallProducts() {
+  computed: {
+    allProducts() {
+      // console.log(this.$store.state.products, '=================');
       return this.$store.state.products;
     },
+  },
+  created() {
+    this.$store.dispatch('getAllProduct');
+  },
+  methods: {
     deleteProduct(product) {
       this.$Swal.fire({
         title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        text: 'Are you sure you want to remove product from cart?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -64,7 +70,7 @@ export default {
               .then(() => {
                 this.$Swal.fire(
                   'Deleted!',
-                  'Product has been deleted.',
+                  'Product in cart has been deleted.',
                   'success',
                 );
                 this.$store.dispatch('getAllProduct');
@@ -79,9 +85,6 @@ export default {
           }
         });
     },
-  },
-  beforeMount() {
-    this.getallProducts();
   },
 };
 </script>

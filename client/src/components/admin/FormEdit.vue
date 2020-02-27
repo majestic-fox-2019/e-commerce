@@ -85,7 +85,7 @@ export default {
           this.product = data;
         })
         .catch((err) => {
-          console.log('masuk err');
+          // console.log('masuk err');
           console.log(err);
         });
     },
@@ -106,7 +106,7 @@ export default {
           this.$Swal.fire(`Product ${data.name} has been update`);
         })
         .catch((err) => {
-          console.log('masuk err');
+          // console.log('masuk err');
           console.log(err);
         });
     },

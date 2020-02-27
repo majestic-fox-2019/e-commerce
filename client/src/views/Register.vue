@@ -5,7 +5,6 @@
       </div>
     <div>
       <form class="form-signin" @submit.prevent="register">
-        <img class="mb-4" src="" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
         <label for="inputName" class="sr-only">Name</label>
         <input type="text" id="inputName" class="form-control" placeholder="Name"

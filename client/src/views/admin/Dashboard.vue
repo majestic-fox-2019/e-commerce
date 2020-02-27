@@ -20,6 +20,8 @@ export default {
     SideNav,
     TopNav,
   },
+  mounted() {
+  },
 };
 </script>
 

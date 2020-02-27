@@ -16,7 +16,8 @@ Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin);
 
-Vue.prototype.$axios = axios.create({ baseURL: 'http://localhost:3000' });
+// Vue.prototype.$axios = axios.create({ baseURL: 'https://e-commerce-hacktiv.herokuapp.com/' });
+Vue.prototype.$axios = axios.create({ baseURL: 'http://localhost:3000/' });
 Vue.prototype.$Swal = Swal;
 
 new Vue({

@@ -3,9 +3,10 @@ import VueRouter from 'vue-router';
 // import axios from 'axios';
 // USER
 import Home from '@/views/Home.vue';
-// import Login from '@/views/Login.vue';
-// import Register from '@/views/Register.vue';
-// import DetailProduct from '@/views/DetailProduct.vue';
+import Login from '@/views/Login.vue';
+import Register from '@/views/Register.vue';
+import DetailProduct from '@/components/DetailProduct.vue';
+import Carts from '@/components/Carts.vue';
 // Admin
 import LoginAdmin from '@/views/admin/Login.vue';
 import Dashboard from '@/views/admin/Dashboard.vue';
@@ -39,25 +40,30 @@ const routes = [
     name: 'Home',
     component: Home,
   },
-  // {
-  //   path: '/login',
-  //   name: 'Login',
-  //   component: Login,
-  //   // beforeEnter,
-  // },
-  // {
-  //   path: '/register',
-  //   name: 'Register',
-  //   component: Register,
-  //   // beforeEnter,
-  // },
-  // {
-  //   path: '/detail_product',
-  //   name: 'DetailProduct',
-  //   component: DetailProduct,
-  // },
   {
     path: '/login',
+    name: 'Login',
+    component: Login,
+    // beforeEnter,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+    // beforeEnter,
+  },
+  {
+    path: '/detail_product/:id',
+    name: 'DetailProduct',
+    component: DetailProduct,
+  },
+  {
+    path: '/carts',
+    name: 'Carts',
+    component: Carts,
+  },
+  {
+    path: '/admin/login',
     name: 'LoginAdmin',
     component: LoginAdmin,
     beforeEnter,
@@ -72,6 +78,7 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'HomeAdmin',
         component: HomeAdmin,
         meta: {
           requiresAuth: true,

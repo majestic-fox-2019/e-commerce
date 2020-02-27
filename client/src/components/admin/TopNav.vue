@@ -12,7 +12,7 @@
               <div class="dropdown-menu" aria-labelledby="dropdown04">
                 <a class="dropdown-item" href="#">Profile</a>
                 <!-- <a class="dropdown-item" href="#">Logout</a> -->
-                <button @click.prevent="logout" to="/login" class="dropdown-item"
+                <button @click.prevent="logout" to="/admin/login" class="dropdown-item"
                 >Logout</button>
               </div>
             </li>
