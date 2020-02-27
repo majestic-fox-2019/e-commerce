@@ -4,7 +4,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 Vue.use(Vuex)
 
-const BASE_URL = `http://localhost:3000`
+const BASE_URL = `https://prekeletech.herokuapp.com`
 
 export default new Vuex.Store({
   state: {
@@ -302,7 +302,6 @@ export default new Vuex.Store({
         data: payload
       })
         .then(({ data }) => {
-          console.log(data)
           localStorage.setItem('access_token', data.access_token)
           if (data.user.roles === 'admin') {
             localStorage.setItem("access_admin", "admin")
