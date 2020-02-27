@@ -3,7 +3,7 @@
     <div class="vld-parent">
     <loading :active.sync="isLoading" 
   :can-cancel="true" 
-  :is-full-page="fullPage" :loader="'bars'" :color="'#1161EE'"></loading>
+  :loader="'bars'" :color="'#1161EE'"></loading>
   </div>
   <div style="display: flex; justify-content: center;">
     <div style="margin-top: 30px" v-if="transactions.length == 0">
@@ -24,7 +24,7 @@
       <th scope="row">{{idx + 1}}</th>
       <td>
         <p v-for="(product, i) in transaction.products" :key="i">
-        {{`- ${product}`}}
+        {{`- ${product} x ${transaction.amount[i]}`}}
         </p>
       </td>
       <td>{{transaction.date}}</td>
@@ -64,6 +64,7 @@ export default {
         .then((transaction) => {
           this.isLoading = false;
           this.transactions = transaction.data;
+          console.log(this.transactions);
         })
         .catch((err) => {
           this.isLoading = true;

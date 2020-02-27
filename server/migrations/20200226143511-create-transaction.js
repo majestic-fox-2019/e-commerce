@@ -17,6 +17,9 @@ module.exports = {
       date: {
         type: Sequelize.STRING
       },
+      amount: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER)
+      },
       UserId: {
         type: Sequelize.INTEGER
       },

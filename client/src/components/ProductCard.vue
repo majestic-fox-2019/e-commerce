@@ -3,7 +3,7 @@
   <div class="vld-parent">
   <loading :active.sync="isLoading" 
   :can-cancel="true" 
-  :is-full-page="fullPage" :loader="'bars'" :color="'#1161EE'"></loading>
+  :loader="'bars'" :color="'#1161EE'"></loading>
   </div>
   <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">

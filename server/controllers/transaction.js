@@ -23,6 +23,7 @@ class TransactionController {
   static add(req, res, next) {
     let arrCart = []
     let arrName = []
+    let arrAmount = []
     let dateFix = formatDate(new Date())
     User.findByPk(req.user.id, {include: Product})
     .then(result => {
@@ -33,6 +34,7 @@ class TransactionController {
         data.amount = cart.Cart.amount
         data.stock = cart.stock
         data.name = cart.name
+        arrAmount.push(cart.Cart.amount)
         arrName.push(cart.name)
         arrCart.push(data)
       })
@@ -60,8 +62,10 @@ class TransactionController {
       let transactionData = {
         UserId: req.user.id,
         products: arrName,
-        date: dateFix
+        date: dateFix,
+        amount: arrAmount
       }
+      console.log(transactionData)
       return Transaction.create(transactionData)
     })
     .then(transaction => {

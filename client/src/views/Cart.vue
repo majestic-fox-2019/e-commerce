@@ -55,7 +55,7 @@
   <div class="vld-parent">
   <loading :active.sync="isLoading" 
   :can-cancel="true" 
-  :is-full-page="fullPage" :loader="'bars'" :color="'#1161EE'"></loading>
+  :loader="'bars'" :color="'#1161EE'"></loading>
   </div>
 <button>Checkout</button>
 </div>
@@ -126,6 +126,8 @@ export default {
               console.log(err.response);
               this.listCart();
             });
+        } else {
+          this.isLoading = false;
         }
       });
     },
@@ -177,6 +179,8 @@ export default {
               this.isLoading = false;
               console.log(err);
             });
+        } else {
+          this.isLoading = false;
         }
       });
     },
@@ -234,6 +238,8 @@ export default {
                 timer: 1200,
               });
             });
+        } else {
+          this.isLoading = false;
         }
       });
     },

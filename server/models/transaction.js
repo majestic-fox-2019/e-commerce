@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
     date: {
       type: DataTypes.STRING,
     },
+    amount: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER)
+    },
     UserId: {
       type: DataTypes.INTEGER
     }
