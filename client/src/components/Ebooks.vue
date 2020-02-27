@@ -246,12 +246,14 @@ export default {
             .send(this.editedItem)
             .end((err, res) => {
               if (err) {
-                this.message = res ? res.body.error : err;
+                this.alert_modal = true;
+                this.message_modal = res ? res.body.error : err;
               } else {
+                this.alert = true;
                 this.message = res.body;
                 Object.assign(this.ebooks[this.editedIndex], this.editedItem);
+                this.close();
               }
-              this.alert = true;
             });
         }
       } else {
@@ -261,16 +263,18 @@ export default {
           .send(this.editedItem)
           .end((err, res) => {
             if (err) {
+              this.alert_modal = true;
               this.message_modal = res ? res.body.error : err;
             } else {
-              this.message_modal = res.body.message;
+              this.alert = true;
+              this.message = res.body.message;
+
               this.editedItem.id = res.body.product.id;
               this.ebooks.push(this.editedItem);
+              this.close();
             }
-            this.alert_modal = true;
           });
       }
-      this.close();
     },
   },
 };

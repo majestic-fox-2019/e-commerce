@@ -240,7 +240,6 @@ export default {
       this.editedItem.CategoryId = 2;
 
       if (this.editedIndex > -1) {
-        console.log(this.editedItem);
         if (this.editedItem.id) {
           this.$store.state.superagent
             .put(`${this.$store.state.url_backend}/products/${this.editedItem.id}`)
@@ -248,13 +247,14 @@ export default {
             .send(this.editedItem)
             .end((err, res) => {
               if (err) {
-                this.message = res ? res.body.error : err;
+                this.alert_modal = true;
+                this.message_modal = res ? res.body.error : err;
               } else {
+                this.alert = true;
                 this.message = res.body;
                 Object.assign(this.tutorials[this.editedIndex], this.editedItem);
                 this.close();
               }
-              this.alert = true;
             });
         }
       } else {
@@ -264,14 +264,15 @@ export default {
           .send(this.editedItem)
           .end((err, res) => {
             if (err) {
+              this.alert_modal = true;
               this.message_modal = res ? res.body.error : err;
             } else {
-              this.message_modal = res.body.message;
+              this.alert = true;
+              this.message = res.body.message;
               this.editedItem.id = res.body.product.id;
               this.tutorials.push(this.editedItem);
               this.close();
             }
-            this.alert_modal = true;
           });
       }
     },
