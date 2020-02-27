@@ -2,7 +2,8 @@
 
 # Deploy pages
 
-client : https://disekrip-commerce-cms.firebaseapp.com/<br>
+clientadmin : https://disekrip-commerce-cms.firebaseapp.com/<br>
+clientuser : https://disekrip-commerce-client.firebaseapp.com/<br>
 server : https://disekrip-cms.herokuapp.com/
 
 # Route Users
