@@ -1,6 +1,5 @@
 <template>
   <div v-if="product" class="ml-4">
-    {{ product.id }}
     <h5><small class="badge badge-primary">{{ product.Category.category_name }}</small> {{ product.name }}</h5>
     <h5 class="text-danger">Rp. {{ product.price }}</h5>
     <p :class="product.stock > 0 ? 'text-primary' : 'text-danger'"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ product.stock > 0 ? product.stock + ' item' : 'out of stock' }}</p>
@@ -55,6 +54,7 @@ export default {
         data: value
       })
       .then(response => {
+        this.$parent.getTransaction()
         this.$toast.fire({
           icon: 'success',
           title: response.data.message

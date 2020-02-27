@@ -59,7 +59,6 @@ export default {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, update data!'
       }).then((result) => {
-        console.log(result)
         if (result.value) {
           return this.$axios({
             headers : {

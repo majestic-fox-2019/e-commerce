@@ -37,7 +37,16 @@ export default {
   computed: {
     product: function() {
       return this.$store.state.singleProducts
-    }
+    },
+    isLoggedIn:function() {
+      return this.$store.state.isLoggedIn
+    },
+    userEmail: function() {
+      return this.$store.state.userEmail
+    },
+    userId: function() {
+      return this.$store.state.userId
+    },
   },
   methods: {
     changeQuantity(condition){
@@ -49,7 +58,10 @@ export default {
     },
     getSingleProduct(){
       this.$store.dispatch('getProductById', this.$route.params.product_id)
-    }
+    },
+    getTransaction(){
+      this.$store.dispatch('getTransaction', { userId: this.userId, token: this.isLoggedIn })
+    },
   }
 }
 </script>

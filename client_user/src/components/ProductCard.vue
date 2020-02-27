@@ -1,5 +1,6 @@
 <template>
-  <div v-if="products.length > 0" class="row">
+  <div>
+    <div v-if="products.length > 0" class="row">
     <div :key="i" v-for="(product, i) in products" class="card mx-1 my-2">
       <img :src="product.image_url" class="card-img-top" alt="...">
       <div class="card-body">
@@ -10,6 +11,10 @@
           <router-link :to="{ name: 'DetailProduct', params : { product_id: product.id } }" class="btn btn-info btn-sm"><i class="fa fa-arrow-circle-right mb-1" aria-hidden="true"></i> Detail Products</router-link>
       </div>
     </div>  
+    </div>
+    <div v-else>
+        <h2 class="text-center text-danger">Product is Empty!</h2>
+    </div>
   </div>
 </template>
 
@@ -44,6 +49,7 @@ export default {
         data: value
       })
       .then(response => {
+        this.$parent.getTransaction()
         this.$toast.fire({
           icon: 'success',
           title: response.data.message

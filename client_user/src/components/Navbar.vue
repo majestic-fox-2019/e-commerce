@@ -7,6 +7,9 @@
 
   <div class="collapse navbar-collapse ml-4" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+      <li>
+          <ButtonFilter customStyle="btn btn-secondary" :categories="categories" />
+      </li>
     </ul>
     <div class="">
       <div v-if="isLoggedIn" class="dropdown">
@@ -25,10 +28,16 @@
 </template>
 
 <script>
+import ButtonFilter from '../components/ButtonFilter'
+
 export default {
   name: 'Navbar',
+  components: {
+    ButtonFilter
+  },
   created(){
     this.getCart()
+    this.getCategory()
   },
   computed: {
     isLoggedIn:function() {
@@ -42,6 +51,9 @@ export default {
     },
     countCart: function(){
       return this.$store.state.countCart
+    },
+    categories: function(){
+      return this.$store.state.categories
     }
   },
   methods: {
@@ -55,6 +67,9 @@ export default {
     getCart(){
       this.$store.dispatch('getTransaction', { userId: this.userId, token: this.isLoggedIn })
     },
+    getCategory(){
+      this.$store.dispatch('getCategory')
+    }
   }
 }
 </script>

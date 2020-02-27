@@ -15,7 +15,8 @@ export default new Vuex.Store({
     carts: [],
     countCart: 0,
     singleProducts: {},
-    errors: []
+    errors: [],
+    categories: [],
   },
   mutations: {
     already_login(state) {
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     },
     get_cart(state, payload){
       state.carts = payload
+    },
+    get_category(state, payload){
+      state.categories = payload
     },
     logout(state){
       state.isLoggedIn = null
@@ -76,6 +80,15 @@ export default new Vuex.Store({
       .then(response => {
         commit('get_count_cart', response.data.length)
         commit('get_cart', response.data)
+      })
+      .catch(err => {
+        commit('get_errors', err.response.data)
+      })
+    },
+    getCategory({ commit }){
+      $axios.get('/categories')
+      .then(response => {
+        this.commit('get_category', response.data)
       })
       .catch(err => {
         commit('get_errors', err.response.data)

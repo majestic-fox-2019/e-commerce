@@ -8,7 +8,6 @@ const authentication = require('../middlewares/authentication')
 router.use('/users', userRoutes)
 router.use('/products', productRoutes)
 router.use('/transaction', transactionRoutes)
-router.use(authentication)
 router.use('/categories', categoryRoutes)
 
 module.exports = router
