@@ -6,7 +6,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 
 Vue.config.productionTip = false
-Vue.prototype.$axios = axios.create({ baseURL: 'http://localhost:3000' })
+Vue.prototype.$axios = axios.create({ baseURL: 'https://disekrip-cms.herokuapp.com' })
 Vue.prototype.$swal = Swal
 
 const Toast = Swal.mixin({

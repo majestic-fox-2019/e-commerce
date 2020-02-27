@@ -374,9 +374,6 @@ server : https://disekrip-cms.herokuapp.com/
 
 ## 1. Path products/ (Get METHOD) // Get Products
 
-## Authentication
-  Headers **token** is required
-
 ## Path
 
 ```javascript
@@ -897,4 +894,76 @@ server : https://disekrip-cms.herokuapp.com/
 {
     "category_name": "Category name is required!"
 }
+```
+
+# Route Transaction
+
+| Route      | Method | Params          | Description                                        |
+| ---------- | ------ | --------------- | -------------------------------------------------- |
+| /transaction/:user_id | GET    | user_id            | Get transaction data
+| /transaction/:user_id | PUT | user_id | Checkout Transaction
+| /transaction/:user_id/:product_id | POST | user_id, product_id | Add Transaction
+| /transaction/:user_id/:transaction_id | DELETE | category_id | create category
+| /transaction/:user_id/:product_id/:transaction_id | Patch | category_id | Patch transaction quantity
+
+## 1. Path transaction/:user_id (Get METHOD) // Get All transaction from the user
+
+## Authentication
+  Headers **token** is required
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/transaction/:user_id)
+```
+## Request Body
+**Request Body** is empty.
+
+
+## Parameter
+| params       | Data type |
+| ----------- | --------- |
+| user_id | Integer |
+
+## Query String
+**Query String** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+[
+    {
+        "id": 33,
+        "ProductId": 12,
+        "UserId": 39,
+        "qty": 1,
+        "total": 2000000,
+        "status": "unhandled",
+        "createdAt": "2020-02-27T05:33:07.792Z",
+        "updatedAt": "2020-02-27T05:33:07.792Z",
+        "User": {
+            "id": 39,
+            "name": "Arona Tetulis",
+            "email": "aronatetulis@gmail.com",
+            "password": "$2a$10$Ofi3TWrmChJYeme6.b8UVerTJem0XVR7SjRkYqo79DJA4xSUO5/Ke",
+            "roles": "user",
+            "createdAt": "2020-02-26T05:27:51.287Z",
+            "updatedAt": "2020-02-26T05:27:51.287Z"
+        },
+        "Product": {
+            "id": 12,
+            "name": "Hp xiaomi note 8",
+            "image_url": "https://storage.googleapis.com/storage-example/arona/1582358468845.png",
+            "price": 2000000,
+            "stock": 1,
+            "CategoryId": 1,
+            "description": "Hp baru",
+            "status_product": "published",
+            "createdAt": "2020-02-22T08:01:08.874Z",
+            "updatedAt": "2020-02-27T05:15:58.953Z"
+        }
+    }
+]
 ```

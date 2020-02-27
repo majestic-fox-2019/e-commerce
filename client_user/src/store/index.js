@@ -4,7 +4,7 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-const $axios = axios.create({ baseURL: 'http://localhost:3000' })
+const $axios = axios.create({ baseURL: 'https://disekrip-cms.herokuapp.com' })
 
 export default new Vuex.Store({
   state: {
