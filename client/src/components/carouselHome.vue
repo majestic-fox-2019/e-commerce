@@ -48,7 +48,6 @@
               <h4>Belanja murah harga terjangkau</h4>
               <h5>category toko kami:</h5>
               <p>Pakaian Pria, Pakaian Wanita, Sepatu Pria, Sepatu Wanita, Tas Wanita, Tas Pria, Aksesoris</p>
-              <a class="discover_btn" href="#">discover now</a>
             </div>
           </div>
         </div>
@@ -60,7 +59,6 @@
               <h4>Belanja murah harga terjangkau</h4>
               <h5>category toko kami:</h5>
               <p>Pakaian Pria, Pakaian Wanita, Sepatu Pria, Sepatu Wanita, Tas Wanita, Tas Pria, Aksesoris</p>
-              <a class="discover_btn" href="#">discover now</a>
             </div>
           </div>
         </div>
@@ -72,7 +70,6 @@
               <h4>Belanja murah harga terjangkau</h4>
               <h5>category toko kami:</h5>
               <p>Pakaian Pria, Pakaian Wanita, Sepatu Pria, Sepatu Wanita, Tas Wanita, Tas Pria, Aksesoris</p>
-              <a class="discover_btn" href="#">discover now</a>
             </div>
           </div>
         </div>
@@ -84,7 +81,6 @@
               <h4>Belanja murah harga terjangkau</h4>
               <h5>category toko kami:</h5>
               <p>Pakaian Pria, Pakaian Wanita, Sepatu Pria, Sepatu Wanita, Tas Wanita, Tas Pria, Aksesoris</p>
-              <a class="discover_btn" href="#">discover now</a>
             </div>
           </div>
         </div>
@@ -96,7 +92,6 @@
               <h4>Belanja murah harga terjangkau</h4>
               <h5>category toko kami:</h5>
               <p>Pakaian Pria, Pakaian Wanita, Sepatu Pria, Sepatu Wanita, Tas Wanita, Tas Pria, Aksesoris</p>
-              <a class="discover_btn" href="#">discover now</a>
             </div>
           </div>
         </div>

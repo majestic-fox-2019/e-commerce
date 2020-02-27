@@ -5,9 +5,6 @@ Dokumentasi RESTFUL API my-e-commerce.
 ### environment variabeles
 
 ```PORT = 
-DATABASE_URL=
-DEV_DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/e-commerce_dev
-TEST_DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/e-commerce_test
 PORT=3000
 JWT_SECRET=sungguhrahasia
 KEY_FILENAME = ./e-commerce-4c2852bbf9fe.json
@@ -270,39 +267,39 @@ Access client port: 8080
           ```
 
 
-    
+​    
 
     ## PRODUCT GET ALL
-
+    
     - **URL's**
-
+    
       ```
       /products
       ```
-
+    
     - **URL Params**
-
+    
       - Require : `none`
       - Optional : `none`
-
+    
     - **Data Params**
-
+    
       - Require : `none`
-
+    
     - **Headers**
-
+    
       - Require : `none`
-
+    
     - **HTTP Method**
-
+    
       `GET`
-
+    
     - **Success Response**
-
+    
       - Code : 200 OK
-
+    
       - Content :
-
+    
         ```
         [
             {
@@ -344,41 +341,42 @@ Access client port: 8080
         ]
         ```
 
-      
+
+​      
 
 
     ## PRODUCT GET ONE
-
+    
     - **URL's**
-
+    
       ```
       /products/:id
       ```
-
+    
     - **URL Params**
-
+    
       - Require : `id: [string]`
       - Optional : `none`
-
+    
     - **Data Params**
-
+    
       - Require : `none`
       - Optional : `none`
-
+    
     - **Headers**
-
+    
       - Require : `none`
-
+    
     - **HTTP Method**
-
+    
       `GET`
-
+    
     - **Success Response**
-
+    
       - Code : 200 OK
-
+    
       - Content :
-
+    
         ```
         {
             "id": 8,
@@ -394,41 +392,42 @@ Access client port: 8080
         }
         ```
 
-      
+
+​      
 
 
     ## PRODUCT UPDATE
-
+    
     - **URL's**
-
+    
       ```
       /products/:id
       ```
-
+    
     - **URL Params**
-
+    
       - Require : `id: [string]`
       - Optional : `none`
-
+    
     - **Data Params**
-
+    
       - Require : `none`
       - Optional : `name:string` , `description:string` , `image_url:string` , `price:integer` , `stock:20`, `category:string` , `UserId:integer`
-
+    
     - **Headers**
-
+    
       - Require : `token:string`
-
+    
     - **HTTP Method**
-
+    
       `PUT`
-
+    
     - **Success Response**
-
+    
       - Code : 200 OK
-
+    
       - Content :
-
+    
         ```
         {
             "id": 8,
@@ -443,61 +442,61 @@ Access client port: 8080
             "updatedAt": "2020-02-22T08:41:40.400Z"
         }
         ```
-
+    
     - **Error Response**
-
+    
       - Authentication User
-
+    
         - Code : 400 bad request
-
+    
         - Content :
-
+    
           ```
           "not found Token"
           ```
-
+    
       - Authorization Admin
-
+    
         - Code : 401 Unauthorized
-
+    
         - Content :
-
+    
           ```
           "you are not admin"
           ```
-
+    
     ## PRODUCT DELETE
-
+    
     - **URL's**
-
+    
       ```
       /products/:id
       ```
-
+    
     - **URL Params** : 
-
+    
       - Optional : `none`
       - Require : `id:[string]`
-
+    
     - **Data Params**
-
+    
       - Require : `none`
       - Optional : `id:[string]`
-
+    
     - **Headers**
-
+    
       - Require : `token:string`
-
+    
     - **HTTP Method**
-
+    
       `DELETE`
-
+    
     - **Success Response**
-
+    
       - Code : 200 OK
-
+    
       - Content :
-
+    
         ```
         {
             "id": 8,
@@ -512,61 +511,61 @@ Access client port: 8080
             "updatedAt": "2020-02-22T08:41:40.400Z"
         }
         ```
-
+    
     - **Error Response**
-
+    
       - Authentication User
-
+    
         - Code : 400 bad request
-
+    
         - Content :
-
+    
           ```
           "not found Token"
           ```
-
+    
       - Authorization Admin
-
+    
         - Code : 401 Unauthorized
-
+    
         - Content :
-
+    
           ```
           "you are not admin"
           ```
-
+    
     ## PRODUCT POST
-
+    
     - **URL's**
-
+    
       ```
       /products
       ```
-
+    
     - **URL Params**: `id: [string]`
-
+    
       - Optional : `none`
       - Require : `id: [string]`
-
+    
     - **Data Params**
-
+    
       - Require : `name:string` , `description:string` , `image_url:string` , `price:integer` , `stock:integer`, `category:string` , `UserId:integer`
       - Optional : `none`
-
+    
     - **Headers**
-
+    
       - Require : `token:string`
-
+    
     - **HTTP Method**
-
+    
       `POST`
-
+    
     - **Success Response**
-
+    
       - Code : 200 OK
-
+    
       - Content :
-
+    
         ```
         {
             "id": 4,
@@ -579,105 +578,105 @@ Access client port: 8080
             "createdAt": "2020-02-13T23:38:07.380Z"
         }
         ```
-
+    
     - **Error Response**
-
+    
       - Authentication User
-
+    
         - Code : 400 bad request
-
+    
         - Content :
-
+    
           ```
           "not found Token"
           ```
-
+    
       - Authorization Admin
-
+    
         - Code : 401 Unauthorized
-
+    
         - Content :
-
+    
           ```
           "you are not admin"
           ```
-
+    
       - Validation wrong category
-
+    
         - Code : 400 bad request
-
+    
         - Content :
-
+    
           ```
           "please add correct category"
           ```
-
+    
       - Validation minimal price
-
+    
         - Code : 400 bad request
-
+    
         - Content :
-
+    
           ```
           "minimal price Rp.1000"
           ```
-
+    
       - Validation name
-
+    
         - Code : 400 bad request
-
+    
         - Content:
-
+    
           ```
           "please fill name"
           ```
-
+    
       - Validation description
-
+    
         - Code : 400 bad request
-
+    
         - Content:
-
+    
           ```
           "please fill description"
           ```
-
+    
       - Validation price
-
+    
         - Code : 400 bad request
-
+    
         - Content:
-
+    
           ```
           "please fill price"
           ```
-
+    
       - Validation image_url
-
+    
         - Code : 400 bad request
-
+    
         - Content:
-
+    
           ```
           "please fill image_url"
           ```
-
+    
       - Validation stock
-
+    
         - Code : 400 bad request
-
+    
         - Content:
-
+    
           ```
           "please fill stock"
           ```
-
+    
       - Validation category
-
+    
         - Code : 400 bad request
-
+    
         - Content:
-
+    
     ```
     "please fill category"
     ```
