@@ -16,7 +16,7 @@
       :filterIncludedFields="filterIncludedFields"
       @filtered="onFiltered"
       show-empty
-      busy.sync="busy"
+      busy.sync="isBusy"
     >
       <template v-slot:cell(no)="data">
         {{ data.index + 1 + ((currentPage - 1) * per_page) }}
@@ -36,7 +36,7 @@
         <b-button size="sm" variant="danger" class="btn-xs" @click="goDelete(data.item)"><i class="fa fa-trash"></i></b-button>
       </template>
       <template slot="empty">
-        <div v-if="busy" class="text-center empty-table">
+        <div v-if="isBusy" class="text-center empty-table">
           <b-spinner class="align-middle"></b-spinner>
           <strong class="ml-2">Loading...</strong>
         </div> 
@@ -58,7 +58,7 @@
 
 <script>
 export default {
-  props: ['name', 'items', 'fields', 'per_page', 'filterIncludedFields', 'busy'],
+  props: ['name', 'items', 'fields', 'per_page', 'filterIncludedFields'],
   data(){
     return {
       filter: null,
@@ -69,6 +69,9 @@ export default {
   computed: {
     getTotalRows(){
       return this.totalRows = this.items.length
+    },
+    isBusy(){
+      return this.$store.state.isBusy
     }
   },
   methods: {

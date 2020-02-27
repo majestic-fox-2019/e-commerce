@@ -10,7 +10,6 @@
         :fields="fieldProducts" 
         :per_page="perPageProducts"
         :filterIncludedFields="filterOnProducts"
-        :busy="isBusyProducts"
         @setEditData="getEdit"
         @setDeleteData="deleteProduct"
       ></table-component>
@@ -54,7 +53,6 @@ export default {
       getIdProduct:{
         id_product: null
       },
-      isBusyProducts: false,
       totalRowsProducts: 1,
       perPageProducts: 5,
       filterOnProducts: [],

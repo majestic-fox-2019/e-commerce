@@ -9,7 +9,6 @@
         :fields="fieldTransactions" 
         :per_page="perPageTransactions"
         :filterIncludedFields="filterOnTransactions"
-        :busy="isBusyTransactions"
       ></table-component>
     </div>
   </main>
@@ -28,7 +27,6 @@ export default {
   },
   data(){
     return {
-      isBusyTransactions: false,
       totalRowsTransactions: 1,
       perPageTransactions: 5,
       filterOnTransactions: [],

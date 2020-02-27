@@ -10,7 +10,8 @@ export default new Vuex.Store({
     products_dashboard: [],
     users_dashboard: [],
     categories_dashboard: [],
-    transactions_dashboard: []
+    transactions_dashboard: [],
+    isBusy: false,
   },
   mutations: {
     setProductsDashboard(state, payload){
@@ -29,10 +30,12 @@ export default new Vuex.Store({
   actions: {
     getProductsDashboard(context){
       const token = localStorage.getItem('token')
+      this.state.isBusy = true
       axios.get(`${config.connections.server}/admin/products`, {
         headers: { Bearer : token }
       })
       .then(res => {
+        this.state.isBusy = false
         context.commit('setProductsDashboard', res.data.payload)
       })
       .catch(err => {
@@ -41,10 +44,12 @@ export default new Vuex.Store({
     },
     getCategoriesDashboard(context){
       const token = localStorage.getItem('token')
+      this.state.isBusy = true
       axios.get(`${config.connections.server}/admin/categories`, {
         headers: { Bearer : token }
       })
       .then(res => {
+        this.state.isBusy = false
         context.commit('setCategoriesDashboard', res.data.payload)
       })
       .catch(err => {
@@ -53,10 +58,12 @@ export default new Vuex.Store({
     },
     getUsersDashboard(context){
       const token = localStorage.getItem('token')
+      this.state.isBusy = true
       axios.get(`${config.connections.server}/admin/users`, {
         headers: { Bearer : token }
       })
       .then(res => {
+        this.state.isBusy = false
         context.commit('setUsersDashboard', res.data.payload)
       })
       .catch(err => {
@@ -65,10 +72,12 @@ export default new Vuex.Store({
     },
     getTransactionsDashboard(context){
       const token = localStorage.getItem('token')
+      this.state.isBusy = true
       axios.get(`${config.connections.server}/admin/transactions`, {
         headers: { Bearer : token }
       })
       .then(res => {
+        this.state.isBusy = false
         context.commit('setTransactionsDashboard', res.data.payload)
       })
       .catch(err => {

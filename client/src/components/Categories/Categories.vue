@@ -10,7 +10,6 @@
         :fields="fieldCategories" 
         :per_page="perPageCategories"
         :filterIncludedFields="filterOnCategories"
-        :busy="isBusyCategories"
         @setEditData="getEdit"
         @setDeleteData="deleteCategory"
       ></table-component>
@@ -48,7 +47,6 @@ export default {
       getIdCategory:{
         id_category: null
       },
-      isBusyCategories: false,
       totalRowsCategories: 1,
       perPageCategories: 5,
       filterOnCategories: [],

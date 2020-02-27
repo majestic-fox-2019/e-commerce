@@ -10,7 +10,6 @@
         :fields="fieldUsers" 
         :per_page="perPageUsers"
         :filterIncludedFields="filterOnUsers"
-        :busy="isBusyUsers"
         @setEditData="getEdit"
         @setEditPass="getEditPass"
         @setDeleteData="deleteUser"
@@ -61,7 +60,6 @@ export default {
       getIdUser:{
         id_user: null
       },
-      isBusyUsers: false,
       totalRowsUsers: 1,
       perPageUsers: 5,
       filterOnUsers: [],
