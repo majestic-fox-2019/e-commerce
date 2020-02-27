@@ -149,6 +149,11 @@ export default {
     mCheckOut(id) {}
   },
   created() {
+    if (!localStorage['e_musicToken']) {
+      this.$router.push({
+        path: '/login'
+      })
+    }
     this.getChart()
     this.getMallChart()
   }

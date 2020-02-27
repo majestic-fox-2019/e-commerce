@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "node ./bin/www",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
     "test": "cross-env NODE_ENV=test jest --forceExit --detectOpenHandles",
     "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
+  },
+  "engines": {
+    "node": "13.8.0"
   },
   "dependencies": {
     "@google-cloud/storage": "^4.3.1",

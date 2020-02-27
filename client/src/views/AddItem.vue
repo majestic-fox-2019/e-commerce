@@ -122,6 +122,13 @@ export default {
     baseUrl() {
       return this.$store.state.baseUrl
     }
+  },
+  created() {
+    if (!localStorage['e_musicToken']) {
+      this.$router.push({
+        path: '/login'
+      })
+    }
   }
 }
 </script>

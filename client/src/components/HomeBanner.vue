@@ -37,12 +37,15 @@
 }
 
 .el-carousel__item:nth-child(5) {
-  background: url('https://static.music123.com/static/m123/promoImg/Home/M1_MD-HT_CustomerFavs_130930.jpg');
+  background: url('https://www.edmtunes.com/wp-content/uploads/2019/05/miami-gallery-2019-31-1600x1066.jpg');
   background-repeat: no-repeat;
   background-size: 100vw 70vh;
 }
 
 .el-carousel__item:nth-child(6) {
-  background-color: red;
+  /* https://20trendingwallpapers.com/wp-content/uploads/2019/09/studio-wallpaper_3581717-1024x576.jpg */
+  background: url('https://20trendingwallpapers.com/wp-content/uploads/2019/09/studio-wallpaper_3581717-1024x576.jpg');
+  background-repeat: no-repeat;
+  background-size: 100vw 70vh;
 }
 </style>

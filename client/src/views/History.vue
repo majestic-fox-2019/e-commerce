@@ -90,6 +90,11 @@ export default {
     }
   },
   created() {
+    if (!localStorage['e_musicToken']) {
+      this.$router.push({
+        path: '/login'
+      })
+    }
     this.getHistory()
   }
 }
