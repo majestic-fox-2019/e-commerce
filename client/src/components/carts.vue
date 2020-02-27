@@ -67,7 +67,6 @@
           </div>
         </div>
         <hr />
-        <!-- END PRODUCT -->
       </div>
       <div class="card-footer">
         <div class="coupon col-md-5 col-sm-5 no-padding-left pull-left">
@@ -154,6 +153,7 @@ export default {
               showConfirmButton: false,
               timer: 1500
             });
+            this.$router.push("/account");
           } else {
             Swal.fire("Error!", response.data.message, "error");
           }
@@ -183,6 +183,7 @@ export default {
               showConfirmButton: false,
               timer: 1500
             });
+            this.$router.push("/account");
           } else {
             Swal.fire("Error!", response.data.message, "error");
           }
@@ -203,7 +204,7 @@ export default {
           Swal.fire({
             position: "center",
             icon: "success",
-            title: data,
+            title: "Success Checkout Check History",
             showConfirmButton: false,
             timer: 1500
           });
@@ -218,6 +219,7 @@ export default {
               showConfirmButton: false,
               timer: 1500
             });
+            this.$router.push("/account");
           } else {
             Swal.fire("Error!", response.data.message, "error");
           }

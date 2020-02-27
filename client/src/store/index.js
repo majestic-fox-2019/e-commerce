@@ -301,6 +301,7 @@ export default new Vuex.Store({
               showConfirmButton: false,
               timer: 1500
             })
+            router.push("/account");
           } else {
             Swal.fire('Error!', response.data.message, 'error');
           }

@@ -4,10 +4,13 @@ import Home from '../views/Home.vue'
 import Account from '../views/Account.vue';
 import AdminRegister from '../views/AdminRegister.vue';
 import AdminPage from '../views/AdminPage.vue';
+import AdminView from '../views/AdminView.vue';
 import TampilanUtama from '../views/TampilanUtama.vue';
+import ErrorPage from '../views/ErrorPage.vue';
 import cardDetail from '../components/cardDetail.vue';
 import carts from '../components/carts.vue';
 import historyCheckout from '../components/historyCheckout.vue';
+import tableTransaction from '../components/tableTransaction.vue';
 
 Vue.use(VueRouter)
 
@@ -51,10 +54,27 @@ const routes = [
   },
   {
     path: '/seller',
-    name: 'adminPage',
-    component: AdminPage,
-    meta: { requiresAuth: true }
+    name: 'adminView',
+    component: AdminView,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        name: 'AdminPage',
+        component: AdminPage
+      },
+      {
+        path: 'transaction',
+        name: 'tableeTransaction',
+        component: tableTransaction
+      }
+    ]
   },
+  {
+    path: '*',
+    name: 'ErrorPage',
+    component: ErrorPage
+  }
 ]
 
 const router = new VueRouter({

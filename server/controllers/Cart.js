@@ -1,7 +1,6 @@
 "use strict"
 
 const { Product } = require('../models')
-const { User } = require('../models')
 const { Cart } = require('../models')
 const createError = require("http-errors")
 

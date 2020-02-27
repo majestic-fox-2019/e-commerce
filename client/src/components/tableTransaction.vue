@@ -1,13 +1,10 @@
 <template>
   <div class="table-users">
     <button
-      data-toggle="modal"
-      data-target="#addProduct"
+      @click="goMyProduct"
       class="text-white py-1 px-3 border-b-4 rounded create-product"
-    >
-      <i class="fas fa-plus"></i> Create Product
-    </button>
-    <button @click="goToTransaction" class="text-white py-1 px-3 border-b-4 rounded transaction">
+    >My Product</button>
+    <button class="text-white py-1 px-3 border-b-4 rounded transaction">
       <i class="fas fa-money-bill-wave"></i> Transaction
     </button>
     <table cellspacing="0">
@@ -15,60 +12,69 @@
         <th>ID</th>
         <th width="100">Image</th>
         <th>Name</th>
-        <th>Stock</th>
-        <th>Price</th>
-        <th width="250">Description</th>
-        <th>Category</th>
-        <th>Action</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
       </tr>
 
-      <tr v-for="(product, index) in this.$store.state.productAdmin" :key="index">
-        <td>{{product.id}}</td>
+      <tr v-for="(transaction, index) in transactions" :key="index">
+        <td>{{transaction.id}}</td>
         <td>
-          <img :src="product.image_url" alt />
+          <img :src="transaction.Product.image_url" alt />
         </td>
         <td>
-          <p class="text-panjang">{{product.name}}</p>
+          <p class="text-panjang">{{transaction.Product.name}}</p>
         </td>
-        <td>{{product.stock}}</td>
-        <td>Rp. {{product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</td>
         <td>
-          <p class="text-panjang">{{product.description}}</p>
+          <p class="text-panjang">{{transaction.qty}}</p>
         </td>
-        <td style="text-align: center;">{{product.category}}</td>
-        <td style="display: flex; justify-content: space-around;">
-          <button
-            @click="getOneProduct(product.id)"
-            data-toggle="modal"
-            data-target="#editProduct"
-            class="text-white py-1 px-3 border-b-4 rounded edit-btn"
-          >
-            <i class="far fa-edit"></i>
-          </button>
-          <button
-            @click="removeProduct(product.id)"
-            class="text-white py-1 px-3 border-b-4 rounded remove-btn"
-          >
-            <i class="far fa-trash-alt"></i>
-          </button>
-        </td>
+        <td>Rp. {{transaction.subTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</td>
+      </tr>
+    </table>
+    <table cellspacing="0">
+      <tr>
+        <th
+          style="text-align:end"
+        >Total Harga Product Terjual : Rp. {{total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</th>
       </tr>
     </table>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import Swal from "sweetalert2";
 export default {
+  data() {
+    return {
+      transactions: [],
+      total: 0
+    };
+  },
   methods: {
-    getOneProduct(id) {
-      this.$store.dispatch("findOneProduct", id);
+    goMyProduct() {
+      this.$router.push("/seller");
     },
-    removeProduct(id) {
-      this.$store.dispatch("removeProduct", id);
-    },
-    goToTransaction() {
-      this.$router.push("seller/transaction");
+    getTransaction() {
+      axios({
+        url: "http://localhost:3000/transactions",
+        method: "GET",
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(({ data }) => {
+          this.transactions = data;
+          data.forEach(el => {
+            this.total += el.subTotal;
+          });
+        })
+        .catch(({ response }) => {
+          Swal.fire("Error!", response.data.message, "error");
+        });
     }
+  },
+  created() {
+    this.getTransaction();
   }
 };
 </script>
@@ -89,7 +95,7 @@ body {
 
 .text-panjang {
   white-space: nowrap;
-  width: 150px;
+  width: 350px;
   overflow: hidden;
   text-overflow: ellipsis;
 }

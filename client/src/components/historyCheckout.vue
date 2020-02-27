@@ -34,7 +34,10 @@
             </div>
           </div>
           <div v-if="cart.status === 'Process'" class="pull-right" style="margin: 10px">
-            <button @click="goCompleted(cart.id)" class="btn-konfirmasi">item arrived</button>
+            <button
+              @click="goCompleted(cart.id), addTransaction(cart)"
+              class="btn-konfirmasi"
+            >item arrived</button>
           </div>
           <div v-if="cart.status === 'Completed'" class="pull-right" style="margin: 10px">
             <h4 class="btn-konfirmasi">Completed</h4>
@@ -80,7 +83,6 @@ export default {
         });
     },
     goCompleted(id) {
-      console.log(id);
       axios({
         url: `http://localhost:3000/carts/complete/${id}`,
         method: "PUT",
@@ -90,6 +92,40 @@ export default {
       })
         .then(() => {
           this.findAllHistory();
+        })
+        .catch(({ response }) => {
+          if (response.data.message === "Unauthorized Invalid Token") {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Please Login First",
+              showConfirmButton: false,
+              timer: 1500
+            });
+          } else {
+            Swal.fire("Error!", response.data.message, "error");
+          }
+        });
+    },
+    addTransaction(cart) {
+      axios({
+        url: `http://localhost:3000/transactions`,
+        method: "POST",
+        data: {
+          cart
+        },
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(() => {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Thank You For Buying",
+            showConfirmButton: false,
+            timer: 1500
+          });
         })
         .catch(({ response }) => {
           if (response.data.message === "Unauthorized Invalid Token") {
