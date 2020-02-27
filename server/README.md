@@ -1,5 +1,6 @@
 # e-commerce
-
+## Follow link for Detail use API
+https://documenter.getpostman.com/view/10541895/SzKYQctt?version=latest#18377576-0f6c-4513-9a35-50b175d1f646
 ## User Register
 ----
   Returns json data.
