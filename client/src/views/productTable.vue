@@ -1,26 +1,35 @@
 <template>
   <!-- eslint-disable max-len -->
   <div class="container">
+    <div class="vld-parent">
+      <loading
+        :active.sync="isLoading"
+        :can-cancel="true"
+        :is-full-page="true"
+        :color="'#d47a90'"
+        :loader="'dots'"
+        :width="100"
+      ></loading>
+    </div>
     <h3>ALL PRODUCTS</h3>
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">No.</th>
-          <th scope="col">Name</th>
-          <th scope="col">Price</th>
-          <th scope="col">Stock</th>
-          <th scope="col">Category</th>
+          <th scope="col">Product</th>
+          <th scope="col" class="center">Price</th>
+          <th scope="col" class="center">Stock</th>
+          <th scope="col" class="center">Category</th>
         </tr>
       </thead>
       <tbody v-for="(product, i) in getProducts()" :key="i">
         <tr>
-          <th scope="row">{{i+1}}</th>
-          <td>
+          <th scope="row">
+            <img :src="product.image" class="mr-3" />
             <router-link
               class="name"
               :to="{name: 'detailProduct', params: {id: product.id}}"
             >{{product.name}}</router-link>
-          </td>
+          </th>
           <td>{{product.price}}</td>
           <td>{{product.stock}}</td>
           <td>{{product.Category ? product.Category.name : 'no category'}}</td>
@@ -89,22 +98,28 @@
 </template>
 
 <script>
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 export default {
+  components: {
+    Loading
+  },
   data() {
     return {
       allproducts: null,
+      isLoading: false,
       formAdd: {
         name: null,
         image: null,
         price: null,
         stock: null,
-        CategoryId: null,
-      },
+        CategoryId: null
+      }
     };
   },
   created() {
-    this.$store.dispatch('allProducts');
-    this.$store.dispatch('allCategories');
+    this.$store.dispatch("allProducts");
+    this.$store.dispatch("allCategories");
   },
   methods: {
     getProducts() {
@@ -122,49 +137,58 @@ export default {
       this.formAdd.CategoryId = null;
     },
     addProduct() {
+      this.isLoading = true;
       this.$axios({
-        method: 'post',
+        method: "post",
         url: `${this.$server}/products`,
         headers: {
-          token: localStorage.token,
+          token: localStorage.token
         },
         data: {
           name: this.formAdd.name,
           image: this.formAdd.image,
           price: this.formAdd.price,
           stock: this.formAdd.stock,
-          CategoryId: this.formAdd.CategoryId,
-        },
+          CategoryId: this.formAdd.CategoryId
+        }
       })
-        .then((result) => {
-          window.$('#addProduct').modal('hide');
+        .then(result => {
+          this.isLoading = false;
+          window.$("#addProduct").modal("hide");
           this.$swal.fire({
-            icon: 'success',
+            icon: "success",
             title: `Successfully added ${result.data.name}!`,
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
           this.clearForm();
-          this.$store.dispatch('allProducts');
+          this.$store.dispatch("allProducts");
         })
-        .catch((err) => {
+        .catch(err => {
+          this.isLoading = false;
           this.$swal.fire({
-            icon: 'error',
-            title: `${err.response.data[0]}`,
+            icon: "error",
+            title: err.response.data,
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
+.mr-3 {
+  height: 50px;
+}
 .container {
   margin-left: 9%;
 }
-.table {
+.center {
+  text-align: center;
+}
+td {
   text-align: center;
 }
 h3 {
@@ -178,6 +202,7 @@ i {
   cursor: pointer;
 }
 .name {
+  text-align: left;
   color: black;
   cursor: pointer;
 }

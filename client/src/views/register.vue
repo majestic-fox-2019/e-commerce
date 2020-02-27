@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div class="vld-parent">
+      <loading
+        :active.sync="isLoading"
+        :can-cancel="true"
+        :is-full-page="true"
+        :color="'#d47a90'"
+        :loader="'dots'"
+        :width="100"
+      ></loading>
+    </div>
     <div class="cont">
       <div class="form sign-in">
         <h2 class="welcome">Welcome!</h2>
@@ -16,18 +26,7 @@
             <span>Password</span>
             <input type="password" v-model="formRegister.password" required />
           </label>
-          <button type="submit" class="submit" @click="loading">Sign Up</button>
-          <button type="button" class="fb-btn" @click="loading">
-            Connect with
-            <span>Google</span>
-          </button>
-          <flower-spinner
-            v-if="loader"
-            :animation-duration="2500"
-            :size="90"
-            color="#d47a90"
-            class="loader"
-          />
+          <button type="submit" class="submit">Sign Up</button>
         </form>
       </div>
       <div class="sub-cont">
@@ -53,11 +52,11 @@
 </template>
 
 <script>
-import { FlowerSpinner } from "epic-spinners";
-
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 export default {
   components: {
-    FlowerSpinner
+    Loading
   },
   data() {
     return {
@@ -66,21 +65,19 @@ export default {
         email: null,
         password: null
       },
-      loader: false
+      isLoading: false
     };
   },
   methods: {
-    loading() {
-      this.loader = true;
-    },
     register() {
+      this.isLoading = true;
       this.$axios({
         method: "post",
         url: `${this.$server}/register`,
         data: this.formRegister
       })
         .then(() => {
-          this.loader = false;
+          this.isLoading = false;
           this.$swal.fire({
             icon: "success",
             title: "Redirect you to Login page...",
@@ -90,7 +87,7 @@ export default {
           this.$router.push({ path: "/login" });
         })
         .catch(err => {
-          this.loader = false;
+          this.isLoading = false;
           this.$swal.fire({
             icon: "error",
             title: `${err.response.data[0]}`,

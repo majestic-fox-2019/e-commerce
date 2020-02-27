@@ -20,6 +20,15 @@ import oneProduct from '../views/userView/showOne.vue'
 
 Vue.use(VueRouter);
 
+const beforeEnter = (to, from, next) => {
+  if (localStorage.token) {
+    next({ name: 'home' })
+  } else {
+    next()
+  }
+}
+
+
 const routes = [
   {
     path: '/',
@@ -32,7 +41,14 @@ const routes = [
     }, {
       path: '/carts',
       name: 'carts',
-      component: carts
+      component: carts,
+      beforeEnter(to, from, next) {
+        if (localStorage.token) {
+          next()
+        } else {
+          next({ name: 'home' })
+        }
+      }
     }, {
       path: '/product/:id',
       name: 'oneProduct',
@@ -43,12 +59,14 @@ const routes = [
     path: '/login',
     name: 'loginPage',
     component: loginPage,
+    beforeEnter,
     meta: { isAuthenticated: false },
   },
   {
     path: '/register',
     name: 'registerPage',
     component: registerPage,
+    beforeEnter,
     meta: { isAuthenticated: false },
   },
   {

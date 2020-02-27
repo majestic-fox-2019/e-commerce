@@ -2,6 +2,16 @@
   <!-- eslint-disable max-len -->
   <div class="allcards">
     {{checkLogin()}}
+    <div class="vld-parent">
+      <loading
+        :active.sync="isLoading"
+        :can-cancel="true"
+        :is-full-page="true"
+        :color="'#d47a90'"
+        :loader="'dots'"
+        :width="100"
+      ></loading>
+    </div>
     <div class="card h-100" style="width: 15rem;" v-for="card in cards" :key="card.id">
       <img class="card-img-top" :src="[card.image ? card.image : image]" />
       <div class="card-body" v-if="isAdmin">
@@ -41,11 +51,17 @@
 </template>
 
 <script>
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 export default {
+  components: {
+    Loading
+  },
   props: ["cards"],
   data() {
     return {
       isAdmin: false,
+      isLoading: false,
       image:
         "https://cdn3.iconfinder.com/data/icons/beauty-makeup-and-fashion-1/66/2-512.png"
     };
@@ -71,6 +87,7 @@ export default {
         })
         .then(result => {
           if (result.value) {
+            this.isLoading = true;
             return this.$axios({
               method: "delete",
               url: `${this.$server}/categories/${id}`,
@@ -79,6 +96,7 @@ export default {
               }
             })
               .then(result => {
+                this.isLoading = false;
                 this.$swal.fire({
                   title: "Deleted!",
                   text: `Category ${result.data.name} has been deleted.`,
@@ -89,6 +107,7 @@ export default {
                 this.$store.dispatch("allCategories");
               })
               .catch(err => {
+                this.isLoading = false;
                 this.$swal.fire({
                   title: "We're sorry",
                   text: err.response.data.message,
@@ -101,6 +120,7 @@ export default {
         });
     },
     addCart(id, stock) {
+      this.isLoading = true;
       this.$axios({
         method: "post",
         url: `${this.$server}/carts/${id}`,
@@ -110,6 +130,7 @@ export default {
         }
       })
         .then(result => {
+          this.isLoading = false;
           this.$store.dispatch("userCarts");
           this.$swal.fire({
             title: "Successfully added to your cart!",
@@ -119,6 +140,7 @@ export default {
           });
         })
         .catch(err => {
+          this.isLoading = false;
           if (localStorage.token) {
             this.$swal.fire({
               title: "We're sorry",
@@ -128,6 +150,11 @@ export default {
               timer: 1500
             });
           } else {
+            this.$swal.fire({
+              title: "Please login first",
+              showConfirmButton: false,
+              timer: 1000
+            });
             this.$router.push({ name: "loginPage" });
           }
         });

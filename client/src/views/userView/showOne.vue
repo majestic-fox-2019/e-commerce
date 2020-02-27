@@ -1,5 +1,15 @@
 <template>
   <div class="oneproduct">
+    <div class="vld-parent">
+      <loading
+        :active.sync="isLoading"
+        :can-cancel="true"
+        :is-full-page="true"
+        :color="'#d47a90'"
+        :loader="'dots'"
+        :width="100"
+      ></loading>
+    </div>
     <div class="media" v-if="product">
       <pic-zoom :url="product.image" :scale="2" class="mr-3"></pic-zoom>
       <div class="media-body">
@@ -28,15 +38,19 @@
 <script>
 import PicZoom from "vue-piczoom";
 import preview from "@/components/preview.vue";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 export default {
   components: {
     preview,
-    PicZoom
+    PicZoom,
+    Loading
   },
   data() {
     return {
       product: null,
-      amount: 1
+      amount: 1,
+      isLoading: false
     };
   },
   mounted() {
@@ -44,6 +58,7 @@ export default {
   },
   methods: {
     getOne() {
+      this.isLoading = true;
       return this.$axios({
         method: "get",
         url: `${this.$server}/products/${this.$route.params.id}`,
@@ -52,9 +67,11 @@ export default {
         }
       })
         .then(result => {
+          this.isLoading = false;
           this.product = result.data;
         })
         .catch(err => {
+          this.isLoading = false;
           this.$swal.fire({
             title: "We're sorry",
             text: err.response.data,
@@ -65,6 +82,7 @@ export default {
         });
     },
     addCart(id, stock) {
+      this.isLoading = true;
       this.$axios({
         method: "post",
         url: `${this.$server}/carts/${id}`,
@@ -74,6 +92,7 @@ export default {
         }
       })
         .then(result => {
+          this.isLoading = false;
           this.$store.dispatch("userCarts");
           this.$swal.fire({
             title: "Successfully added to your cart!",
@@ -83,6 +102,7 @@ export default {
           });
         })
         .catch(err => {
+          this.isLoading = false;
           if (localStorage.token) {
             this.$swal.fire({
               // title: "We're sorry",
