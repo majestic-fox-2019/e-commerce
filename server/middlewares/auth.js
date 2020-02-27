@@ -42,7 +42,32 @@ function authorize(req, res, next) {
     }
 }
 
+function checkAdmin(req, res, next) {
+    try {
+        const token = jwt.checkToken(req.headers.access_token)
+        User.findByPk(token.id)
+            .then(user => {
+                if (!user) {
+                    next({ message: 'user not found' })
+                } else {
+                    if (user.roles === 'admin') {
+                        req.userId = token.id
+                        req.userEmail = token.email
+                        next()
+                    } else {
+                        next({ message: 'you are not authorize' })
+                    }
+
+                }
+            })
+    }
+    catch (err) {
+        next(err)
+    }
+}
+
 module.exports = {
     autheticate,
-    authorize
+    authorize,
+    checkAdmin
 }

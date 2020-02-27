@@ -62,6 +62,7 @@ class ProductController {
                 }
             })
             .then(user => {
+
                 let filter = user.dataValues.cart.filter(el => {
                     return el.id != req.params.id
                 })
