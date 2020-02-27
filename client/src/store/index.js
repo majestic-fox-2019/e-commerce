@@ -222,7 +222,11 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit('SET_PRODUCTS', data)
           if(router.app._route.path != '/') {
-            router.push('/')
+            if(localStorage.role === 'user') {
+              router.push('/')
+            } else {
+              router.push('/product')
+            }
           }
         })
         .catch(error => {

@@ -36,6 +36,11 @@ export default {
       this.$store.commit('SET_PAGE', 'home')
       this.$store.commit('SET_ISLOGIN', true)
       this.$store.commit('SET_EMAIL', localStorage.email)
+      if(localStorage.role === 'user') {
+        this.$router.push('/')
+      } else {
+        this.$router.push('/product')
+      }
     } else {
       this.$store.commit('SET_PAGE', 'home')
       this.$store.commit('SET_ISLOGIN', false)
