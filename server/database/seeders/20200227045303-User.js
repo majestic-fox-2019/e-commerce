@@ -17,7 +17,7 @@ const users = [
     name: "Sulthon Abdul Malik",
     email: "sulthon.almalik@gmail.com",
     password: hashPassword("secret"),
-    role: "admin",
+    role: "customer",
     updatedAt: new Date(),
     createdAt: new Date(),
   }
