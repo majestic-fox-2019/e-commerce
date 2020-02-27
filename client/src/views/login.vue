@@ -12,8 +12,19 @@
             <span>Password</span>
             <input type="password" v-model="formLogin.password" required />
           </label>
+          <div class="vld-parent">
+            <loading
+              :active.sync="isLoading"
+              :can-cancel="true"
+              :is-full-page="true"
+              :color="'#d47a90'"
+              :loader="'dots'"
+              :width="100"
+            ></loading>
+          </div>
+
           <button type="submit" class="submit">Sign In</button>
-          <button type="button" class="fb-btn">
+          <button type="button" class="fb-btn" @click="isLoading =true">
             Connect with
             <span>Google</span>
           </button>
@@ -42,43 +53,52 @@
 </template>
 
 <script>
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 export default {
+  components: {
+    Loading
+  },
   data() {
     return {
       formLogin: {
         email: null,
-        password: null,
+        password: null
       },
+      isLoading: false
     };
   },
   methods: {
     login() {
+      this.isLoading = true;
       this.$axios({
-        method: 'post',
+        method: "post",
         url: `${this.$server}/login`,
-        data: this.formLogin,
+        data: this.formLogin
       })
-        .then((result) => {
+        .then(result => {
+          this.isLoading = false;
           this.$swal.fire({
-            icon: 'success',
+            icon: "success",
             title: `Welcome ${result.data.name}`,
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
-          localStorage.setItem('token', result.data.token);
-          localStorage.setItem('role', result.data.role);
-          this.$router.push({ path: '/admin' });
+          localStorage.setItem("token", result.data.token);
+          localStorage.setItem("role", result.data.role);
+          this.$router.push({ path: "/admin" });
         })
-        .catch((err) => {
+        .catch(err => {
+          this.isLoading = false;
           this.$swal.fire({
-            icon: 'error',
+            icon: "error",
             title: `${err.response.data.message}`,
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -94,11 +114,16 @@ export default {
   color: white;
   font-family: "Dancing Script";
 }
+.swal2-icon.swal2-success {
+  border-color: #d47a90 !important;
+}
 .welcome {
   color: #d47a90;
   font-family: "Montserrat";
 }
-
+.loader {
+  margin-left: 40%;
+}
 /*effect-underline*/
 .effect-underline:after {
   content: "";
@@ -225,8 +250,10 @@ button {
   font-weight: normal;
 }
 .img__text p {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
+  margin-top: 5px;
+  font-family: "Montserrat";
 }
 .cont.s--signup .img__text.m--up {
   transform: translateX(520px);

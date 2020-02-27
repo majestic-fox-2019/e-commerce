@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Product } = require('../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -50,6 +50,22 @@ class UserController {
           }
           res.status(msg.statusCode).json(msg)
         }
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
+
+  static userCart(req, res, next) {
+    User
+      .findOne({
+        where: {
+          id: req.user.id
+        },
+        include: Product
+      })
+      .then(result => {
+        res.status(200).json(result)
       })
       .catch(err => {
         next(err)

@@ -15,7 +15,7 @@
       <input type="text" class="form-control" v-model="formUpdate.price" />
     </div>
     <div class="form-group">
-      <label for="image">Stock</label>
+      <label for="image">Stock {{formUpdate.stock}}</label>
       <input type="text" class="form-control" v-model="formUpdate.stock" />
     </div>
     <div class="form-group">
@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  props: ['product'],
+  props: ["product"],
   data() {
     return {
       formUpdate: {
@@ -42,8 +42,8 @@ export default {
         image: this.product.image,
         price: this.product.price,
         stock: this.product.stock,
-        CategoryId: this.product.CategoryId,
-      },
+        CategoryId: this.product.CategoryId
+      }
     };
   },
   methods: {
@@ -52,33 +52,33 @@ export default {
     },
     updateProduct() {
       return this.$axios({
-        method: 'put',
+        method: "put",
         url: `${this.$server}/products/${this.$route.params.id}`,
         headers: {
-          token: localStorage.token,
+          token: localStorage.token
         },
-        data: this.formUpdate,
+        data: this.formUpdate
       })
-        .then((result) => {
+        .then(result => {
           this.$swal.fire({
-            icon: 'success',
+            icon: "success",
             title: `Successfully update ${result.data.name}!`,
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
-          this.$router.push({ path: '/admin' });
+          this.$router.push({ path: "/admin" });
         })
-        .catch((err) => {
+        .catch(err => {
           this.$swal.fire({
             title: "We're sorry",
             text: err.response.data,
-            icon: 'question',
+            icon: "question",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

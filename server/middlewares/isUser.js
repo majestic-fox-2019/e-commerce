@@ -1,6 +1,5 @@
 module.exports = (req, res, next) => {
   try {
-    console.log(req.user)
     if (req.user.role == 'user') {
       next()
     } else {

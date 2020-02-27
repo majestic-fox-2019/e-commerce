@@ -1,24 +1,43 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import homePage from '../views/home.vue';
 import loginPage from '../views/login.vue';
 import registerPage from '../views/register.vue';
+import error from '../views/404.vue';
+
+// Admin
 import adminPage from '../views/adminPage.vue';
 import productTable from '../views/productTable.vue';
 import categories from '../views/categories.vue';
 import detailProduct from '../views/detailProduct.vue';
 import filterCategory from '../views/filterCategory.vue';
-import error from '../views/404.vue';
+
+// User
+import userNav from '../views/userView/navigation.vue';
+import homeProducts from '../views/userView/homeProducts.vue'
+import carts from '../views/userView/carts.vue'
+import oneProduct from '../views/userView/showOne.vue'
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: homePage,
+    component: userNav,
     meta: { isAuthenticated: false },
+    children: [{
+      path: '/',
+      name: 'home',
+      component: homeProducts
+    }, {
+      path: '/carts',
+      name: 'carts',
+      component: carts
+    }, {
+      path: '/product/:id',
+      name: 'oneProduct',
+      component: oneProduct
+    }]
   },
   {
     path: '/login',
@@ -30,12 +49,6 @@ const routes = [
     path: '/register',
     name: 'registerPage',
     component: registerPage,
-    meta: { isAuthenticated: false },
-  },
-  {
-    path: '/error',
-    name: 'error',
-    component: error,
     meta: { isAuthenticated: false },
   },
   {
@@ -64,7 +77,12 @@ const routes = [
         name: 'filterCategory',
       },
     ],
-  },
+  }, {
+    path: '*',
+    name: 'error',
+    component: error,
+    meta: { isAuthenticated: false },
+  }
 ];
 
 const router = new VueRouter({

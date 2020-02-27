@@ -4,19 +4,19 @@ const productRoutes = require('./products')
 const registerRoute = require('./register')
 const loginRoute = require('./login')
 const categoryRoute = require('./categories')
+const userProductRoute = require('./userProduct')
 
 const authentication = require('../middlewares/authentication')
-const isAdmin = require('../middlewares/isAdmin')
 
 router.use('/register', registerRoute)
 router.use('/login', loginRoute)
 
-router.use(authentication)
 
 router.use('/products', productRoutes)
-
-router.use(isAdmin)
-
 router.use('/categories', categoryRoute)
+
+router.use(authentication)
+
+router.use('/carts', userProductRoute)
 
 module.exports = router

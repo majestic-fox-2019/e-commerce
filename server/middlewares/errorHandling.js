@@ -24,6 +24,8 @@ module.exports = (err, req, res, next) => {
         break
 
       default:
+        error.statusCode = err.statusCode
+        error.message = err.message
         throw error
         break
     }

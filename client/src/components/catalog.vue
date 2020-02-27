@@ -1,12 +1,12 @@
 <template>
   <!-- eslint-disable max-len -->
   <div class="allcards">
-    <div class="card" style="width: 18rem;" v-for="card in cards.getCategories" :key="card.id">
-      <img class="card-img-top" :src="[card.image ? card.image : cards.image]" />
-      <div class="card-body">
+    {{checkLogin()}}
+    <div class="card h-100" style="width: 15rem;" v-for="card in cards" :key="card.id">
+      <img class="card-img-top" :src="[card.image ? card.image : image]" />
+      <div class="card-body" v-if="isAdmin">
         <h5>{{card.name}}</h5>
         <button
-          href="#"
           class="btn btn-outline-secondary btn-sm"
           @click="showProducts(card.name)"
         >Show All Products</button>
@@ -15,77 +15,153 @@
           @click="deleteProduct(card.id, card.name)"
         >Delete</button>
       </div>
+
+      <div v-if="!isAdmin">
+        <div class="card-body">
+          <router-link :to="{name: 'oneProduct', params: {id: card.id}}">
+            <h6>{{card.name}}</h6>
+          </router-link>
+          <p>{{$formatRupiah(card.price)}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <button
+              class="btn btn-outline-secondary btn-sm"
+              @click="addCart(card.id, card.stock)"
+              v-if="card.stock"
+            >
+              <i class="fas fa-cart-plus fa-lg"></i>Add to cart
+            </button>
+            <button class="btn btn-outline-danger btn-sm" v-else>Out of stock</button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['cards'],
+  props: ["cards"],
+  data() {
+    return {
+      isAdmin: false,
+      image:
+        "https://cdn3.iconfinder.com/data/icons/beauty-makeup-and-fashion-1/66/2-512.png"
+    };
+  },
   methods: {
+    checkLogin() {
+      if (localStorage.role == "admin") {
+        this.isAdmin = true;
+      }
+    },
     showProducts(category) {
-      this.$router.push({ path: '/filter', query: { category } });
+      this.$router.push({ path: "/filter", query: { category } });
     },
     deleteProduct(id, name) {
       this.$swal
         .fire({
           title: `You want to delete ${name} ?`,
-          icon: 'warning',
+          icon: "warning",
           showCancelButton: true,
-          confirmButtonColor: '#e79796',
-          cancelButtonColor: '#ffc988',
-          confirmButtonText: 'Yes, delete it!',
+          confirmButtonColor: "#e79796",
+          cancelButtonColor: "#ffc988",
+          confirmButtonText: "Yes, delete it!"
         })
-        .then((result) => {
+        .then(result => {
           if (result.value) {
             return this.$axios({
-              method: 'delete',
+              method: "delete",
               url: `${this.$server}/categories/${id}`,
               headers: {
-                token: localStorage.token,
-              },
+                token: localStorage.token
+              }
             })
-              .then((result) => {
+              .then(result => {
                 this.$swal.fire({
-                  title: 'Deleted!',
+                  title: "Deleted!",
                   text: `Category ${result.data.name} has been deleted.`,
-                  icon: 'success',
+                  icon: "success",
                   showConfirmButton: false,
-                  timer: 1500,
+                  timer: 1500
                 });
-                this.$store.dispatch('allCategories');
+                this.$store.dispatch("allCategories");
               })
-              .catch((err) => {
+              .catch(err => {
                 this.$swal.fire({
                   title: "We're sorry",
-                  text: err.response.data,
-                  icon: 'question',
+                  text: err.response.data.message,
+                  icon: "question",
                   showConfirmButton: false,
-                  timer: 1500,
+                  timer: 1500
                 });
               });
           }
         });
     },
-  },
+    addCart(id, stock) {
+      this.$axios({
+        method: "post",
+        url: `${this.$server}/carts/${id}`,
+        data: { amount: 1, stock },
+        headers: {
+          token: localStorage.token
+        }
+      })
+        .then(result => {
+          this.$store.dispatch("userCarts");
+          this.$swal.fire({
+            title: "Successfully added to your cart!",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        })
+        .catch(err => {
+          if (localStorage.token) {
+            this.$swal.fire({
+              title: "We're sorry",
+              text: err.response.data,
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1500
+            });
+          } else {
+            this.$router.push({ name: "loginPage" });
+          }
+        });
+    }
+  }
 };
 </script>
 
-<style  scoped>
+<style scoped>
 .allcards {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin: 1% 9% 0 9%;
+  margin: 1% 0 0 9%;
 }
 .card {
   margin-right: 10px;
   margin-bottom: 10px;
+  border: none;
 }
 .btn {
   margin-right: 2px;
 }
-h5 {
+h6 {
+  color: #e79796;
+  text-align: center;
+}
+p {
+  color: black;
+  font-family: "Montserrat";
+  font-size: 14px;
+}
+.list-group-item {
+  text-align: center;
   color: #e79796;
 }
 img {

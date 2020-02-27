@@ -15,6 +15,11 @@
 | GET | /categories/:id | Show one category by id |
 | PUT | /categories/:id | Update selected category |
 | DELETE | /categories/:id | Delete selected category |
+| POST | /carts/:ProductId | Add new product to cart |
+| GET | /carts | Show user carts |
+| PUT | /carts | Checkout user carts |
+| DELETE | /carts/:ProductId | Delete selected product from cart |
+| PUT | /carts/:ProductId | Update selected product from cart |
 
 <br>
 
@@ -586,6 +591,197 @@
   ```javascript
   {
     "message": "Error 404, Not found!"
+  }
+  ```
+
+* 500
+
+<br>
+
+### **GET /carts**
+---
+*Show all carts.*
+
+> Response:
+* 200
+
+  Example:
+  ```javascript
+  {
+    "id": 2,
+    "name": "tes",
+    "email": "tes@mail.com",
+    "password": "$2a$10$C2xUw6o6r1Zp.W2BUtmLROoY12fTl03YcbgOXojGoy4j/BVVpMlmG",
+    "role": "user",
+    "createdAt": "2020-02-25T05:47:05.779Z",
+    "updatedAt": "2020-02-25T05:47:05.779Z",
+    "Products": [
+        {
+            "id": 3,
+            "name": "Benefit Gimme Brow+ Volumizing Eyebrow Gel",
+            "image": "https://images.ulta.com/is/image/Ulta/2529256_prod_altimg_1?op_sharpen=1&resMode=bilin&qlt=85&wid=800&hei=800&fmt=jpg",
+            "price": 350000,
+            "stock": 18,
+            "rating": null,
+            "CategoryId": 3,
+            "createdAt": "2020-02-25T05:41:13.109Z",
+            "updatedAt": "2020-02-27T04:13:17.981Z",
+            "UserProduct": {
+                "UserId": 2,
+                "ProductId": 3,
+                "amount": 1,
+                "createdAt": "2020-02-27T04:29:49.014Z",
+                "updatedAt": "2020-02-27T04:29:49.014Z"
+            }
+        }
+    ]
+  }
+  ```
+
+* 500
+
+<br>
+
+### **POST /carts**
+---
+*Create a new carts.*
+> Request Params:
+* ProductId: Integer
+
+  Example
+  ```javascript
+    http://localhost:3000/carts/1
+  ```
+<br>
+
+> Response:
+* 201
+
+  Example:
+  ```javascript
+  {
+    "ProductId": 1,
+    "UserId": 2,
+    "amount": 1,
+    "updatedAt": "2020-02-27T04:39:38.668Z",
+    "createdAt": "2020-02-27T04:39:38.668Z",
+    "id": 1
+  }
+  ```
+
+* 400
+
+  Example:
+  ```javascript
+  {
+    "message": "Invalid token!"
+  }
+  ```
+
+* 500
+
+<br>
+
+
+### **PUT /carts/:ProductId**
+---
+*Update cart list by ProductId.*
+> Request Params:
+* ProductId: Integer
+
+  Example
+  ```javascript
+    http://localhost:3000/carts/3
+  ```
+<br>
+
+> Response:
+* 200
+
+  Example:
+  ```javascript
+  {
+    "id": 136,
+    "UserId": 2,
+    "ProductId": 3,
+    "amount": 3,
+    "createdAt": "2020-02-27T04:29:49.014Z",
+    "updatedAt": "2020-02-27T04:41:07.471Z"
+  }
+  ```
+
+* 400
+
+  Example:
+  ```javascript
+  {
+    "message": "Amount can't be 0!"
+  }
+  ```
+
+* 500
+
+<br>
+
+
+
+### **PUT /carts**
+---
+*Checkout all product in carts.*
+
+> Response:
+* 200
+
+  Example:
+  ```javascript
+  [
+    10
+  ]
+  ```
+
+* 400
+
+  Example:
+  ```javascript
+  {
+    "message": "Out of Stock!"
+  }
+  
+  ```
+
+* 500
+
+<br>
+
+### **DELETE /carts/:ProductId**
+---
+*Delete product in carts by ProductId.*
+
+> Request Params:
+* ProductId: Integer
+
+  Example
+  ```javascript
+    http://localhost:3000/carts/3
+  ```
+<br>
+
+> Response:
+* 200
+
+  Example:
+  ```javascript
+  {
+    "message": "succesfully delete item!"
+  }
+  ```
+
+* 404
+  
+  Example:
+  ```javascript
+  {
+    "message": "Item not found!"
   }
   ```
 

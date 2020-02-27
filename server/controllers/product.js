@@ -2,10 +2,10 @@ const { Product, Category } = require('../models')
 
 class ProductController {
   static createProduct(req, res, next) {
-    let { name, image, price, stock, CategoryId } = req.body
+    let { name, image, price, stock, rating, CategoryId } = req.body
     Product
       .create({
-        name, image, price, stock, CategoryId
+        name, image, price, stock, rating, CategoryId
       })
       .then(product => {
         res.status(201).json(product);
@@ -32,7 +32,12 @@ class ProductController {
   static showOneProduct(req, res, next) {
     let id = req.params.id
     Product
-      .findByPk(id)
+      .findOne({
+        where: {
+          id: id
+        },
+        include: Category
+      })
       .then(product => {
         res.status(200).json(product)
       })
@@ -47,6 +52,7 @@ class ProductController {
       image: req.body.image,
       price: req.body.price,
       stock: req.body.stock,
+      rating: req.body.rating,
       CategoryId: req.body.CategoryId
     }
     let id = req.params.id

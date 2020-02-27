@@ -12,6 +12,7 @@ describe('POST /products', () => {
       image: 'http://url.com',
       price: 30000,
       stock: 23,
+      rating: 5,
       CategoryId: 1
     }
     request(app)
@@ -24,6 +25,7 @@ describe('POST /products', () => {
         expect(res.body.name).toEqual(products.name)
         expect(res.body.image).toEqual(products.image)
         expect(res.body.price).toEqual(products.price)
+        expect(res.body.rating).toEqual(products.rating)
         expect(res.body.stock).toEqual(products.stock)
         done()
       })
@@ -167,6 +169,7 @@ describe('PUT /products', () => {
       image: 'http://url.com',
       price: 10000,
       stock: 50,
+      rating: 4,
       CategoryId: 2
     }
     request(app)

@@ -64,6 +64,9 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    rating: {
+      type: DataTypes.INTEGER
+    },
     CategoryId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -84,7 +87,7 @@ module.exports = (sequelize, DataTypes) => {
   Product.associate = function (models) {
     // associations can be defined here
     Product.belongsTo(models.Category)
-    Product.belongsToMany(models.User, { through: models.UserProduct })
+    Product.belongsToMany(models.User, { through: 'UserProduct' })
   };
   return Product;
 };

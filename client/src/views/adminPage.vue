@@ -69,6 +69,15 @@ export default {
             localStorage.removeItem('role');
             this.$router.push({ name: 'home' });
           }
+        })
+        .catch((err) => {
+          this.$swal.fire({
+            title: "We're sorry",
+            text: err.response.data,
+            icon: 'question',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         });
     },
   },

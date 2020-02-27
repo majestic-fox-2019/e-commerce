@@ -20,6 +20,9 @@ module.exports = {
       stock: {
         type: Sequelize.INTEGER
       },
+      rating: {
+        type: Sequelize.INTEGER
+      },
       CategoryId: {
         type: Sequelize.INTEGER
       },

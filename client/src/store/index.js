@@ -2,8 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 
-// const server = 'http://localhost:3000';
-const server = 'https://upface.herokuapp.com';
+const server = 'http://localhost:3000';
+// const server = 'https://upface.herokuapp.com';
 
 Vue.use(Vuex);
 
@@ -11,6 +11,7 @@ export default new Vuex.Store({
   state: {
     products: null,
     categories: null,
+    carts: null
   },
   mutations: {
     ALL_PRODUCTS(state, payload) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     ALL_CATEGORIES(state, payload) {
       state.categories = payload;
     },
+    MY_CART(state, payload) {
+      state.carts = payload
+    }
   },
   actions: {
     allProducts(context) {
@@ -47,6 +51,27 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
+    userCarts(context) {
+      if (localStorage.token) {
+        axios({
+          method: "get",
+          url: `${server}/carts`,
+          headers: {
+            token: localStorage.token
+          }
+        })
+          .then(result => {
+            context.commit('MY_CART', result.data.Products)
+          })
+          .catch(err => {
+            console.log(err.response, '< error store')
+          });
+      } else {
+        context.commit('MY_CART', null)
+
+      }
+    }
+
   },
   getters: {
   },

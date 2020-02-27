@@ -16,11 +16,18 @@
             <span>Password</span>
             <input type="password" v-model="formRegister.password" required />
           </label>
-          <button type="submit" class="submit">Sign Up</button>
-          <button type="button" class="fb-btn">
+          <button type="submit" class="submit" @click="loading">Sign Up</button>
+          <button type="button" class="fb-btn" @click="loading">
             Connect with
             <span>Google</span>
           </button>
+          <flower-spinner
+            v-if="loader"
+            :animation-duration="2500"
+            :size="90"
+            color="#d47a90"
+            class="loader"
+          />
         </form>
       </div>
       <div class="sub-cont">
@@ -46,42 +53,53 @@
 </template>
 
 <script>
+import { FlowerSpinner } from "epic-spinners";
+
 export default {
+  components: {
+    FlowerSpinner
+  },
   data() {
     return {
       formRegister: {
         name: null,
         email: null,
-        password: null,
+        password: null
       },
+      loader: false
     };
   },
   methods: {
+    loading() {
+      this.loader = true;
+    },
     register() {
       this.$axios({
-        method: 'post',
+        method: "post",
         url: `${this.$server}/register`,
-        data: this.formRegister,
+        data: this.formRegister
       })
         .then(() => {
+          this.loader = false;
           this.$swal.fire({
-            icon: 'success',
-            title: 'Redirect you to Login page...',
+            icon: "success",
+            title: "Redirect you to Login page...",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
-          this.$router.push({ path: '/login' });
+          this.$router.push({ path: "/login" });
         })
-        .catch((err) => {
+        .catch(err => {
+          this.loader = false;
           this.$swal.fire({
-            icon: 'error',
+            icon: "error",
             title: `${err.response.data[0]}`,
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -92,6 +110,9 @@ export default {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+.loader {
+  margin-left: 40%;
 }
 .home {
   color: white;
@@ -228,8 +249,10 @@ button {
   font-weight: normal;
 }
 .img__text p {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
+  margin-top: 5px;
+  font-family: "Montserrat";
 }
 .cont.s--signup .img__text.m--up {
   transform: translateX(520px);
