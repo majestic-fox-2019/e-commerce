@@ -11,7 +11,10 @@ export default new Vuex.Store({
     name: '',
     isLogin: false,
     addProduct: false,
-    products: []
+    products: [],
+    search: '',
+    product: [],
+    carts: []
   },
   mutations: {
     SET_LOGIN(state, payload) {
@@ -22,23 +25,154 @@ export default new Vuex.Store({
     },
     SET_PRODUCTS(state, payload) {
       state.products = payload
+    },
+    SET_PRODUCT(state, payload) {
+      state.product = payload
+    },
+    SET_CARTS(state, payload) {
+      state.carts = payload
     }
   },
   actions: {
+    checkOut({ commit, state, dispatch }, payload) {
+      axios({
+        method: 'PATCH',
+        url: `${BASE_URL}/carts/${payload.id}/checkout`,
+        headers: {
+          access_token: localStorage.getItem("access_token")
+        },
+        data: payload
+      })
+        .then(({ data }) => {
+          let temp = state.carts.filter(el => {
+            return el.id !== payload.id
+          })
+          commit("SET_CARTS", temp)
+          Swal.fire({
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: `${err.response.data}`
+          })
+        })
+    },
+    deleteCart({ commit, state, dispatch }, payload) {
+      axios({
+        method: 'PATCH',
+        url: `${BASE_URL}/carts/${payload}`,
+        headers: {
+          access_token: localStorage.getItem("access_token")
+        }
+      })
+        .then(({ data }) => {
+          let temp = state.carts.filter(el => {
+            return el.id !== payload
+          })
+          commit("SET_CARTS", temp)
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: `${err.response.data}`
+          })
+        })
+    },
+    addCart({ commit, state, dispatch }, payload) {
+      axios({
+        method: 'PATCH',
+        url: `${BASE_URL}/carts`,
+        headers: {
+          access_token: localStorage.getItem("access_token")
+        },
+        data: payload
+      })
+    },
+    addOneCart({ commit, state, dispatch }, payload) {
+      axios({
+        method: 'PATCH',
+        url: `${BASE_URL}/carts/one`,
+        headers: {
+          access_token: localStorage.getItem("access_token")
+        },
+        data: payload
+      })
+        .then(({ data }) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: `${err.response.data}`
+          })
+        })
+    },
+    getProductOne({ commit, state, dispatch }, payload) {
+      axios({
+        method: 'GET',
+        url: `${BASE_URL}/products/${payload}`,
+        headers: {
+          access_token: localStorage.getItem("access_token")
+        }
+      })
+        .then(({ data }) => {
+          commit("SET_PRODUCT", data)
+
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: `${err.response.data}`
+          })
+        })
+    },
+    getCart({ commit, state, dispatch }) {
+      axios({
+        method: 'GET',
+        url: `${BASE_URL}/carts`,
+        headers: {
+          access_token: localStorage.getItem("access_token")
+        }
+      })
+        .then(({ data }) => {
+          let temp = []
+          data.forEach(el => {
+            temp.push(el)
+          })
+          // console.log(temp, 'okkkkkkk')
+          commit("SET_CARTS", temp)
+
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: `${err.response.data}`
+          })
+        })
+    },
     updateProduct({ commit, state, dispatch }, payload) {
-      const body = {
-        name: payload.get('name'),
-        price: payload.get('price'),
-        stock: payload.get('stock'),
-        image_url: payload.get('image_url')
-      }
       axios({
         method: 'PUT',
         url: `${BASE_URL}/products/${payload.get('id')}`,
         headers: {
           access_token: localStorage.getItem("access_token")
         },
-        data: body
+        data: payload
       })
         .then(({ data }) => {
           let temp = state.products.filter(el => {
@@ -68,7 +202,6 @@ export default new Vuex.Store({
           let temp = state.products.filter(el => {
             return el.id !== payload
           })
-          console.log(temp)
           commit("SET_PRODUCTS", temp)
         })
         .catch(err => {
@@ -88,11 +221,11 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
           let temp = []
           data.forEach(el => {
             temp.push(el)
           })
+          console.log(temp, 'okkkkkkkkkkk')
           commit("SET_PRODUCTS", temp)
 
         })
@@ -105,7 +238,6 @@ export default new Vuex.Store({
         })
     },
     addProduct({ commit, state, dispatch }, payload) {
-      console.log(payload.getAll('name'), 'okk')
       axios({
         method: 'POST',
         url: `${BASE_URL}/products`,
@@ -115,7 +247,6 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
           commit("SET_FORM", false)
           let temp = state.products
           temp.push(data)
@@ -178,6 +309,8 @@ export default new Vuex.Store({
           } else {
             localStorage.setItem("access_admin", "")
           }
+          localStorage.setItem('access_token', data.access_token)
+          dispatch("checkLogin")
         })
         .catch(err => {
           Swal.fire({

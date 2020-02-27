@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     category: {
-      type: DataTypes.STRING
+      type: DataTypes.ENUM(['monitor', 'laptop', 'vga', 'processor', 'keyboard', 'mouse'])
     },
     UserId: {
       type: DataTypes.INTEGER

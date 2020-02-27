@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand">PrekeleTech</a>
       <button
         class="navbar-toggler"
@@ -18,16 +18,21 @@
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <router-link to="/">
-              <a class="nav-link">
+              <a @click.prevent="fetch" class="nav-link">
                 Home
                 <span class="sr-only">(current)</span>
               </a>
             </router-link>
           </li>
         </ul>
+        <div v-if="$store.state.isLogin">
+          <button @click.prevent="cart" type="button" class="btn btn-primary mt-0">
+            <i class="fas fa-shopping-cart"></i>
+          </button>
+        </div>
         <div class="d-flex ml-2" v-if="!$store.state.isLogin">
           <div class="mr-2">
-            <b-button v-b-modal.register>Sign Up</b-button>
+            <b-button v-b-modal.register class="mt-0">Sign Up</b-button>
             <b-modal id="register" title="Sign Up" hide-footer>
               <form @submit.prevent="register">
                 <div class="form-group">
@@ -63,8 +68,9 @@
               </form>
             </b-modal>
           </div>
+
           <div>
-            <b-button v-b-modal.login>Sign In</b-button>
+            <b-button v-b-modal.login class="mt-0">Login</b-button>
 
             <b-modal id="login" title="Sign In" hide-footer>
               <form @submit.prevent="login">
@@ -93,7 +99,7 @@
           </div>
         </div>
         <div v-else class="d-flex">
-          <b-nav-item-dropdown right>
+          <b-nav-item-dropdown right style="list-style-type: none;">
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
               <em>User</em>
@@ -112,6 +118,9 @@
 
 <script>
 export default {
+  created() {
+    this.$store.dispatch("checkLogin");
+  },
   computed: {
     checkAdmin() {
       if (this.roles === "admin") {
@@ -130,12 +139,16 @@ export default {
     };
   },
   methods: {
+    cart() {
+      this.$router.push({ path: "/cart" });
+    },
     logOut() {
       this.$store.dispatch("logOut");
       this.email = "";
       this.password = "";
       this.name = "";
       this.$router.push({ path: "/" });
+      this.$store.dispatch("checkLogin");
     },
     login() {
       let obj = {
@@ -151,6 +164,10 @@ export default {
         password: this.password
       };
       this.$store.dispatch("register", obj);
+    },
+    fetch() {
+      this.$store.state.search = "";
+      this.$router.push({ path: "/" });
     }
   }
 };

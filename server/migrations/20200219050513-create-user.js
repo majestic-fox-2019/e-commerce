@@ -21,6 +21,9 @@ module.exports = {
         type: Sequelize.ENUM,
         values: ['user', 'admin']
       },
+      cart: {
+        type: Sequelize.JSON
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

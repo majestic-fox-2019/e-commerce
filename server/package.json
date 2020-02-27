@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-dev": "nodemon index.js",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=1000",
+    "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
@@ -15,9 +20,21 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "http": "0.0.0",
     "jsonwebtoken": "^8.5.1",
     "pg": "^7.18.1",
     "sequelize": "^5.21.4",
     "unggah": "^2.1.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.0",
+    "jest": "^25.1.0",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

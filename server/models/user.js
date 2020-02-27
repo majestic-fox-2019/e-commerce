@@ -39,6 +39,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: { args: true, msg: 'password is required' }
       }
+    },
+    cart: {
+      type: DataTypes.JSON,
     }
   }, {
     sequelize,

@@ -1,7 +1,7 @@
 "use strict"
 
 function errorHandler(err, req, res, next) {
-    console.log(err.message)
+    console.log(err)
     if (err.name === 'SequelizeValidationError') {
         let newError = []
         err.errors.forEach(element => {

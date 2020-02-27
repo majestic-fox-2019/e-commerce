@@ -15,6 +15,7 @@
         <div class="col-8">
           <b-card-text>Price : {{fixedPrice}}</b-card-text>
           <b-card-text>Stock : {{content.stock}}</b-card-text>
+          <b-card-text>Category : {{content.category}}</b-card-text>
         </div>
         <div class="col d-flex flex-column">
           <div>
@@ -33,14 +34,8 @@
                   />
                 </div>
                 <div class="form-group">
-                  <!-- <label for="exampleInputPassword1">Image Url</label> -->
+                  <label for="exampleInputPassword1">Image Url</label>
                   <input type="file" name="file" @change="uploadImage" />
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="image_url"
-                    id="exampleInputPassword1"
-                  />
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Price</label>
@@ -123,13 +118,7 @@ export default {
       this.$store.dispatch("deleteProduct", id);
     },
     updateProduct(id) {
-      // const body = {
-      //   id,
-      //   name: this.name,
-      //   image_url: this.image_url,
-      //   price: Number(this.price),
-      //   stock: Number(this.stock)
-      // };
+      console.log(this.image_url, "update");
       let formData = new FormData();
       formData.append("id", Number(id));
       formData.append("name", this.name);

@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       category: {
-        type: Sequelize.INTEGER
+        type: Sequelize.ENUM(['monitor', 'laptop', 'vga', 'processor', 'keyboard', 'mouse'])
       },
       UserId: {
         type: Sequelize.INTEGER
