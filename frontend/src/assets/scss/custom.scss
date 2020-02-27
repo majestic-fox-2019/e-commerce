@@ -1,0 +1,530 @@
+section{
+  margin: 5rem 0;
+
+  h3.title-section{
+    margin-bottom: 2rem;
+  }
+}
+
+.logo-header{
+  & img{
+    height: 30px;
+  }
+}
+
+.header-search{
+  & .search{
+    width: 450px;
+  }
+}
+
+.badge-cart{
+  position: absolute;
+  top: 12px;
+}
+
+.owl-theme .owl-nav.disabled + .owl-dots{
+  position: absolute;
+  top: 90%;
+  right: 47%;
+  left: 47%;
+}
+
+.loading-page{
+  padding: 10rem 0;
+}
+
+.empty-table{
+  padding: 5rem 0;
+}
+
+.category{
+  margin: 2rem 0;
+
+  & .card-category{
+    & .text-category{
+      text-transform: uppercase;
+    }
+
+    &:hover{
+      cursor: pointer;
+    }
+
+    & img{
+      height: 100px;
+    }
+  }
+}
+
+.banner-category{
+  & img{
+    width: 100%;
+  }
+}
+
+.category-empty{
+  padding: 5rem 0;
+}
+
+.content-category{
+  & .card-header{
+    color: rgba(0,0,0,1);
+    font-weight: bold;
+  }
+
+  & .card-body{
+    text-align: left;
+  }
+
+  & .title-filter{
+    color: rgba(0,0,0,1);
+    font-weight: bold;
+  }
+
+  & .menu-category{
+    display: block;
+    font-weight: bold;
+    color: rgba(0,0,0,.6);
+
+    &:hover{
+      cursor: pointer;
+      color: rgba(0,0,0,1);
+    }
+  }
+
+  & .card-product{
+    height: 400px;
+    display: flex !important;
+    flex-direction: column !important;
+
+    &:hover{
+      cursor: pointer;
+    }
+
+    & .product-name{
+      height: 50px;
+
+      & h5{
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+    }
+
+    & p.product-category{
+      margin-bottom: 5px;
+    }
+
+    & h6.product-price{
+      font-weight: bold;
+      font-size: 1rem;
+      color: #FA591D;
+    }
+
+    & .content-bottom{
+      margin-top: auto;
+    }
+  }
+}
+
+.card-product-home{
+  height: 450px;
+  display: flex !important;
+  flex-direction: column !important;
+
+  &:hover{
+    cursor: pointer;
+  }
+
+  & .product-name{
+    height: 50px;
+
+    & h5{
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  }
+
+  & p.product-category{
+    margin-bottom: 5px;
+  }
+
+  & h6.product-price{
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: #FA591D;
+  }
+
+  & .content-bottom{
+    margin-top: auto;
+  }
+}
+
+.product-detail{
+  padding: 3rem 0;
+
+  & .image-detail-product{
+    height: 400px;
+
+    & img{
+      width: 330px;
+    }
+  }
+
+  & .content-detail-product{
+    padding: 0 4rem;
+    text-align: left;
+
+    & .title-detail-product{
+      font-weight: bold;
+    }
+
+    & .price-detail-product{
+      font-weight: bold;
+      color: #FA591D;
+    }
+
+    & .cat-detail{
+      margin: 1rem 0;
+
+      & span{
+        font-size: 1.5rem;
+      }
+
+      & .cat-detail-product{
+        font-size: 1rem;
+        background-color: #343a40;
+        padding: .5rem 1.5rem;
+        margin-left: .5rem;
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+.btn-beli{
+  background-color: #FA591D;
+  border-color: #FA591D;
+
+  &:hover{
+    background-color: rgb(236, 108, 61);
+    border-color: rgb(236, 108, 61);
+  }
+}
+
+.btn-beli-outline{
+  border: 1px solid #FA591D;
+  background-color: #ffffff;
+  color: #FA591D;
+  font-weight: bold;
+
+  &:hover{
+    background-color: #FA591D;
+    border-color: #FA591D;
+    color: #ffffff;
+  }
+}
+
+.modal-header{
+  display: none !important;
+}
+
+.daftar-p{
+  font-size: 13px;
+}
+
+.daftar{
+  color: #FA591D;
+
+  &:hover{
+    cursor: pointer;
+    color: rgb(236, 108, 61);
+  }
+}
+
+.register{
+  margin-top: 4rem;
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 5px;
+  text-align: left;
+  padding: 1.5rem;
+
+  & h4{
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+}
+
+.cart{
+  margin-top: 5rem;
+
+  & .item-cart{
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+
+  & .bg-stock{
+    background-color: rgba(216, 133, 103, .3);
+  }
+
+  & .content-item-cart{
+
+    & .keranjang-kosong{
+      padding: 2rem 0;
+    }
+
+    & .cart-price{
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #FA591D;
+      margin-bottom: 0px;
+    }
+
+    & .sisa-stock{
+      width: fit-content;
+      background-color: #dc3645;
+      border-radius: 5px;
+      margin: .5rem 0 0 0;
+      padding: 5px 10px;
+      color: #ffffff;
+
+      & p{
+        font-weight: bold;
+        margin: 0;
+      }
+    }
+
+    & .btn-minus,
+    & .btn-plus{
+      border-radius: 50%;
+    }
+
+    & .right-cart{
+      width: 90px;
+      float: right;
+
+      & .quantity{
+        & p{
+          text-align: center;
+          margin-bottom: 3px;
+        }
+  
+        & .btn-minus,
+        & .btn-plus{
+          padding: 0 6px;
+        }
+  
+        & i{
+          font-size: 12px;
+        }
+  
+        & span.total-quantity{
+          margin: 0 .65rem;
+        }
+      }
+    }
+  }
+
+  & .cart-checkout{
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+
+    & .pengiriman{
+      margin-bottom: 2rem;
+
+      & h5{
+        font-size: 1rem;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+    }
+
+    & .total-belanja{
+      & h5.title-total{
+        font-size: 1rem;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+      & .price-total-belanja{
+        font-weight: bold;
+        color: #FA591D;
+      }
+    }
+  }
+}
+
+.payment{
+  margin: 0 5rem;
+  padding: 0 3rem;
+
+  & .desc-payment{
+    border: 1px solid rgba(0,0,0,.1);
+    display: flex;
+
+    & .image-payment{
+      & img{
+        width: 170px;
+      }
+    }
+
+    & .content-payment{
+      text-align: left;
+      margin-top: 2rem;
+      padding: 1rem;
+    }
+  }
+
+  & h4.no-transaksi{
+    font-weight: bold;
+  }
+
+  & .detail-atm{
+    display: flex;
+
+    & .atm{
+      width: 300px;
+      border: 1px solid rgba(0,0,0,.1);
+      padding: 1rem 1rem;
+
+      & img{
+        width: 100px;
+        margin-bottom: 10px;
+      }
+
+      & p{
+        margin-bottom: 5px;
+      }
+
+      & .an-nama{
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      & .rek{
+        font-weight: bold;
+      }
+    }
+  }
+
+  & .detail-pembelian{
+    display: flex;
+
+    & .pembayaran{
+      & .total-transfer{
+        width: 300px;
+        border: 1px solid rgba(0,0,0,.1);
+        padding: 1rem 2rem;
+    
+        & h3{
+          font-weight: bold;
+          color: #FA591D;
+        }
+      }
+    }
+
+    & .detail-belanja{
+      text-align: left;
+      width: 100%;
+      margin-left: 1rem;
+      border: 1px solid rgba(0,0,0,.1);
+      padding: 1rem;
+
+      & ul{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        & li{
+          margin-bottom: .5rem;
+        }
+      }
+    }
+  }
+
+}
+
+.header-table{
+  .search-table{
+    display: inline-block;
+    width: 100%;
+    height: calc(2rem + 2px);
+    padding: 0.625rem 0.75rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #000000;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #cad1d7;
+    border-radius: 0.25rem;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  & > span{
+    position: absolute;
+    right: 10px;
+    top: 7px;
+  }
+
+  & > span:hover{
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  & span i{
+    font-size: 1.3rem
+  }
+}
+
+.footer{
+  background-color: #f8f9fa;
+  padding: 3rem;
+
+  & img.logo-footer{
+    width: 200px;
+  }
+
+  & .kategori-footer{
+    margin-left: 2rem;
+
+    & ul{
+      text-align: text;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      & li{
+        &:hover{
+          cursor: pointer;
+          color: #000000;
+        }
+      }
+    }
+  }
+
+  & .footer-pembayaran{
+    display: flex;
+    text-align: center;
+
+    & img.image-bank-footer{
+      height: 40px;
+      margin: .3rem;
+    }
+  }
+
+  & .toko-kami{
+    margin-left: 2rem;
+    & p{
+      text-align: left;
+    }
+  }
+}
