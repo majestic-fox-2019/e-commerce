@@ -10,12 +10,13 @@ class CartController{
                 },
                 {
                     model : db.Product
-                }
+                },
             ],
             where : {
                 UserId : req.user.id,
                 checked : 0
-            }
+            },
+            order : [['createdAt', 'DESC']]
         })
         .then(response => {
             res.status(200).json(response)
@@ -161,9 +162,9 @@ class CartController{
                 }
             ],
             where : {
-                UserId : req.user.id,
                 checked : 1
-            }
+            },
+            order : [['updatedAt', 'DESC']],
         })
         .then(response => {
             res.status(200).json(response)

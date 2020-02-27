@@ -183,13 +183,29 @@ export default new Vuex.Store({
       })
     },
 
-    login(){
-
+    login({state}, payload){
+      console.log('masuk register')
+      axios({
+        url : 'http://localhost:3000/user/login',
+        method : 'post',
+        data : payload
+      })
+      .then(({data}) => {
+        swal.fire('Welcome back!')
+        localStorage.token = data.token,
+        localStorage.email = data.email,
+        localStorage.role = data.role
+        state.loggedin = true
+        router.push('/')
+      })
+      .catch(err => {
+        swal.fire(err.response.data.msg)
+        console.log(err.response.data.msg)
+      })
     },
 
     register({state}, payload){
       console.log('masuk register')
-      console.log(payload)
       axios({
         url : 'http://localhost:3000/user/register',
         method : 'post',
@@ -204,8 +220,8 @@ export default new Vuex.Store({
         router.push('/')
       })
       .catch(err => {
-        swal.fire('oops something went wrong')
-        console.log(err)
+        swal.fire(err.response.data.msg)
+        console.log(err.response.data.msg)
       })
     }
   },

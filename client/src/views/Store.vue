@@ -25,6 +25,7 @@ export default {
   created(){
     if(localStorage.token){
       this.$store.dispatch('getProducts')
+      this.$store.state.loggedin = true
     } else {
       this.$router.push('/login')
     }
