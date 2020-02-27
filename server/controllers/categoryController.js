@@ -23,7 +23,7 @@ class CategoryController {
         res.status(200).json(data);
       })
       .catch(err => {
-        rnext(err);
+        next(err);
       });
   }
 
