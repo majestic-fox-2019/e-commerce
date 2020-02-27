@@ -10,8 +10,8 @@ export default new Vuex.Store({
   state: {
     isLogin: false,
     role: "user",
-    baseUrl: "http://localhost:3000",
-    // baseUrl: "https://cherrychenka.herokuapp.com",
+    // baseUrl: "http://localhost:3000",
+    baseUrl: "https://cherrychenka.herokuapp.com",
     username: localStorage.getItem("username"),
     allProducts: [],
     errMSG: "",
@@ -438,8 +438,10 @@ export default new Vuex.Store({
           // console.log(data, "<< ini dari cartku")
           context.commit("setMyCarts", data)
         })
-        .catch(err => {
-          console.log(err, "<< ini error my cart")
+        .catch(() => {
+          // console.log(err, "<< ini error my cart")
+          Swal.fire("Oops", "Something went wrong!", "error")
+
         })
     },
     addToCart(context, dataAddToCart) {
@@ -472,8 +474,9 @@ export default new Vuex.Store({
           })
 
         })
-        .catch(err => {
-          console.log(err.response, "<< ini error add to cart")
+        .catch(() => {
+          // console.log(err.response, "<< ini error add to cart")
+          Swal.fire("Oops", "Something went wrong!", "error")
         })
     },
     updateCart(context, objUpdateCart) {
@@ -488,11 +491,14 @@ export default new Vuex.Store({
           qty
         }
       })
-        .then(({ data }) => {
-          console.log(data, "<< ini dari update cart")
+        .then(() => {
+          context.commit("dummy", "dummy")
+          // console.log(data, "<< ini dari update cart")
         })
-        .catch(err => {
-          console.log(err.response, "<< ini error update cart")
+        .catch(() => {
+          // console.log(err.response, "<< ini error update cart")
+          Swal.fire("Oops", "Something went wrong!", "error")
+
         })
     },
     deleteFromCart(context, objDel) {
@@ -507,8 +513,10 @@ export default new Vuex.Store({
         .then(() => {
           Swal.fire("Yay", "Successfully deleted", "success")
         })
-        .catch(err => {
-          console.log(err, "< ini error delete from cart")
+        .catch(() => {
+          // console.log(err, "< ini error delete from cart")
+          Swal.fire("Oops", "Something went wrong!", "error")
+
         })
     },
     checkout(context) {
@@ -523,8 +531,10 @@ export default new Vuex.Store({
           context.commit("dummy", "dummy")
           Swal.fire("Yay", "Successfully checked out", "success")
         })
-        .catch(err => {
-          console.log(err.response, "<< ini error checkout")
+        .catch(() => {
+          // console.log(err.response, "<< ini error checkout")
+          Swal.fire("Oops", "Something went wrong!", "error")
+
         })
     },
     getMyHistory(context) {
@@ -538,8 +548,10 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit("setBelanjaanKu", data)
         })
-        .catch(err => {
-          console.log(err, "<< ini error get belanjaan")
+        .catch(() => {
+          // console.log(err, "<< ini error get belanjaan")
+          Swal.fire("Oops", "Something went wrong!", "error")
+
         })
     },
     getReviews(context, idProduct) {
@@ -550,8 +562,10 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit("setReviews", data)
         })
-        .catch(err => {
-          console.log(err, "<< ini error get review")
+        .catch(() => {
+          // console.log(err, "<< ini error get review")
+          Swal.fire("Oops", "Something went wrong!", "error")
+
         })
     },
     haveIBought(context, idProduct) {
@@ -570,8 +584,10 @@ export default new Vuex.Store({
             context.commit("haveIBought", true)
           }
         })
-        .catch(err => {
-          console.log(err.response, "<< ini error have i bought")
+        .catch(() => {
+          // console.log(err.response, "<< ini error have i bought")
+          Swal.fire("Oops", "Something went wrong!", "error")
+
         })
     },
     postReview(context, objPostReview) {
@@ -590,8 +606,10 @@ export default new Vuex.Store({
         .then(() => {
           context.commit("dummy", "dummy")
         })
-        .catch(err => {
-          console.log(err, "<< ini error")
+        .catch(() => {
+          // console.log(err, "<< ini error")
+          Swal.fire("Oops", "Something went wrong!", "error")
+
         })
     }
   },
