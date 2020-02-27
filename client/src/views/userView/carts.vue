@@ -16,6 +16,7 @@
         <thead>
           <tr>
             <th scope="col">PRODUCT</th>
+            <th scope="col"></th>
             <th class="center" scope="col">PRICE</th>
             <th class="center" scope="col">QTY</th>
             <th class="center" scope="col">TOTAL</th>
@@ -26,32 +27,33 @@
           <tr>
             <td>
               <img :src="cart.image" class="mr-3" />
-              {{cart.name}}
             </td>
+            <td>{{cart.name}}</td>
             <td class="center">{{$formatRupiah(cart.price)}}</td>
-            <td class="center">
+            <td class="center sum">
               <button
                 type="button"
-                class="btn btn-secondary"
+                class="btn btn-secondary btn-sm"
                 @click="updateAmount(cart.UserProduct.ProductId, cart.UserProduct.amount, cart.stock, 'subtract')"
               >-</button>
-              <button type="button" class="btn btn-light">{{cart.UserProduct.amount}}</button>
+              <button type="button" class="btn btn-light btn-sm">{{cart.UserProduct.amount}}</button>
               <button
                 type="button"
-                class="btn btn-secondary"
+                class="btn btn-secondary btn-sm"
                 @click="updateAmount(cart.UserProduct.ProductId, cart.UserProduct.amount, cart.stock, 'add')"
               >+</button>
               <br />
               <br />
             </td>
             <td class="center">{{$formatRupiah(count(cart.price, cart.UserProduct.amount))}}</td>
-            <td class="center close">
+            <td class="close">
               <i class="fas fa-times" @click="deleteItem(cart.UserProduct.ProductId)"></i>
             </td>
           </tr>
         </tbody>
         <tbody>
           <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td class="center">SUBTOTAL</td>
@@ -226,6 +228,9 @@ export default {
 </script>
 
 <style scoped>
+.sum {
+  width: 50px;
+}
 .center {
   text-align: center;
 }

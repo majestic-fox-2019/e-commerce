@@ -2,8 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 
-// const server = 'http://localhost:3000';
-const server = 'https://upface.herokuapp.com';
+const server = 'http://localhost:3000';
+// const server = 'https://upface.herokuapp.com';
 
 Vue.use(Vuex);
 

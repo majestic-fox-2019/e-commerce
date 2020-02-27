@@ -24,10 +24,12 @@
           </div>
 
           <button type="submit" class="submit">Sign In</button>
-          <button type="button" class="fb-btn" @click="isLoading =true">
-            Connect with
-            <span>Google</span>
-          </button>
+          <GoogleLogin class="googleBtn" :params="params" :onSuccess="onSignIn">
+            <button type="button" class="fb-btn">
+              Connect with
+              <span>Google</span>
+            </button>
+          </GoogleLogin>
         </form>
       </div>
       <div class="sub-cont">
@@ -54,10 +56,12 @@
 
 <script>
 import Loading from "vue-loading-overlay";
+import GoogleLogin from "vue-google-login";
 import "vue-loading-overlay/dist/vue-loading.css";
 export default {
   components: {
-    Loading
+    Loading,
+    GoogleLogin
   },
   data() {
     return {
@@ -65,10 +69,42 @@ export default {
         email: null,
         password: null
       },
-      isLoading: false
+      isLoading: false,
+      params: {
+        client_id:
+          "978728200332-o9rdf47rjtiuguuplf1il7ue5cci0es4.apps.googleusercontent.com"
+      }
     };
   },
   methods: {
+    onSignIn(googleUser) {
+      this.isLoading = true;
+      let id_token = googleUser.getAuthResponse().id_token;
+      this.$axios({
+        method: "post",
+        url: `${this.$server}/login/google`,
+        data: { id_token }
+      })
+        .then(result => {
+          this.isLoading = false;
+          localStorage.setItem("token", result.data.token);
+          localStorage.setItem("role", result.data.role);
+          if (localStorage.role == "admin") {
+            this.$router.push({ path: "/admin" });
+          } else {
+            this.$router.push({ name: "home" });
+          }
+        })
+        .catch(err => {
+          this.isLoading = false;
+          this.$swal.fire({
+            icon: "error",
+            title: `${err.response.data.message}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
+        });
+    },
     login() {
       this.isLoading = true;
       this.$axios({
@@ -86,7 +122,11 @@ export default {
           });
           localStorage.setItem("token", result.data.token);
           localStorage.setItem("role", result.data.role);
-          this.$router.push({ path: "/admin" });
+          if (localStorage.role == "admin") {
+            this.$router.push({ path: "/admin" });
+          } else {
+            this.$router.push({ name: "home" });
+          }
         })
         .catch(err => {
           this.isLoading = false;
