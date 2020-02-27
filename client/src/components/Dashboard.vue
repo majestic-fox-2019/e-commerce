@@ -215,7 +215,7 @@ export default {
   watch: {
     $route(to, from) {
       this.category = to.params.category;
-      console.log(this.category, "<<<<<<<<watch dashboard");
+      // console.log(this.category, "<<<<<<<<watch dashboard");
     }
   },
 

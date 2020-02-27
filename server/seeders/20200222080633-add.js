@@ -16,7 +16,10 @@ module.exports = {
       username: 'admin1',
       email: 'admin1@gmail.com',
       role: 'admin',
-      password: '123'
+      password: '123',
+      createdAt: Date.now(),
+      updatedAt: Date.now()
+
     }], { Sequelize });
   },
 

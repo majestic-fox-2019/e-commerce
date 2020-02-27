@@ -89,6 +89,7 @@ import jwt from "jsonwebtoken";
 import axios from "axios";
 import Swal from "sweetalert2";
 const server = `http://localhost:3000`;
+// const server = `https://mysterious-plains-04294.herokuapp.com`;
 
 export default {
   props: ["category"],

@@ -21,7 +21,7 @@ export default new Vuex.Store({
       // console.log(payload, '<<<<< ini dari allItem')
     },
     isAdmin(state, payload) {
-      console.log('payload', payload)
+      // console.log('payload', payload)
       state.isAdmin = payload
       state.isLogin = true
     },
@@ -43,18 +43,18 @@ export default new Vuex.Store({
       }
     },
     getAllItem(context) {
-      console.log('mulai fetch')
+      // console.log('mulai fetch')
       axios({
         method: 'get',
         url: `${server}/products`
       })
         .then(({ data }) => {
-          console.log('berhasil fetch')
+          // console.log('berhasil fetch')
 
           context.commit('allItem', data)
         })
         .catch(err => {
-          console.log('gagal fetch')
+          // console.log('gagal fetch')
           console.log(err)
         })
     },

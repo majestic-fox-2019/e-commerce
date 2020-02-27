@@ -12,6 +12,7 @@
             <th scope="col">Action</th>
           </tr>
         </thead>
+        <!-- {{carts}} -->
         <tbody>
           <tr v-for="cart in carts" :key="cart.id">
             <td>{{cart.Product.name}}</td>
@@ -59,12 +60,13 @@
         </thead>
       </table>
 
-      <button type="button" class="btn btn-secondary btn-lg btn-block">Check Out</button>
+      <button type="button" class="btn btn-secondary btn-lg btn-block" @click="checkout">Check Out</button>
     </div>
   </div>
 </template>
 
 <script>
+// const server = "https://mysterious-plains-04294.herokuapp.com";
 import axios from "axios";
 import Swal from "sweetalert2";
 import rupiah from "../helper/idr";
@@ -99,6 +101,7 @@ export default {
       })
         .then(result => {
           this.carts = result.data;
+          // console.log(result, "<<<<<<<<<<<< watch");
         })
         .catch(err => {
           console.log(err);
@@ -145,6 +148,32 @@ export default {
           axios({
             method: "delete",
             url: `${server}/cart/${id}`,
+            headers: { token: localStorage.token }
+          })
+            .then(result => {
+              this.getAllCart();
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        }
+      });
+    },
+    checkout() {
+      Swal.fire({
+        title: "Periksa kembali!",
+        text: "Pastikan barang yang anda beli suda sesuai",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#000",
+        cancelButtonColor: "#000",
+        confirmButtonText: "beli sekarang"
+      }).then(result => {
+        if (result.value) {
+          Swal.fire("Terimakasih!");
+          axios({
+            method: "patch",
+            url: `${server}/cart/checkout`,
             headers: { token: localStorage.token }
           })
             .then(result => {
