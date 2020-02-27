@@ -32,7 +32,10 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeCreate(user, options) {
         user.password = hash(user.password)
-      }
+      },
+      beforeBulkUpdate(user, options) {
+        user.attributes.password = hash(user.attributes.password)
+      },
     }, sequelize
   });
   User.associate = function (models) {

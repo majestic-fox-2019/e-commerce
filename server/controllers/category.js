@@ -38,7 +38,6 @@ class CategoryController {
             }
             const options = {
                 where: { id: Number(req.params.id) },
-                returning: true
             }
             Category
                 .update(value, options)
@@ -51,7 +50,7 @@ class CategoryController {
                     }
                 })
                 .catch(err => {
-                    // console.log(err)
+                    console.log(err)
                     next(err)
                 })
         } else {

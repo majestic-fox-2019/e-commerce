@@ -11,6 +11,9 @@ import AddProductForm from '../components/AddProductForm.vue'
 import UpdateUserForm from '../components/UpdateUserForm.vue'
 import UpdateCategoryForm from '../components/UpdateCategoryForm.vue'
 import UpdateProductForm from '../components/UpdateProductForm.vue'
+import ListCategory from '../components/ListCategory'
+import ListProduct from '../components/ListProduct'
+import ListUser from '../components/ListUser'
 
 Vue.use(VueRouter)
 const routes = [
@@ -39,33 +42,39 @@ const routes = [
         path: '/user',
         name: 'User',
         component: User,
+        redirect: '/user/list',
         meta: { requiresAuth: true },
         children:
           [
-            { path: '/user/add', name: 'AddUser', component: AddUserForm },
-            { path: '/user/edit/:id', name: 'UpdateUser', component: UpdateUserForm, props: true },
-            { path: '/user/delete/:id', name: 'DeleteUser' }
+            { path: '/user/list', name: 'list_user', component: ListUser },
+            { path: '/user/add', name: 'add_user', component: AddUserForm },
+            { path: '/user/edit/:id', name: 'update_user', component: UpdateUserForm },
+            { path: '/user/delete/:id', name: 'delete_user' }
           ]
       },
       {
         path: '/category',
         name: 'Category',
         component: Category,
+        redirect: '/category/list',
         children:
           [
-            { path: '/category/add', name: 'AddCategory', component: AddCategoryForm },
-            { path: '/category/edit/:id', name: 'UpdateCategory', component: UpdateCategoryForm, props: true },
-            { path: '/category/delete/:id', name: 'DeleteCategory' }
+            { path: '/category/list', name: 'list_category', component: ListCategory },
+            { path: '/category/add', name: 'add_category', component: AddCategoryForm },
+            { path: '/category/edit/:id', name: 'update_category', component: UpdateCategoryForm },
+            { path: '/category/delete/:id', name: 'delete_category' }
           ]
       },
       {
         path: '/product',
         name: 'Product',
         component: Product,
+        redirect: '/product/list',
         children: [
-          { path: '/product/add', name: 'AddProduct', component: AddProductForm },
-          { path: '/product/edit/:id', name: 'UpdateProduct', component: UpdateProductForm, props: true },
-          { path: '/product/delete/:id', name: 'DeleteProduct' }
+          { path: '/product/list', name: 'list_product', component: ListProduct },
+          { path: '/product/add', name: 'add_product', component: AddProductForm },
+          { path: '/product/edit/:id', name: 'update_product', component: UpdateProductForm },
+          { path: '/product/delete/:id', name: 'delete_product' }
         ]
       }
     ]

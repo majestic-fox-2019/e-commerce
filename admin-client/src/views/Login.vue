@@ -29,7 +29,11 @@
             />
           </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-primary w-50 font-weight-bold mt-4" :disabled="loginProcess">
+            <button
+              type="submit"
+              class="btn btn-primary w-50 font-weight-bold mt-4"
+              :disabled="loginProcess"
+            >
               <span v-if="loginProcess" class="spinner-border spinner-border-sm mr-2"></span>
               <span>Login</span>
             </button>
@@ -42,6 +46,7 @@
 
 <script>
 import api from "../helper/api";
+import Swal from "sweetalert2";
 export default {
   name: "Home",
   data() {
@@ -57,17 +62,17 @@ export default {
       api
         .post("/login", { email: this.email, password: this.password })
         .then(({ data }) => {
-          if (data.access_token) {
+          if (data.role === "super_admin" || data.role === "admin") {
             localStorage.setItem("access_token", data.access_token);
             this.$router.push({ name: "Home" });
           } else {
-            console.log("No user");
+            Swal.fire("Failed", "You cannot access this page", "warning");
           }
           this.loginProcess = !this.loginProcess;
         })
         .catch(err => {
           this.loginProcess = !this.loginProcess;
-          console.log(err);
+          Swal.fire("Error", err.response.data.message, "warning");
         });
     }
   }

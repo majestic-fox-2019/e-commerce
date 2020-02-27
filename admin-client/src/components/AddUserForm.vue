@@ -6,57 +6,54 @@
     <form @submit.prevent="postUser">
       <div class="form-group">
         <label for="email">Email address</label>
-        <input
-          v-model="email"
-          type="email"
-          class="form-control"
-          id="email"
-          aria-describedby="emailHelp"
-        />
+        <input v-model="email" type="email" class="form-control" />
       </div>
       <div class="form-group">
         <label for="password">Password</label>
         <input v-model="password" type="password" class="form-control" id="password" />
       </div>
       <div class="text-center">
-        <button type="submit" class="btn btn-primary w-50 font-weight-bold mt-4">Submit</button>
+        <button type="button" class="btn btn-primary mx-4 font-weight-bold mt-4" @click="$router.push('/user')">Cancel</button>
+        <button type="submit" class="btn btn-primary mx-4 font-weight-bold mt-4">Submit</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import api from '../helper/api'
+import api from "../helper/api";
+import swal from "sweetalert2";
 export default {
-  data () {
+  data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       msg: null
-    }
+    };
   },
   methods: {
-    postUser () {
+    postUser() {
       const value = {
         email: this.email,
         password: this.password,
         roleId: 2
-      }
+      };
       api
-        .post('/users', value, {
+        .post("/users", value, {
           headers: { token: localStorage.access_token }
         })
         .then(({ data }) => {
           if (data.message) {
-            this.msg = data.message
+            this.msg = data.message;
           } else {
-            this.msg = null
-            this.$router.go(-1)
-            this.$emit('success-add-user')
+            swal.fire("Success", "Successfully added a user", "success");
+            this.msg = null;
+            this.$router.go(-1);
+            this.$emit("success");
           }
         })
-        .catch(err => console.log(err))
+        .catch(err => swal.fire("Error", err.response.data.message, "warning"));
     }
   }
-}
+};
 </script>

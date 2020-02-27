@@ -42,56 +42,65 @@
       </div>
 
       <div class="text-center">
-        <button type="submit" class="btn btn-primary w-50 font-weight-bold mt-4">Submit</button>
+        <button type="button" class="btn btn-primary mx-4 font-weight-bold mt-4" @click="$router.push('/product')">Cancel</button>
+        <button type="submit" class="btn btn-primary mx-4 font-weight-bold mt-4">Submit</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import api from '../helper/api'
+import api from "../helper/api";
+import swal from "sweetalert2";
 export default {
-  data () {
+  data() {
     return {
-      name: '',
-      img_url: '',
-      price: '',
-      stock: '',
+      name: "",
+      img_url: "",
+      price: "",
+      stock: "",
       categoryId: null
-    }
+    };
   },
   methods: {
-    postProduct () {
+    postProduct() {
       const value = {
         name: this.name,
         price: this.price,
         img_url: this.img_url,
         stock: this.stock,
         categoryId: this.categoryId
-      }
+      };
+
       api
-        .post('/products', value, {
+        .post("/products", value, {
           headers: { token: localStorage.access_token }
         })
         .then(({ data }) => {
-          this.$router.go(-1)
-          this.$emit('success-add-product')
+          swal.fire("Success", data.message, "success");
+          this.$router.go(-1);
+          this.$emit("success");
         })
-        .catch(err => console.log(err.response))
+        .catch(err => {
+          let msg = Array.isArray(err.response.data.message)
+            ? err.response.data.message.join(", ")
+            : err.response.data.message;
+          swal.fire("Error", msg, "warning");
+        });
     },
-    onChange (e) {
-      this.categoryId = e.target.value
+    onChange(e) {
+      this.categoryId = e.target.value;
     }
   },
   computed: {
-    categories () {
-      return this.$store.state.categories
+    categories() {
+      return this.$store.state.categories;
     }
   },
-  mounted () {
+  mounted() {
     if (this.categories === null) {
-      this.$store.dispatch('getCategories')
+      this.$store.dispatch("getCategories");
     }
   }
-}
+};
 </script>

@@ -7,19 +7,19 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Name</span>
         </div>
-        <input type="text" class="form-control" v-model="name" />
+        <input type="text" class="form-control" v-model="product.name" />
       </div>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">Stock</span>
         </div>
-        <input v-model="stock" type="number" class="form-control" id="stock" />
+        <input v-model="product.stock" type="number" class="form-control" />
       </div>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">Price</span>
         </div>
-        <input type="number" v-model="price" class="form-control" />
+        <input type="number" v-model="product.price" class="form-control" />
       </div>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -30,8 +30,6 @@
           <option
             v-for="category in categories"
             :key="category.id"
-            :value="category.id"
-            :selected="categoryId === category.id && true"
           >{{category.name}}</option>
         </select>
       </div>
@@ -39,63 +37,62 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Image Url</span>
         </div>
-        <input v-model="img_url" type="text" class="form-control" id="img" />
+        <input v-model="product.img_url" type="text" class="form-control" id="img" />
       </div>
 
       <div class="text-center">
-        <button
-          type="button"
-          @click="$emit('cancel-update')"
-          class="btn btn-primary mx-2 font-weight-bold mt-4"
-        >Cancel</button>
-        <button type="submit" class="btn btn-primary mx-2 font-weight-bold mt-4">Update</button>
+        <button type="button" class="btn btn-primary mx-4 font-weight-bold mt-4" @click="$router.push('/product')">Cancel</button>
+        <button type="submit" class="btn btn-primary mx-4 font-weight-bold mt-4">Submit</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import api from '../helper/api'
-
+import api from "../helper/api";
+import swal from "sweetalert2";
 export default {
-  props: ['product'],
-  data () {
+  data() {
     return {
-      name: this.product.name,
-      price: this.product.price,
-      img_url: this.product.img_url,
-      stock: this.product.stock,
-      categoryId: this.product.CategoryId
-    }
+      product: null,
+      categoryId: null
+    };
   },
   methods: {
-    putProduct () {
+    putProduct() {
       const value = {
         name: this.name,
         price: this.price,
         img_url: this.img_url,
         stock: this.stock,
         categoryId: this.categoryId
-      }
+      };
       api
         .put(`/products/${this.product.id}`, value)
-        .then(res => {
-          this.$emit('success-update')
+        .then(({ data }) => {
+          this.$emit("success");
+          swal.fire("Success", data.message, "success");
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          swal.fire("Error", err.response.data.message, "warning");
+        });
     },
-    onChange (e) {
-      this.product.categoryId = e.target.value
-    },
-    cancel () {
-      this.$emit('cancel')
-      this.$router.go(-1)
+    onChange(e) {
+      this.categoryId = e.target.value;
     }
   },
+  created() {
+    this.product = this.products.filter(item => {
+      return item.id === this.$route.params.id;
+    })[0];
+  },
   computed: {
-    categories () {
-      return this.$store.state.categories
+    categories() {
+      return this.$store.state.categories;
+    },
+    products() {
+      return this.$store.state.products;
     }
   }
-}
+};
 </script>

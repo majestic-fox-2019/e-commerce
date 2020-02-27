@@ -42,16 +42,17 @@ class ProductController {
                 id: req.params.id
             },
         }
-        Product
-            .update(value, options)
-            .then(result => {
-                if (result[0] !== 0) {
-                    res.status(200).json({ message: 'Successfully updated product' })
-                } else {
-                    next(createError(404, 'Product not found'))
-                }
-            })
-            .catch(next)
+        console.log(value, options)
+        // Product
+        //     .update(value, options)
+        //     .then(result => {
+        //         if (result[0] !== 0) {
+        //             res.status(200).json({ message: 'Successfully updated product' })
+        //         } else {
+        //             next(createError(404, 'Product not found'))
+        //         }
+        //     })
+        //     .catch(next)
     }
     static deleteProduct(req, res, next) {
         const options = {

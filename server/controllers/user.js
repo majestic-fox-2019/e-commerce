@@ -1,5 +1,5 @@
 const { User, Role, Product } = require('../database/models/index')
-const { compare, sign } = require('../helpers/helper')
+const { compare, sign, hash } = require('../helpers/helper')
 const createError = require('http-errors')
 const { OAuth2Client } = require('google-auth-library');
 
@@ -105,21 +105,24 @@ class UserController {
     }
 
     static putUser(req, res, next) {
+        console.log('masuk')
         const { email, password } = req.body
         if (email && password) {
             const value = {
                 email, password
             }
-            const options = { where: { id: req.loggedUserId } }
+            const options = { where: { id: req.params.id }, individialHooks: true }
             User
                 .update(value, options)
                 .then(result => {
                     res.status(200).json({ message: 'Successfully updated user' })
                 })
-                .catch(next)
+                .catch(err => {
+                    next(err)
+                })
 
         } else {
-            next(createError(400, 'Email and password cannot be empty'))
+            next(createError(400, 'Email or password cannot be empty'))
         }
     }
 

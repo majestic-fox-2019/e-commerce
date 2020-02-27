@@ -8,9 +8,10 @@
         <input v-model="name" type="text" class="form-control" id="name" />
       </div>
       <div class="text-center">
+        <button type="button" class="btn btn-primary mx-4 font-weight-bold mt-4" @click="$router.push('/category')">Cancel</button>
         <button
           type="submit"
-          class="btn btn-primary w-50 font-weight-bold mt-4"
+          class="btn btn-primary font-weight-bold mt-4 mx-2"
           :disabled="addProcess"
         >
           <span v-if="addProcess" class="spinner-border spinner-border-sm mr-2"></span>
@@ -42,16 +43,16 @@ export default {
           headers: { token: localStorage.access_token }
         })
         .then(({ data }) => {
-          console.log(data)
-          swal.fire('Success', data.message, 'success')
+          swal.fire("Success", data.message, "success");
           this.$router.go(-1);
-          this.$emit("success-add-category");
-          this.addProcess = !this.addProcess;
+          this.$emit("success");
         })
         .catch(err => {
           this.addProcess = !this.addProcess;
           if (Array.isArray(err.response.data.message)) {
-            swal.fire("Error", err.response.data.message.join('\n'), "error");
+            swal.fire("Error", err.response.data.message.join("\n"), "error");
+          } else {
+            swal.fire("Error", err.response.data.message, "error");
           }
         });
     }

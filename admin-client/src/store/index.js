@@ -42,7 +42,7 @@ export default new Vuex.Store({
       api
         .get('/products', { headers: { token: localStorage.access_token } })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           context.commit('SET_PRODUCTS', data)
         })
         .catch(err => console.log(err.response))

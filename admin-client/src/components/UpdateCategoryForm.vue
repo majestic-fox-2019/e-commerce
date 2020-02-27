@@ -8,36 +8,49 @@
         <input v-model="name" type="text" class="form-control" id="name" />
       </div>
       <div class="text-center">
-        <button type="submit" class="btn btn-primary w-50 font-weight-bold mt-4">Submit</button>
+        <button type="button" class="btn btn-primary mx-4 font-weight-bold mt-4" @click="$router.push('/category')">Cancel</button>
+        <button type="submit" class="btn btn-primary mx-4 font-weight-bold mt-4">Submit</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import api from '../helper/api'
+import api from "../helper/api";
+import Swal from "sweetalert2";
 
 export default {
-  data () {
+  data() {
     return {
-      name: ''
-    }
+      name: null
+    };
   },
   methods: {
-    putCategories () {
+    putCategories() {
       const value = {
         name: this.name
-      }
-
+      };
       api
-        .post('/categories', value)
-        .then(({ data }) => {
-          console.log(data)
-          this.$router.go(-1)
-          this.$emit('success-add-category')
+        .put(`/categories/${this.$route.params.id}`, value, {
+          headers: { token: localStorage.access_token }
         })
-        .catch(({ response }) => console.log(response))
+        .then(({ data }) => {
+          Swal.fire("Success", data.message, "success");
+          this.$router.go(-1);
+          this.$emit("success");
+        })
+        .catch(err => console.log(err));
+    }
+  },
+  created() {
+    this.name = this.categories.filter(
+      item => item.id === this.$route.params.id
+    )[0].name;
+  },
+  computed: {
+    categories() {
+      return this.$store.state.categories;
     }
   }
-}
+};
 </script>
