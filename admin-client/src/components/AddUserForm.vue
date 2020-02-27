@@ -39,7 +39,8 @@ export default {
     postUser () {
       const value = {
         email: this.email,
-        password: this.password
+        password: this.password,
+        roleId: 2
       }
       api
         .post('/users', value, {

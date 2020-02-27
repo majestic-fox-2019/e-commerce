@@ -88,7 +88,7 @@ class UserController {
                         const value = {
                             email: req.body.email,
                             password: req.body.password,
-                            RoleId: req.body.RoleId
+                            RoleId: req.body.roleId
                         }
                         return User.create(value)
                     }

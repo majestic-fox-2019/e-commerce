@@ -32,24 +32,31 @@ class CategoryController {
             .catch(next)
     }
     static putCategory(req, res, next) {
-        const value = {
-            name: req.body.name
+        if (req.body.name) {
+            const value = {
+                name: req.body.name
+            }
+            const options = {
+                where: { id: Number(req.params.id) },
+                returning: true
+            }
+            Category
+                .update(value, options)
+                .then(result => {
+                    if (result[0] != 0) {
+                        res.status(200).json({ message: 'Successfully updated category' })
+                    }
+                    else {
+                        next(createError(404, 'Failed update category'))
+                    }
+                })
+                .catch(err => {
+                    // console.log(err)
+                    next(err)
+                })
+        } else {
+            res.status(404).json({message: 'Category name cannot be empty'})
         }
-        const options = {
-            where: { id: req.params.id },
-            returning : true
-        }
-        Category
-            .update(value, options)
-            .then(result => {
-                if (result[0] != 0) {
-                    res.status(200).json({message: 'Successfully updated category'})
-                } 
-                else {
-                    next(createError(404, 'Category not found'))
-                }
-            })
-            .catch(next)
     }
     static deleteCategory(req, res, next) {
         const options = {
@@ -59,7 +66,7 @@ class CategoryController {
             .destroy(options)
             .then(result => {
                 if (result !== 0) {
-                    res.status(200).json({message: 'Successfully deleted category'})
+                    res.status(200).json({ message: 'Successfully deleted category' })
                 } else {
                     next(createError(404, 'Category not found'))
                 }
