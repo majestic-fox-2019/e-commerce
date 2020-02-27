@@ -202,14 +202,19 @@ class ControllerProduct{
       return Promise.all(allCheckout)
     })
     .then(data => {
-      console.log(data)
       let temp = []
       for(let i = 0; i< cart.length; i++){
         for(let j = 0; j < data.length; j++) {
           if(cart[i].ProductId == data[j].id) {
             let {name, stock, category, image_url, price, description} = data[j]
             stock = stock - cart[i].total
-            temp.push(Product.update({name, stock, category, image_url, price, description}, {where: {id: data[j].id}}))
+            if(data[j].stock - cart[i].total < 0){
+              console.log(data[j].stock, cart[i].total, "<<<<<<")
+              throw({code:400, message:"sorry, not avaiable stock.. please edit your curent stock to avaiable stock"})
+            } else {
+              console.log(data[j].stock,"data", cart[i].total, "total<<<<<<")
+              temp.push(Product.update({name, stock, category, image_url, price, description}, {where: {id: data[j].id}}))
+            }
           }
         }
       }
