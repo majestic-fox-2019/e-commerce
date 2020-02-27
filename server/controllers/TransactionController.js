@@ -1,5 +1,5 @@
 "use strict"
-const {Transaction} = require('../models');
+const {Transaction, Product} = require('../models');
 class TransactionController {
     static addToCart(req, res, next) {
         const {UserId, ProductId, price} = req.body;
@@ -47,6 +47,19 @@ class TransactionController {
     }
 
     static settledTransactionsByUser(req, res, next) {
+        // Kurangi stock product
+        const carts = req.body.carts;
+        carts.forEach(cart => {
+            Product
+                .update({
+                    stock: cart.Product.stock - 1
+                }, {
+                    where: {
+                        id: cart.ProductId
+                    }
+                });
+        });
+
         Transaction
             .update({isSettled: true}, {
                 where: {
@@ -59,8 +72,7 @@ class TransactionController {
             })
             .catch(err => {
                 next(err);
-            })
-
+            });
     }
 }
 

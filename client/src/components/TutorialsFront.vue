@@ -135,6 +135,7 @@
               <v-spacer></v-spacer>
 
               <v-btn
+                v-if="tutorial.stock > 0"
                 icon
                 @click="objBook = tutorial; dialog_buy = true"
               >

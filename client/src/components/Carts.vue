@@ -21,7 +21,7 @@
       </template>
     </v-simple-table>
      <PayPal
-        v-if="carts.length > 0"
+        v-if="total_pay > 0"
         :amount="total_pay"
         currency="USD"
         :client="paypal_credentials"
@@ -33,15 +33,16 @@
     <div v-if="carts.length <= 0" class="no-product">
       There is no product in your cart. belanja gih... :)
     </div>
-    <!-- <v-btn
+    <v-btn
+      v-if="total_pay <= 0 && carts.length > 0"
       block
       color="primary"
       class="ma-2 white--text"
-      @click="loader = 'loading3'"
+      @click="loader = 'loading3'; onComplete()"
     >
-      Checkout
+      Finish
       <v-icon right dark>mdi-credit-card-outline</v-icon>
-    </v-btn> -->
+    </v-btn>
   </div>
 </template>
 
@@ -86,6 +87,7 @@ export default {
       this.$store.state.superagent
         .put(`${this.$store.state.url_backend}/transactions/${objUser.id}/settled`)
         .set('accesstoken', this.$store.state.isLogin)
+        .send({ carts: this.carts })
         .end((err, res) => {
           if (err) {
             console.log(err);

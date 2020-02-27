@@ -76,7 +76,7 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: 'payment_success',
+    path: '/payment_success',
     component: PaymentSuccess,
     name: 'payment_success',
     meta: { requiresAuth: true },
