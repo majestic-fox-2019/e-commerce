@@ -32,7 +32,7 @@ export default new Vuex.Store({
       }
     ],
     userInfo: null,
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'https://v2shop.herokuapp.com',
     displayProducts: null,
     loading: {
       userInfo: false,
@@ -122,7 +122,11 @@ export default new Vuex.Store({
           this.commit('SET_ADMINLIST', data)
         })
         .catch(err => {
-          console.log(err.response)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     fetchIncomes (state, payload) {
@@ -145,7 +149,11 @@ export default new Vuex.Store({
           this.commit('SET_INCOME', data)
         })
         .catch(err => {
-          console.log(err.response)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     fetchPurchases (state, payload) {
@@ -163,11 +171,14 @@ export default new Vuex.Store({
           data.forEach(element => {
             element.Product.displayPrice = rpConvert(element.Product.price)
           })
-          console.log(data)
           this.commit('SET_TRANSACTION_HISTORY', data)
         })
         .catch(err => {
-          console.log(err.response)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     confirmDelivery (state, payload) {
@@ -187,7 +198,11 @@ export default new Vuex.Store({
           this.dispatch('fetchPurchases')
         })
         .catch(err => {
-          console.log(err.response)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     checkout (state, payload) {
@@ -210,7 +225,11 @@ export default new Vuex.Store({
           this.dispatch('fetchUserCart')
         })
         .catch(err => {
-          console.log(err.response)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     deleteItem (state, payload) {
@@ -229,7 +248,11 @@ export default new Vuex.Store({
           this.dispatch('fetchUserCart')
         })
         .catch(err => {
-          console.log(err.response)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     fetchUserCart (state, payload) {
@@ -260,7 +283,11 @@ export default new Vuex.Store({
           this.commit('SET_CART', active)
         })
         .catch(err => {
-          console.log(err.response)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     addToCart (state, payload) {
@@ -283,7 +310,11 @@ export default new Vuex.Store({
           this.dispatch('fetchUserCart')
         })
         .catch(err => {
-          console.log(err.response)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     fetchShopProducts (state, payload) {
@@ -298,7 +329,11 @@ export default new Vuex.Store({
           this.commit('SET_DISPLAY_PRODUCTS', data)
         })
         .catch(err => {
-          console.log(err)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     fetchUnOfficialProducts (state, payload) {
@@ -310,7 +345,11 @@ export default new Vuex.Store({
           this.commit('SET_DISPLAY_PRODUCTS', data)
         })
         .catch(err => {
-          console.log(err)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     fetchAllOfficialProducts (state, payload) {
@@ -322,7 +361,11 @@ export default new Vuex.Store({
           this.commit('SET_DISPLAY_PRODUCTS', data)
         })
         .catch(err => {
-          console.log(err)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     registerShop (state, payload) {
@@ -347,7 +390,7 @@ export default new Vuex.Store({
         .catch(err => {
           Swal.fire(
             'Oops. . .!',
-            err.msg,
+            err.response.data.msg,
             'error'
           )
         })
@@ -365,23 +408,26 @@ export default new Vuex.Store({
         .catch(err => {
           Swal.fire(
             'Oops. . .!',
-            err.msg,
+            err.response.data.msg,
             'error'
           )
         })
     },
     fetchProductByCategory (state, payload) {
+      this.commit('SET_LOADING_PRODUCTCARD')
       axios({
         method: 'get',
         url: this.state.baseUrl + '/products/categories/' + payload
       })
         .then(({ data }) => {
+          this.commit('SET_UNLOAD_PRODUCTCARD')
           this.commit('SET_DISPLAY_PRODUCTS', data)
         })
         .catch(err => {
+          this.commit('SET_UNLOAD_PRODUCTCARD')
           Swal.fire(
             'Oops. . .!',
-            err.msg,
+            err.response.data.msg,
             'error'
           )
         })
@@ -400,7 +446,7 @@ export default new Vuex.Store({
           this.commit('SET_UNLOAD_PRODUCTCARD')
           Swal.fire(
             'Oops. . .!',
-            err.msg,
+            err.response.data.msg,
             'error'
           )
         })
@@ -424,7 +470,7 @@ export default new Vuex.Store({
         .catch(err => {
           Swal.fire(
             'Oops. . .!',
-            err.msg,
+            err.response.data.msg,
             'error'
           )
         })
@@ -449,7 +495,11 @@ export default new Vuex.Store({
         })
         .catch(err => {
           this.commit('SET_UNLOAD_WHOLEPAGE')
-          console.log(err.response)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     logout (state) {
@@ -480,7 +530,7 @@ export default new Vuex.Store({
         .catch(err => {
           Swal.fire(
             'Oops. . .!',
-            err.msg,
+            err.response.data.msg,
             'error'
           )
         })
@@ -519,7 +569,7 @@ export default new Vuex.Store({
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: err.response.data.message
+            text: err.response.data.msg
           })
         })
     },
@@ -555,11 +605,11 @@ export default new Vuex.Store({
         })
         .catch(err => {
           this.commit('SET_UNLOAD_WHOLEPAGE')
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err.msg
-          })
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     deleteProduct (state, payload) {
@@ -586,11 +636,11 @@ export default new Vuex.Store({
         })
         .catch(err => {
           this.commit('SET_UNLOAD_WHOLEPAGE')
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err.msg
-          })
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     },
     registerAdmin (state, payload) {
@@ -611,7 +661,11 @@ export default new Vuex.Store({
           router.push('/admin/Products')
         })
         .catch(err => {
-          console.log(err.response)
+          Swal.fire(
+            'Oops. . .!',
+            err.response.data.msg,
+            'error'
+          )
         })
     }
   }
