@@ -524,6 +524,9 @@ export default new Vuex.Store({
         .then(({ data }) => {
           this.commit('SET_USERINFO', data)
           this.commit('SET_UNLOAD_USERINFO')
+          if (data.role !== 'admin') {
+            this.dispatch('fetchPurchases')
+          }
           if (payload && data.role !== 'admin') {
             router.push('/home')
           }

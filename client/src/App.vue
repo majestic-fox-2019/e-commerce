@@ -18,7 +18,6 @@ export default {
     if (localStorage.getItem('token')) {
       this.$store.dispatch('fetchUserData')
       this.$store.dispatch('fetchUserCart')
-      this.$store.dispatch('fetchPurchases')
     }
     this.$store.dispatch('fetchMainProducts')
   }
