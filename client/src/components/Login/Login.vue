@@ -10,11 +10,11 @@
                   <h4 class="title">E-Commerce Admin Panel</h4>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="fa fa-envelope"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="text" name="email" v-model="formLogin.email" placeholder="Email" v-bind:state="Boolean(formLogin.email)"/>
+                    <b-form-input type="text" name="email" v-model="formLogin.email" placeholder="Email" v-bind:state="Boolean(formLogin.email)" @keydown.native="keyLogin" />
                   </b-input-group>
                   <b-input-group class="mb-4">
                     <b-input-group-prepend><b-input-group-text><i class="fa fa-key"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="password" name="password" v-model="formLogin.password" v-bind:state="Boolean(formLogin.password)" placeholder="Password" />
+                    <b-form-input type="password" name="password" v-model="formLogin.password" v-bind:state="Boolean(formLogin.password)" placeholder="Password" @keydown.native="keyLogin" />
                   </b-input-group>
                   <b-row>
                     <b-col cols="6">
@@ -74,7 +74,12 @@ export default {
           self.$vToastify.notifError(`${err.response.data.message}`, "Failed!")
         })
       }
-    }
+    },
+    keyLogin(event) {
+      if (event.which === 13) {
+        this.doLogin()
+      }
+    },
   }
 }
 </script>
