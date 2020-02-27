@@ -31,7 +31,11 @@ class ProductController{
 
   static findAll(req,res,next){
     Product
-      .findAll()
+      .findAll({
+        include:[{
+          model: Category,
+        }]
+      })
       .then(product => {
         res.status(200).json(product)
       })
@@ -121,6 +125,19 @@ class ProductController{
       .then(result => {
         req.io.emit('products')
         res.status(200).json(deleted)
+      })
+      .catch(next)
+  }
+
+  static getNewProduct(req,res,next){
+    Product
+      .findAll({
+        attributes:['image_url','createdAt'],
+        order:[['createdAt','DESC']],
+        limit: req.params.limit || 5
+      })
+      .then(product => {
+        res.status(200).json(product)
       })
       .catch(next)
   }

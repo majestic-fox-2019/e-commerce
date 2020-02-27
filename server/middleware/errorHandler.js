@@ -10,7 +10,6 @@ module.exports = function (err, req, res, next) {
         result[err.errors[i].path] = err.errors[i].message
       }
     }
-    
     res.status(err.statusCode || 400).json(result || err.message)
   }
 }
