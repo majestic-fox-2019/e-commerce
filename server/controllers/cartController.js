@@ -32,11 +32,35 @@ class CartController {
                     message: 'Product not Found'
                 })
             } else {
+                return Cart.findOne({
+                    where: {
+                        UserId: req.loggedUser.id,
+                        status: 'Active',
+                        ProductId
+                    },
+                    include: [{ model: Product }]
+                })
+            }
+        })
+        .then(cartData => {
+            if(!cartData) {
                 return Cart.create({
                     ProductId,
                     status: 'Active',
                     qty,
                     UserId: req.loggedUser.id
+                })
+            } else {
+                let addedQty = qty + cartData.qty
+                if (addedQty > cartData.Product.stock) {
+                    addedQty = cartData.Product.stock
+                }
+                return Cart.update({
+                    qty: addedQty
+                },{
+                    where: {
+                        id: cartData.id
+                    }
                 })
             }
         })

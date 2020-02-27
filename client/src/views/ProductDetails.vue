@@ -1,7 +1,7 @@
 <template>
   <b-container class="mt-5 p-5" id="detailMain">
-    <div v-if="$store.state.loading.productDetails">
-      loading
+    <div class="loading" v-if="$store.state.loading.productDetails">
+      <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner" type="grow"></b-spinner>
     </div>
     <div v-if="!$store.state.loading.productDetails">
     <h3 style="text-align:left;">{{$store.state.displayDetail.name}}</h3>
@@ -77,6 +77,14 @@ export default {
 </script>
 
 <style scoped>
+.loading {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2e2e2e5d;
+}
 .descriptionHeader {
     border-top: 1px solid #252525;
     border-bottom: 1px solid #252525;

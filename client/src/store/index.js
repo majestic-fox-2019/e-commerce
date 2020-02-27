@@ -38,7 +38,8 @@ export default new Vuex.Store({
       userInfo: false,
       productTable: false,
       wholePageLoading: false,
-      productDetails: false
+      productDetails: false,
+      productCard: false
     },
     displayDetail: null,
     cart: [],
@@ -63,6 +64,12 @@ export default new Vuex.Store({
       state.loading.userInfo = true
     },
     SET_UNLOAD_USERINFO (state) {
+      state.loading.userInfo = false
+    },
+    SET_LOADING_PRODUCTCARD (state) {
+      state.loading.userInfo = true
+    },
+    SET_UNLOAD_PRODUCTCARD (state) {
       state.loading.userInfo = false
     },
     SET_LOADING_WHOLEPAGE (state) {
@@ -195,6 +202,11 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
+          Swal.fire(
+            'CheckedOut!',
+            `${payload.length} item(s) has been successfully checkedout`,
+            'success'
+          )
           this.dispatch('fetchUserCart')
         })
         .catch(err => {
@@ -375,14 +387,17 @@ export default new Vuex.Store({
         })
     },
     fetchMainProducts (state) {
+      this.commit('SET_LOADING_PRODUCTCARD')
       axios({
         method: 'get',
         url: this.state.baseUrl + '/products'
       })
         .then(({ data }) => {
+          this.commit('SET_UNLOAD_PRODUCTCARD')
           this.commit('SET_DISPLAY_PRODUCTS', data)
         })
         .catch(err => {
+          this.commit('SET_UNLOAD_PRODUCTCARD')
           Swal.fire(
             'Oops. . .!',
             err.msg,
@@ -415,12 +430,14 @@ export default new Vuex.Store({
         })
     },
     register (state, payload) {
+      this.commit('SET_LOADING_WHOLEPAGE')
       axios({
         method: 'post',
         url: this.state.baseUrl + '/user/register',
         data: payload
       })
         .then(({ data }) => {
+          this.commit('SET_UNLOAD_WHOLEPAGE')
           Swal.fire(
             'Registration Successful!',
             'You have successfully registered and logged in as ' + data.userInfo.name,
@@ -429,6 +446,10 @@ export default new Vuex.Store({
           localStorage.setItem('token', data.token)
           this.commit('SET_USERINFO', data.userInfo)
           router.push('/home')
+        })
+        .catch(err => {
+          this.commit('SET_UNLOAD_WHOLEPAGE')
+          console.log(err.response)
         })
     },
     logout (state) {

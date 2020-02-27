@@ -1,6 +1,9 @@
 <template>
   <div class="mt-5 mainPart">
     <div class="registContainer">
+      <div v-if="$store.state.loading.wholePageLoading" class="loader">
+        <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner" variant="light" type="grow"></b-spinner>
+      </div>
         <div class="firstForm">
             <div style="display:flex;width:100%;height:100%;">
                 <div class="bgImg">
@@ -98,6 +101,16 @@ export default {
 </script>
 
 <style scoped>
+.loader {
+  width: 100%;
+  height: 88%;
+  background: #66666683;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 10;
+}
 .RegistInput {
     width: 25vw;
     height: 4vh;

@@ -27,6 +27,7 @@
 <script>
 import CartItems from '../components/CartItems'
 import rpConvert from '../helpers/rpConverter.js'
+import Swal from 'sweetalert2'
 export default {
   name: 'Cart',
   components: {
@@ -34,9 +35,20 @@ export default {
   },
   methods: {
     checkOut () {
-      this.$store.dispatch('checkout', this.selected)
-      // console.log(this.selected)
-      this.selected = []
+      Swal.fire({
+        title: `Proceed to checkout these (${this.selected.length}) items?`,
+        text: 'Please make sure you have checked the correct items',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Proceed to checkout'
+      }).then((result) => {
+        if (result.value) {
+          this.$store.dispatch('checkout', this.selected)
+          this.selected = []
+        }
+      })
     }
   },
   created () {
