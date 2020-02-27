@@ -754,7 +754,7 @@ If request failed because validation is not complete:
     }
 ]
 ```
-
+ 
 If request failed caused by server:
 
 * Status Code: 500
