@@ -100,15 +100,16 @@ class ProductController {
         User.findByPk(req.userId)
             .then(user => {
                 let test = []
-                let arr = user.dataValues.cart.filter(el => {
-                    console.log(el, 'okkkk')
-                    if (el.id === req.body.id) {
-                        el.stock += req.body.cartStock
-                        test.push(1)
-                    }
-                    return el
-                })
-                console.log(arr)
+                let arr = []
+                if (user.dataValues.cart) {
+                    arr = user.dataValues.cart.filter(el => {
+                        if (el.id === req.body.id) {
+                            el.stock += req.body.cartStock
+                            test.push(1)
+                        }
+                        return el
+                    })
+                }
                 if (test.length === 0) {
                     arr.push(body)
                     obj.cart = arr
