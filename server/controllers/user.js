@@ -5,9 +5,24 @@ const nodemailer = require('nodemailer')
 const CronJob = require('cron').CornJob
 
 class ControllerUser {
+  static registerAdminTesting(req, res, next) {
+    console.log(req.body)
+    let {name, email, password, phone_number, address} = req.body
+    let role = "admin"
+    console.log(role)
+    User.create({name, email, password, phone_number, address, role})
+    .then(user => {
+      res.status(201).json(user)
+      // res.status(201).send("berhasil")
+    })
+    .catch(err => {
+      console.log(err)
+      next(err)
+    })
+  }
   static registerAdmin(req, res, next) {
-    let {name, email, password, phone_number, address, role} = req.body
-    role = "admin"
+    let {name, email, password, phone_number, address} = req.body
+    let role = "admin"
     User.create({name, email, password, phone_number, address, role})
     .then(user => {
       res.status(201).json(user)

@@ -1,12 +1,14 @@
 const request = require('supertest')
 const app = require('../app')
 
-var tokenAdaadain = "eyJhbGciOiJIUzI1NiJ9.MQ.7sNJ5VtmIKLC09V9Yerq7liwveN32lde3kwX27JaAQg"
+var tokenAdaadain = "eyJhbGciOiJIUzI1NiJ9.OQ.qGR1mJrItj9lK3zhNCCIjYkaGNh6LUzcpRw3Sc8sIEY"
+var tokenBaru
 
-describe('POST /register', function() {
+
+describe('POST /admin-register-test', function() {
   it('should register user', async () => {
     const res = await request(app)
-    .post('/register')
+    .post('/admin-register-test')
     .send(input = {
       name: "dila",
       password: "1234",
@@ -17,7 +19,6 @@ describe('POST /register', function() {
     console.log(res.body)
     expect(res.statusCode).toEqual(201)
     expect(res.body.name).toEqual(input.name)
-    // expect(res.body.password).toEqual(hashPw)
     expect(res.body.email).toEqual(input.email)
     expect(res.body.address).toEqual(input.address)
     expect(res.body.phone_number).toEqual(input.phone_number)
@@ -38,6 +39,8 @@ describe('POST /login', function () {
     expect(res.statusCode).toEqual(201)
     expect(res.body.user.email).toEqual(input.email)
     expect(res.body.token).toEqual(res.body.token)
+    tokenBaru = res.body.token
+
   })
 })
 
@@ -45,13 +48,14 @@ describe('POST /admin', function() {
   it('should create product', async () => {
     const res = await request(app)
         .post('/admin')
-        .set("token", tokenAdaadain)
+        .set("token", tokenBaru)
         .send( input = {
           name:"aloe vera gel",
           image_url:"http://gambar-aloe",
           price: 99000,
           stock: 100,
-          category: "normal"
+          category: "normal",
+          description: "ininini"
         })
         console.log(res.body.name)
         expect(res.statusCode).toEqual(201)
@@ -67,7 +71,7 @@ describe('POST /admin', function() {
 //   it('should delete product', async () => {
 //     const res = await request(app)
 //     .delete('/admin/1')
-//     .set("token", tokenAdaadain)
+//     .set("token", tokenBaru)
 //     expect(res.statusCode).toEqual(201)
 //     expect(res.body.id).toEqual(1)
 //   })
@@ -77,7 +81,7 @@ describe('PUT /admin/1', function() {
   it('should edit product', async () => {
     const res = await request(app)
     .put('/admin/1')
-    .set("token", tokenAdaadain)
+    .set("token", tokenBaru)
     .send(input ={
       name:"bukan aloe",
       image_url:"http://gambar-aloe",

@@ -5,6 +5,8 @@ const authentication = require('../middlewares/authentication')
 const {authorisationRole} = require('../middlewares/authorisation')
 const unggah = require('../middlewares/unggah')
 
+routes.post('/admin-register-test', userController.registerAdminTesting)
+
 
 routes.post('/login', userController.login)
 routes.post('/register', userController.register)
