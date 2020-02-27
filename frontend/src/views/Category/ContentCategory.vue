@@ -1,6 +1,11 @@
 <template>
   <b-row>
-    <b-col md="3" class="mb-4 res-2mobile res-3pad" v-for="product in getProducts" :key="product.id">
+    <b-col md=12 v-if="getProducts.length === 0">
+      <div class="category-empty">
+        <h3>Barang sedang kosong pada kategori ini</h3>
+      </div>
+    </b-col>
+    <b-col md="3" v-else class="mb-4 res-2mobile res-3pad" v-for="product in getProducts" :key="product.id">
       <b-card class="card-product" @click="goDetailProduct(product.id)" :img-src="product.image_url" img-top>
         <div class="content-bottom">
           <div class="product-name">
