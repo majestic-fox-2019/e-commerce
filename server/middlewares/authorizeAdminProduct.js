@@ -11,7 +11,7 @@ function authorized(req, res, next) {
     })
         .then(product => {
             if (!product) {
-                next(createError(404, "data not found"))
+                next(createError(404, "Not found product"))
             } else if (product.UserId === req.user.id) {
                 next()
             } else {

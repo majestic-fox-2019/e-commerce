@@ -1,6 +1,5 @@
 "use strict"
 module.exports = (err, req, res, next) => {
-    console.log(err, "===========================================================");
     if (err.status && err.msg) {
         res.status(err.status).json(err.msg)
     }
