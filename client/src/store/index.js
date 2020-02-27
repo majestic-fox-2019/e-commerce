@@ -5,8 +5,8 @@ import jwt from 'jsonwebtoken'
 Vue.use(Vuex)
 
 import axios from 'axios'
-const server = `http://localhost:3000`
-// const server = `https://mysterious-plains-04294.herokuapp.com`
+// const server = `http://localhost:3000`
+const server = `https://mysterious-plains-04294.herokuapp.com`
 
 export default new Vuex.Store({
   state: {
@@ -18,7 +18,7 @@ export default new Vuex.Store({
   mutations: {
     allItem(state, payload) {
       state.items = payload
-      // console.log(payload, '<<<<< ini dari allItem')
+      console.log(payload, '<<<<< ini dari allItem')
     },
     isAdmin(state, payload) {
       // console.log('payload', payload)
@@ -43,18 +43,18 @@ export default new Vuex.Store({
       }
     },
     getAllItem(context) {
-      // console.log('mulai fetch')
+      console.log('mulai fetch')
       axios({
         method: 'get',
         url: `${server}/products`
       })
         .then(({ data }) => {
-          // console.log('berhasil fetch')
+          console.log('berhasil fetch')
 
           context.commit('allItem', data)
         })
         .catch(err => {
-          // console.log('gagal fetch')
+          console.log('gagal fetch')
           console.log(err)
         })
     },

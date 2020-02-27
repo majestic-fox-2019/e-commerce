@@ -50,8 +50,8 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import firebase from "firebase";
-const server = `http://localhost:3000`;
-// const server = `https://mysterious-plains-04294.herokuapp.com`;
+// const server = `http://localhost:3000`;
+const server = `https://mysterious-plains-04294.herokuapp.com`;
 export default {
   data: function() {
     return {

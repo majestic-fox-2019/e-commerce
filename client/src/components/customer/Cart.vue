@@ -66,11 +66,11 @@
 </template>
 
 <script>
-// const server = "https://mysterious-plains-04294.herokuapp.com";
+const server = "https://mysterious-plains-04294.herokuapp.com";
 import axios from "axios";
 import Swal from "sweetalert2";
 import rupiah from "../helper/idr";
-const server = "http://localhost:3000";
+// const server = "http://localhost:3000";
 export default {
   data() {
     return {

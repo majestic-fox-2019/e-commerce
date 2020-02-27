@@ -39,6 +39,18 @@ npm install
 | Post   | /user/register/admin | Create new User |
 | Post   | /user/login/admin    | Login for user  |
 
+**Routes Cart :**
+
+| Method | Route          | Description                                                |
+| ------ | -------------- | ---------------------------------------------------------- |
+| Get    | /cart          | Get All Cart data                                          |
+| Post   | /cart          | Create new Cart                                            |
+| Patch  | /cart/checkout | Remove From table chart with update stock in Product table |
+| Patch  | /cart:id       | Edit value Qty                                             |
+| Patch  | /cart:id       | remove item cart                                           |
+
+
+
 ### Environtment Variables:
 
 ```
@@ -56,4 +68,6 @@ EDOTENSI=<Secret key>
 ```
 https://documenter.getpostman.com/view/3757275/SzKVQJBv
 ```
+
+
 
