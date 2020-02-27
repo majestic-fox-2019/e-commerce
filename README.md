@@ -3,8 +3,10 @@ E-Commerce CMS
 
 ## POST Register
 
+```
 Method : "POST"
-End Point : "http://localhost:3000/admin/register"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/register"
+```
 
 - Request Body
 ```
@@ -48,8 +50,10 @@ status code (500) :
 
 ## POST Login
 
+```
 Method : "POST"
-End Point : "http://localhost:3000/admin/login"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/login"
+```
 
 - Request Body
 ```
@@ -89,8 +93,10 @@ status code (500) :
 
 ## GET Users
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/admin/users"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/users"
+```
 
 - Request Header
 ```
@@ -137,8 +143,10 @@ status code (500) :
 
 ## POST User
 
+```
 Method : "POST"
-End Point : "http://localhost:3000/admin/user"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/user"
+```
 
 - Request Header
 ```
@@ -188,8 +196,10 @@ status code (500) :
 
 ## GET DETAIL User
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/admin/user/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/user/:id"
+```
 
 - Request Header
 ```
@@ -231,8 +241,10 @@ status code (500) :
 
 ## PUT Edit User
 
+```
 Method : "PUT"
-End Point : "http://localhost:3000/admin/user/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/user/:id"
+```
 
 - Request Header
 ```
@@ -283,8 +295,10 @@ status code (500) :
 
 ## PATCH Change Password User
 
+```
 Method : "Patch"
-End Point : "http://localhost:3000/admin/user/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/user/:id"
+```
 
 - Request Header
 ```
@@ -324,8 +338,10 @@ status code (500) :
 
 ## DELETE User
 
+```
 Method : "DELETE"
-End Point : "http://localhost:3000/admin/user/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/user/:id"
+```
 
 - Request Header
 ```
@@ -368,8 +384,10 @@ status code (500) :
 
 ## GET Categories
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/admin/categories"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/categories"
+```
 
 - Request Header
 ```
@@ -412,8 +430,10 @@ status code (500) :
 
 ## POST Category
 
+```
 Method : "POST"
-End Point : "http://localhost:3000/admin/category"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/category"
+```
 
 - Request Header
 ```
@@ -454,8 +474,10 @@ status code (500) :
 
 ## GET DETAIL Category
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/admin/category/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/category/:id"
+```
 
 - Request Header
 ```
@@ -495,8 +517,10 @@ status code (500) :
 
 ## PUT Edit Category
 
+```
 Method : "PUT"
-End Point : "http://localhost:3000/admin/category/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/category/:id"
+```
 
 - Request Header
 ```
@@ -542,8 +566,10 @@ status code (500) :
 
 ## DELETE Category
 
+```
 Method : "DELETE"
-End Point : "http://localhost:3000/admin/category/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/category/:id"
+```
 
 - Request Header
 ```
@@ -583,8 +609,10 @@ status code (500) :
 
 ## GET Products
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/admin/products"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/products"
+```
 
 - Request Header
 ```
@@ -631,8 +659,10 @@ status code (500) :
 
 ## POST Product
 
+```
 Method : "POST"
-End Point : "http://localhost:3000/admin/product"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/product"
+```
 
 - Request Header
 ```
@@ -685,8 +715,10 @@ status code (500) :
 
 ## GET DETAIL Product
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/admin/product/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/product/:id"
+```
 
 - Request Header
 ```
@@ -730,8 +762,10 @@ status code (500) :
 
 ## PUT Edit Product
 
+```
 Method : "PUT"
-End Point : "http://localhost:3000/admin/product/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/product/:id"
+```
 
 - Request Header
 ```
@@ -775,8 +809,10 @@ status code (500) :
 
 ## DELETE Product
 
+```
 Method : "DELETE"
-End Point : "http://localhost:3000/admin/product/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/product/:id"
+```
 
 - Request Header
 ```
@@ -820,8 +856,10 @@ status code (500) :
 
 ## GET Transactions
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/admin/transactions"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//admin/transactions"
+```
 
 - Request Header
 ```
@@ -874,8 +912,10 @@ E-Commerce Frontend
 
 ## POST Register
 
+```
 Method : "POST"
-End Point : "http://localhost:3000/register"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//register"
+```
 
 - Request Body
 ```
@@ -917,8 +957,10 @@ status code (500) :
 
 ## POST Login
 
+```
 Method : "POST"
-End Point : "http://localhost:3000/login"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//login"
+```
 
 - Request Body
 ```
@@ -958,8 +1000,10 @@ status code (500) :
 
 ## GET Categories
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/categories"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//categories"
+```
 
 - Response
 ```
@@ -991,8 +1035,10 @@ status code (500) :
 
 ## GET Products
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/products"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//products"
+```
 
 - Response
 ```
@@ -1044,8 +1090,10 @@ status code (500) :
 
 ## GET DETAIL Product
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/product/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//product/:id"
+```
 
 - Response
 ```
@@ -1078,8 +1126,10 @@ status code (500) :
 
 ## GET Cart By User
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/carts/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//carts/:id"
+```
 
 - Request Header
 ```
@@ -1118,8 +1168,10 @@ status code (500) :
 
 ## POST Add Item to Cart
 
+```
 Method : "POST"
-End Point : "http://localhost:3000/cart"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//cart"
+```
 
 - Request Header
 ```
@@ -1171,8 +1223,10 @@ status code (500) :
 
 ## GET Quantity Change Plus for Update Quantity
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/cart/plusquantity/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//cart/plusquantity/:id"
+```
 
 - Request Header
 ```
@@ -1210,8 +1264,10 @@ status code (500) :
 
 ## GET Quantity Change Minus for Update Quantity
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/cart/minquantity/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//cart/minquantity/:id"
+```
 
 - Request Header
 ```
@@ -1249,8 +1305,10 @@ status code (500) :
 
 ## DELETE Cart
 
+```
 Method : "DELETE"
-End Point : "http://localhost:3000/cart/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//cart/:id"
+```
 
 - Request Header
 ```
@@ -1284,8 +1342,10 @@ status code (500) :
 
 ## GET Transactions By User
 
+```
 Method : "GET"
-End Point : "http://localhost:3000/transactions/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//transactions/:id"
+```
 
 - Request Header
 ```
@@ -1326,8 +1386,10 @@ status code (500) :
 
 ## POST Add Transaction After Buying
 
+```
 Method : "POST"
-End Point : "http://localhost:3000/transaction/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//transaction/:id"
+```
 
 - Request Header
 ```
@@ -1377,8 +1439,10 @@ status code (500) :
 
 ## DELETE Transaction
 
+```
 Method : "DELETE"
-End Point : "http://localhost:3000/transaction/:id"
+End Point : "https://e-commerce-backend-portofolio.herokuapp.com//transaction/:id"
+```
 
 - Request Header
 ```
