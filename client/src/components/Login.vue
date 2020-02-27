@@ -50,13 +50,25 @@ export default {
         },
       })
         .then((res) => {
-          localStorage.token = res.data.token;
-          localStorage.name = res.data.name;
-          this.$router.push({ name: 'categories' });
-          this.$toast.fire({
-            icon: 'success',
-            title: 'Signed in successfully',
-          });
+          console.log(data)
+          if(res.data.role !== 'member'){
+            localStorage.token = res.data.token;
+            localStorage.name = res.data.name;
+            this.$router.push({ name: 'categories' });
+            this.$toast.fire({
+              icon: 'success',
+              title: 'Signed in successfully',
+            });
+          }else{
+            this.$swal.fire(
+              {
+                title: 'Error!',
+                text: 'For admin only',
+                icon: 'error',
+                confirmButtonText: 'Cool',
+              },
+            );
+          }
         })
         .catch((err) => {
           console.log(err);
