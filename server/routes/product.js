@@ -4,9 +4,13 @@ const express = require("express")
 const route = express.Router()
 const { product } = require("../controllers")
 const { authentication, authorization } = require("../middlewares")
+const upload = require('../middlewares/unggah')
+
+console.log(upload);
+
 
 route.use(authentication)
-route.post('/', product.create)
+route.post('/', upload.single('image_url'), product.create)
 route.get('/', product.getAll)
 route.get('/:id', product.getOne)
 route.put('/:id', authorization,product.update)

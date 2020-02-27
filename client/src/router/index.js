@@ -4,48 +4,73 @@ import Home from "../views/Home"
 import Front from "../views/Front"
 import Register from "../components/Register"
 import Login from "../components/Login"
+import store from '../store'
+import Products from '../components/Products'
+import CreateProduct from '../components/CreateProduct'
+import Cart from '../components/Cart'
+
 
 Vue.use(VueRouter)
 
 const routes = [
     {
-      path: '/',
+      path: '/auth',
       name: 'front',
-      component: Front,
-      // children: []
+      component: Front
     },
     {
-      path: '/home',
+      path: '/',
       name: 'home',
-      component: Home
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: Register
+      component: Home,
+      meta: { requiresAuth:true },
+      children: [
+        {
+          path: 'products',
+          name: 'Products',
+          component: Products
+        },
+        {
+          path: 'create-product',
+          name: 'create-product',
+          component: CreateProduct
+        },
+        {
+          path : 'cart',
+          name: 'cart',
+          component: Cart
+        },
+        {
+          path: 'register',
+          name: 'register',
+          component: Register
+        },
+      ]
     },
     {
       path: '/login',
       name: 'login',
       component: Login
     }
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: Home
-  // },
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // }
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 
+router.beforeEach ((to, from, next) => {
+ if (to.matched.some(record => record.meta.requiresAuth)){
+   if(localStorage.getItem("token")){
+     store.dispatch('checkLogin')
+     console.log(store.state.isLogin)
+     next()
+   }
+   else {
+     router.push({name: 'front'})
+   }
+ }
+ else {
+   next()
+ }
+})
 export default router

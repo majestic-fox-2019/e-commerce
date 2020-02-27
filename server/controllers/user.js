@@ -33,7 +33,7 @@ class userController {
                     throw {code:404,  message: "please check your email and password"}
                 } else {
                     const token = sign(result.id, result.role)
-                    res.status(200).json(token)
+                    res.status(200).json({token, role: result.role})
                 }
             }
         })

@@ -6,7 +6,7 @@ class productController {
     static create (req, res, next) {
         Product.create({
             name: req.body.name,
-            image_url: req.body.image,
+            image_url: req.body.image_url,
             price: req.body.price,
             stock: req.body.stock
         })

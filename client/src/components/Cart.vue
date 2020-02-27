@@ -1,5 +1,5 @@
 <template>
-  <h1>ini product detail</h1>
+  <h1>ini cart</h1>
 </template>
 
 <script>

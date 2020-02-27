@@ -1,6 +1,7 @@
 <template>
   <div id="login">
-     <b-form v-if="!isLogin">
+     <b-form @submit.prevent="loginUser" class="mt-3">
+       <b-alert show variant="danger" v-if="isError">{{isError}}</b-alert>
        <b-form-group id="input-group-1" label="email:" label-for="input-1"
        >
         <b-form-input
@@ -39,15 +40,15 @@ export default {
   methods: {
     loginUser(){
       const user = {
-        email,
-        password
+        email: this.email,
+        password: this.password
       }
       this.$store.dispatch('loginUser', user)
     }
   },
   computed: {
-    isLogin(){
-      return this.$store.state.isLogin
+    isError(){
+      return this.$store.state.errors
     }
   }
 }

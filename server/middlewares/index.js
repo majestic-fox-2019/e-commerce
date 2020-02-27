@@ -3,6 +3,7 @@ const { verify } = require("../helpers")
 const { Cart, User } = require("../models")
 
 function errorHandler (err, req, res, next) {
+    console.log(err)
     const errors = []
     let code = null
     if(err.name === 'SequelizeValidationError'){
@@ -70,5 +71,5 @@ function authorization(req, res, next) {
 module.exports= {
     errorHandler,
     authentication,
-    authorization   
+    authorization  
 }
