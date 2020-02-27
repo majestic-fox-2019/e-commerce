@@ -1,11 +1,13 @@
 const state = {
-  isLogin: false,
-  role: null
+  
 };
 
-const mutations = {};
+const mutations = {
+};
 
-const actions = {};
+const actions = {
+  
+};
 
 export default {
   state,

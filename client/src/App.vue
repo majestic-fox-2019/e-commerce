@@ -6,13 +6,8 @@
 </template>
 
 <script>
-// import store from './store';
-
 export default {
-  name: "App",
-  created() {
-    // store.dispatch
-  }
+  name: "App"
 }
 </script>
 

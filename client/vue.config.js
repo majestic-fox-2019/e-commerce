@@ -4,7 +4,7 @@ module.exports = {
   /* vue.config.js */
   chainWebpack: config => {
     config.plugin("html").tap(args => {
-      args[0].title = "E-Commerce";
+      args[0].title = "DTK";
       return args;
     });
   }

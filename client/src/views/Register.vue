@@ -13,20 +13,47 @@
             <form id="form-register" @submit.prevent="registerSubmit">
               <div class="form-element form-stack">
                 <label for="name-register" class="form-label">Name</label>
-                <input id="name-register" type="text" name="name" v-model="name" required/>
+                <input
+                  id="name-register"
+                  type="text"
+                  name="name"
+                  v-model="form.name"
+                  required
+                  autocomplete="off"
+                />
               </div>
               <div class="form-element form-stack">
                 <label for="email" class="form-label">Email</label>
-                <input id="email" type="email" name="email" v-model="email" required/>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  v-model="form.email"
+                  required
+                  autocomplete="off"
+                />
               </div>
               <div class="form-element form-stack">
-                <label for="password-register" class="form-label">Password</label>
-                <input id="password-register" type="password" name="password" v-model="password" required minlength="6"/>
+                <label for="password-register" class="form-label"
+                  >Password</label
+                >
+                <input
+                  id="password-register"
+                  type="password"
+                  name="password"
+                  v-model="form.password"
+                  required
+                  minlength="6"
+                  autocomplete
+                />
               </div>
               <div class="form-element form-submit">
-                <button id="signUp" class="signup" type="submit" name="signup">Register</button>
+                <button id="signUp" class="signup" type="submit" name="signup">
+                  Register
+                </button>
               </div>
             </form>
+            <router-link to="/login">Login</router-link>
           </div>
         </div>
       </div>
@@ -39,16 +66,17 @@ export default {
   name: "Register",
   data() {
     return {
-      name: null,
-      email: null,
-      password: null
-    }
+      form: {
+        name: null,
+        email: null,
+        password: null
+      }
+    };
   },
   methods: {
     registerSubmit() {
-      console.log(this.name);
-      console.log(this.email);
-      console.log(this.password);
+      const vm = this;
+      vm.$store.dispatch("registerCustomer", vm.form);
     }
   }
 };
@@ -268,5 +296,4 @@ button:hover {
     display: none;
   }
 }
-
 </style>

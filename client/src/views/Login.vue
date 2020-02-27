@@ -13,16 +13,34 @@
             <form id="form-login" @submit.prevent="loginSubmit">
               <div class="form-element form-stack">
                 <label for="email-login" class="form-label">Email</label>
-                <input id="email-login" type="email" name="Email" v-model="email" required />
+                <input
+                  id="email-login"
+                  type="email"
+                  name="Email"
+                  v-model="form.email"
+                  required
+                  autocomplete="off"
+                />
               </div>
               <div class="form-element form-stack">
                 <label for="password-login" class="form-label">Password</label>
-                <input id="password-login" type="password" name="password" v-model="password" required minlength="6"/>
+                <input
+                  id="password-login"
+                  type="password"
+                  name="password"
+                  v-model="form.password"
+                  required
+                  minlength="6"
+                  autocomplete
+                />
               </div>
               <div class="form-element form-submit">
-                <button id="logIn" class="login" type="submit" name="login">Log In</button>
+                <button id="logIn" class="login" type="submit" name="login">
+                  Log In
+                </button>
               </div>
             </form>
+            <router-link to="/register">Register</router-link>
           </div>
         </div>
       </div>
@@ -34,15 +52,17 @@
 export default {
   name: "Login",
   data() {
-    return{
-      email: null,
-      password: null
-    }
+    return {
+      form: {
+        email: null,
+        password: null
+      }
+    };
   },
   methods: {
     loginSubmit() {
-      console.log(this.email);
-      console.log(this.password);
+      const vm = this;
+      vm.$store.dispatch("login", vm.form);
     }
   }
 };
@@ -258,5 +278,4 @@ button:hover {
     display: none;
   }
 }
-
 </style>
