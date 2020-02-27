@@ -32,7 +32,7 @@ export default new Vuex.Store({
       }
     ],
     userInfo: null,
-    baseUrl: 'https://v2shop.herokuapp.com',
+    baseUrl: 'http://localhost:3000',
     displayProducts: null,
     loading: {
       userInfo: false,
@@ -386,6 +386,7 @@ export default new Vuex.Store({
             'You have successfully registered a shop.',
             'success'
           )
+          router.push('/shop/products')
         })
         .catch(err => {
           Swal.fire(

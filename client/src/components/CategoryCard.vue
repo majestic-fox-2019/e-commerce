@@ -43,24 +43,26 @@ export default {
 .CategoryCards {
     height: 15vh;
     width: 90%;
-    background: #4bcffa;
+    background: #f5f5f5;
     border-radius: 15px;
     display: flex;
     justify-content: space-between;
     padding-left: 3%;
     padding-right: 3%;
     cursor: pointer;
+    box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.75);
 }
 #HomeCard {
     height: 6vh;
     width: 90%;
-    background: #4bcffa;
+    background: #f5f5f5;
     border-radius: 15px;
     display: flex;
     justify-content: space-between;
     padding-left: 6%;
     padding-right: 6%;
     cursor: pointer;
+    box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.75);
 }
 
 .homeMenu {
