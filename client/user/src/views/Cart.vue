@@ -144,8 +144,8 @@ export default {
     },
     checkOut () {
       this.$axios({
-        url: 'cart',
-        method: 'PUT',
+        url: 'cart-checkout',
+        method: 'POST',
         headers: { token: localStorage.getItem('token') },
         data: this.cartData
       })

@@ -47,8 +47,8 @@ export default {
       })
         .then(result => {
           console.log(result)
-          this.$emit('close-modal')
-          this.makeToast('success')
+          this.toast('b-toaster-top-center')
+          setTimeout(this.$emit('close-modal'), 1000)
           this.$router.push({ name: 'Home' })
           this.$router.push({ name: 'Product' })
         })
@@ -57,13 +57,15 @@ export default {
       const data = `Rp. ${new Intl.NumberFormat().format(price)}`
       return data
     },
-    makeToast (variant = null) {
-      this.$bvToast.toast('Toast body content', {
-        title: `Variant ${variant || 'default'}`,
-        variant: variant,
-        solid: true
+    toast (toaster, append = false) {
+      this.$bvToast.toast(`Toast ${this.counter} body content`, {
+        title: `Toaster ${toaster}`,
+        toaster: toaster,
+        solid: true,
+        appendToast: append
       })
     }
+
   }
 }
 </script>

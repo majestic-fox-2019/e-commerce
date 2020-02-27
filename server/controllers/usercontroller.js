@@ -87,7 +87,6 @@ class UserConttroller {
       password : req.body.password,
       role: 'User'
     }
-    let secretKey = req.body.secretkey
     User.findOne({
       where : {
         email : data.email

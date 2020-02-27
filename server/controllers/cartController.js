@@ -57,7 +57,7 @@ class CartController {
       returning: true
     })
     .then(result => {
-      res.status(201).json(result)
+      res.status(201).json(data)
     })
     .catch(err=>{
       next(err)
@@ -71,6 +71,9 @@ class CartController {
     })
     .then(result => {
       res.status(201).json(result)
+    })
+    .catch(err=>{
+      next(err)
     })
   }
 
