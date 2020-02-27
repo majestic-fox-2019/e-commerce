@@ -5,10 +5,14 @@
 ## Table of Content
 
 - **E-Commerce CMS-API**
-  - [Base URL](#base-url)
+  - [Base URL](#base-url--httpsecommerce-serversideherokuappcom)
   - [Installation](#installation)
   - [Usage](#usage)
-  - [List of Routes User](#list-of-routes-user)
+  - [List of User Routes](#list-of-users-routes)
+  - [List of Products Routes](#list-of-products-routes)
+  - [List of Categories Routes](#list-of-categories-routes)
+  - [List of Histories Routes](#list-of-histories-routes)
+  - [List of Carts Routes](#list-of-carts-routes) 
   - [List of Errors](#list-of-errors)
   - **User Endpoints**
     - [Login](#post-login)
