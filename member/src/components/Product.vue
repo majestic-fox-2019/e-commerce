@@ -33,7 +33,7 @@
           </v-col>
         </v-row>
         <h3>{{product.name}}</h3>
-        <p class="sub-title">Stock : {{product.stock}}</p>
+        <p class="sub-title">Stock : {{product.stock || 'Out of stock'}}</p>
       </v-container>
     </v-card>
   </v-hover>
@@ -58,24 +58,28 @@ export default {
   methods: {
     selected() {
       if (this.isLoggedIn) {
-        const value = {
-          productId: this.product.id
-        };
-        api
-          .post("/carts", value, {
-            headers: { token: localStorage.access_token }
-          })
-          .then(({ data }) => {
-            swal.fire("Success", data.message, "success").then(result => {
-              if (result.value) {
-                this.getCarts;
-                this.isSelected = true;
-              }
+        if (this.product.stock > 0) {
+          const value = {
+            productId: this.product.id
+          };
+          api
+            .post("/carts", value, {
+              headers: { token: localStorage.access_token }
+            })
+            .then(({ data }) => {
+              swal.fire("Success", data.message, "success").then(result => {
+                if (result.value) {
+                  this.getCarts;
+                  this.isSelected = true;
+                }
+              });
+            })
+            .catch(err => {
+              swal.fire("Info", err.response.data.message, "info");
             });
-          })
-          .catch(err => {
-            swal.fire("Info", err.response.data.message, "info");
-          });
+        } else {
+          swal.fire("Info", "Out of stock", "info");
+        }
       } else {
         this.$router.push("/login");
       }
