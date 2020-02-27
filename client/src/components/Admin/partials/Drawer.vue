@@ -37,6 +37,15 @@
           <q-item-label>Order List</q-item-label>
         </q-item-section>
       </q-item>
+
+      <q-item clickable tag="a" @click="toTransactionList">
+        <q-item-section avatar>
+          <q-icon name="store" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Transaction List</q-item-label>
+        </q-item-section>
+      </q-item>
     </q-list>
   </q-drawer>
 </template>
@@ -71,6 +80,10 @@ export default {
     toOrderList() {
       this.$emit('drawer')
       this.$router.push('/admin/orders')
+    },
+    toTransactionList() {
+      this.$emit('drawer')
+      this.$router.push('/admin/transactions')
     }
   }
 }

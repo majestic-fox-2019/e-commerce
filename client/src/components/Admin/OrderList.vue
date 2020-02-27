@@ -5,8 +5,8 @@
       @refresh="refresh"
       :scroll-target="$refs.refresh"
     >
-      <q-card class="bg-teal-1 col-12 col-sm-6 q-mx-auto q-my-xl">
-        <h3 class="text-center q-pa-lg">Order List</h3>
+      <q-card class="bg-teal-1 col-12 col-sm-6 q-mx-auto q-mt-md q-mb-xl">
+        <p class="text-h3 text-center q-pa-lg">Order List</p>
       </q-card>
       <!-- <pre>{{ orders }}</pre> -->
       <q-card class="col-8 q-my-md q-mx-auto">
@@ -78,9 +78,7 @@ export default {
     }
   },
   created() {
-    if (this.$store.state.orderList.length == 0) {
-      this.getAllOrders()
-    }
+    this.getAllOrders()
   },
   computed: {
     orders() {

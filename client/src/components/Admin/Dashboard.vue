@@ -1,7 +1,7 @@
 <template>
   <div class="q-px-xl flex-column">
-    <div class="flex justify-center full-width">
-      <h3 class=" full-width">Dashboard <q-separator class="q-mt-md" /></h3>
+    <div class="flex justify-center full-width q-mt-lg">
+      <p class="text-h3 full-width">Dashboard <q-separator /></p>
     </div>
 
     <q-card
@@ -44,7 +44,7 @@
 
       <q-card
         class="col-12 col-sm-12 col-md-4 bg-green-1 own-card"
-        @click="$router.push('/admin/dashboard')"
+        @click="$router.push('/admin/transactions')"
       >
         <q-list bordered padding class="rounded-borders">
           <q-item-label header class="text-body1 text-weight-bold"
@@ -61,7 +61,7 @@
             </q-item-section>
 
             <q-item-section side class="text-body1 text-black">
-              xx
+              {{ transactions }}
             </q-item-section>
           </q-item>
         </q-list>
@@ -151,6 +151,7 @@ export default {
     this.$store.dispatch('GET_ALL_PRODUCT_LIST')
     this.$store.dispatch('GET_ALL_BANNER_LIST')
     this.$store.dispatch('GET_ON_CONFIRM_ORDERS')
+    this.$store.dispatch('GET_TRANSACTION_LIST')
   },
   computed: {
     products() {
@@ -161,6 +162,11 @@ export default {
     },
     orders() {
       return this.$store.state.orderList.length
+    },
+    transactions() {
+      return this.$store.state.transactionList.filter(
+        (el) => new Date(el.createdAt).getMonth() == new Date().getMonth()
+      ).length
     }
   }
 }
@@ -168,6 +174,7 @@ export default {
 
 <style scoped>
 .own-card {
+  box-shadow: 1px 1px 1px 1px blueviolet;
   cursor: pointer;
   transition: 0.7s !important;
 }

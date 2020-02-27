@@ -78,9 +78,7 @@ export default {
     Confirm
   },
   created() {
-    if (this.$store.state.productList.length == 0) {
-      this.getProductDetail()
-    }
+    this.getProductDetail()
   },
   data() {
     return {

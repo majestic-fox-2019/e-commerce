@@ -87,9 +87,7 @@ export default {
   },
   created() {
     const { cartList } = this.$store.state
-    if (cartList.length === 0) {
-      this.getUserCart()
-    }
+    this.getUserCart()
   },
   data() {
     return {

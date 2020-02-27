@@ -15,6 +15,7 @@ import Order from '../components/Admin/OrderList'
 import ConfirmedOrder from '../components/User/ConfirmedOrder.vue'
 import ArrivedOrder from '../components/User/ArrivedOrder.vue'
 import OrderDone from '../components/User/OrderDone.vue'
+import TransactionList from '../components/Admin/TransactionList.vue'
 
 Vue.use(VueRouter)
 
@@ -64,6 +65,11 @@ const routes = [
         path: 'orders',
         name: 'Orders',
         component: Order
+      },
+      {
+        path: 'transactions',
+        name: 'Transactions',
+        component: TransactionList
       }
     ]
   },

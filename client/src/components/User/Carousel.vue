@@ -34,7 +34,9 @@
 export default {
   name: 'Carousel',
   created() {
-    this.$store.dispatch('GET_ALL_BANNER_LIST')
+    if (this.$store.state.bannerList.length == 0) {
+      this.$store.dispatch('GET_ALL_BANNER_LIST')
+    }
   },
   data() {
     return {

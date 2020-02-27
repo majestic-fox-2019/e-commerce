@@ -3,7 +3,10 @@
     <q-toolbar>
       <q-btn dense flat round icon="menu" @click="$emit('drawer')" />
 
-      <q-toolbar-title @click="$emit('drawer')" style="cursor: pointer;">
+      <q-toolbar-title
+        @click="$router.push('/admin/dashboard')"
+        style="cursor: pointer;"
+      >
         PC-Corner Admin Page
       </q-toolbar-title>
 

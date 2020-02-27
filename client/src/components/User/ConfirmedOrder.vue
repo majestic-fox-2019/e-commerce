@@ -37,9 +37,7 @@ export default {
     OrderCard
   },
   created() {
-    if (this.$store.state.orderList.length == 0) {
-      this.getUserOrder()
-    }
+    this.getUserOrder()
   },
   computed: {
     orders() {

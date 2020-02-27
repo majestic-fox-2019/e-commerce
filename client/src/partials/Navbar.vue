@@ -63,7 +63,7 @@
       <div v-if="confirm">
         <Confirm
           :active="confirm"
-          :msg="'Are you sure want to logout?'"
+          :msg="'Anda yakin ingin logout?'"
           @OK="logout"
           @cancel="confirm = false"
         />

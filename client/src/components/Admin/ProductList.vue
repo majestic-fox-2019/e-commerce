@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md flex-column">
-    <q-card class="q-mx-auto bg-teal-1" style="width: 50%;">
-      <h3 class="text-center q-pa-lg">Product List</h3>
+    <q-card class="q-mt-md q-mx-auto bg-teal-1" style="width: 50%;">
+      <p class="text-h3 text-center q-pa-lg">Product List</p>
     </q-card>
     <div class="q-py-md flex justify-end">
       <q-btn
