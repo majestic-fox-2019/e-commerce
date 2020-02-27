@@ -1,0 +1,5 @@
+secret=secret
+USER_SERVER=postgres
+PASSWORD_SERVER=postgres
+DATABASE_SERVER=ecommerce
+HOST_SERVER=127.0.0.1
