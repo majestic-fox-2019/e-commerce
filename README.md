@@ -276,7 +276,84 @@ created by Muhammad Ali Mazhuda
         "message": "Successfully deleted product"
     }
     ```
-<br>
+
+12. Google Sign-In
+* url : http://localhost:3000/google-signin
+* method : POST
+* headers : none
+* parameter sent : 
+
+    |No|Name        |Type   |Mandatory
+    |--|------------|-------|---------
+    | 1|id_token    |String |required
+
+* response : 
+    ```
+    {
+        "access_token": " XXXXX ",
+        "email": "user@mail.com",
+        "role": "member || admin || super_admin",
+        "carts": []
+    }
+    ```
+
+
+14. Add Product To Cart
+* url : http://localhost:3000/carts
+* method : POST
+* headers : 
+    ```
+    { token : 'xxxxxxxxxxx'}
+    ```
+* parameter sent : 
+
+    |No|Name        |Type   |Mandatory
+    |--|------------|-------|---------
+    | 1|productId   |Number |required
+
+* response : 
+    ```
+    {
+        message: 'Successfully added product to cart'
+    }
+    ```
+
+15. Delete Product From Cart
+* url : http://localhost:3000/carts/id
+* method : DELETE
+* headers : 
+    ```
+    { token : 'xxxxxxxxxxx'}
+    ```
+* parameter sent : none
+
+* response : 
+    ```
+    {
+        message: 'Successfully deleted product from cart'
+    }
+    ```
+
+16. Checkout
+* url : http://localhost:3000/carts/checkout
+* method : POST
+* headers : 
+    ```
+    { token : 'xxxxxxxxxxx'}
+    ```
+* parameter sent : 
+
+    |No|Name        |Type   |Mandatory
+    |--|------------|-------|---------
+    | 1|value       |Array Of Product |required
+
+* response : 
+    ```
+    {
+        message: 'Checkout success'
+    }
+    ```
+
 
 
 ## HTTP Error Code
