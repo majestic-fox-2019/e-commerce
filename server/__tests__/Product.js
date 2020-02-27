@@ -16,8 +16,8 @@ describe('/products', () => {
             .send(reqBody)
 
             expect([201, 400]).toContain(response.status);
-            expect(response.body.email).toBe(reqBody.email);
-            expect(compare(reqBody.password,response.body.password)).toBe(true);           
+            expect(response.body.result.email).toBe(reqBody.email);
+            expect(compare(reqBody.password,response.body.result.password)).toBe(true);
             
             done();
     });
@@ -53,9 +53,9 @@ describe('/products', () => {
             done();
     });
 
-    it('GET / with valid token', async done => {
+    it('GET /:CategoryId with valid token', async done => {
         const response = await request
-            .get('/products')
+            .get('/products/1')
             .set('accesstoken', token)
             expect(response.status).toBe(200);
             done();

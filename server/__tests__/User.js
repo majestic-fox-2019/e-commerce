@@ -15,8 +15,8 @@ describe('/users', function() {
             .send(reqBody)
 
             expect(response.status).toBe(201);
-            expect(response.body.email).toBe(reqBody.email);
-            expect(compare(reqBody.password,response.body.password)).toBe(true);           
+            expect(response.body.result.email).toBe(reqBody.email);
+            expect(compare(reqBody.password,response.body.result.password)).toBe(true);           
             
             done();
     });
