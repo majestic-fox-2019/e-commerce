@@ -13,7 +13,8 @@ export default new Vuex.Store({
     products: [],
     carts: [],
     transactions: [],
-    totalPrice: null
+    totalPrice: null,
+    isBusy: false
   },
   mutations: {
     SET_CATEGORIES(state, payload){
@@ -49,8 +50,10 @@ export default new Vuex.Store({
       })
     },
     getProducts(context){
+      this.state.isBusy = true
       axios.get(`${config.connections.server}/products`)
       .then(res => {
+        this.state.isBusy = false
         context.commit('SET_PRODUCTS', res.data.payload)
       })
       .catch(err => {
@@ -60,10 +63,12 @@ export default new Vuex.Store({
     getCart(context){
       const user_id = JSON.parse(localStorage.getItem('user')).id
       const token = localStorage.getItem('token')
+      this.state.isBusy = true
       axios.get(`${config.connections.server}/carts/${user_id}`, {
         headers: { Bearer : token }
       })
       .then(res => {
+        this.state.isBusy = false
         context.commit('SET_CART', res.data.payload.Carts)
         context.commit('SET_TOTALPRICE', res.data.total)
       })
@@ -74,10 +79,12 @@ export default new Vuex.Store({
     getTransaction(context){
       const user_id = JSON.parse(localStorage.getItem('user')).id
       const token = localStorage.getItem('token')
+      this.state.isBusy = true
       axios.get(`${config.connections.server}/transactions/${user_id}`, {
         headers: { Bearer : token }
       })
       .then(res => {
+        this.state.isBusy = false
         context.commit('SET_TRANSACTION', res.data.payload)
       })
       .catch(err => {

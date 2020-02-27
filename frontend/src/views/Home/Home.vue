@@ -33,7 +33,12 @@
       <section>
         <div class="product-home">
           <h3 class="title-section">PRODUCTS</h3>
-          <b-row>
+          <b-row v-if="isBusy">
+            <b-col md="12" class="text-center loading-page">
+              <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
+            </b-col>
+          </b-row>
+          <b-row v-else>
             <b-col md="3" class="mb-4 res-2mobile" v-for="product in getProducts" :key="product.id">
               <b-card class="card-product-home" @click="goDetailProduct(product.id)" :img-src="product.image_url" img-top>
                 <div class="content-bottom">
@@ -66,7 +71,7 @@ export default {
   },
   data(){
     return{
-      plusMore: 4,
+      plusMore: 4
     }
   },
   created(){
@@ -83,6 +88,9 @@ export default {
     },
     getCategories(){
       return this.$store.state.categories
+    },
+    isBusy(){
+      return this.$store.state.isBusy
     }
   },
   methods: {

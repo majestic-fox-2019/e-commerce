@@ -1,7 +1,12 @@
 <template>
   <div class="container mt-5 mb-5">
     <div class="product-detail">
-      <b-row>
+      <b-row v-if="isBusy">
+        <b-col md="12" class="text-center loading-page">
+          <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
+        </b-col>
+      </b-row>
+      <b-row v-else>
         <b-col md="4">
           <div class="image-detail-product" v-if="detailProduct !== null">
             <img :src="detailProduct.image_url">
@@ -37,7 +42,8 @@ export default {
   mixins: [url],
   data(){
     return {
-      detailProduct: null
+      detailProduct: null,
+      isBusy: false
     }
   },
   created() {
@@ -91,8 +97,10 @@ export default {
       this.$router.push({ name: 'Home' })
     },
     getDetailProduct(){
+      this.isBusy = true
       axios.get(`${this.url}/product/${this.id}`)
       .then(res => {
+        this.isBusy = false
         this.detailProduct = res.data.payload
       })
       .catch(err => {

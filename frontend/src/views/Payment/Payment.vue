@@ -1,7 +1,12 @@
 <template>
   <section>
     <div class="container mt-5 mb-5">
-      <div class="payment">
+      <div v-if="isBusy">
+        <div class="text-center loading-page">
+          <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
+        </div>
+      </div>
+      <div v-else class="payment">
         <div class="desc-payment mb-5">
           <div class="image-payment">
             <img src="@/assets/images/shopbag.png" alt="">
@@ -67,7 +72,11 @@ export default {
         return el.code_transaction = this.id
       })
       return invoice
+    },
+    isBusy(){
+      return this.$store.state.isBusy
     }
+
   },
   methods: {
     getAllTransaction(){

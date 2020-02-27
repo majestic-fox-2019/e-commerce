@@ -318,7 +318,7 @@ class CartController {
     })
     .then(transaction => {
       if(transaction){
-        return transactions.destroy()
+        return transaction.destroy()
       }else{
         throw{
           error: 404,

@@ -5,40 +5,49 @@
         <h3 class="title-section">CART</h3>
         <b-row>
           <b-col md="7">
-            <div v-if="getCarts.length === 0" class="item-cart">
-              <div class="content-item-cart text-center">
-                <div class="keranjang-kosong">
-                  <img src="@/assets/icons/cart.png" style="height:125px">
-                  <h4>Keranjang anda masih kosong</h4>
-                </div>
+            <div v-if="isBusy" class="w-100">
+              <div class="text-center empty-table">
+                <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
               </div>
             </div>
-            <div v-else v-for="(cart, idx) in getCarts" :key="idx">
-              <div class="item-cart" :class="statusStock[cart.Product.name] ? 'bg-stock' : ''">
-                <div class="content-item-cart">
-                  <b-row>
-                    <b-col md="9">
-                      <h4>{{ cart.Product.name }}</h4>
-                      <h6>Category : {{ cart.Product.Category.name }}</h6>
-                      <h5 class="cart-price">{{ toIDRprice(cart.Product.price * cart.quantity) }}</h5>
-                      <div class="sisa-stock" v-if="statusStock[cart.Product.name]">
-                        <p>SISA STOCK : {{ statusStock[cart.Product.name].sisa_stock }}</p>
-                      </div>
-                    </b-col>
-                    <b-col md="3" class="text-right">
-                      <div class="right-cart">
-                        <div class="delete-cart">
-                          <b-button variant="danger" size="sm" @click="deleteCart(cart.id)"><i class="fa fa-trash"></i>&nbsp;Delete</b-button>
-                        </div>
-                        <div class="quantity mt-2">
-                          <p>Quantity</p>
-                          <b-button class="btn btn-dark btn-minus" @click="minusCart(cart.id)"><i class="fa fa-minus"></i></b-button>
-                          <span class="total-quantity">{{ cart.quantity }}</span>
-                          <b-button class="btn btn-dark btn-plus" @click="plusCart(cart.id)"><i class="fa fa-plus"></i></b-button>
-                        </div>
-                      </div>
-                    </b-col>
-                  </b-row>
+            <div v-else>
+              <div v-if="getCarts.length === 0" class="item-cart">
+                <div class="content-item-cart text-center">
+                  <div class="keranjang-kosong">
+                    <img src="@/assets/icons/cart.png" style="height:125px">
+                    <h4>Keranjang anda masih kosong</h4>
+                  </div>
+                </div>
+              </div>
+              <div v-if="getCarts.length > 0">
+                <div v-for="(cart, idx) in getCarts" :key="idx">
+                  <div class="item-cart" :class="statusStock[cart.Product.name] ? 'bg-stock' : ''">
+                    <div class="content-item-cart">
+                      <b-row>
+                        <b-col md="9">
+                          <h4>{{ cart.Product.name }}</h4>
+                          <h6>Category : {{ cart.Product.Category.name }}</h6>
+                          <h5 class="cart-price">{{ toIDRprice(cart.Product.price * cart.quantity) }}</h5>
+                          <div class="sisa-stock" v-if="statusStock[cart.Product.name]">
+                            <p>SISA STOCK : {{ statusStock[cart.Product.name].sisa_stock }}</p>
+                          </div>
+                        </b-col>
+                        <b-col md="3" class="text-right">
+                          <div class="right-cart">
+                            <div class="delete-cart">
+                              <b-button variant="danger" size="sm" @click="deleteCart(cart.id)"><i class="fa fa-trash"></i>&nbsp;Delete</b-button>
+                            </div>
+                            <div class="quantity mt-2">
+                              <p>Quantity</p>
+                              <b-button class="btn btn-dark btn-minus" @click="minusCart(cart.id)"><i class="fa fa-minus"></i></b-button>
+                              <span class="total-quantity">{{ cart.quantity }}</span>
+                              <b-button class="btn btn-dark btn-plus" @click="plusCart(cart.id)"><i class="fa fa-plus"></i></b-button>
+                            </div>
+                          </div>
+                        </b-col>
+                      </b-row>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -93,6 +102,9 @@ export default {
     },
     getTotalPrice(){
       return this.$store.state.totalPrice
+    },
+    isBusy(){
+      return this.$store.state.isBusy
     }
   },
   watch: {
@@ -173,6 +185,7 @@ export default {
           headers: { Bearer : token }
         })
         .then(res => {
+          this.getAllCart()
           let kode_transaksi = res.data.payload.code_transaction
           this.$router.push({ name: 'Payment', params: { id: kode_transaksi } })
         })
@@ -180,7 +193,6 @@ export default {
           if(err.response.status === 404){
             this.$vToastify.notifError(`Cek belanjaan kamu karena ada stock yang tidak mencukupi`, "Gagal!")
             this.statusStock = err.response.data.message
-            console.log(this.statusStock)
           }
         })
       }

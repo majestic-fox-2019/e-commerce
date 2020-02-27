@@ -4,12 +4,11 @@
       <div class="setting">
         <h3 class="title-section">HISTORY TRANSAKSI</h3>
         <table-component
-          name="product"
+          name="transaction"
           :items="getTransactions" 
           :fields="fieldTransaction" 
           :per_page="perPageTransaction"
           :filterIncludedFields="filterOnTransaction"
-          :busy="isBusyTransaction"
           @setDeleteData="deleteTransaction"
         ></table-component>
       </div>
@@ -29,7 +28,6 @@ export default {
   mixins: [url],
   data(){
     return {
-      isBusyTransaction: false,
       totalRowsTransaction: 1,
       perPageTransaction: 5,
       filterOnTransaction: [],
@@ -69,7 +67,7 @@ export default {
           })
           .then(res => {
             this.$vToastify.notifSuccess('History berhasil dihapus', 'Yeay!')
-            this.getAllCart()
+            this.getAllTransaction()
           })
           .catch(err => {
             this.$vToastify.notifError(`${err.response.data.message}`, "Gagal!")
