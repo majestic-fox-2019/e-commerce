@@ -99,6 +99,7 @@ export default {
           })
         })
         .catch(err => {
+          console.log(err.response)
           if (err.response.status == 401) {
             console.log('please login first')
             this.$router.push({

@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     categoryItem: null,
     userLogin: null,
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'https://ecommerce-zega.herokuapp.com',
     mallProduct: null,
     userProduct: null,
     quantity: 0,
