@@ -3,7 +3,7 @@
         <div class="nav flex-column pt-4 nav-pills" role="tablist" aria-orientation="vertical">
           <router-link :to="{ name : 'ContentUser' }" class="nav-link text-light pt-2"><i class="fa fa-user-o" aria-hidden="true"></i> Content User</router-link>
           <router-link :to="{ name : 'ContentProduct' }" class="nav-link text-light pt-2"><i class="fa fa-database" aria-hidden="true"></i> Content Product</router-link>
-          <!-- <router-link :to="{ name : 'ContentCategory' }" class="nav-link text-light pt-2"><i class="fa fa-tags" aria-hidden="true"></i> Content Category</router-link> -->
+          <router-link :to="{ name : 'ContentCategory' }" class="nav-link text-light pt-2"><i class="fa fa-tags" aria-hidden="true"></i> Content Category</router-link>
         </div>
       </div>
 </template>

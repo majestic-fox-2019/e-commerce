@@ -17,14 +17,15 @@ export default {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, logout!'
       }).then((result) => {
+        console.log(result)
         if (result.value) {
           this.$toast.fire({
             icon: 'success',
             title: 'Successfully Logout!'
           })
-        }
         localStorage.clear()
         this.$router.push({ name : 'Login' })
+        }
       })
     }
   }

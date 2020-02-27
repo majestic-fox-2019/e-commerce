@@ -55,6 +55,11 @@ const routes = [
         path : 'product/add',
         name : 'AddProduct',
         component : () => import('../components/Main/Form/FormAddProduct')
+      },
+      {
+        path : 'categories/add',
+        name : 'AddCategory',
+        component : () => import('../components/Main/Form/FormAddCategory')
       }
     ]
   }

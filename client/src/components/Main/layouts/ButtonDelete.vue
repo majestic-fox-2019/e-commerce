@@ -18,26 +18,28 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
           if (result.value) {
-          return this.$axios({
+          this.$axios({
             headers : {
               token : localStorage.token
             },
             method : 'delete',
             url : `/${this.content}/admin/${id}`
           })
+            .then(response => {
+              console.log(response)
+              this.$toast.fire({
+                icon: 'success',
+                title: `${this.content} has been deleted`
+              })
+              if(this.content == 'users'){
+                this.$store.dispatch('getAdmin')
+              }else if(this.content == 'products'){
+                this.$store.dispatch('getProduct')
+              }else{
+                this.$store.dispatch('getCategory')
+              }
+            })
           }
-      })
-      .then(response => {
-        console.log(response)
-        this.$toast.fire({
-          icon: 'success',
-          title: 'Product has been deleted'
-        })
-        if(this.content == 'users'){
-          this.$store.dispatch('getAdmin')
-        }else{
-          this.$store.dispatch('getProduct')
-        }
       })
       .catch(err => {
         console.log(err)
