@@ -59,7 +59,7 @@ export default {
   methods: {
     findAllHistory() {
       axios({
-        url: `http://localhost:3000/carts/onProcess`,
+        url: `https://shopee-azputra.herokuapp.com/carts/onProcess`,
         method: "GET",
         headers: {
           token: localStorage.getItem("token")
@@ -84,7 +84,7 @@ export default {
     },
     goCompleted(id) {
       axios({
-        url: `http://localhost:3000/carts/complete/${id}`,
+        url: `https://shopee-azputra.herokuapp.com/carts/complete/${id}`,
         method: "PUT",
         headers: {
           token: localStorage.getItem("token")
@@ -109,7 +109,7 @@ export default {
     },
     addTransaction(cart) {
       axios({
-        url: `http://localhost:3000/transactions`,
+        url: `https://shopee-azputra.herokuapp.com/transactions`,
         method: "POST",
         data: {
           cart

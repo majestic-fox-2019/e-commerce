@@ -56,7 +56,7 @@ export default {
     },
     getTransaction() {
       axios({
-        url: "http://localhost:3000/transactions",
+        url: "https://shopee-azputra.herokuapp.com/transactions",
         method: "GET",
         headers: {
           token: localStorage.getItem("token")

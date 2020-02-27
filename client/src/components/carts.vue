@@ -82,7 +82,7 @@
         <div class="col">
           <div style="margin: 5px;margin-left: 35%;">
             Total price:
-            <b>Rp.</b>
+            <b>Rp.{{totalBelanja.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</b>
           </div>
         </div>
         <div class="pull-right" style="margin: 10px">
@@ -97,20 +97,34 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 export default {
+  data() {
+    return {
+      cadanganCart: [],
+      totalBelanja: 0,
+      hargaItem: 0
+    };
+  },
   created() {
     this.findAllCart();
   },
   methods: {
     findAllCart() {
       axios({
-        url: `http://localhost:3000/carts`,
+        url: `https://shopee-azputra.herokuapp.com/carts`,
         method: "GET",
         headers: {
           token: localStorage.getItem("token")
         }
       })
         .then(({ data }) => {
+          this.totalBelanja = 0;
+          this.hargaItem = 0;
+          this.cadanganCart = data;
           this.$store.state.carts = data;
+          this.cadanganCart.forEach(el => {
+            this.hargaItem = el.qty * el.Product.price;
+            this.totalBelanja += this.hargaItem;
+          });
         })
         .catch(({ response }) => {
           if (response.data.message === "Unauthorized Invalid Token") {
@@ -131,7 +145,7 @@ export default {
     },
     min(productId, quantity, cartId) {
       axios({
-        url: `http://localhost:3000/carts/${cartId}`,
+        url: `https://shopee-azputra.herokuapp.com/carts/${cartId}`,
         method: "PUT",
         data: {
           productId,
@@ -161,7 +175,7 @@ export default {
     },
     plus(productId, quantity, cartId) {
       axios({
-        url: `http://localhost:3000/carts/${cartId}`,
+        url: `https://shopee-azputra.herokuapp.com/carts/${cartId}`,
         method: "PUT",
         data: {
           productId,
@@ -191,7 +205,7 @@ export default {
     },
     checkout() {
       axios({
-        url: `http://localhost:3000/carts/checkout`,
+        url: `https://shopee-azputra.herokuapp.com/carts/checkout`,
         method: "PUT",
         data: {
           cartCheckout: this.$store.state.carts

@@ -5,7 +5,7 @@ import router from '../router'
 import Swal from 'sweetalert2'
 
 Vue.use(Vuex)
-const baseUrl = 'http://localhost:3000'
+const baseUrl = 'https://shopee-azputra.herokuapp.com'
 export default new Vuex.Store({
   state: {
     isLogin: false,
@@ -99,7 +99,7 @@ export default new Vuex.Store({
             router.push('/')
           }
         }).catch(({ response }) => {
-          Swal.fire('Error!', response.data, 'error');
+          Swal.fire('Error!', response.data.message, 'error');
         });
     },
     logout(context) {

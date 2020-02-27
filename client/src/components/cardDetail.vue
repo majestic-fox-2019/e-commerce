@@ -111,7 +111,7 @@ export default {
   },
   created() {
     axios({
-      url: `http://localhost:3000/products/${this.$route.params.id}`,
+      url: `https://shopee-azputra.herokuapp.com/products/${this.$route.params.id}`,
       method: "GET"
     })
       .then(({ data }) => {
