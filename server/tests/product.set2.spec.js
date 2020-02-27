@@ -70,7 +70,6 @@ describe('Create product', () => {
           expect(typeof res.body).toBe('object')
           expect(res.body).toHaveProperty('msg')
           expect(res.body.msg).toContain('Name is required')
-          expect(res.body.msg).toContain('Stock minimum value is 1')
           expect(res.body.msg).toContain('Price minimum value is 1')
           expect(res.body.msg).toContain('Description min. 6 characters')
           done()
