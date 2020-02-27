@@ -62,6 +62,7 @@
 
 <script>
 import axios from "axios";
+import Swal from 'sweetalert2';
 export default {
   name: "Cart",
   data() {
@@ -125,10 +126,14 @@ export default {
         }
       })
         .then(({ data }) => {
-          console.log(data  );
+          console.log(data);
         })
         .catch(err => {
           console.error(err);
+          Swal.fire({
+            icon: "error",
+            title: "Something went Wrong!"
+          })
         });
     }
   },
