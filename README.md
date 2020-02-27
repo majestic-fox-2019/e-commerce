@@ -11,7 +11,7 @@ e-Commerce Project: Client & Server & API Documentation
 
 ## Client
 
-    Tools: HTML, CSS, JAVASCRIPT, Vue JS
+    Tools: HTML, CSS, JAVASCRIPT, Vue JS, Vuex
 
 ### Dependencies 
 |   Package Name                |   Version     |
@@ -22,6 +22,10 @@ e-Commerce Project: Client & Server & API Documentation
 |  vue-router                   | ^3.1.5        |
 |  vuex                         | ^3.1.2        |
 |  vuetify                      | ^2.2.11       |
+|  vue-paypal-checkout          | ^3.2.0        |
+|  vue-google-login             | ^2.0.3        |
+|  @google-cloud/storage        | ^4.3.1        |
+
 
 ### Dev Dependencies
 |   Package Name                |   Version     |

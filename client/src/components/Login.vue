@@ -64,6 +64,13 @@
                         <v-icon>mdi-account-check</v-icon>
                     </v-btn>
                 </v-card-actions>
+                <GoogleLogin
+                  :params="params"
+                  :renderParams="renderParams"
+                  :onSuccess="onSuccess"
+                  :onFailure="onFailure"
+                >
+                </GoogleLogin>
             </v-card>
             <br>
             User for demo purpose
@@ -76,7 +83,12 @@
     </v-container>
 </template>
 <script>
+import GoogleLogin from 'vue-google-login';
+
 export default {
+  components: {
+    GoogleLogin,
+  },
   props: {
     source: String,
   },
@@ -86,6 +98,15 @@ export default {
       password: '',
       alert: false,
       message: '',
+      params: {
+        client_id: '1056230961846-aff2ilioml6gsgo9sf4iunb6abn53e4o.apps.googleusercontent.com',
+      },
+      // only needed if you want to render the button with the google ui
+      renderParams: {
+        width: 396,
+        height: 45,
+        longtitle: true,
+      },
     };
   },
   methods: {
@@ -111,6 +132,14 @@ export default {
       if (this.$route.name !== 'register') {
         this.$router.push({ name: 'register' });
       }
+    },
+    onSuccess(googleUser) {
+      console.log(googleUser);
+      // This only gets the user information: id, name, imageUrl and email
+      console.log(googleUser.getBasicProfile());
+    },
+    onFailure() {
+      console.log('Test');
     },
   },
   beforeDestroy() {
