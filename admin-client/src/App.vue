@@ -1,0 +1,15 @@
+<template>
+  <div id="app">
+    <router-view />
+  </div>
+</template>
+
+<style>
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap");
+body {
+  font-family: "Josefin Sans";
+  background: #0f2027;
+  background: -webkit-linear-gradient(to right, #2c5364, #203a43, #0f2027);
+  background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+}
+</style>
