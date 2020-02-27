@@ -13,6 +13,10 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '*',
+    redirect: '/'
+  },
+  {
     path: '/',
     name: 'Home',
     component: Home
@@ -43,24 +47,48 @@ const routes = [
   {
     path: '/cart',
     name: 'Cart',
-    component: Cart
+    component: Cart,
+    meta: { 
+      requiresAuth: true,
+      role: true
+    }
   },
   {
     path: '/payment/:id',
     name: 'Payment',
     component: Payment,
-    props: true
+    props: true,
+    meta: { 
+      requiresAuth: true
+    }
   },
   {
     path: '/setting',
     name: 'Setting',
-    component: Setting
+    component: Setting,
+    meta: { 
+      requiresAuth: true
+    }
   }
 ]
 
 const router = new VueRouter({
   mode: 'history',
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!localStorage.getItem('token')) {
+      next({
+        path: '/',
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router
