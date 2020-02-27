@@ -32,7 +32,7 @@ export default new Vuex.Store({
       }
     ],
     userInfo: null,
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'https://v2shop.herokuapp.com',
     displayProducts: null,
     loading: {
       userInfo: false,
@@ -157,29 +157,31 @@ export default new Vuex.Store({
         })
     },
     fetchPurchases (state, payload) {
-      axios({
-        url: this.state.baseUrl + '/user/purchases',
-        method: 'get',
-        headers: {
-          token: localStorage.getItem('token')
-        }
-      })
-        .then(({ data }) => {
-          data = data.sort(function (a, b) {
-            return new Date(b.finish_date).getTime() - new Date(a.finish_date).getTime()
-          })
-          data.forEach(element => {
-            element.Product.displayPrice = rpConvert(element.Product.price)
-          })
-          this.commit('SET_TRANSACTION_HISTORY', data)
+      if (this.state.userInfo.role !== 'admin') {
+        axios({
+          url: this.state.baseUrl + '/user/purchases',
+          method: 'get',
+          headers: {
+            token: localStorage.getItem('token')
+          }
         })
-        .catch(err => {
-          Swal.fire(
-            'Oops. . .!',
-            err.response.data.msg,
-            'error'
-          )
-        })
+          .then(({ data }) => {
+            data = data.sort(function (a, b) {
+              return new Date(b.finish_date).getTime() - new Date(a.finish_date).getTime()
+            })
+            data.forEach(element => {
+              element.Product.displayPrice = rpConvert(element.Product.price)
+            })
+            this.commit('SET_TRANSACTION_HISTORY', data)
+          })
+          .catch(err => {
+            Swal.fire(
+              'Oops. . .!',
+              err.response.data.msg,
+              'error'
+            )
+          })
+      }
     },
     confirmDelivery (state, payload) {
       axios({
