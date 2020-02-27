@@ -42,7 +42,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          notNull: {
+          min: {
+            args: 0,
             msg: 'Invalid stock value'
           }
         }

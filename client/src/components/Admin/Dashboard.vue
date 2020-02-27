@@ -105,7 +105,7 @@
 
       <q-card
         class="col-12 col-sm-12 col-md-4 bg-indigo-1 own-card"
-        @click="$router.push('/admin/products')"
+        @click="$router.push('/admin/banners')"
       >
         <q-list bordered padding class="rounded-borders">
           <q-item-label header class="text-body1 text-weight-bold"

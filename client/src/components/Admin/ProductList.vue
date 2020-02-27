@@ -24,7 +24,6 @@
       table-style="font-size: 2rem;"
       :data="products"
       :columns="columns"
-      row-key="name"
       :sort-method="customSort"
       binary-state-sort
     >

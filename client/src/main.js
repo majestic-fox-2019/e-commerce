@@ -5,7 +5,7 @@ import store from './store'
 import './quasar'
 import * as firebase from 'firebase/app'
 
-const firebaseConfig = require('../config/config')
+const firebaseConfig = require('./config/config')
 
 firebase.initializeApp(firebaseConfig)
 
