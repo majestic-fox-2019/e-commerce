@@ -225,7 +225,6 @@ export default new Vuex.Store({
           data.forEach(el => {
             temp.push(el)
           })
-          console.log(temp, 'okkkkkkkkkkk')
           commit("SET_PRODUCTS", temp)
 
         })
@@ -262,6 +261,7 @@ export default new Vuex.Store({
     },
     logOut({ commit, state, dispatch }) {
       localStorage.clear()
+      console.log(localStorage.getItem('access_admin'))
       dispatch("checkLogin")
     },
     checkLogin({ commit, state, dispatch }) {

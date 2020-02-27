@@ -105,7 +105,6 @@
               <em>User</em>
             </template>
             <router-link to="/admin">
-              <!-- <a class="navbar-brand">PrekeleTech</a> -->
               <b-dropdown-item href="/admin">Product</b-dropdown-item>
             </router-link>
             <b-dropdown-item @click.prevent="logOut">Sign Out</b-dropdown-item>
@@ -121,13 +120,14 @@ export default {
   created() {
     this.$store.dispatch("checkLogin");
   },
+  watch: {
+    roles(newData, oldData) {
+      console.log(newData, oldData);
+    }
+  },
   computed: {
-    checkAdmin() {
-      if (this.roles === "admin") {
-        return true;
-      } else {
-        return false;
-      }
+    admin() {
+      return this.roles;
     }
   },
   data() {
@@ -147,7 +147,9 @@ export default {
       this.email = "";
       this.password = "";
       this.name = "";
-      this.$router.push({ path: "/" });
+      if (this.$router.currentRoute.path !== "/") {
+        this.$router.push({ path: "/" });
+      }
       this.$store.dispatch("checkLogin");
     },
     login() {
