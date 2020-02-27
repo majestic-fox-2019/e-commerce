@@ -1,12 +1,12 @@
 <template>
-  <div id="dashboard">
-    <h1>Init Dashboard</h1>
+  <div>
+    <router-view/>
   </div>
 </template>
 
-<script> 
+<script>
 export default {
-
+  name: "ProductDetail"
 }
 </script>
 

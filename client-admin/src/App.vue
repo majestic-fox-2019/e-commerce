@@ -1,29 +1,28 @@
 <template>
   <div id="app">
-    <notifications></notifications>
+    <router-view name="navbar" />
     <router-view />
   </div>
 </template>
 
 <script>
-// eslint-disable-next-line
-console.log(process.env);
-import store from './store';
 export default {
-  name: "App",
-  data() {
-    return {}
-  },
-  methods: {
-  },
-  created() {
-    store.dispatch("auto-login");
-  }
+  name: "App"
 }
 </script>
 
-<style>
-html, body, #app {
+<style lang="scss">
+html,
+body {
   height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
 }
 </style>

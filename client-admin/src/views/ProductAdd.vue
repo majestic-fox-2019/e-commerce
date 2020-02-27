@@ -1,10 +1,10 @@
 <template>
-  <div id="dashboard">
-    <h1>Init Dashboard</h1>
+  <div>
+    <h1>Hello</h1>
   </div>
 </template>
 
-<script> 
+<script>
 export default {
 
 }
