@@ -94,7 +94,7 @@
             <div class="modal-body">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input v-model="formAdd.name" type="text" maxlength="15"
+                  <input v-model="formAdd.name" type="text" maxlength="25"
                   class="form-control" id="name" required>
                 </div>
                 <div class="form-group">
@@ -142,7 +142,7 @@
             <div class="modal-body">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input required v-model="formUpdate.name" maxlength="15"
+                  <input required v-model="formUpdate.name" maxlength="25"
                   type="text" class="form-control"
                   id="name">
                 </div>
@@ -191,7 +191,7 @@
             <div class="modal-body">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input required v-model="formAddUser.name" maxlength="15"
+                  <input required v-model="formAddUser.name" maxlength="25"
                   type="text" class="form-control"
                   id="name">
                 </div>
@@ -237,7 +237,7 @@
             <div class="modal-body">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input required v-model="formUpdateUser.name" maxlength="15"
+                  <input required v-model="formUpdateUser.name" maxlength="25"
                   type="text" class="form-control"
                   id="name">
                 </div>
