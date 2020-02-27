@@ -1098,7 +1098,7 @@ Access client port: 8080
 
 - **Data Params**
 
-  - Require : `productId:string` , `qty:string`
+  - Require : `productId:integer` , `qty:integer`, `subTotal:integer`
   - Optional : `none`
 
 - **Headers**
@@ -1117,6 +1117,122 @@ Access client port: 8080
 
     ```
     "Success Transaction"
+    ```
+
+- **Error Response**
+
+  - Authentication User
+
+    - Code : 400 bad request
+
+    - Content :
+
+      ```
+      "not found Token"
+      ```
+
+## TRANSACTION POST
+
+- **URL's**
+
+  ```
+  /transactions
+  ```
+
+- **URL Params**: 
+
+  - Optional : `none`
+  - Require : `id: [string]`
+
+- **Data Params**
+
+  - Require : `productId:integer` , `qty:integer`, `subTotal:integer`
+  - Optional : `none`
+
+- **Headers**
+
+  - Require : `token:string`
+
+- **HTTP Method**
+
+  `POST`
+
+- **Success Response**
+
+  - Code : 200 OK
+
+  - Content :
+
+    ```
+    {
+        "id": 1,
+        "ProductId": 8,
+        "UserId": 1,
+        "qty": 5,
+        "subTotal": 50000
+        "status": "in cart"
+        "updatedAt": "2020-02-13T23:38:07.380Z",
+        "createdAt": "2020-02-13T23:38:07.380Z"
+    }
+    ```
+
+- **Error Response**
+
+  - Authentication User
+
+    - Code : 400 bad request
+
+    - Content :
+
+      ```
+      "not found Token"
+      ```
+
+## TRANSACTION GET
+
+- **URL's**
+
+  ```
+  /transactions
+  ```
+
+- **URL Params**: 
+
+  - Optional : `none`
+  - Require : `id: [string]`
+
+- **Data Params**
+
+  - Require : `productId:integer` , `qty:integer`, `subTotal:integer`
+  - Optional : `none`
+
+- **Headers**
+
+  - Require : `token:string`
+
+- **HTTP Method**
+
+  `GET`
+
+- **Success Response**
+
+  - Code : 200 OK
+
+  - Content :
+
+    ```
+    [
+        {
+            "id": 1,
+            "ProductId": 8,
+            "UserId": 1,
+            "qty": 5,
+            "subTotal": 50000,
+            "status": "in cart"
+            "updatedAt": "2020-02-13T23:38:07.380Z",
+            "createdAt": "2020-02-13T23:38:07.380Z"
+        }
+    ]
     ```
 
 - **Error Response**
