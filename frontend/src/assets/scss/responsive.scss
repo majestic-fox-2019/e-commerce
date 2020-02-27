@@ -1,0 +1,249 @@
+@media only screen and (max-width: 768px) {
+  .owl-dots{
+    display: none;
+  }
+
+  .badge-cart{
+    top: 90px;
+  }
+
+  .res-center, 
+  .res-center .form-inline{
+    display: block;
+  }
+
+  .card-product-home{
+    height: 315px;
+
+    & .product-name h5{
+      font-size: .8rem;
+    }
+
+    & p.product-category{
+      font-size: 12px;
+    }
+
+    & h6.product-price{
+      font-size: 1rem;
+    }
+  }
+
+  .content-category .card-product{
+    height: 280px;
+  }
+
+  .content-category .card-header{
+    font-size: 12px;
+  }
+
+  .content-category .title-filter{
+    font-size: 10px;
+  }
+
+  .content-category .menu-category{
+    font-size: 10px;
+  }
+
+  .content-category .card-product .product-name h5{
+    font-size: .85rem;
+  }
+
+  .content-category .card-product p.product-category{
+    font-size: .85rem;
+  }
+
+  .content-category .card-product h6.product-price{
+    font-size: .7rem;
+  }
+
+  .product-detail .image-detail-product img{
+    width: 280px;
+  }
+
+  .payment{
+    margin: 0;
+    padding: 0;
+  }
+
+  .payment .desc-payment{
+    display: block;
+  }
+
+  .payment .desc-payment .content-payment{
+    text-align: center;
+  }
+
+  .payment .detail-pembelian{
+    display: block;
+  }
+
+  .payment .detail-pembelian .pembayaran .total-transfer{
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .payment .detail-pembelian .detail-belanja{
+    margin: 0;
+  }
+
+  .res-2pad{
+    width: 50% !important;
+  }
+
+  .res-3pad{
+    width: 33.333% !important;
+  }
+
+  .footer{
+    & .footer-pembayaran{
+      & img.image-bank-footer{
+        height: 20px;
+      }
+    }
+
+    & .toko-kami p{
+      font-size: 13px;
+    }
+
+    & img.logo-footer{
+      width: 100px;
+    }
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .res-2mobile{
+    width: 50% !important;
+  }
+
+  .res-3mobile{
+    width: 33.333% !important;
+  }
+
+  .card-category .card-body{
+    padding: .75rem;
+  }
+
+  .category .card-category .text-category{
+    font-size: 12px;
+  }
+
+  .mb-3mobile{
+    margin-bottom: 1rem;
+  }
+
+  .category .card-category img{
+    height: 50px;
+  }
+
+  .content-category .card-header{
+    font-size: inherit;
+  }
+
+  .content-category .title-filter{
+    font-size: inherit;
+  }
+
+  .content-category .menu-category{
+    font-size: inherit;
+  }
+
+  .content-category .card-product{
+    height: 330px;
+  }
+
+  .content-category .card-product .product-name h5{
+    font-size: inherit;
+  }
+
+  .content-category .card-product p.product-category{
+    font-size: inherit;
+  }
+
+  .content-category .card-product h6.product-price{
+    font-size: inherit;
+  }
+
+  .content-category .card-product .product-name h5{
+    font-size: 1rem;
+  }
+
+  .product-detail .image-detail-product{
+    height: auto;
+  }
+
+  .product-detail .content-detail-product{
+    padding: 2rem;
+  }
+
+  .product-detail .content-detail-product .title-detail-product{
+    font-size: 1.5rem;
+  }
+
+  .payment{
+    margin: 0;
+    padding: 0;
+  }
+
+  .payment .desc-payment{
+    display: block;
+  }
+
+  .payment .desc-payment .content-payment{
+    text-align: center;
+  }
+
+  .payment .detail-pembelian{
+    display: block;
+  }
+
+  .payment .detail-pembelian .pembayaran .total-transfer{
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .payment .detail-pembelian .detail-belanja{
+    margin: 0;
+  }
+
+  .payment .detail-atm{
+    display: block;
+  }
+
+  .payment .detail-atm .atm{
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .footer{
+    & .kategori-footer{
+      margin-left: 0;
+      text-align: left;
+      margin-bottom: 1rem;
+    }
+
+    & .pembayaran-footer{
+      text-align: left;
+
+      & img.image-bank-footer{
+        height: 30px;
+        margin-left: 0;
+        margin-bottom: 1rem;
+      }
+    }
+
+    & .toko-kami{
+      text-align: left;
+      margin-left: 0;
+      margin-bottom: 2rem;
+    }
+
+    & img.logo-footer{
+      float: left;
+    }
+
+    & .copyright{
+      margin-top: 1.75rem !important;
+    }
+  }
+}

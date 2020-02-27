@@ -6,7 +6,7 @@
     <div class="container">
       <div class="content-category mt-5 mb-5">
         <b-row>
-          <b-col md="2">
+          <b-col md="2" class="mb-3mobile">
             <b-card header="FILTERS" align=left>
               <label class="title-filter">CATEGORIES</label>
               <span class="menu-category" v-for="cat in getCategories" :key="cat.id" @click="goToCategories(cat)">{{ cat.name }}</span>

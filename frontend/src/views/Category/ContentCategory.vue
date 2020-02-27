@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <b-col md="3" class="mb-4" v-for="product in getProducts" :key="product.id">
+    <b-col md="3" class="mb-4 res-2mobile res-3pad" v-for="product in getProducts" :key="product.id">
       <b-card class="card-product" @click="goDetailProduct(product.id)" :img-src="product.image_url" img-top>
         <div class="content-bottom">
           <div class="product-name">

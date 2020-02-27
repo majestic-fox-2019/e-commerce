@@ -14,11 +14,13 @@
             </div>
           </b-col>
           <b-col md="4">
-            <h6>Pembayaran</h6>
-            <div class="footer-pembayaran">
-              <img src="@/assets/images/bank-bca.jpg" class="image-bank-footer">
-              <img src="@/assets/images/bank-bri.jpg" class="image-bank-footer">
-              <img src="@/assets/images/bank-bni.jpg" class="image-bank-footer">
+            <div class="pembayaran-footer">
+              <h6>Pembayaran</h6>
+              <div class="footer-pembayaran">
+                <img src="@/assets/images/bank-bca.jpg" class="image-bank-footer">
+                <img src="@/assets/images/bank-bri.jpg" class="image-bank-footer">
+                <img src="@/assets/images/bank-bni.jpg" class="image-bank-footer">
+              </div>
             </div>
           </b-col>
           <b-col md="4">
@@ -35,7 +37,7 @@
         <img src="@/assets/icons/logo-nike.png" class="logo-footer">
       </b-col>
       <b-col md="12">
-        <div class="text-center mt-5">
+        <div class="text-center mt-5 copyright">
           <small class="text-muted">Copyright © 2020
             <span>Muhammad Anova Nurfaqih</span>
           </small>

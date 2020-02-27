@@ -10,19 +10,13 @@
           <b-nav-item-dropdown class="ml-3 mr-3" text="Kategori" left>
             <b-dropdown-item v-for="cat in getCategories" :key="cat.id" @click="getToCategory(cat)">{{ cat.name }}</b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-form class="header-search">
-            <b-form @submit.prevent="doSearch">
-              <b-form-input size="sm" class="mr-1 search" placeholder="Cari barang"></b-form-input>
-              <b-button size="sm" variant="dark" class="my-2 my-sm-0" type="submit">Cari</b-button>
-            </b-form>
-          </b-nav-form>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto right-nav">
           <b-nav-item @click="goCart">
             <span><i class="fa fa-shopping-cart"></i></span>
             <b-badge class="badge-cart" variant="danger">{{ getCarts.length }}</b-badge>
           </b-nav-item>
-          <b-nav-form class="ml-4" v-if="!statusLogin">
+          <b-nav-form class="ml-4 res-center" v-if="!statusLogin">
             <b-button size="sm" class="mr-2" variant="dark" @click="goDaftar">Sign Up</b-button>
             <b-button size="sm" variant="outline-dark" @click="openModal">Login</b-button>
           </b-nav-form>
@@ -123,7 +117,9 @@ export default {
       this.$store.dispatch('getCategories')
     },
     getAllCart(){
-      this.$store.dispatch('getCart')
+      if(localStorage.getItem('token')){
+        this.$store.dispatch('getCart')
+      }
     },
     getToCategory(cat){
       this.$router.push({ name: `CategoryName`, params: { catname: cat.name, id: cat.id }}).catch(err => {})
@@ -135,15 +131,12 @@ export default {
       if(localStorage.getItem('token')){
         this.$router.push({ name: 'Cart' })
       }else{
-        this.modal = true
+        this.$store.commit('SET_MODAL', true)
       }
     },
     goDaftar(){
       this.modal = false
       this.$router.push({ name: 'Register' })
-    },
-    doSearch(){
-      console.log('test')
     },
     doLogin(){
       if(this.formLogin.email === null || this.formLogin.password === null){

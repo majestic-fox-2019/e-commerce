@@ -15,7 +15,7 @@
           <div class="row">
             <div class="col-md-10 offset-md-1">
               <div class="row">
-                <div class="col-md-4" v-for="cat in getCategories" :key="cat.id">
+                <div class="col-md-4 res-3mobile" v-for="cat in getCategories" :key="cat.id">
                   <b-card class="card-category" @click="getToCategory(cat)">
                     <h4 class="text-category">{{ cat.name }}</h4>
                     <b-card-text>
@@ -34,7 +34,7 @@
         <div class="product-home">
           <h3 class="title-section">PRODUCTS</h3>
           <b-row>
-            <b-col md="3" class="mb-4" v-for="product in getProducts" :key="product.id">
+            <b-col md="3" class="mb-4 res-2mobile" v-for="product in getProducts" :key="product.id">
               <b-card class="card-product-home" @click="goDetailProduct(product.id)" :img-src="product.image_url" img-top>
                 <div class="content-bottom">
                   <div class="product-name">
