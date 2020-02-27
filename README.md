@@ -904,7 +904,7 @@ server : https://disekrip-cms.herokuapp.com/
 | /transaction/:user_id | GET    | user_id            | Get transaction data
 | /transaction/:user_id | PUT | user_id | Checkout Transaction
 | /transaction/:user_id/:product_id | POST | user_id, product_id | Add Transaction
-| /transaction/:user_id/:transaction_id | DELETE | category_id | create category
+| /transaction/:user_id/:transaction_id | DELETE | category_id | Delete Transaction
 | /transaction/:user_id/:product_id/:transaction_id | Patch | category_id | Patch transaction quantity
 
 ## 1. Path transaction/:user_id (Get METHOD) // Get All transaction from the user
@@ -965,6 +965,170 @@ server : https://disekrip-cms.herokuapp.com/
             "createdAt": "2020-02-22T08:01:08.874Z",
             "updatedAt": "2020-02-27T05:15:58.953Z"
         }
+    }
+]
+```
+
+## 2. Path transaction/:user_id (PUT METHOD) // Checkout Transaction
+
+## Authentication
+  Headers **token** is required
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/transaction/:user_id)
+```
+## Request Body
+| params       | Data type |
+| ----------- | --------- |
+| cart | array of object |
+
+
+## Parameter
+| params       | Data type |
+| ----------- | --------- |
+| user_id | Integer |
+
+
+## Query String
+**Query String** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+'Success checkout'
+```
+
+## 2. Status Code 400 (Out Of Stock)
+
+```javascript
+'Out of stock'
+```
+
+## 3. Path transaction/:user_id (POST METHOD) // Create Transaction
+
+## Authentication
+  Headers **token** is required
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/transaction/:user_id/:product_id)
+```
+## Request Body
+| params       | Data type |
+| ----------- | --------- |
+| qty | integer |
+
+
+## Parameter
+| params       | Data type |
+| ----------- | --------- |
+| user_id | Integer |
+| product_id | Integer |
+
+## Query String
+**Query String** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+{
+    "message": "Created new cart",
+    "body": {
+        "id": 34,
+        "ProductId": 20,
+        "UserId": 39,
+        "qty": 1,
+        "status": "unhandled",
+        "updatedAt": "2020-02-27T05:53:02.289Z",
+        "createdAt": "2020-02-27T05:53:02.289Z",
+        "total": 8000000
+    }
+}
+```
+ ### Tidak terdapat validasi karena ketika tidak disii otomatis keisi nilai 1
+
+## 4. Path transaction/:user_id/:transaction_id (DELETE METHOD) // Delete transaction
+
+## Authentication
+  Headers **token** is required
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/transaction/:user_id/:transaction_id)
+```
+## Request Body
+**Request Body** is empty.
+
+
+## Parameter
+| params       | Data type |
+| ----------- | --------- |
+| user_id | Integer |
+| transaction_id | Integer |
+
+## Query String
+**Query String** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+[
+    1 //item terhapus
+]
+```
+
+## 5. Path transaction/:user_id/:product_id/:transaction_id (DELETE METHOD) // Delete transaction
+
+## Authentication
+  Headers **token** is required
+
+## Path
+
+```javascript
+    [GitHub](https://disekrip-cms.herokuapp.com/transaction/:user_id/:product_id/:transaction_id)
+```
+## Request Body
+| params       | Data type |
+| ----------- | --------- |
+| qty | integer |
+
+
+## Parameter
+| params       | Data type |
+| ----------- | --------- |
+| user_id | Integer |
+| product_id | Integer |
+| transaction_id | Integer |
+
+
+## Query String
+**Query String** is empty.
+
+## Response 
+
+## 1. Status Code 200 (OK)
+
+```javascript
+[
+    {
+        "id": 33,
+        "ProductId": 12,
+        "UserId": 39,
+        "qty": 1,
+        "total": 2000000,
+        "status": "unhandled",
+        "createdAt": "2020-02-27T05:33:07.792Z",
+        "updatedAt": "2020-02-27T05:58:30.260Z"
     }
 ]
 ```
