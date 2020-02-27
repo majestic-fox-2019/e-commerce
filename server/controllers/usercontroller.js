@@ -44,31 +44,34 @@ class UserConttroller {
       })
     }
 
-  static login (req,res,next){
+  static loginAdmin (req,res,next){
     let data = {
       email: req.body.email,
       password : req.body.password
     }
-    console.log(data)
     User
     .findOne({
       where: 
       {  email : data.email }
     })
     .then(result=>{
+      
       if(result == null){
         res.status(404).json({message : 'email not found'})
-      }else{
+      } else{
+        if(result.dataValues.role == 'admin'){
+          if(bcrypt.compareSync(data.password, result.dataValues.password)){
+          let newObj = {
+              id: result.id,
+              email : result.email
+            }
+            res.status(200).json({token: jwt.sign(newObj, process.env.SECRET_CODE), role: result.role})
+          }else{
+            res.status(404).json({message : 'email or password wrong'})
         
-        if(bcrypt.compareSync(data.password, result.dataValues.password)){
-        let newObj = {
-            id: result.id,
-            email : result.email
           }
-          res.status(200).json({token: jwt.sign(newObj, process.env.SECRET_CODE), role: result.role})
-        }else{
-          res.status(404).json({message : 'email or password wrong'})
-      
+        } else {
+          throw createError(403,'Forbidden')
         }
       }
     })
@@ -101,6 +104,48 @@ class UserConttroller {
           .catch(err=>{
             next(err)
           })
+      }
+    })
+    .catch(err=>{
+      next(err)
+    })
+  }
+
+  static loginUser (req,res,next){
+    let data = {
+      email: req.body.email,
+      password : req.body.password
+    }
+    console.log(data)
+    User
+    .findOne({
+      where: 
+      {  email : data.email }
+    })
+    .then(result=>{
+     
+      if(result == null){
+        res.status(404).json({message : 'email not found'})
+      }else{
+        if(result.dataValues.role == 'User'){
+          if(bcrypt.compareSync(data.password, result.dataValues.password)){
+          let newObj = {
+              id: result.id,
+              email : result.email
+            }
+            res.status(200).json({
+              token: jwt.sign(newObj, process.env.SECRET_CODE), 
+              role: result.role,
+              name: result.name,
+              id: result.id,
+              })
+          }else{
+            res.status(404).json({message : 'email or password wrong'})
+          
+          }
+        } else {
+          throw createError(403,'Forbidden')
+        }
       }
     })
     .catch(err=>{

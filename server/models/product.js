@@ -26,16 +26,25 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull : false,
       validate :{
-        notNull : { msg : "stock at least 1"},
-        notEmpty : { msg: "stock at least 1"}
+        notNull : { msg : "Stock Cannot Empty"},
+        notEmpty : { msg: "Stock Cannot Empty"}
       }
-
     },
     imageurl: DataTypes.STRING,
+    description: {
+      type: DataTypes.TEXT,
+      allowNull : false,
+      validate :{
+        notNull : { msg : "Desc Cannot Empty"},
+        notEmpty : { msg: "Desc Cannot Empty"}
+      }
+
+    }
   },{sequelize})
 
 
   Product.associate = function(models) {
+    Product.hasMany(models.Cart)
     // associations can be defined here
   };
   return Product;

@@ -28,6 +28,16 @@
         <input type="text" id="image" v-model="imgurl"
         class="form-control" placeholder="image url" />
       </div>
+      <div class="form-group">
+        <label for="imgurl">Item Detail</label>
+          <b-form-textarea
+      id="textarea"
+      v-model="text"
+      placeholder="Description"
+      rows="3"
+      max-rows="6"
+    ></b-form-textarea>
+      </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
@@ -43,6 +53,7 @@ export default {
       stock: '',
       price: '',
       imgurl: '',
+      text: '',
     };
   },
   methods: {
@@ -52,6 +63,7 @@ export default {
         stock: this.stock,
         price: this.price,
         imageurl: this.imgurl,
+        description: this.text,
       };
       this.$axios({
         method: 'POST',

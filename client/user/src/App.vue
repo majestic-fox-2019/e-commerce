@@ -7,10 +7,19 @@
     <router-view/>
   </div>
 </template>
+<script>
 
+export default {
+  created () {
+    this.$store.dispatch('loadData')
+  }
+}
+</script>
 <style>
+@import url('https://fonts.googleapis.com/css?family=Cuprum&display=swap');
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Cuprum';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

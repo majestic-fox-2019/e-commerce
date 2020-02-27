@@ -27,6 +27,16 @@
         <input type="text" id="image" v-model="imageurl"
         class="form-control" placeholder="image url" />
       </div>
+          <div class="form-group">
+        <label for="imgurl">Item Detail</label>
+          <b-form-textarea
+      id="textarea"
+      v-model="description"
+      placeholder="Description"
+      rows="3"
+      max-rows="6"
+    ></b-form-textarea>
+      </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
@@ -44,6 +54,7 @@ export default {
       stock: this.dataedit.stock,
       price: this.dataedit.price,
       imageurl: this.dataedit.imageurl,
+      description: this.dataedit.description,
     };
   },
   methods: {
@@ -53,6 +64,7 @@ export default {
         stock: this.stock,
         price: this.price,
         imageurl: this.imageurl,
+        description: this.description,
       };
       this.$axios({
         method: 'PUT',

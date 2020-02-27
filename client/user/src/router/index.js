@@ -5,7 +5,21 @@ import Cart from '../views/Cart.vue'
 
 Vue.use(VueRouter)
 
+function login (to, from, next) {
+  if (localStorage.getItem('token')) {
+    next({ name: 'Home' })
+  } else {
+    next()
+  }
+}
+
 const routes = [
+  {
+    path: '/login',
+    name: 'Login',
+    beforeEnter: login,
+    component: () => import('../views/Login.vue')
+  },
   {
     path: '/',
     name: 'Home',
@@ -22,14 +36,6 @@ const routes = [
         component: () => import('../views/Product.vue')
       }
     ]
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   }
 ]
 

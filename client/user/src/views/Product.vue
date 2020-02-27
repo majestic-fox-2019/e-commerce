@@ -1,4 +1,6 @@
 <template>
+<div>
+    <carousel/>
 <div class="container mt-4">
   <div class="row title d-flex justify-content-center mb-4">
     <h1>Our Product</h1>
@@ -7,22 +9,22 @@
     <cardUser :data="loadData"></cardUser>
   </div>
 </div>
+</div>
 </template>
 
 <script>
 import cardUser from '@/components/cardUser.vue'
+import carousel from '@/components/carousel.vue'
 
 export default {
-  name: 'HelloWorld',
+  name: 'Product',
   data: function () {
     return {
     }
   },
   components: {
+    carousel,
     cardUser
-  },
-  created () {
-    this.$store.dispatch('loadData')
   },
   computed: {
     loadData () {

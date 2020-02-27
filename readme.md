@@ -1,4 +1,4 @@
-## e-commerce
+1## e-commerce
 
 ### installation
 
@@ -11,15 +11,17 @@ $ cd ../server & cd ../client
 run script from packages by using the comment bellow on server and client
 ```sh
 $ npm start// on server
-$ npm run serve // on client http://localhost:8080
+$ npm run serve // on client
 ```
 
 
 ### list of user Routes :
 | Route | HTTP | Description |
 | ------ | ------ | ----------- |
-| /login | POST  | Login and get access token |
-| /register | POST | Aign up new user |
+| /admin-login | POST  | Login and get access admin token |
+| /admin-register | POST | Sign up new admin |
+| /user-register | POST | register new user |
+| /user-register | POST | Sign up new user |
 
 
 ### list of Product Routes :
@@ -30,6 +32,15 @@ $ npm run serve // on client http://localhost:8080
 | /product/:id | GET | Get a single product by id (authentication, login required) |
 | /product/:id | PUT | Update values of product (authentication, login required) |
 | /product/:id | DELETE | Delete a single product (authentication, login required) |
+
+### list of Cart Routes :
+| Route | HTTP | Description |
+| ------ | ------ | ----------- |
+| /cart | GET  | Get all cart ( (authentication, login required) |
+| /card| POST | Add new item to cart (authentication, login required) |
+| /cart/:id | PUT | Edit quantity cart by ItemId  (authentication, login required) |
+| /cart/:id | POST | Checkout Cart, then remove all item in cart(authentication, login required) |
+| /cart/:id | DELETE | Delete a single cart (authentication, login required) |
 
 ### list of errors  :
 | Code | Name | Description |

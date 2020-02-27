@@ -1,5 +1,5 @@
 const createrror = require('http-errors')
-const { Product } = require('../models')
+const { Product, Cart, User} = require('../models')
 
 class ProductController{
 
@@ -28,6 +28,7 @@ class ProductController{
       price : req.body.price,
       stock : req.body.stock,
       imageurl : req.body.imageurl,
+      description: req.body.description
     }
     
     Product
@@ -61,6 +62,7 @@ class ProductController{
       price : req.body.price,
       stock : req.body.stock,
       imageurl : req.body.imageurl,
+      description: req.body.description
     }
 
     Product

@@ -10,5 +10,4 @@ router.get('/product/:id',authentication,ProductController.getOne)
 router.put('/product/:id',authentication,ProductController.putProduct)
 router.delete('/product/:id',authentication,ProductController.destroyProduct)
 
-
 module.exports = router
