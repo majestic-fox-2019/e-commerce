@@ -1,3 +1,4 @@
+const createError = require('http-errors');
 const { Product, ProductCategory, Category } = require('../database/models');
 
 class ProductController {
@@ -15,6 +16,28 @@ class ProductController {
       next(err);
     }
   }
+  // find one product
+  static async showOneProduct(req, res, next) {
+    const { id } = req.params;
+    try {
+      const foundProduct = await Product.findOne({
+        where: {
+          id
+        },
+        include: [Category]
+      });
+      if (!foundProduct) {
+        next(createError(404));
+      }
+      else {
+        res.status(200);
+        res.json(foundProduct);
+      }
+    }
+    catch (err) {
+      next(err);
+    }
+  }
   // create a product
   static async createProduct(req, res, next) {
     const { name, image_url, price, stock, categories } = req.body;
@@ -24,7 +47,7 @@ class ProductController {
         name, image_url, price, stock
       });
       const { id: ProductId } = product;
-      if (categories) {
+      if (categories && categories instanceof Array) {
         // associate it
         const records = []
         for (const CategoryId of categories) {
@@ -49,8 +72,37 @@ class ProductController {
     }
   }
   // delete a product
-  static deleteProduct(req, res, next) {
-    process
+  static async deleteProduct(req, res, next) {
+    const { id } = req.params;
+    try {
+      const foundProduct = await Product.findOne({
+        where: {
+          id
+        }
+      });
+      if (!foundProduct) {
+        next(createError(304));
+      }
+      else {
+        ProductCategory.destroy({
+          where: {
+            ProductId: id
+          }
+        })
+        await Product.destroy({
+          where: {
+            id
+          }
+        });
+        res.status(200);
+        res.json({
+          message: "Successfully deleted",
+          product: foundProduct
+        })
+      }
+    } catch (err) {
+      next(err);
+    }
   }
 }
 

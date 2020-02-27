@@ -29,6 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     // Product.belongsTo(models.ProductCategory);
     // Product.hasMany(models.Category, { through: models.ProductCategory });
     Product.belongsToMany(models.Category, { through: models.ProductCategory });
+    Product.belongsToMany(models.User, { through: models.Cart });
+    Product.hasMany(models.TransactionDetail);
   };
   return Product;
 };
