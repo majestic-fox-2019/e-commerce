@@ -100,11 +100,10 @@ export default {
         console.log(response)
         this.clearValidation(this.error.errorClass)
         this.toaster = 'Success update user ' + response.data.name
-
-        setTimeout(() => {
-          this.toaster = null 
-          this.$router.push({ name: 'ContentUser' })
-        }, 3000);
+        this.$toast.fire({
+          icon: 'success',
+          title: this.toaster
+        })
 
       })
       .catch(err => {

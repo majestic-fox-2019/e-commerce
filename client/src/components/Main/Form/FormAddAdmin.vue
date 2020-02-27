@@ -85,11 +85,10 @@ export default {
         this.clearValidation(this.error.errorClass)
         this.clearField(this.form)
         this.$store.dispatch('getAdmin')
-        this.$parent.successAlert('Success add new admin')
-
-        setTimeout(() => {
-          this.$parent.successAlert(null)
-        }, 3000);
+        this.$toast.fire({
+          icon: 'success',
+          title: `Success added new admin`
+        })
       })
       .catch(err => {
         this.error.status = true
