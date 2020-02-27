@@ -54,7 +54,7 @@
                     <v-text-field v-model='editedItem.price' label='Price'></v-text-field>
                   </v-col>
                   <v-col cols='12' sm='6' md='6'>
-                    <v-text-field v-model='editedItem.stock' label='Total Videos'></v-text-field>
+                    <v-text-field v-model='editedItem.stock' label='Stock'></v-text-field>
                   </v-col>
                   <v-col cols='12' sm='6' md='12'>
                     <v-text-field v-model='editedItem.image_url' label='Image Url'></v-text-field>
@@ -143,7 +143,7 @@ export default {
         value: 'name',
       },
       { text: 'Price', value: 'price' },
-      { text: 'Total Videos', value: 'stock' },
+      { text: 'Stock', value: 'stock' },
       { text: 'Image Url', value: 'image_url' },
       { text: 'Actions', value: 'action', sortable: false },
     ],

@@ -131,6 +131,7 @@
             </v-img>
 
             <v-card-actions>
+              Available Stock: {{tutorial.stock}}
               <v-spacer></v-spacer>
 
               <v-btn

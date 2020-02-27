@@ -131,6 +131,7 @@
             </v-img>
 
             <v-card-actions>
+              Available Stock: {{ebook.stock}}
               <v-spacer></v-spacer>
 
               <v-btn

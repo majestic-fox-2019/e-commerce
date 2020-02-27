@@ -84,7 +84,7 @@ export default {
     onComplete() {
       const objUser = parseJwt(this.$store.state.isLogin);
       this.$store.state.superagent
-        .post(`${this.$store.state.url_backend}/transactions/${objUser.id}/settled`)
+        .put(`${this.$store.state.url_backend}/transactions/${objUser.id}/settled`)
         .set('accesstoken', this.$store.state.isLogin)
         .end((err, res) => {
           if (err) {
