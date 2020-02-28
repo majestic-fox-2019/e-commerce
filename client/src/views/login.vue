@@ -52,93 +52,94 @@
       </div>
     </div>
   </div>
-</template> 
+</template>
 
 <script>
-import Loading from "vue-loading-overlay";
-import GoogleLogin from "vue-google-login";
-import "vue-loading-overlay/dist/vue-loading.css";
+import Loading from 'vue-loading-overlay';
+import GoogleLogin from 'vue-google-login';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
     Loading,
-    GoogleLogin
+    GoogleLogin,
   },
   data() {
     return {
       formLogin: {
         email: null,
-        password: null
+        password: null,
       },
       isLoading: false,
       params: {
         client_id:
-          "978728200332-o9rdf47rjtiuguuplf1il7ue5cci0es4.apps.googleusercontent.com"
-      }
+          '978728200332-o9rdf47rjtiuguuplf1il7ue5cci0es4.apps.googleusercontent.com',
+      },
     };
   },
   methods: {
     onSignIn(googleUser) {
       this.isLoading = true;
-      let id_token = googleUser.getAuthResponse().id_token;
+      const { id_token } = googleUser.getAuthResponse();
       this.$axios({
-        method: "post",
+        method: 'post',
         url: `${this.$server}/login/google`,
-        data: { id_token }
+        data: { id_token },
       })
-        .then(result => {
+        .then((result) => {
           this.isLoading = false;
-          localStorage.setItem("token", result.data.token);
-          localStorage.setItem("role", result.data.role);
-          if (localStorage.role == "admin") {
-            this.$router.push({ path: "/admin" });
+          localStorage.setItem('token', result.data.token);
+          localStorage.setItem('role', result.data.role);
+          if (localStorage.role == 'admin') {
+            this.$router.push({ path: '/admin' });
           } else {
-            this.$router.push({ name: "home" });
+            this.$router.push({ name: 'home' });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.isLoading = false;
           this.$swal.fire({
-            icon: "error",
+            icon: 'error',
             title: `${err.response.data.message}`,
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         });
     },
     login() {
       this.isLoading = true;
       this.$axios({
-        method: "post",
+        method: 'post',
         url: `${this.$server}/login`,
-        data: this.formLogin
+        data: this.formLogin,
       })
-        .then(result => {
+        .then((result) => {
           this.isLoading = false;
           this.$swal.fire({
-            icon: "success",
+            icon: 'success',
             title: `Welcome ${result.data.name}`,
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
-          localStorage.setItem("token", result.data.token);
-          localStorage.setItem("role", result.data.role);
-          if (localStorage.role == "admin") {
-            this.$router.push({ path: "/admin" });
+          localStorage.setItem('token', result.data.token);
+          localStorage.setItem('role', result.data.role);
+          if (localStorage.role == 'admin') {
+            this.$router.push({ path: '/admin' });
           } else {
-            this.$router.push({ name: "home" });
+            this.$router.push({ name: 'home' });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.isLoading = false;
           this.$swal.fire({
-            icon: "error",
+            icon: 'error',
             title: `${err.response.data.message}`,
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

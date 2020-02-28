@@ -68,21 +68,22 @@
 </template>
 
 <script>
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
-    Loading
+    Loading,
   },
   data() {
     return {
       amounts: null,
       isLogin: false,
-      isLoading: false
+      isLoading: false,
     };
   },
   mounted() {
-    this.$store.dispatch("userCarts");
+    this.$store.dispatch('userCarts');
     this.login();
   },
   computed: {
@@ -90,50 +91,50 @@ export default {
       return localStorage.token;
     },
     getAmount() {
-      let carts = this.$store.state.carts;
+      const { carts } = this.$store.state;
       let amounts = 0;
       if (carts) {
-        carts.forEach(amount => {
+        carts.forEach((amount) => {
           amounts += amount.UserProduct.amount;
         });
         this.amounts = amounts;
         // this.$store.dispatch("userCarts");
       }
       return this.amounts;
-    }
+    },
   },
   methods: {
     logout() {
       this.$swal
         .fire({
-          title: "Log out of Face UP?",
-          text: "You can always log back in at anytime",
-          icon: "question",
+          title: 'Log out of Face UP?',
+          text: 'You can always log back in at anytime',
+          icon: 'question',
           showCancelButton: true,
-          confirmButtonColor: "#e79796",
-          cancelButtonColor: "#ffc988",
-          confirmButtonText: "Log out"
+          confirmButtonColor: '#e79796',
+          cancelButtonColor: '#ffc988',
+          confirmButtonText: 'Log out',
         })
-        .then(result => {
+        .then((result) => {
           this.isLogin = false;
           if (result.value) {
             this.isLoading = true;
-            localStorage.removeItem("token");
-            localStorage.removeItem("role");
+            localStorage.removeItem('token');
+            localStorage.removeItem('role');
           } else {
             this.isLoading = false;
           }
           this.isLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.isLoading = false;
-          console.log(err.response, "< err navbar logout");
+          console.log(err.response, '< err navbar logout');
           this.$swal.fire({
             title: "We're sorry",
             text: err.response.data.message,
-            icon: "question",
+            icon: 'question',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         });
     },
@@ -143,14 +144,14 @@ export default {
       } else {
         this.isLogin = true;
       }
-    }
+    },
   },
 
   watch: {
-    isLogin: function() {
+    isLogin() {
       this.login();
-    }
-  }
+    },
+  },
 };
 </script>
 

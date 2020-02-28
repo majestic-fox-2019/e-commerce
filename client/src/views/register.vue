@@ -52,51 +52,52 @@
 </template>
 
 <script>
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
-    Loading
+    Loading,
   },
   data() {
     return {
       formRegister: {
         name: null,
         email: null,
-        password: null
+        password: null,
       },
-      isLoading: false
+      isLoading: false,
     };
   },
   methods: {
     register() {
       this.isLoading = true;
       this.$axios({
-        method: "post",
+        method: 'post',
         url: `${this.$server}/register`,
-        data: this.formRegister
+        data: this.formRegister,
       })
         .then(() => {
           this.isLoading = false;
           this.$swal.fire({
-            icon: "success",
-            title: "Redirect you to Login page...",
+            icon: 'success',
+            title: 'Redirect you to Login page...',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
-          this.$router.push({ path: "/login" });
+          this.$router.push({ path: '/login' });
         })
-        .catch(err => {
+        .catch((err) => {
           this.isLoading = false;
           this.$swal.fire({
-            icon: "error",
+            icon: 'error',
             title: `${err.response.data[0]}`,
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

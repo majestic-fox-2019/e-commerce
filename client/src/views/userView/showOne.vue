@@ -36,21 +36,22 @@
 </template>
 
 <script>
-import PicZoom from "vue-piczoom";
-import preview from "@/components/preview.vue";
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
+import PicZoom from 'vue-piczoom';
+import preview from '@/components/preview.vue';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
     preview,
     PicZoom,
-    Loading
+    Loading,
   },
   data() {
     return {
       product: null,
       amount: 1,
-      isLoading: false
+      isLoading: false,
     };
   },
   mounted() {
@@ -60,63 +61,65 @@ export default {
     getOne() {
       this.isLoading = true;
       return this.$axios({
-        method: "get",
+        method: 'get',
         url: `${this.$server}/products/${this.$route.params.id}`,
         headers: {
-          token: localStorage.token
-        }
+          token: localStorage.token,
+        },
       })
-        .then(result => {
+        .then((result) => {
           this.isLoading = false;
           this.product = result.data;
+          this.amount = 1;
         })
-        .catch(err => {
+        .catch((err) => {
           this.isLoading = false;
           this.$swal.fire({
             title: "We're sorry",
             text: err.response.data,
-            icon: "question",
+            icon: 'question',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         });
     },
     addCart(id, stock) {
       this.isLoading = true;
       this.$axios({
-        method: "post",
+        method: 'post',
         url: `${this.$server}/carts/${id}`,
-        data: { amount: Number(this.amount), stock: stock },
+        data: { amount: Number(this.amount), stock },
         headers: {
-          token: localStorage.token
-        }
+          token: localStorage.token,
+        },
       })
-        .then(result => {
+        .then((result) => {
           this.isLoading = false;
-          this.$store.dispatch("userCarts");
+          this.$store.dispatch('userCarts');
           this.$swal.fire({
-            title: "Successfully added to your cart!",
-            icon: "success",
+            title: 'Successfully added to your cart!',
+            icon: 'success',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
+          this.amount = 1;
         })
-        .catch(err => {
+        .catch((err) => {
           this.isLoading = false;
           if (localStorage.token) {
             this.$swal.fire({
               // title: "We're sorry",
               title: err.response.data,
-              icon: "error",
+              icon: 'error',
               showConfirmButton: false,
-              timer: 1500
+              timer: 1500,
             });
           } else {
-            this.$router.push({ name: "loginPage" });
+            this.$router.push({ name: 'loginPage' });
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -135,8 +138,8 @@ export default {
   margin-bottom: 20px;
 }
 .input {
-  width: 50px;
-  margin-left: 12px;
+  width: 90px;
+  margin-left: 15px;
   height: 30px;
   margin-bottom: 20px;
 }

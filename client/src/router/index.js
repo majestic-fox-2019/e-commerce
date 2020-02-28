@@ -14,19 +14,19 @@ import filterCategory from '../views/filterCategory.vue';
 
 // User
 import userNav from '../views/userView/navigation.vue';
-import homeProducts from '../views/userView/homeProducts.vue'
-import carts from '../views/userView/carts.vue'
-import oneProduct from '../views/userView/showOne.vue'
+import homeProducts from '../views/userView/homeProducts.vue';
+import carts from '../views/userView/carts.vue';
+import oneProduct from '../views/userView/showOne.vue';
 
 Vue.use(VueRouter);
 
 const beforeEnter = (to, from, next) => {
   if (localStorage.token) {
-    next({ name: 'home' })
+    next({ name: 'home' });
   } else {
-    next()
+    next();
   }
-}
+};
 
 
 const routes = [
@@ -37,23 +37,23 @@ const routes = [
     children: [{
       path: '/',
       name: 'home',
-      component: homeProducts
+      component: homeProducts,
     }, {
       path: '/carts',
       name: 'carts',
       component: carts,
       beforeEnter(to, from, next) {
         if (localStorage.token) {
-          next()
+          next();
         } else {
-          next({ name: 'home' })
+          next({ name: 'home' });
         }
-      }
+      },
     }, {
       path: '/product/:id',
       name: 'oneProduct',
-      component: oneProduct
-    }]
+      component: oneProduct,
+    }],
   },
   {
     path: '/login',
@@ -100,7 +100,7 @@ const routes = [
     name: 'error',
     component: error,
     meta: { isAuthenticated: false },
-  }
+  },
 ];
 
 const router = new VueRouter({

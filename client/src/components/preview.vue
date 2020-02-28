@@ -18,19 +18,19 @@
 <script>
 export default {
   created() {
-    this.products = this.$store.dispatch("allProducts");
+    this.products = this.$store.dispatch('allProducts');
   },
   computed: {
     allproducts() {
       return this.$store.state.products;
-    }
+    },
   },
   methods: {
     getOne(ProductId) {
-      this.$router.push({ name: "oneProduct", params: { id: ProductId } });
-      this.$emit("getOne", ProductId);
-    }
-  }
+      this.$router.push({ name: 'oneProduct', params: { id: ProductId } });
+      this.$emit('getOne', ProductId);
+    },
+  },
 };
 </script>
 

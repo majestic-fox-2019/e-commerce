@@ -15,7 +15,7 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">PRODUCT</th>
+            <th scope="col">PRODUCTS</th>
             <th scope="col"></th>
             <th class="center" scope="col">PRICE</th>
             <th class="center" scope="col">QTY</th>
@@ -28,7 +28,12 @@
             <td>
               <img :src="cart.image" class="mr-3" />
             </td>
-            <td>{{cart.name}}</td>
+            <td>
+              <router-link
+                :to="{name: 'oneProduct', params: {id: cart.id}}"
+                class="name"
+              >{{cart.name}}</router-link>
+            </td>
             <td class="center">{{$formatRupiah(cart.price)}}</td>
             <td class="center sum">
               <button
@@ -57,7 +62,7 @@
             <td></td>
             <td></td>
             <td class="center">SUBTOTAL</td>
-            <td class="center">{{$formatRupiah(getTotal)}}</td>
+            <td class="center total">{{$formatRupiah(getTotal)}}</td>
           </tr>
         </tbody>
       </table>
@@ -77,22 +82,23 @@
 </template>
 
 <script>
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
-    Loading
+    Loading,
   },
   data() {
     return {
       mycarts: null,
       total: null,
       subtotal: 0,
-      isLoading: false
+      isLoading: false,
     };
   },
   created() {
-    this.$store.dispatch("userCarts");
+    this.$store.dispatch('userCarts');
   },
   computed: {
     getCarts() {
@@ -100,38 +106,38 @@ export default {
     },
     getTotal() {
       return this.countTotal();
-    }
+    },
   },
   methods: {
     deleteItem(ProductId) {
       this.isLoading = true;
       this.$axios({
-        method: "delete",
+        method: 'delete',
         url: `${this.$server}/carts/${ProductId}`,
         headers: {
-          token: localStorage.token
-        }
+          token: localStorage.token,
+        },
       })
-        .then(result => {
+        .then((result) => {
           this.isLoading = false;
-          this.$store.dispatch("userCarts");
+          this.$store.dispatch('userCarts');
         })
-        .catch(err => {
+        .catch((err) => {
           this.isLoading = false;
           this.$swal.fire({
             title: "We're sorry",
             text: err.response.data,
-            icon: "question",
+            icon: 'question',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         });
     },
     countTotal() {
-      let carts = this.$store.state.carts;
+      const { carts } = this.$store.state;
       let subtotal = 0;
       if (carts) {
-        carts.forEach(cart => {
+        carts.forEach((cart) => {
           subtotal += cart.price * cart.UserProduct.amount;
         });
         this.subtotal = subtotal;
@@ -139,91 +145,91 @@ export default {
       return this.subtotal;
     },
     count(price, amount) {
-      let count = amount * price;
+      const count = amount * price;
       this.total = count;
       return count;
     },
     checkout() {
       this.isLoading = true;
       this.$axios({
-        method: "put",
+        method: 'put',
         url: `${this.$server}/carts`,
         headers: {
-          token: localStorage.token
-        }
+          token: localStorage.token,
+        },
       })
-        .then(result => {
+        .then((result) => {
           this.isLoading = false;
           this.$swal.fire({
-            icon: "success",
-            title: `Thank you for shopping!`,
+            icon: 'success',
+            title: 'Thank you for shopping!',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
-          this.$store.dispatch("userCarts");
+          this.$store.dispatch('userCarts');
         })
-        .catch(err => {
+        .catch((err) => {
           this.isLoading = false;
           this.$swal.fire({
             title: "We're sorry",
             text: err.response.data,
-            icon: "question",
+            icon: 'question',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         });
     },
     updateAmount(ProductId, amount, stock, type) {
-      if (type == "add") {
-        amount = amount + 1;
+      if (type == 'add') {
+        amount += 1;
       } else {
-        amount = amount - 1;
+        amount -= 1;
       }
       if (amount == 0) {
         this.$swal
           .fire({
-            title: "Delete this item?",
-            icon: "question",
+            title: 'Delete this item?',
+            icon: 'question',
             showCancelButton: true,
-            confirmButtonColor: "#e79796",
-            cancelButtonColor: "#ffc988",
-            confirmButtonText: "Delete"
+            confirmButtonColor: '#e79796',
+            cancelButtonColor: '#ffc988',
+            confirmButtonText: 'Delete',
           })
-          .then(result => {
+          .then((result) => {
             if (result.value) {
               this.deleteItem(ProductId);
             } else {
               amount = 1;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
           });
       }
       this.$axios({
-        method: "put",
+        method: 'put',
         url: `${this.$server}/carts/${ProductId}`,
         data: {
           amount: Number(amount),
-          stock: stock
+          stock,
         },
         headers: {
-          token: localStorage.token
-        }
+          token: localStorage.token,
+        },
       })
-        .then(result => {
-          this.$store.dispatch("userCarts");
+        .then((result) => {
+          this.$store.dispatch('userCarts');
         })
-        .catch(err => {
+        .catch((err) => {
           this.$swal.fire({
             title: err.response.data,
-            icon: "error",
+            icon: 'error',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -254,5 +260,20 @@ export default {
 }
 .close {
   cursor: pointer;
+}
+.name {
+  color: #e79796;
+  cursor: pointer;
+}
+.name:hover {
+  box-shadow: 20px;
+  color: white;
+  background-color: rgb(63, 63, 63);
+  transition: background-color 0.5s;
+  padding: 3px;
+}
+.total {
+  font-weight: bold;
+  font-style: italic;
 }
 </style>

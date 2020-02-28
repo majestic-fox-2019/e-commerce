@@ -98,11 +98,12 @@
 </template>
 
 <script>
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
-    Loading
+    Loading,
   },
   data() {
     return {
@@ -113,13 +114,13 @@ export default {
         image: null,
         price: null,
         stock: null,
-        CategoryId: null
-      }
+        CategoryId: null,
+      },
     };
   },
   created() {
-    this.$store.dispatch("allProducts");
-    this.$store.dispatch("allCategories");
+    this.$store.dispatch('allProducts');
+    this.$store.dispatch('allCategories');
   },
   methods: {
     getProducts() {
@@ -139,42 +140,42 @@ export default {
     addProduct() {
       this.isLoading = true;
       this.$axios({
-        method: "post",
+        method: 'post',
         url: `${this.$server}/products`,
         headers: {
-          token: localStorage.token
+          token: localStorage.token,
         },
         data: {
           name: this.formAdd.name,
           image: this.formAdd.image,
           price: this.formAdd.price,
           stock: this.formAdd.stock,
-          CategoryId: this.formAdd.CategoryId
-        }
+          CategoryId: this.formAdd.CategoryId,
+        },
       })
-        .then(result => {
+        .then((result) => {
           this.isLoading = false;
-          window.$("#addProduct").modal("hide");
+          window.$('#addProduct').modal('hide');
           this.$swal.fire({
-            icon: "success",
+            icon: 'success',
             title: `Successfully added ${result.data.name}!`,
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
           this.clearForm();
-          this.$store.dispatch("allProducts");
+          this.$store.dispatch('allProducts');
         })
-        .catch(err => {
+        .catch((err) => {
           this.isLoading = false;
           this.$swal.fire({
-            icon: "error",
+            icon: 'error',
             title: err.response.data,
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -46,22 +46,22 @@
 </template>
 
 <script>
-import PicZoom from "vue-piczoom";
-import updateForm from "../components/updateForm.vue";
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
+import PicZoom from 'vue-piczoom';
+import Loading from 'vue-loading-overlay';
+import updateForm from '../components/updateForm.vue';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   components: {
     updateForm,
     PicZoom,
-    Loading
+    Loading,
   },
   data() {
     return {
       product: null,
       isUpdate: false,
-      isLoading: false
+      isLoading: false,
     };
   },
   beforeCreate() {
@@ -73,72 +73,72 @@ export default {
   methods: {
     getOne() {
       return this.$axios({
-        method: "get",
+        method: 'get',
         url: `${this.$server}/products/${this.$route.params.id}`,
         headers: {
-          token: localStorage.token
-        }
+          token: localStorage.token,
+        },
       })
-        .then(result => {
+        .then((result) => {
           this.product = result.data;
         })
-        .catch(err => {
+        .catch((err) => {
           this.$swal.fire({
             title: "We're sorry",
             text: err.response.data,
-            icon: "question",
+            icon: 'question',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         });
     },
     backToHome() {
-      return this.$router.push({ path: "/admin" });
+      return this.$router.push({ path: '/admin' });
     },
     deleteProduct() {
       this.$swal
         .fire({
-          title: "Are you sure?",
+          title: 'Are you sure?',
           text: `You want to delete ${this.product.name}`,
-          icon: "warning",
+          icon: 'warning',
           showCancelButton: true,
-          confirmButtonColor: "#e79796",
-          cancelButtonColor: "#ffc988",
-          confirmButtonText: "Yes, delete it!"
+          confirmButtonColor: '#e79796',
+          cancelButtonColor: '#ffc988',
+          confirmButtonText: 'Yes, delete it!',
         })
-        .then(result => {
+        .then((result) => {
           if (result.value) {
             return this.$axios({
-              method: "delete",
+              method: 'delete',
               url: `${this.$server}/products/${this.$route.params.id}`,
               headers: {
-                token: localStorage.token
-              }
+                token: localStorage.token,
+              },
             })
-              .then(result => {
+              .then((result) => {
                 this.$swal.fire({
-                  title: "Deleted!",
+                  title: 'Deleted!',
                   text: `${result.data.name} has been deleted.`,
-                  icon: "success",
+                  icon: 'success',
                   showConfirmButton: false,
-                  timer: 1500
+                  timer: 1500,
                 });
                 this.product = result.data;
-                this.$router.push({ path: "/admin" });
+                this.$router.push({ path: '/admin' });
               })
-              .catch(err => {
+              .catch((err) => {
                 this.$swal.fire({
                   title: "We're sorry",
                   text: err.response.data,
-                  icon: "question",
+                  icon: 'question',
                   showConfirmButton: false,
-                  timer: 1500
+                  timer: 1500,
                 });
               });
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

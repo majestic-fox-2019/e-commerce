@@ -37,7 +37,7 @@
 export default {
   data() {
     return {
-      categories: null
+      categories: null,
     };
   },
   created() {
@@ -46,23 +46,23 @@ export default {
   methods: {
     getCategories() {
       this.$axios({
-        method: "get",
+        method: 'get',
         url: `${this.$server}/categories`,
         headers: {
-          token: localStorage.token
-        }
+          token: localStorage.token,
+        },
       })
-        .then(result => {
+        .then((result) => {
           this.categories = result.data;
         })
-        .catch(err => {
-          console.log(err.response, "< err infobar");
+        .catch((err) => {
+          console.log(err.response, '< err infobar');
         });
     },
     filterCategory(category) {
-      this.$emit("filter", category);
-    }
-  }
+      this.$emit('filter', category);
+    },
+  },
 };
 </script>
 
