@@ -3,6 +3,7 @@ const app = require('../app')
 
 var tokenAdaadain = "eyJhbGciOiJIUzI1NiJ9.OQ.qGR1mJrItj9lK3zhNCCIjYkaGNh6LUzcpRw3Sc8sIEY"
 var tokenBaru
+var tokenUser
 
 
 describe('POST /admin-register-test', function() {
@@ -119,6 +120,131 @@ describe('GET /products/1', function() {
     const res = await request (app)
     .get('/products/1')
     expect(res.statusCode).toEqual(201)
+  })
+})
+
+//// USER //////
+
+describe('POST /register', function() {
+  it('should register user', async () => {
+    const res = await request (app)
+    .post('/register')
+    .send(input= {
+      email: "testing@mail.com",
+      name: "test",
+      password: "1234",
+      address: "jalan hacktiv8",
+      phone_number: "089123456678"
+    })
+    expect(res.statusCode).toEqual(201)
+  })
+})
+
+describe('POST /login', function() {
+  it('should login user', async () => {
+    const res = await request (app)
+    .post('/login')
+    .send(input= {
+      email: "testing@mail.com",
+      password: "1234"
+    })
+    expect(res.statusCode).toEqual(201)
+    expect(res.body.token).toEqual(res.body.token)
+    tokenUser = res.body.token
+  })
+})
+
+
+describe('POST /products/1', function() {
+  it('should add to cart product', async () => {
+    const res = await request (app)
+    .post('/products/1')
+    .set("token", tokenUser)
+    .send(input= {
+      total: 3
+    })
+    expect(res.statusCode).toEqual(201)
+  })
+})
+
+describe('GET /products-user', function() {
+  it('should show cart user', async () => {
+    const res = await request (app)
+    .get('/products-user')
+    .set("token", tokenUser)
+    expect(res.statusCode).toEqual(200)
+  })
+})
+
+describe('PATCH /user', function() {
+  it('should edit profile user', async () => {
+    const res = await request (app)
+    .patch('/user')
+    .set("token", tokenUser)
+    .send(input= {
+      email: "testing@mail.com",
+      name: "test",
+      address: "jalan hacktiv8",
+      phone_number: "089123456678"
+    })
+    expect(res.statusCode).toEqual(200)
+  })
+})
+
+describe('DELETE /products/1', function() {
+  it('should delete product from cart', async () => {
+    const res = await request (app)
+    .delete('/products/1')
+    .set("token", tokenUser)
+    expect(res.statusCode).toEqual(201)
+  })
+})
+
+describe('POST /products/1', function() {
+  it('should add to cart product', async () => {
+    const res = await request (app)
+    .post('/products/1')
+    .set("token", tokenUser)
+    .send(input= {
+      total: 3
+    })
+    expect(res.statusCode).toEqual(201)
+  })
+})
+
+
+describe('PUT /products/1', function() {
+  it('should edit amount product from cart', async () => {
+    const res = await request (app)
+    .put('/products/1')
+    .set("token", tokenUser)
+    .send(input= {
+      total: 5
+    })
+    expect(res.statusCode).toEqual(201)
+  })
+})
+
+
+describe('PATCH /products', function() {
+  it('should checkout cart user', async () => {
+    const res = await request (app)
+    .patch('/products')
+    .set("token", tokenUser)
+    expect(res.statusCode).toEqual(201)
+  })
+})
+
+describe('POST /send-email', function() {
+  it('should send email after checkout', async () => {
+    const res = await request (app)
+    .post('/send-email')
+    .set("token", tokenUser)
+    .send(input= {
+      email: "fadhilahrayafi@gmail.com",
+      inputText: "ini isi email"
+    })
+    expect(res.statusCode).toEqual(200)
   })
 })
 
