@@ -51,6 +51,9 @@ export default new Vuex.Store({
     adminList: []
   },
   mutations: {
+    CLEAR_DISPLAY_PRODUCTS (state, payload) {
+      state.displayProducts = []
+    },
     SET_DISPLAY_PRODUCTS (state, payload) {
       state.displayProducts = payload
     },
@@ -67,10 +70,10 @@ export default new Vuex.Store({
       state.loading.userInfo = false
     },
     SET_LOADING_PRODUCTCARD (state) {
-      state.loading.userInfo = true
+      state.loading.productCard = true
     },
     SET_UNLOAD_PRODUCTCARD (state) {
-      state.loading.userInfo = false
+      state.loading.productCard = false
     },
     SET_LOADING_WHOLEPAGE (state) {
       state.loading.wholePageLoading = true
@@ -318,6 +321,7 @@ export default new Vuex.Store({
         })
     },
     fetchShopProducts (state, payload) {
+      this.commit('CLEAR_DISPLAY_PRODUCTS')
       axios({
         url: this.state.baseUrl + '/products/user',
         method: 'get',

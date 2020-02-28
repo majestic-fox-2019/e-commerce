@@ -50,7 +50,7 @@
             </div>
             </div>
       </div>
-      <b-modal id="registerShop" centered hide-header hide-footer>
+      <b-modal ref="registerShop" id="registerShop" centered hide-header hide-footer>
     <h1 style="text-align: center">Shop Registration</h1>
     <form @submit.prevent="registerShop" class="mt-4">
       <label for="shopNameRegist">Enter Shop Name:</label>
@@ -105,6 +105,7 @@ export default {
           this.$store.dispatch('registerShop', {
             shopName: this.form.shopName
           })
+          this.$bvModal.hide('registerShop')
           this.form.shopName = ''
         }
       })
