@@ -63,7 +63,9 @@ class productController {
 
     static delete (req, res, next) {
         Product.destroy({
-            where: req.params.id,
+            where: {
+                id: req.params.id
+            },
             returning: true
         })
         .then(result => {

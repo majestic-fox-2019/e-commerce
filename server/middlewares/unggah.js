@@ -6,7 +6,7 @@ const storage = unggah.gcs({
     keyFilename: path.resolve(__dirname, '../key_file.json'),
     bucketName: 'product-silentatlantis',
     rename: (req, file) => {
-        console.log('masuk d unggah', file)
+        // console.log('masuk d unggah', file)
         return `${Date.now()}-${file.originalname}`
     }
 })
