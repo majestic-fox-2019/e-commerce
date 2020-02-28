@@ -60,11 +60,13 @@ export default {
           stock: null,
         },
         errorsMsg: null,
-        successMsg: null
+        successMsg: null,
+        loading: true
       }
     },
     methods: {
       createProduct(){
+        this.$store.dispatch('loading')
         const fd = new FormData()
         fd.append('name', this.form.name)
         fd.append('image_url', this.form.file)
@@ -81,6 +83,7 @@ export default {
           data: fd
         })
         .then( ({ data }) => {
+          this.$store.dispatch('loading')
           this.errorsMsg = null
           this.form.name= null
           this.form.file= null
@@ -89,7 +92,13 @@ export default {
           this.successMsg = "create product success"
         })
         .catch(err => {
+          this.$store.dispatch('loading')
           this.errorsMsg = err.response.data.message
+          this.errorsMsg = null
+          this.form.name= null
+          this.form.file= null
+          this.form.price= null
+          this.form.stock= null
         })
       },
       reset(){
@@ -102,6 +111,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

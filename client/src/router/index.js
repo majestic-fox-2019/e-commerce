@@ -8,6 +8,7 @@ import store from '../store'
 import Products from '../components/Products'
 import CreateProduct from '../components/CreateProduct'
 import Cart from '../components/Cart'
+import ProductDetail from '../components/ProductDetail'
 
 
 Vue.use(VueRouter)
@@ -44,6 +45,11 @@ const routes = [
           name: 'register',
           component: Register
         },
+        {
+          path: 'detail/:id',
+          name: 'detail',
+          component: ProductDetail
+        }
       ]
     },
     {

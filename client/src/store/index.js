@@ -10,7 +10,8 @@ export default new Vuex.Store({
     isLogin: false,
     role: null,
     errors: null,
-    products: null
+    products: null,
+    loading: false,
   },
   mutations: {
     login(state){
@@ -23,9 +24,17 @@ export default new Vuex.Store({
     },
     role(state, data){
       state.role = data
+      console.log(state.role)
     },
     products(state, data){
       state.products= data
+    },
+    loading(state){
+      if(!state.loading){
+        state.loading = true
+      } else {
+        state.loading = false
+      }
     }
   },
   actions: {
@@ -59,17 +68,23 @@ export default new Vuex.Store({
       router.push('/auth')
     },
     fetchProducts({commit}){
+      commit('loading')
       config({
         method: "get",
         url: 'products',
       })
       .then(({ data }) => {
+        commit('loading')
         commit("products", data)
       })
       .catch(err => {
+        commit('loading')
         commit("error", err.response.data.message)
       })
     },
+    loading({ commit }){
+      commit('loading')
+    }
   },
   modules: {
   }

@@ -8,6 +8,7 @@
           <th scope="col">name</th>
           <th scope="col">price</th>
           <th scope="col">stock</th>
+          <th scope="col">action</th>
         </tr>
       </thead>
       <tbody>
@@ -17,10 +18,12 @@
           <th>{{product.name}}</th>
           <th>{{product.price}}</th>
           <th>{{product.stock}}</th>
+          <th><router-link :to="`/detail/${product.id}`">Edit</router-link> <b-btn variant="danger">Delete</b-btn></th>
         </tr>
       </tbody>
     </table>
     <!-- {{products}} -->
+    <router-view/>
   </div>
 </template>
 
