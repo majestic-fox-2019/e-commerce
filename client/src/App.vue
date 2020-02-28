@@ -7,6 +7,7 @@
     <loginregister v-if="!alreadyLogin">
       <!-- <loginregister> -->
     </loginregister>
+    <!-- <router-view /> -->
     <showcart v-if="showCart && alreadyLogin"></showcart>
     <update v-if="isUpdated && alreadyLogin"></update>
     <homepageadmin v-if="alreadyLogin"></homepageadmin>

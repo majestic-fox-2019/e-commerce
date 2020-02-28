@@ -16,7 +16,9 @@
       <v-textarea type="number" v-model="product.description" label="description" required>
       </v-textarea>
       <v-btn color="warning" class="mr-4" @click="update">Update</v-btn>
+      <router-link to='/homepage'>
       <v-btn color="red" class="mr-4" @click="cancel">Cancel</v-btn>
+      </router-link>
       <v-spacer></v-spacer>
     </v-form>
   </div>
