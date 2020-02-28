@@ -98,7 +98,7 @@ export default {
             formData.append('category', this.category)
             formData.append('file', this.imgUrl)
             axios({
-                url : 'http://localhost:3000/product/',
+                url : 'https://ecommerce-jovi.herokuapp.com/product/',
                 method : 'post',
                 headers : {
                 token : localStorage.token
@@ -129,7 +129,7 @@ export default {
             formData.append('category', this.category)
             formData.append('file', this.imgUrl)
             axios({
-                url : 'http://localhost:3000/product/7',
+                url : 'https://ecommerce-jovi.herokuapp.com/product/7',
                 method : 'PUT',
                 headers : {
                     token : localStorage.token

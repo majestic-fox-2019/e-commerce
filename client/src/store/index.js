@@ -11,7 +11,7 @@ export default new Vuex.Store({
     products : [],
     product : {},
     productId : null,
-    isEditing : true,
+    isEditing : false,
     transactions : [],
     carts : [],
     loggedin : false
@@ -39,7 +39,7 @@ export default new Vuex.Store({
   actions: {
     getProducts({commit,state}){
       axios({
-        url : 'http://localhost:3000/product/',
+        url : 'https://ecommerce-jovi.herokuapp.com/product/',
         method : 'get',
         headers : {
           token : localStorage.token
@@ -56,7 +56,7 @@ export default new Vuex.Store({
 
     deleteProduct({dispatch},id){
       axios({
-        url:'http://localhost:3000/product/'+id,
+        url:'https://ecommerce-jovi.herokuapp.com/product/'+id,
         method : 'DELETE',
         headers : {
           token : localStorage.token
@@ -73,7 +73,7 @@ export default new Vuex.Store({
     
     showEditProduct({state, commit, dispatch}, id){
       axios({
-        url: 'http://localhost:3000/product/'+id,
+        url: 'https://ecommerce-jovi.herokuapp.com/product/'+id,
         method: 'GET',
         headers : {
           token :localStorage.token
@@ -93,7 +93,7 @@ export default new Vuex.Store({
 
     getTransactions({commit}){
       axios({
-        url : 'http://localhost:3000/cart/transactions',
+        url : 'https://ecommerce-jovi.herokuapp.com/cart/transactions',
         method : 'get',
         headers : {
           token : localStorage.token
@@ -110,7 +110,7 @@ export default new Vuex.Store({
 
     deleteTransaction({dispatch},id){
       axios({
-        url:'http://localhost:3000/cart/'+id,
+        url:'https://ecommerce-jovi.herokuapp.com/cart/'+id,
         method : 'DELETE',
         headers : {
           token : localStorage.token
@@ -129,7 +129,7 @@ export default new Vuex.Store({
     getCarts({commit}){
       console.log('masuk get carts')
       axios({
-        url : 'http://localhost:3000/cart/',
+        url : 'https://ecommerce-jovi.herokuapp.com/cart/',
         method : 'get',
         headers : {
           token : localStorage.token
@@ -146,7 +146,7 @@ export default new Vuex.Store({
 
     addToCart({state}, id){
       axios({
-        url : 'http://localhost:3000/cart/',
+        url : 'https://ecommerce-jovi.herokuapp.com/cart/',
         method : 'post',
         data : {
           ProductId : id
@@ -167,7 +167,7 @@ export default new Vuex.Store({
     checkout({commit, dispatch, state}, id){
       console.log(id)
       axios({
-        url : 'http://localhost:3000/cart/'+id,
+        url : 'https://ecommerce-jovi.herokuapp.com/cart/'+id,
         method : 'put',
         headers : {
           token : localStorage.token
@@ -186,7 +186,7 @@ export default new Vuex.Store({
     login({state}, payload){
       console.log('masuk register')
       axios({
-        url : 'http://localhost:3000/user/login',
+        url : 'https://ecommerce-jovi.herokuapp.com/user/login',
         method : 'post',
         data : payload
       })
@@ -207,7 +207,7 @@ export default new Vuex.Store({
     register({state}, payload){
       console.log('masuk register')
       axios({
-        url : 'http://localhost:3000/user/register',
+        url : 'https://ecommerce-jovi.herokuapp.com/user/register',
         method : 'post',
         data : payload
       })
