@@ -86,7 +86,7 @@ export default {
       fd.append('description', this.descAdd)
       fd.append('category', this.categoryAdd)
       axios({
-        url: "http://localhost:3000/admin",
+        url: "https://e-commers-skin-type.herokuapp.com/admin",
         method: "POST",
         data: fd,
         headers: {

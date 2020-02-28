@@ -55,7 +55,7 @@ export default {
       register() {
         axios({
           method:"POST",
-          url: 'http://localhost:3000/admin-register',
+          url: 'https://e-commers-skin-type.herokuapp.com/admin-register',
           data:{
             name: this.nameRegis,
             email: this.emailRegis,

@@ -17,7 +17,7 @@ export default new Vuex.Store({
   actions: {
     getData(context) {
       axios({
-        url: "http://localhost:3000/home",
+        url: "https://e-commers-skin-type.herokuapp.com/home",
         method: "GET",
         headers: {
           token: localStorage.getItem("token")

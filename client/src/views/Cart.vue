@@ -76,7 +76,7 @@ name: 'Cart',
   methods:{
     getCart(){
       axios({
-        url:`http://localhost:3000/products-user`,
+        url:`https://e-commers-skin-type.herokuapp.com/products-user`,
         method: "GET",
         headers: {
           token: localStorage.getItem("token")
@@ -115,7 +115,7 @@ name: 'Cart',
     }).then((result) => {
       if (result.value) {
         axios({
-        url:`http://localhost:3000/products/${id}`,
+        url:`https://e-commers-skin-type.herokuapp.com/products/${id}`,
         method:"DELETE",
         headers: {
           token: localStorage.getItem("token")
@@ -142,7 +142,7 @@ name: 'Cart',
     },
     editCart(id, total) {
       axios({
-        url:`http://localhost:3000/products/${id}`,
+        url:`https://e-commers-skin-type.herokuapp.com/products/${id}`,
         method:"PUT",
         headers: {
           token: localStorage.getItem("token")
@@ -197,7 +197,7 @@ name: 'Cart',
       .then(res => {
         if(res.value) {
           axios({
-            url:`http://localhost:3000/products`,
+            url:`https://e-commers-skin-type.herokuapp.com/products`,
             method:'PATCH',
             headers: {
               token: localStorage.getItem("token")
@@ -239,12 +239,12 @@ name: 'Cart',
     sendEmail(){
       axios({
         method:"POST",
-        url: "http://localhost:3000/send-email",
+        url: "https://e-commers-skin-type.herokuapp.com/send-email",
         headers: {
               token: localStorage.getItem("token")
         },
         data: {
-          email: 'fadhilahrayafi@gmail.com',
+          email: this.email,
           inputText: `Hello ${this.name}<br>
           We are fron Skin-Type want to inform you about your transaction in our shop<br>
           Here is a detail about your order: <br>

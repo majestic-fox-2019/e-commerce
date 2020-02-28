@@ -80,7 +80,7 @@ export default {
     editProfile(){
       axios({
         method:"PATCH",
-        url:'http://localhost:3000/user',
+        url:'https://e-commers-skin-type.herokuapp.com/user',
         headers: {
           token: localStorage.getItem("token")
         },

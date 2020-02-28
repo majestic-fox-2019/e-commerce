@@ -85,7 +85,7 @@ export default {
     getData(){
       this.name = localStorage.getItem("name")
       axios({
-        url:`http://localhost:3000/products-user`,
+        url:`https://e-commers-skin-type.herokuapp.com/products-user`,
         method: "GET",
         headers: {
           token: localStorage.getItem("token")

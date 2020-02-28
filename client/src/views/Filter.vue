@@ -39,7 +39,7 @@ export default {
       console.log("masuk get")
       let input = this.$route.params.category
       axios({
-        url:`http://localhost:3000/home/${input}`,
+        url:`https://e-commers-skin-type.herokuapp.com/home/${input}`,
         method: "GET",
         headers: {
           token: localStorage.getItem("token")

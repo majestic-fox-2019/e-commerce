@@ -53,7 +53,7 @@ export default {
       let id = this.$route.params.id
       console.log(id)
       axios({
-        url: `http://localhost:3000/products/${id}`,
+        url: `https://e-commers-skin-type.herokuapp.com/products/${id}`,
         method: "GET",
         headers: {
           token: localStorage.getItem("token")
@@ -70,7 +70,7 @@ export default {
     addToCart(){
       let produckId = this.$route.params.id
       axios({
-        url:`http://localhost:3000/products/${produckId}`,
+        url:`https://e-commers-skin-type.herokuapp.com/products/${produckId}`,
         method: 'POST',
         headers: {
           token: localStorage.getItem("token")

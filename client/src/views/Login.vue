@@ -36,7 +36,7 @@ export default {
       login(){
         axios({
           method: 'POST',
-          url:'http://localhost:3000/login',
+          url:'https://e-commers-skin-type.herokuapp.com/login',
           data: {
             email: this.emailLogin,
             password: this.passLogin

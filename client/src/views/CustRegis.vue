@@ -52,7 +52,7 @@ name:'CustRegis',
       register() {
         axios({
           method:"POST",
-          url: 'http://localhost:3000/register',
+          url: 'https://e-commers-skin-type.herokuapp.com/register',
           data:{
             name: this.nameRegis,
             email: this.emailRegis,

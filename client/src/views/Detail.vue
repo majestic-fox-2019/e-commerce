@@ -124,7 +124,7 @@ export default {
     getDetail() {
       let id = this.$route.params.id
       axios({
-        url: `http://localhost:3000/products/${id}`,
+        url: `https://e-commers-skin-type.herokuapp.com/products/${id}`,
         method: "GET",
         headers: {
           token: localStorage.getItem("token")
@@ -154,7 +154,7 @@ export default {
       fd.append('description', this.descEdit)
       fd.append('category', this.categoryEdit)
       axios({
-        url: `http://localhost:3000/admin/${id}`,
+        url: `https://e-commers-skin-type.herokuapp.com/admin/${id}`,
         method:"PUT",
         data: fd,
         headers: {
@@ -200,7 +200,7 @@ export default {
         .then((result) => {
           if (result.value) {
            return axios({
-                url: `http://localhost:3000/admin/${id}`,
+                url: `https://e-commers-skin-type.herokuapp.com/admin/${id}`,
                 method:"DELETE",
                 headers: {
                   token: localStorage.getItem("token")
