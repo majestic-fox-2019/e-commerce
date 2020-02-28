@@ -3,8 +3,8 @@ import Vuex from "vuex";
 import axios from "axios";
 
 Vue.use(Vuex);
-// const server = "https://ma-tea.herokuapp.com";
-const server = "http://localhost:3000";
+const server = "https://ma-tea.herokuapp.com";
+// const server = "http://localhost:3000";
 export default new Vuex.Store({
   state: {
     dataProducts: null,
@@ -38,7 +38,6 @@ export default new Vuex.Store({
         headers: { token: localStorage.token }
       })
         .then(data => {
-          console.log(data);
           commit("inputProduct", data.data);
         })
         .catch(err => {

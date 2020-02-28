@@ -23,6 +23,48 @@ describe("Post Endpoints", () => {
   });
 });
 
+describe("Post Endpoints", () => {
+  it("should  not create a new product when name is empty", function(done) {
+    let isi = { name: "", image_url: "ini.com", price: 200000, stock: 10 };
+    request(app)
+      .post("/products")
+      .set("token", token)
+      .send(isi)
+      .then(res => {
+        expect(res.statusCode).not.toEqual(201);
+        done();
+      });
+  });
+});
+
+describe("Post Endpoints", () => {
+  it("should  not create a new product when imageUrl is empty", function(done) {
+    let isi = { name: "asdas", image_url: "", price: 200000, stock: 10 };
+    request(app)
+      .post("/products")
+      .set("token", token)
+      .send(isi)
+      .then(res => {
+        expect(res.statusCode).not.toEqual(201);
+        done();
+      });
+  });
+});
+
+describe("Post Endpoints", () => {
+  it("should  not create a new product when price is empty", function(done) {
+    let isi = { name: "asdas", image_url: "sdsd", stock: 10 };
+    request(app)
+      .post("/products")
+      .set("token", token)
+      .send(isi)
+      .then(res => {
+        expect(res.statusCode).not.toEqual(201);
+        done();
+      });
+  });
+});
+
 describe("POST (error) Endpoints", () => {
   it("should not create a new data", function(done) {
     let isi = { name: "baju", image_url: "ini.com" };
@@ -79,7 +121,7 @@ describe("Update a product", () => {
 });
 
 describe("Update (error) a product", () => {
-  it("Should Not Update a product ", function(done) {
+  it("Should Not Update a product when id is wrong ", function(done) {
     let updateProduct = {
       //   name: "baju",
       image_url: "ini.com",
@@ -102,7 +144,7 @@ describe("Update (error) a product", () => {
 });
 
 describe("Delete a product", function() {
-  it("Should not delete a product", function(done) {
+  it("Should not delete a product when id is wrong", function(done) {
     request(app)
       .delete("/products/2")
       .set("token", token)

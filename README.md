@@ -1,10 +1,6 @@
 # e-commerce
 
-
-
 link :https://matea-c9762.firebaseapp.com
-
-
 
 ## Getting Started
 
@@ -13,8 +9,6 @@ link :https://matea-c9762.firebaseapp.com
 ```javascript
 npm install
 ```
-
-
 
 ## ENDPOINTS
 
@@ -52,8 +46,6 @@ npm install
 | DELETE | /cart/:id      | Delete a cart                                 |
 | put    | /cart/checkout | Update stock for product and delete user cart |
 
-
-
 ## 1. POST /products
 
 #### EndPoint:
@@ -64,41 +56,39 @@ npm install
 
 #### Schema:
 
-​	Value :
+​ Value :
 
-* name: string,
-* image_url: string,
-* price:integer,
-* stock:integer,
-* CategoryId:integer
+- name: string,
+- image_url: string,
+- price:integer,
+- stock:integer,
+- CategoryId:integer
 
 ##### Request Header:
 
 ```json
 {
-	"token": your_OwnToken
+  "token": your_OwnToken
 }
 ```
-
-
 
 ##### Request Body:
 
 ```json
 {
-	"name": "Chai on me",
-	"image_url":"https://havillatea.com/wp-content/uploads/2017/06/Svadista-Chai.png",
-  "price":120000,
-  "stock":20,
-  "CategoryId":2
+  "name": "Chai on me",
+  "image_url": "https://havillatea.com/wp-content/uploads/2017/06/Svadista-Chai.png",
+  "price": 120000,
+  "stock": 20,
+  "CategoryId": 2
 }
 ```
 
 #### Response:
 
-##### 		success:
+##### success:
 
-* 201
+- 201
 
 ```json
 {
@@ -113,21 +103,17 @@ npm install
 }
 ```
 
-##### 	error:
+##### error:
 
-* 400
+- 400
 
   ```json
   {
-  "message": "Validation error: price must be filled"
+    "message": "Validation error: price must be filled"
   }
   ```
 
-
-
-
-
-# 2. Get /products 
+# 2. Get /products
 
 #### EndPoint:
 
@@ -139,15 +125,13 @@ npm install
 
 ```json
 {
-	"token": your_OwnToken
+  "token": your_OwnToken
 }
 ```
 
-
-
 #### Response:
 
-##### 		success:
+##### success:
 
 - 200
 
@@ -166,8 +150,6 @@ npm install
 ]
 ```
 
-
-
 # 4. Put /products/:id
 
 #### EndPoint:
@@ -178,13 +160,13 @@ npm install
 
 #### Schema:
 
-​	Value :
+​ Value :
 
-* name: string,
-* image_url: string,
-* price:integer,
-* stock:integer,
-* CategoryId:integer
+- name: string,
+- image_url: string,
+- price:integer,
+- stock:integer,
+- CategoryId:integer
 
 ##### request parameter:
 
@@ -196,27 +178,25 @@ http://localhost:3000/products/12
 
 ```json
 {
-	"token": your_OwnToken
+  "token": your_OwnToken
 }
 ```
-
-
 
 ##### request body:
 
 ```json
 {
-    "name": "Chai",
-		"image_url":"https://havillatea.com/wp-content/uploads/2017/06/Svadista-Chai.png",
-  	"price":120000,
-  	"stock":20,
-  	"CategoryId":2
+  "name": "Chai",
+  "image_url": "https://havillatea.com/wp-content/uploads/2017/06/Svadista-Chai.png",
+  "price": 120000,
+  "stock": 20,
+  "CategoryId": 2
 }
 ```
 
 ##### response :
 
-##### 	Success
+##### Success
 
 - 200
 
@@ -233,25 +213,23 @@ http://localhost:3000/products/12
 }
 ```
 
-##### 	Error
+##### Error
 
 - 400
 
 ```json
 {
- "message": "Validation error: title must be filled"
- }
+  "message": "Validation error: title must be filled"
+}
 ```
 
 - 404
 
 ```json
 {
-    "message": "command not found"
+  "message": "command not found"
 }
 ```
-
-
 
 # 5. Delete /products/:id
 
@@ -271,21 +249,18 @@ http://localhost:3000/products/1
 
 ```json
 {
-	"token": your_OwnToken
+  "token": your_OwnToken
 }
 ```
 
-
-
 ##### Response:
 
-##### 	Success
+##### Success
 
 - 200
 
 ```javascript
 {
-   
 }
 ```
 
@@ -295,11 +270,9 @@ http://localhost:3000/products/1
 
 ```json
 {
-    "message": "command not found"
+  "message": "command not found"
 }
 ```
-
-
 
 ## 6. POST /register
 
@@ -313,40 +286,38 @@ http://localhost:3000/products/1
 
 ```json
 {
-    "username": "user",
-    "password": "user",
-    "email": "tambah@email.com"
+  "username": "user",
+  "password": "user",
+  "email": "tambah@email.com"
 }
 ```
 
 ##### Response:
 
-##### 	Success
+##### Success
 
 - 201
 
 ```json
 {
-    "id": 1,
-    "username": "user",
-    "password": "$2a$10$4KE6cyadeGnkmJotn6y4E.UBL6avbTx0Nod.VUjnE69m3l.U0PIi.",
-    "email": "tambah@email.com",
-    "updatedAt": "2020-02-20T08:31:08.131Z",
-    "createdAt": "2020-02-20T08:31:08.131Z"
+  "id": 1,
+  "username": "user",
+  "password": "$2a$10$4KE6cyadeGnkmJotn6y4E.UBL6avbTx0Nod.VUjnE69m3l.U0PIi.",
+  "email": "tambah@email.com",
+  "updatedAt": "2020-02-20T08:31:08.131Z",
+  "createdAt": "2020-02-20T08:31:08.131Z"
 }
 ```
 
-##### 	Error
+##### Error
 
 - 400
 
 ```json
 {
- "message": "Validation error: username must be filled"
- }
+  "message": "Validation error: username must be filled"
+}
 ```
-
-
 
 ## 7.POST /login
 
@@ -360,7 +331,7 @@ http://localhost:3000/products/1
 
 ```json
 {
-  "email": "user@email.com",  
+  "email": "user@email.com",
   "password": "user"
 }
 ```
@@ -371,21 +342,17 @@ http://localhost:3000/products/1
 
 ```json
 {
-  "token":your_own_token
+  "token": your_own_token
 }
 ```
-
-
 
 - 404
 
 ```json
 {
- "message": "Username or password wrong'"
- }
+  "message": "Username or password wrong'"
+}
 ```
-
-
 
 ## 8.POST /category
 
@@ -397,58 +364,52 @@ http://localhost:3000/products/1
 
 #### Schema:
 
-​	Value :
+​ Value :
 
-* name: string,
-
-  
+- name: string,
 
 ##### Request Header:
 
 ```json
 {
-	"token": your_OwnToken
+  "token": your_OwnToken
 }
 ```
-
-
 
 ##### Request Body:
 
 ```json
 {
-	"name": "Jasmine",
+  "name": "Jasmine"
 }
 ```
 
 #### Response:
 
-##### 		success:
+##### success:
 
-* 201
+- 201
 
 ```json
 {
-    "id": 1,
-    "name": "Jasmine",
-    "updatedAt": "2020-02-22T12:12:14.837Z",
-    "createdAt": "2020-02-22T12:12:14.837Z"
+  "id": 1,
+  "name": "Jasmine",
+  "updatedAt": "2020-02-22T12:12:14.837Z",
+  "createdAt": "2020-02-22T12:12:14.837Z"
 }
 ```
 
-##### 	error:
+##### error:
 
-* 400
+- 400
 
   ```json
   {
-  "message": "Validation error: name must be filled"
+    "message": "Validation error: name must be filled"
   }
   ```
 
-
-
-# 9. Get /category 
+# 9. Get /category
 
 #### EndPoint:
 
@@ -466,30 +427,26 @@ http://localhost:3000/category
 
 ```json
 {
-	"token": your_OwnToken
+  "token": your_OwnToken
 }
 ```
 
-
-
 #### Response:
 
-##### 		success:
+##### success:
 
 - 200
 
 ```json
 [
-    {
-      "id": 1,
-      "name": "Jasmine",
-      "updatedAt": "2020-02-22T12:12:14.837Z",
-      "createdAt": "2020-02-22T12:12:14.837Z"
-		}
+  {
+    "id": 1,
+    "name": "Jasmine",
+    "updatedAt": "2020-02-22T12:12:14.837Z",
+    "createdAt": "2020-02-22T12:12:14.837Z"
+  }
 ]
 ```
-
-
 
 # 10. Delete category/:id
 
@@ -509,21 +466,18 @@ http://localhost:3000/category/1
 
 ```json
 {
-	"token": your_OwnToken
+  "token": your_OwnToken
 }
 ```
 
-
-
 ##### Response:
 
-##### 	Success
+##### Success
 
 - 200
 
 ```javascript
 {
-   
 }
 ```
 
@@ -533,11 +487,9 @@ http://localhost:3000/category/1
 
 ```json
 {
-    "message": "command not found"
+  "message": "command not found"
 }
 ```
-
-
 
 # 11. Get /cart
 
@@ -551,13 +503,13 @@ http://localhost:3000/category/1
 
 ```json
 {
-	"token": your_OwnToken
+  "token": your_OwnToken
 }
 ```
 
 ##### Response:
 
-##### 	Success
+##### Success
 
 - 200
 
@@ -609,7 +561,7 @@ http://localhost:3000/category/1
 }
 ```
 
-##### 
+#####
 
 # 12. POST /cart
 
@@ -619,66 +571,58 @@ http://localhost:3000/category/1
 | ------- | --------- | ------------------------------------- |
 | GET     | /cart     | Get an user include cart with product |
 
-
-
 #### Schema:
 
-​	Value :
+​ Value :
 
-* total: integer,
+- total: integer,
 
-* ProductId:integer
+- ProductId:integer
 
-* UserId:integer
-
-  
+- UserId:integer
 
 ##### Request Header:
 
 ```json
 {
-	"token": your_OwnToken
+  "token": your_OwnToken
 }
 ```
-
-
 
 ##### Request Body:
 
 ```json
 {
-	"name": "Jasmine",
+  "name": "Jasmine"
 }
 ```
 
 #### Response:
 
-##### 		success:
+##### success:
 
-* 201
+- 201
 
 ```json
 {
-    "total": 10,
-    "ProductId": 21,
-    "UserId": 7,
-    "updatedAt": "2020-02-27T04:35:23.458Z",
-    "createdAt": "2020-02-27T04:35:23.458Z",
-    "id": 49
+  "total": 10,
+  "ProductId": 21,
+  "UserId": 7,
+  "updatedAt": "2020-02-27T04:35:23.458Z",
+  "createdAt": "2020-02-27T04:35:23.458Z",
+  "id": 49
 }
 ```
 
-##### 	error:
+##### error:
 
-* 400
+- 400
 
   ```json
   {
-      "message": "Validation error: total must be filled"
+    "message": "Validation error: total must be filled"
   }
   ```
-
-
 
 ## 13. PUT /cart
 
@@ -690,13 +634,13 @@ http://localhost:3000/category/1
 
 Value :
 
-* total: integer,
-* ProductId:integer
-* UserId:integer
+- total: integer,
+- ProductId:integer
+- UserId:integer
 
 #### Response :
 
-##### 	Success
+##### Success
 
 - 200
 
@@ -711,25 +655,23 @@ Value :
 }
 ```
 
-#### 	Error:
+#### Error:
 
 - 400
 
 ```json
 {
- "message": "Validation error: title must be filled"
- }
+  "message": "Validation error: title must be filled"
+}
 ```
 
 - 404
 
 ```json
 {
-    "message": "command not found"
+  "message": "command not found"
 }
 ```
-
-
 
 ## 14. Delete /cart/:id
 
@@ -749,21 +691,18 @@ http://localhost:3000/cart/21
 
 ```json
 {
-	"token": your_OwnToken
+  "token": your_OwnToken
 }
 ```
 
-
-
 ##### Response:
 
-##### 	Success
+##### Success
 
 - 200
 
 ```javascript
 {
-   
 }
 ```
 
@@ -773,11 +712,9 @@ http://localhost:3000/cart/21
 
 ```json
 {
-    "message": "command not found"
+  "message": "command not found"
 }
 ```
-
-
 
 # 15. PUT /cart/checkout
 
@@ -789,23 +726,19 @@ http://localhost:3000/cart/21
 
 Value :
 
-* cart: integer
-
-
+- cart: array of object
 
 ##### Request Header:
 
 ```json
 {
-	"token": your_OwnToken
+  "token": your_OwnToken
 }
 ```
 
-
-
 ##### Response:
 
-##### 	Success
+##### Success
 
 - 200
 
@@ -821,7 +754,6 @@ Value :
 
 ```json
 {
-    "message": "stock chai on me is not enough"
+  "message": "stock chai on me is not enough"
 }
 ```
-

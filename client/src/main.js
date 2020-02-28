@@ -16,8 +16,8 @@ import errorPage from "./views/404.vue";
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
-// Vue.prototype.$axios = axios.create({ baseURL: "https://ma-tea.herokuapp.com" });
-Vue.prototype.$axios = axios.create({ baseURL: "http://localhost:3000" });
+Vue.prototype.$axios = axios.create({ baseURL: "https://ma-tea.herokuapp.com" });
+// Vue.prototype.$axios = axios.create({ baseURL: "http://localhost:3000" });
 Vue.prototype.$currencyFormatter = input => {
   const formatter = new Intl.NumberFormat("id-ID", {
     style: "currency",

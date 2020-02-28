@@ -163,6 +163,7 @@ export default {
         }
       })
         .then(() => {
+          this.form = {};
           window.$("#addModal").modal("hide");
           Swal.fire({
             position: "top-end",

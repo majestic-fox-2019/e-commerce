@@ -102,6 +102,7 @@ export default {
             showConfirmButton: false,
             timer: 1500
           });
+          this.form = null;
           localStorage.setItem("token", data.data.token);
           localStorage.setItem("UserId", data.data.id);
           localStorage.setItem("role", this.form.role);

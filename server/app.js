@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV == "development") {
+if (process.env.NODE_ENV == "development" || process.env.NODE_ENV == "test") {
   require("dotenv").config();
 }
 const express = require("express");
@@ -15,8 +15,8 @@ app.use("/", index);
 app.use(error);
 
 //if want to test comment below codes
-app.listen(port, () => {
-  console.log(`listening on port ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`listening on port ${port}`);
+// });
 
 module.exports = app;
