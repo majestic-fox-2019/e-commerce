@@ -7,42 +7,47 @@
 </template>
 
 <script>
-import carousel from '@/components/carousel.vue';
-import catalog from '@/components/catalog.vue';
-import infobar from '@/components/infobar.vue';
+import carousel from "@/components/carousel.vue";
+import catalog from "@/components/catalog.vue";
+import infobar from "@/components/infobar.vue";
 
 export default {
   components: {
     carousel,
     catalog,
-    infobar,
+    infobar
   },
   data() {
     return {
-      filterBy: [],
+      filterBy: []
     };
   },
   created() {
-    this.products = this.$store.dispatch('allProducts');
+    this.products = this.$store.dispatch("allProducts");
   },
   computed: {
     getProducts() {
-      if (this.filterBy.length > 0) {
+      console.log(this.filterBy.length, "jumlah filterBy");
+      if (this.$store.state.filter) {
         return this.filterBy;
+      } else {
+        return this.$store.state.products;
       }
-      return this.$store.state.products;
-    },
+    }
   },
   methods: {
     filtered(value) {
       this.filterBy = [];
-      this.getProducts.forEach((product) => {
+      this.getProducts.forEach(product => {
         if (product.Category.name == value) {
           this.filterBy.push(product);
         }
       });
-    },
-  },
+      if (this.filterBy.length > 0) {
+        this.$store.dispatch("addFilter");
+      }
+    }
+  }
 };
 </script>
 

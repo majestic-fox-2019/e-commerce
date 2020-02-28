@@ -2,7 +2,7 @@ const app = require('../app')
 const request = require('supertest');
 const jwt = require('jsonwebtoken')
 
-const token = jwt.sign({ email: 'user@gmail.com', role: 'admin' }, 'process.env.JWT_TOKEN')
+const token = jwt.sign({ email: 'user@gmail.com', role: 'admin' }, process.env.JWT_TOKEN)
 
 // create new products
 describe('POST /products', () => {

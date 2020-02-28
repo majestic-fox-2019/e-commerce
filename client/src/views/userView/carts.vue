@@ -82,23 +82,23 @@
 </template>
 
 <script>
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
   components: {
-    Loading,
+    Loading
   },
   data() {
     return {
       mycarts: null,
       total: null,
       subtotal: 0,
-      isLoading: false,
+      isLoading: false
     };
   },
   created() {
-    this.$store.dispatch('userCarts');
+    this.$store.dispatch("userCarts");
   },
   computed: {
     getCarts() {
@@ -106,30 +106,30 @@ export default {
     },
     getTotal() {
       return this.countTotal();
-    },
+    }
   },
   methods: {
     deleteItem(ProductId) {
       this.isLoading = true;
       this.$axios({
-        method: 'delete',
+        method: "delete",
         url: `${this.$server}/carts/${ProductId}`,
         headers: {
-          token: localStorage.token,
-        },
+          token: localStorage.token
+        }
       })
-        .then((result) => {
+        .then(result => {
           this.isLoading = false;
-          this.$store.dispatch('userCarts');
+          this.$store.dispatch("userCarts");
         })
-        .catch((err) => {
+        .catch(err => {
           this.isLoading = false;
           this.$swal.fire({
             title: "We're sorry",
             text: err.response.data,
-            icon: 'question',
+            icon: "question",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
         });
     },
@@ -137,7 +137,7 @@ export default {
       const { carts } = this.$store.state;
       let subtotal = 0;
       if (carts) {
-        carts.forEach((cart) => {
+        carts.forEach(cart => {
           subtotal += cart.price * cart.UserProduct.amount;
         });
         this.subtotal = subtotal;
@@ -152,35 +152,35 @@ export default {
     checkout() {
       this.isLoading = true;
       this.$axios({
-        method: 'put',
+        method: "put",
         url: `${this.$server}/carts`,
         headers: {
-          token: localStorage.token,
-        },
+          token: localStorage.token
+        }
       })
-        .then((result) => {
+        .then(result => {
           this.isLoading = false;
           this.$swal.fire({
-            icon: 'success',
-            title: 'Thank you for shopping!',
+            icon: "success",
+            title: "Thank you for shopping!",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
-          this.$store.dispatch('userCarts');
+          this.$store.dispatch("userCarts");
         })
-        .catch((err) => {
+        .catch(err => {
           this.isLoading = false;
           this.$swal.fire({
             title: "We're sorry",
             text: err.response.data,
-            icon: 'question',
+            icon: "error",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
         });
     },
     updateAmount(ProductId, amount, stock, type) {
-      if (type == 'add') {
+      if (type == "add") {
         amount += 1;
       } else {
         amount -= 1;
@@ -188,48 +188,48 @@ export default {
       if (amount == 0) {
         this.$swal
           .fire({
-            title: 'Delete this item?',
-            icon: 'question',
+            title: "Delete this item?",
+            icon: "question",
             showCancelButton: true,
-            confirmButtonColor: '#e79796',
-            cancelButtonColor: '#ffc988',
-            confirmButtonText: 'Delete',
+            confirmButtonColor: "#e79796",
+            cancelButtonColor: "#ffc988",
+            confirmButtonText: "Delete"
           })
-          .then((result) => {
+          .then(result => {
             if (result.value) {
               this.deleteItem(ProductId);
             } else {
               amount = 1;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
           });
       }
       this.$axios({
-        method: 'put',
+        method: "put",
         url: `${this.$server}/carts/${ProductId}`,
         data: {
           amount: Number(amount),
-          stock,
+          stock
         },
         headers: {
-          token: localStorage.token,
-        },
+          token: localStorage.token
+        }
       })
-        .then((result) => {
-          this.$store.dispatch('userCarts');
+        .then(result => {
+          this.$store.dispatch("userCarts");
         })
-        .catch((err) => {
+        .catch(err => {
           this.$swal.fire({
             title: err.response.data,
-            icon: 'error',
+            icon: "error",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1500
           });
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

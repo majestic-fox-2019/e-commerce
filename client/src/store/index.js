@@ -2,8 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 
-// const server = 'http://localhost:3000';
-const server = 'https://upface.herokuapp.com';
+const server = 'http://localhost:3000';
+// const server = 'https://upface.herokuapp.com';
 
 Vue.use(Vuex);
 
@@ -12,6 +12,7 @@ export default new Vuex.Store({
     products: null,
     categories: null,
     carts: null,
+    filter: false,
   },
   mutations: {
     ALL_PRODUCTS(state, payload) {
@@ -23,8 +24,17 @@ export default new Vuex.Store({
     MY_CART(state, payload) {
       state.carts = payload;
     },
+    SET_FILTER(state, payload) {
+      state.filter = payload;
+    }
   },
   actions: {
+    clearFilter(context) {
+      context.commit('SET_FILTER', false)
+    },
+    addFilter(context) {
+      context.commit('SET_FILTER', true)
+    },
     allProducts(context) {
       axios({
         method: 'get',

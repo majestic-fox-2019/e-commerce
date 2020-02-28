@@ -102,12 +102,12 @@ class UserProductController {
         include: Product
       })
       .then(result => {
-        let products = result.Products
+        let products = result.Products // user incl products
 
         let outOfStock = []
-        products.forEach(product => {
-          if (product.stock < result.Products.stock) {
-            outOfStock.push(` Stock ${product} is not enought`)
+        products.forEach(product => { // 1 product di user
+          if (product.stock < product.UserProduct.amount) {
+            outOfStock.push(` Stock ${product.name} is only ${product.stock}`)
           }
         })
 
