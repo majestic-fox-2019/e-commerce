@@ -14,13 +14,13 @@ function authorizer(req,res,next){
 // /
 
 router.use(authenticator)
-router.use(authorizer)
 router.get('/', cartCon.findAll)
-router.get('/transactions', cartCon.transactions)
 router.post('/', cartCon.create)
-router.get('/:id', cartCon.findOne)
-router.delete('/:id', cartCon.delete)
 router.put('/:id', cartCon.checkout)
+// router.get('/:id', cartCon.findOne)
+router.use(authorizer)
+router.get('/transactions', cartCon.transactions)
+router.delete('/:id', cartCon.delete)
 
 // ---- TRANSACTIONS --- //
 

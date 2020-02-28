@@ -151,6 +151,7 @@ class CartController{
     }
 
     static transactions(req,res,next){
+        console.log('masuk transaction')
         db.Cart.findAll({
             include : [
                 {
