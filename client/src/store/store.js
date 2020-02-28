@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
+import axios from '@/api/axios.js'
 Vue.use(Vuex)
-// const url = 'http://localhost:3000'
-const url = 'https://frozen-castle-56073.herokuapp.com'
 
 const store = new Vuex.Store({
   state: {
@@ -25,7 +23,7 @@ const store = new Vuex.Store({
   actions: {
     categories (context) {
       axios({
-        url: `${url}/category/listCategory`,
+        url: `/category/listCategory`,
         method: 'get',
         headers: {token: localStorage.getItem('token')},
       })
@@ -38,7 +36,28 @@ const store = new Vuex.Store({
     },
     products (context) {
       axios({
-        url: `${url}/product/listProduct`,
+        url: `/product/listProduct`,
+        method: 'get',
+        headers: {token: localStorage.getItem('token')},
+      })
+      .then(products=>{
+        for(let i = 0; i < products.data.length; i++) {
+          for(let j = 0; j < products.data[i].Users.length; j++) {
+            if(products.data[i].Users[j].email == localStorage.getItem('email')) {
+              products.data[i].added = true
+              break;
+            }
+          }
+        }
+        context.commit('products', products.data)
+      })
+      .catch(error=>{
+        console.log(error.response)
+      })
+    },
+    allProd(context) {
+      axios({
+        url: `/product/adminListProduct`,
         method: 'get',
         headers: {token: localStorage.getItem('token')},
       })
@@ -49,22 +68,9 @@ const store = new Vuex.Store({
         console.log(error.response)
       })
     },
-    allProd(context) {
-      axios({
-        url: `${url}/product/adminListProduct`,
-        method: 'get',
-        headers: {token: localStorage.getItem('token')},
-      })
-      .then(products=>{
-        context.commit('products', products.data)
-      })
-      .catch(error=>{
-        console.log(error)
-      })
-    },
     cart(context) {
       axios({
-        url: `${url}/product/adminListProduct`,
+        url: `/product/adminListProduct`,
         method: 'get',
         headers: {token: localStorage.getItem('token')},
       })
@@ -72,13 +78,12 @@ const store = new Vuex.Store({
         context.commit('cart', products.data)
       })
       .catch(error=>{
-        console.log(error)
+        console.log(error.response)
       })
     },
     filter(context,id) {
-      console.log(id)
       axios({
-        url: `${url}/product/listProduct/category/${id}`,
+        url: `/product/listProduct/category/${id}`,
         method: 'get',
         headers: {token: localStorage.getItem('token')},
       })
@@ -94,12 +99,12 @@ const store = new Vuex.Store({
           context.commit('products', products.data)
         })
         .catch(error=>{
-          console.log(error)
+          console.log(error.response)
         })
     },
     filterAdmin(context,id) {
       axios({
-        url: `${url}/product/adminListProduct/category/${id}`,
+        url: `/product/adminListProduct/category/${id}`,
         method: 'get',
         headers: {token: localStorage.getItem('token')},
       })
@@ -115,12 +120,12 @@ const store = new Vuex.Store({
           context.commit('products', products.data)
         })
         .catch(error=>{
-          console.log(error)
+          console.log(error.response)
         })
     },
     memberproducts(context,payload) {
       context.commit('products', payload)
-    }
+    },
   }
 
 })

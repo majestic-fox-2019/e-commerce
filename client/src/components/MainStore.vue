@@ -6,7 +6,7 @@
             <router-link :to="{name: 'adminfilter', params:{category: 'all'}}"><button @click="load">All</button></router-link>
           </li>
           <li class="nav-item btn mx-2" v-for="category in categories" :key="category.id">
-            <router-link :to="{name: 'adminfilter', params:{category: category.name}}"><button @click="filter(category.id)">{{category.name}}</button></router-link>
+            <router-link :to="{name: 'adminfilter', params:{category: category.name}}"><button>{{category.name}}</button></router-link>
           </li>
         </ul>
     </div>
@@ -19,12 +19,13 @@
         </slide>
       </carousel>
     </div>
-    <div class="container mt-5">
+    <div class="cont">
       <div class="row row-cols-1 d-flex align-content-start flex-wrap">
+        <div v-if="products.length == 0"><h1>No Product</h1></div>
         <div class="col mb-4 card-width" v-for="product in products" :key="product.id">
           <div class="card mb-4">
             <form @submit.prevent="submitForm(product)" action="" enctype="multipart/form-data">
-              <img :src="product.image_url ? product.image_url : `${publicPath}images/no-image.jpg`" class="card-img-top" alt="">
+              <img :src="product.image_url ? product.image_url+`?${Date.now()}` : `${publicPath}images/no-image.jpg`" class="card-img-top" alt="">
               <div class="card-body">
                 <h5 class="card-title">{{product.name}}</h5>
                 <div d-flex >
@@ -67,6 +68,12 @@ export default {
       banners: null,
     }
   },
+  watch: {
+    '$route'(){
+      console.log(this.$route.params)
+      this.refreshRoute()
+    }
+  },
   computed: {
     categories () {
       return this.$store.state.categories
@@ -83,16 +90,22 @@ export default {
     })
     .then(banners=>{
       this.banners = banners.data
+      this.refreshRoute()
     })
     .catch(error=>{
       console.log(error)
     })
-    console.log(this.banners)
-    this.load()
-    this.$store.dispatch('categories')
-    this.$store.dispatch('products')
   },
   methods: {
+    refreshRoute() {
+      if(this.$route.params.category !== "all" && this.$route.params.category != null) {
+        this.$store.dispatch('categories')
+        this.$store.dispatch('filter',this.$route.params.category)
+      }else {
+        this.$store.dispatch('products')     
+        this.$store.dispatch('categories')
+      }
+    },
     load() {
       this.$axios({
         url: '/product/listProduct',
@@ -140,11 +153,8 @@ export default {
             }
           })
             .then(data=>{
-              if(this.$route.params.category == 'all'){
-                this.load()
-              } else {
-                this.$store.dispatch('filter',product.CategoryId)
-              }
+              this.$store.dispatch('cart')
+              this.refreshRoute()
               console.log(data)
               this.$swal.success('product removed from cart')
             })
@@ -155,6 +165,7 @@ export default {
       })
     },
     addProduct(product) {
+      console.log('add')
       Swal.fire({
         title: `Are you sure want to add this item to your cart?`,
         icon: 'warning',
@@ -173,11 +184,8 @@ export default {
             }
           })
           .then(addedCart=>{
-            if(this.$route.params.category == 'all'){
-              this.load()
-            } else {
-              this.$store.dispatch('filter',product.CategoryId)
-            }
+            this.$store.dispatch('cart')
+            this.refreshRoute()
             this.$swal.success('product added to cart')
             console.log(addedCart)
           })
@@ -193,6 +201,9 @@ export default {
 </script>
 
 <style scoped>
+  .cont {
+    margin: 50px;
+  }
   h3 {
     margin-top: 5px;
   }
@@ -200,7 +211,7 @@ export default {
       height: 250px;
   }
   .card-width {
-    max-width: 280px;
+    max-width: 310px;
   }
   .card:hover {
     background-color: rgb(185, 250, 228);

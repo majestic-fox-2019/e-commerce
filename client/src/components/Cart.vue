@@ -35,7 +35,7 @@
             <td>{{amount}}</td>
             <td>{{convertIDR(price)}}</td>
             <td>
-              <button class="btn btn-success" @click="payment">Pay</button>
+              <button v-show="amount > 0" class="btn btn-success" @click="payment">Pay</button>
             </td>
           </tr>
         </tbody>
@@ -139,7 +139,7 @@ export default {
             console.log(product)
           })
           .catch(error=>{
-            this.$swal.error(error.response.data.error)
+            this.$swal.error(error.response.data.error[0])
             console.log(error.response)
           })
       }
@@ -160,6 +160,7 @@ export default {
             headers: {token: localStorage.getItem('token')},
           })
             .then(product=>{
+              this.$store.dispatch('cart')
               this.$swal.success('Thank You')
               this.load()
               console.log(product.data.stock)

@@ -98,12 +98,14 @@ export default {
           }
         })
           .then(registered=>{
-            console.log(registered)
             this.errorRegister = false
             this.formData.username = ''
             this.formData.email = ''
             this.formData.password = ''
-            this.$swal.success('register complete')
+            localStorage.setItem('email',registered.data.email)
+            localStorage.setItem('token',registered.data.token)
+            this.$router.push({ name: 'home'})
+            this.$swal.success('register complete... logged in')
             })
           .catch(error=>{
             this.msg = error.response.data.error[0]

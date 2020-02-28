@@ -76,7 +76,7 @@ const router =  new Router({
         },
         {
           name: 'filter',
-          path: '/category/:category',
+          path: '/admin/category/:category',
           component: MainHome,
         },
         {

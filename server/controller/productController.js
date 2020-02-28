@@ -39,13 +39,21 @@ class ProductContoller{
   }
 
   static filterProductAdmin(req,res,next){
-    let find = {
+    console.log(req.params)
+    Category.findOne({
       where: {
-        CategoryId: Number(req.params.id),
-      },
-      include: [Category, User]
-    }
-    Product.findAll(find)
+        name: req.params.id
+      }
+    })
+     .then(found=>{
+      let find = {
+        where: {
+          CategoryId: found.dataValues.id,
+        },
+        include: [Category, User]
+      }
+       return Product.findAll(find)
+     })
       .then(products=>{
         res.status(200).json(products)
       })
@@ -55,16 +63,25 @@ class ProductContoller{
   }
 
   static filterProduct(req,res,next){
-    let find = {
+    console.log(req.params)
+    Category.findOne({
       where: {
-        CategoryId: Number(req.params.id),
-        stock: {
-          [Op.gt] : 0 
+        name: req.params.id
+      }
+    })
+     .then(found=>{
+        let find = {
+          where: {
+            CategoryId: found.id,
+            stock: {
+              [Op.gt] : 0 
+            }
+          },
+          include: [Category, User]
         }
-      },
-      include: [Category, User]
-    }
-    Product.findAll(find)
+        console.log(find)
+        return Product.findAll(find)
+      })
       .then(products=>{
         res.status(200).json(products)
       })

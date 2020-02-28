@@ -90,7 +90,6 @@ export default {
         })
     },
     submitForm() {
-      console.log(this.formData)
       this.$axios({
         url: '/category/addCategory',
         method: 'post',
@@ -125,6 +124,7 @@ export default {
           })
             .then(deleted=>{
               console.log(deleted)
+              this.$store.dispatch('categories')
               this.$swal.success('category deleted')
             })
             .catch(error=>{

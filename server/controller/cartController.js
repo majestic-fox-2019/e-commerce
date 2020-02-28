@@ -26,7 +26,7 @@ class CartController{
         id: req.body.ProductId
       }
     })
-      .then(product=>{
+    .then(product=>{
         stock = product.dataValues.stock
         if(req.body.action == "plus") {
           if(product.dataValues.stock >= req.body.amount+1) {
@@ -56,7 +56,7 @@ class CartController{
               message: `product out of stock, current stock is ${stock}`
             }
           }
-        }else if(action == "minus"){
+        }else{
           return Cart.update({amount: req.body.amount-1},{
             where: {
               ProductId: req.body.ProductId,

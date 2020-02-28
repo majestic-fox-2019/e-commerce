@@ -54,9 +54,11 @@ class UserController {
       let userObj = {
         id: user.id,
         username: user.username,
+        role: user.role,
         email: user.email
       }
-      res.status(201).json(userObj)
+      let token = generateToken(userObj)
+      res.status(201).json({token, email})
     })
     .catch(err=>{
       next(err)

@@ -3,21 +3,21 @@
     <div class="category-bar shadow bg-white rounded">
         <ul class="navbar-nav mr-auto" style="display: inline;">
           <li class="nav-item btn mx-2">
-            <router-link :to="{name: 'filter', params:{category: 'all'}}"><button @click="load">All</button></router-link>
+            <router-link :to="{name: 'filter', params:{category: 'all'}}"><button>All</button></router-link>
           </li>
           <li class="nav-item btn mx-2" v-for="category in categories" :key="category.id">
-            <router-link :to="{name: 'filter', params:{category: category.name}}"><button @click="filter(category.id)">{{category.name}}</button></router-link>
+            <router-link :to="{name: 'filter', params:{category: category.name}}"><button>{{category.name}}</button></router-link>
           </li>
         </ul>
     </div>
-    <div class="container mt-5">
+    <div class="cont">
       <div class="row row-cols-1 d-flex align-content-start flex-wrap">
         <div v-if="products.length == 0"><h1>No Product</h1></div>
         <div class="col mb-4 card-width" v-for="product in products" :key="product.id">
           <div class="card mb-4">
             <form @submit.prevent="submitForm(product)" action="" enctype="multipart/form-data">
               <input v-if="editing === product.id" type="file" class="form-control" @change="setImage($event)">
-              <img v-else :src="product.image_url ? product.image_url : `${publicPath}images/no-image.jpg`" class="card-img-top" alt="">
+              <img v-else :src="product.image_url ? product.image_url+`?${Date.now()}` : `${publicPath}images/no-image.jpg`" class="card-img-top" alt="">
               <div class="card-body">
                 <td v-if="editing === product.id">
                   <input type="text" style="width: 200px;" v-model="product.name" />
@@ -78,6 +78,11 @@ export default {
       }
     }
   },
+  watch: {
+    '$route'(){
+      this.load()
+    }
+  },
   computed: {
     categories () {
       return this.$store.state.categories
@@ -87,12 +92,17 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('allProd')
-    this.$store.dispatch('categories')
+    this.load()
   },
   methods: {
     load() {
-      this.$store.dispatch('allProd')
+      if(this.$route.params.category !== "all"&& this.$route.params.category != null) {
+        this.$store.dispatch('filterAdmin',this.$route.params.category)
+        this.$store.dispatch('categories')
+      }else {
+        this.$store.dispatch('allProd')
+        this.$store.dispatch('categories')
+      }
     },
     submitForm(data) {
       this.$axios({
@@ -186,17 +196,19 @@ export default {
     editProduct(id) {
       this.editing = id
     },
-   
   },
 }
 </script>
 
 <style scoped>
+  .cont {
+    margin: 50px;
+  }
   .card-img, .card-img-top {
       height: 250px;
   }
   .card-width {
-    max-width: 280px;
+    max-width: 310px;
   }
   .card:hover {
     background-color: rgb(185, 250, 228);
