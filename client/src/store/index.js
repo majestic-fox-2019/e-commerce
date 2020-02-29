@@ -213,7 +213,7 @@ export default new Vuex.Store({
       formData.append("image_url", dataProduct.image_url);
       formData.append("category", dataProduct.category);
       context.commit("dummy", "dummy")
-      axios({
+      return axios({
         method: "POST",
         url: `${this.state.baseUrl}/products`,
         headers: {

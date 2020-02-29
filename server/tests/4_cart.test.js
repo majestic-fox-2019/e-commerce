@@ -23,7 +23,7 @@ const Product = require("../models").Product
 // })
 
 var tokenUser
-var tokenSeller
+var tokenUserLain
 var idProduct
 describe("POST /users/register", function () {
     let registerUser = {
@@ -124,11 +124,43 @@ describe("POST /products", function () {
     })
 
 })
+
+describe("POST /users/register", function () {
+    let registerUser = {
+        name: "tesCartBeli",
+        email: "tesbeli@mail.com",
+        password: "secret",
+        role: "user",
+    }
+    it("should responds with status code 201 and return token", (done) => {
+        request(app)
+            .post("/users/register")
+            .send(registerUser)
+            .expect(201)
+            .end((err, res) => {
+                if (err) {
+                    done()
+                } else {
+                    // expect(res.body).toBe("heheh")
+                    expect(res.body).toHaveProperty("userRegistered")
+                    expect(res.body).toHaveProperty("token")
+                    expect(res.body.userRegistered).toHaveProperty("email")
+                    expect(res.body.userRegistered).toHaveProperty("name")
+                    expect(res.body.userRegistered).toHaveProperty("role")
+
+                    // console.log(res.body.token, "<<<<<<<")
+                    tokenUserLain = res.body.token
+                    // idUser = res.body.userRegistered.id
+                    done()
+                }
+            })
+    })
+})
 describe("POST /carts/:idProduct", function () {
     it("should return an object with status code 201", (done) => {
         request(app)
             .post(`/carts/${idProduct}`)
-            .set({ token: tokenUser })
+            .set({ token: tokenUserLain })
             .send({ qty: 2 })
             .expect(201)
             .end((err, res) => {
@@ -155,7 +187,7 @@ describe("GET /carts/mine", function () {
     it("should return an object with status code 200", (done) => {
         request(app)
             .get("/carts/mine")
-            .set({ token: tokenUser })
+            .set({ token: tokenUserLain })
             .expect(200)
             .end((err, res) => {
                 if (err) {
@@ -164,6 +196,10 @@ describe("GET /carts/mine", function () {
 
                 } else {
                     expect(typeof res.body).toBe("object")
+                    expect(res.body[0]).toHaveProperty("UserId")
+                    expect(res.body[0]).toHaveProperty("UserId")
+                    expect(res.body[0]).toHaveProperty("qty")
+
                     done()
                 }
             })
@@ -183,6 +219,123 @@ describe("PUT /carts/:idCart", function () {
 
                 } else {
                     expect(typeof res.body).toBe("object")
+                    expect(res.body[0]).toBe(1)
+                    expect(typeof res.body[1]).toBe("object")
+                    done()
+                }
+            })
+    })
+    it("should return an object with status code 401", (done) => {
+        request(app)
+            .put(`/carts/${idProduct}`)
+            .set({ token: tokenUserLain })
+            .expect(401)
+            .end((err, res) => {
+                if (err) {
+                    // console.log(err)
+                    done()
+
+                } else {
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body).toHaveProperty("message")
+                    expect(res.body.message).toBe("Failed to authenticate")
+                    done()
+                }
+            })
+    })
+    it("should return an object with status code 400 when token is not set", (done) => {
+        request(app)
+            .put(`/carts/${idProduct}`)
+            .set({ token: tokenUser })
+            .expect(400)
+            .end((err, res) => {
+                if (err) {
+                    // done()
+                    done()
+                } else {
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body).toHaveProperty("message")
+                    expect(res.body.message).toBe("please login first")
+
+                    done()
+
+                }
+            })
+    })
+})
+
+describe("POST /reviews", function () {
+    let review = {
+        rating: 5,
+        review: "lucu"
+    }
+    it("should return an object with status code 201", (done) => {
+        request(app)
+            .post(`/reviews/${idProduct}`)
+            .set({ token: tokenUserLain })
+            .send(review)
+            .expect(201)
+            .end((err, res) => {
+                if (err) {
+                    done()
+                } else {
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body).toHaveProperty("ratingProductLast")
+                    done()
+                }
+            })
+
+    })
+    it("should return an object with status code 400 when user tried to review their own product", (done) => {
+        request(app)
+            .post(`/reviews/${idProduct}`)
+            .set({ token: tokenUser })
+            .send(review)
+            .expect(400)
+            .end((err, res) => {
+                if (err) {
+                    done()
+                } else {
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body).toHaveProperty("message")
+                    done()
+                }
+            })
+
+    })
+    it("should return an object with status code 400 when token is not set", (done) => {
+        request(app)
+            .put(`/reviews/${idProduct}`)
+            .expect(400)
+            .end((err, res) => {
+                if (err) {
+                    // done()
+                    done()
+                } else {
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body).toHaveProperty("message")
+                    expect(res.body.message).toBe("please login first")
+
+                    done()
+
+                }
+            })
+    })
+})
+
+describe("GET /reviews/:idProduct", function () {
+    it("shoud return an object with status code 200", (done) => {
+        request(app)
+            .get(`/reviews/${idProduct}`)
+            .expect(200)
+            .end((err, res) => {
+                if (err) {
+                    done()
+                } else {
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body).toHaveProperty("allReviewsOfProduct")
+                    expect(res.body).toHaveProperty("accumulatedPR")
+
                     done()
                 }
             })

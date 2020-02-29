@@ -15,8 +15,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use("/", routes)
 app.use(errorHandler)
 
-app.listen(PORT, () => {
-    console.log(`listening to PORT ${PORT} in environment ${process.env.NODE_ENV}`)
-})
+// app.listen(PORT, () => {
+//     console.log(`listening to PORT ${PORT} in environment ${process.env.NODE_ENV}`)
+// })
 
 module.exports = app

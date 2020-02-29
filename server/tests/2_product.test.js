@@ -50,6 +50,13 @@ describe("POST /products", function () {
         category: "Clothing",
         description: "masih bagus"
     }
+    let barangJeleks = {
+        name: "dress",
+        price: 200000,
+        category: "Clothing",
+        description: "masih bagus"
+    }
+
     it("should return an object with status code 201", (done) => {
         request(app)
             .post("/products")
@@ -84,10 +91,31 @@ describe("POST /products", function () {
             .expect(400)
             .end((err, res) => {
                 if (err) {
-                    done()
+                    // done()
                     done()
                 } else {
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body).toHaveProperty("message")
+                    expect(res.body.message).toBe("please login first")
 
+                    done()
+
+                }
+            })
+    })
+    it("should return an object with status code 400 when property is not lengkap", (done) => {
+        request(app)
+            .post("/products")
+            .send(barangJeleks)
+            .expect(400)
+            .end((err, res) => {
+                if (err) {
+                    // done()
+                    done()
+                } else {
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body).toHaveProperty("message")
+                    expect(typeof res.body.message).toBe("string")
                     done()
                 }
             })

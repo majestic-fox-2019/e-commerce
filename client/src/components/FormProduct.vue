@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <form class="center p-5">
       <div class="form-group">
         <div class="d-flex">
@@ -80,7 +80,8 @@ export default {
       image_url: "",
       stock: "",
       categories: ["Clothing", "Shoes", "Accessories"],
-      category: ""
+      category: "",
+      loading: false
     };
   },
   methods: {
@@ -88,13 +89,14 @@ export default {
       this.image_url = e.target.files[0];
     },
     sell() {
+      this.loading = true;
       let name = this.name;
       let description = this.description;
       let stock = this.stock;
       let price = this.price;
       let image_url = this.image_url;
       let category = this.category;
-     
+
       let objForm = {
         price,
         image_url,
@@ -103,7 +105,9 @@ export default {
         description,
         stock
       };
-      this.$store.dispatch("sellProduct", objForm);
+      this.$store.dispatch("sellProduct", objForm).then(() => {
+        this.loading = false;
+      });
     }
   }
 };

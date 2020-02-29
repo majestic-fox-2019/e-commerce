@@ -3,24 +3,132 @@ const app = require("../app")
 const Product = require("../models").Product
 
 // var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxOTI5ODEzfQ.kweAGZEUj4za-OkZtqKid6jzMHDDbejLvpUHh3AJXoE"
+var token
+// beforeAll(() => {
+//     Product.create({
+//         name: "wedges",
+//         stock: 2,
+//         image_url: "wedge.com",
+//         price: 200000,
+//         category: "Shoes",
+//         description: "masih bagus dan cantik",
+//         UserId: 1
+//     })
+//         .then(beforeNya => {
 
-beforeAll(() => {
-    Product.create({
-        name: "wedges",
-        stock: 2,
-        image_url: "wedge.com",
-        price: 200000,
-        category: "Shoes",
-        description: "masih bagus dan cantik",
-        UserId: 1
+//         })
+//         .catch(err => {
+//         })
+// })
+describe("POST /users/register", function () {
+    let registerUser = {
+        name: "testReviewSeller",
+        email: "testReviewSeller@mail.com",
+        password: "secret",
+        role: "user",
+    }
+    it("should responds with status code 201 and return token", (done) => {
+        request(app)
+            .post("/users/register")
+            .send(registerUser)
+            .expect(201)
+            .end((err, res) => {
+                if (err) {
+                    done()
+                } else {
+                    // expect(res.body).toBe("heheh")
+                    expect(res.body).toHaveProperty("userRegistered")
+                    expect(res.body).toHaveProperty("token")
+
+                    // console.log(res.body.token, "<<<<<<<")
+                    token = res.body.token
+                    idUser = res.body.userRegistered.id
+                    done()
+                }
+            })
     })
-        .then(beforeNya => {
-
-        })
-        .catch(err => {
-        })
 })
+describe("POST /products", function () {
+    let barang = {
+        name: "dress",
+        stock: 14,
+        image_url: "lala.com",
+        price: 200000,
+        category: "Clothing",
+        description: "masih bagus"
+    }
+    let barangJeleks = {
+        name: "dress",
+        price: 200000,
+        category: "Clothing",
+        description: "masih bagus"
+    }
 
+    it("should return an object with status code 201", (done) => {
+        request(app)
+            .post("/products")
+            .set({ token: token })
+            .send(barang)
+            .expect(201)
+            .end((err, res) => {
+                if (err) {
+                    done()
+                } else {
+                    expect(res.body).toHaveProperty("category")
+                    expect(res.body).toHaveProperty("image_url")
+                    expect(res.body).toHaveProperty("name")
+                    expect(res.body).toHaveProperty("description")
+                    expect(res.body).toHaveProperty("stock")
+                    expect(res.body).toHaveProperty("rating")
+                    expect(res.body).toHaveProperty("UserId")
+                    expect(res.body.category).toBe("Clothing")
+                    expect(res.body.image_url).toBe("lala.com")
+                    expect(res.body.name).toBe("dress")
+                    expect(res.body.description).toBe("masih bagus")
+                    expect(res.body.stock).toBe(14)
+                    expect(res.body.price).toBe(200000)
+                    done()
+                }
+            })
+    })
+    it("should return an object with status code 400 when token is not set", (done) => {
+        request(app)
+            .post("/products")
+            .send(barang)
+            .expect(400)
+            .end((err, res) => {
+                if (err) {
+                    // done()
+                    done()
+                } else {
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body).toHaveProperty("message")
+                    expect(res.body.message).toBe("please login first")
+
+                    done()
+
+                }
+            })
+    })
+    it("should return an object with status code 400 when property is not lengkap", (done) => {
+        request(app)
+            .post("/products")
+            .send(barangJeleks)
+            .expect(400)
+            .end((err, res) => {
+                if (err) {
+                    // done()
+                    done()
+                } else {
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body).toHaveProperty("message")
+                    expect(typeof res.body.message).toBe("string")
+                    done()
+                }
+            })
+    })
+
+})
 
 describe("POST /reviews/:idProduct", function () {
     it("should return an object with status code 201", (done) => {

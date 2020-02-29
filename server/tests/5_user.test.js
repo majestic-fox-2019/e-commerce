@@ -150,10 +150,11 @@ describe('GET /users', function () {
                     throw err
                 } else {
                     expect(res.status).toBe(200)
-                    expect(res.body).toHaveProperty("name")
-                    expect(res.body).toHaveProperty("role")
-                    expect(res.body).toHaveProperty("email")
-                    expect(res.body.email).toBe("admin@mail.com")
+                    expect(typeof res.body).toBe("object")
+                    expect(res.body[0]).toHaveProperty("name")
+                    // expect(res.body).toHaveProperty("name")
+                    expect(res.body[0]).toHaveProperty("role")
+                    expect(res.body[0]).toHaveProperty("email")
                 }
             })
     });
