@@ -11,6 +11,7 @@ describe('Post Endpoint', () => {
             name: "t shirt",
             image_url: '../',
             price: 200000,
+            size: 1,
             stock: 12
         }
 
@@ -26,6 +27,7 @@ describe('Post Endpoint', () => {
             expect(res.body).toHaveProperty("name")
             expect(res.body).toHaveProperty("image_url")
             expect(res.body).toHaveProperty("price")
+            expect(res,body.size).toBe("S")
             expect(res.body).toHaveProperty("stock")
             done()
         })
