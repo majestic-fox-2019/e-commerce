@@ -18,7 +18,7 @@
           <th>{{product.name}}</th>
           <th>{{product.price}}</th>
           <th>{{product.stock}}</th>
-          <th><router-link :to="`/detail/${product.id}`">Edit</router-link> <b-btn variant="danger">Delete</b-btn></th>
+          <th><router-link :to="`/detail/${product.id}`">Detail</router-link> <b-btn variant="danger">Delete</b-btn></th>
         </tr>
       </tbody>
     </table>

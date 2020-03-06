@@ -6,14 +6,17 @@ const app = require("../app")
 
 describe('Post Endpoint', () => {
     it('should create a new product', function (done) {
+        
         const obj = {
             name: "t shirt",
-            image: "http://tshirt.com",
+            image_url: '../',
             price: 200000,
             stock: 12
         }
+
         request(app)
         .post('/products/')
+        .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
         .send(obj)
         .expect(201)
         .end( (err, res) => {
@@ -29,14 +32,17 @@ describe('Post Endpoint', () => {
     })
 
     it('should fail create product', (done) => {
+        
         const obj = {
             name: null,
-            image: null,
+            image_url: null,
             price: null,
             stock: null
         }
+
         request(app)
         .post('/products')
+        .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
         .send(obj)
         .expect(400)
         .end( (err, res) => {
@@ -50,13 +56,15 @@ describe('Post Endpoint', () => {
 
     it('should fail create product', (done) => {
         const obj = {
-            name: "t-shirt",
-            image: "image",
-            price: 10,
+            name: "t shirt",
+            image_url: '../',
+            price: 2,
             stock: 0
         }
+
         request(app)
         .post('/products')
+        .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
         .send(obj)
         .expect(400)
         .end( (err, res) => {
@@ -76,6 +84,7 @@ describe('Get endpoint', function() {
    it('should get all product', function(done) {
        request(app)
        .get('/products')
+       .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
        .expect(200)
        .end( (err, res) => {
            if(err){
@@ -92,6 +101,7 @@ describe('Get endpoint', function() {
    it('should get one product', function(done) {
        request(app)
        .get('/products/1')
+       .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
        .expect(200)
        .end( (err, res) => {
            if(err){
@@ -105,6 +115,7 @@ describe('Get endpoint', function() {
    it('shoult get error find one product', function(done){
        request(app)
        .get('/products/2')
+       .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
        .expect(404)
        .end( (err, res) => {
            if(err){
@@ -124,8 +135,17 @@ describe('put endpoint', function(){
             price: 200000,
             stock: 11
         }
+
+        const fd = new FormData
+
+        fd.append('name', obj.name)
+        fd.append('image_url', obj.image_url)
+        fd.append('price', obj.price)
+        fd.append('stock', obj.stock)
+
         request(app)
         .put('/products/1')
+        .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
         .send(obj)
         .expect(200)
         .end( (err, res) => {
@@ -140,13 +160,22 @@ describe('put endpoint', function(){
     it('should update selected product', function(done) {
         const obj = {
             name: "t shirt",
-            image: "http://tshirt.com",
+            image_url: '../',
             price: 200000,
             stock: 11
         }
+
+        const fd = new FormData
+
+        fd.append('name', obj.name)
+        fd.append('image_url', obj.image_url)
+        fd.append('price', obj.price)
+        fd.append('stock', obj.stock)
+
         request(app)
-        .put('/products/2')
+        .put('/products/1')
         .send(obj)
+        .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
         .expect(200)
         .end( (err, res) => {
             if(err){

@@ -3,7 +3,7 @@ const { verify } = require("../helpers")
 const { Cart, User } = require("../models")
 
 function errorHandler (err, req, res, next) {
-    console.log(err)
+    console.log(err.name)
     const errors = []
     let code = null
     if(err.name === 'SequelizeValidationError'){
