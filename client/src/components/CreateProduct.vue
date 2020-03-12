@@ -58,6 +58,7 @@ export default {
           file: null,
           price: null,
           stock: null,
+          category: null
         },
         errorsMsg: null,
         successMsg: null,
