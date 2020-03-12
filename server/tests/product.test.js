@@ -1,8 +1,51 @@
 "use strict"
 
 const request = require('supertest')
+const jwt = require('jsonwebtoken')
 const app = require("../app")
+const { sequelize, User } = require("../models")
+const { queryInterface } = sequelize
 
+let valid_token = null
+let invalid_token = null
+
+afterAll(done => {
+    queryInterface
+    .bulkDelete('Users', {})
+    .then(() => done())
+    .catch(err => done(err))
+})
+
+beforeAll(done => {
+    User.create({
+        fullName: 'bonie',
+        email: 'bonie@gmail.com',
+        password: 'asd123',
+        role: 'admin'
+    })
+    .then(response => {
+        valid_token = jwt.sign({
+            id : response.id,
+            role : response.role
+        }, process.env.JWT_KEY)
+        return User.create({
+            fullName: 'romy',
+            email: 'romi@gmail.com',
+            password: 'asd123',
+            role: 'user'
+        })
+    })
+    .then(response => {
+        invalid_token = jwt.sign({
+            id : response.id,
+            role : response.role
+        }, process.env.JWT_KEY)
+        done()
+    })
+    .catch(err => {
+        done(err)
+    })
+})
 
 describe('Post Endpoint', () => {
     it('should create a new product', function (done) {
@@ -11,13 +54,14 @@ describe('Post Endpoint', () => {
             name: "t shirt",
             image_url: '../',
             price: 200000,
+            stock: 12,
             size: 1,
-            stock: 12
+            category: 1
         }
 
         request(app)
         .post('/products/')
-        .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
+        .set('Authorization', `bearer ${valid_token}`)
         .send(obj)
         .expect(201)
         .end( (err, res) => {
@@ -27,8 +71,9 @@ describe('Post Endpoint', () => {
             expect(res.body).toHaveProperty("name")
             expect(res.body).toHaveProperty("image_url")
             expect(res.body).toHaveProperty("price")
-            expect(res,body.size).toBe("S")
+            expect(res.body).toHaveProperty("SizeId")
             expect(res.body).toHaveProperty("stock")
+            expect(res.body).toHaveProperty("CategoryId")
             done()
         })
     })
@@ -39,12 +84,14 @@ describe('Post Endpoint', () => {
             name: null,
             image_url: null,
             price: null,
-            stock: null
+            stock: null,
+            SizeId: null,
+            CategoryId: null
         }
 
         request(app)
         .post('/products')
-        .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
+        .set('Authorization', `bearer ${valid_token}` )
         .send(obj)
         .expect(400)
         .end( (err, res) => {
@@ -61,12 +108,14 @@ describe('Post Endpoint', () => {
             name: "t shirt",
             image_url: '../',
             price: 2,
-            stock: 0
+            stock: 0,
+            SizeId: 2,
+            CategoryId: 1
         }
 
         request(app)
         .post('/products')
-        .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
+        .set('Authorization', `bearer ${valid_token}` )
         .send(obj)
         .expect(400)
         .end( (err, res) => {
@@ -86,7 +135,7 @@ describe('Get endpoint', function() {
    it('should get all product', function(done) {
        request(app)
        .get('/products')
-       .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
+       .set('Authorization', `bearer ${valid_token}` )
        .expect(200)
        .end( (err, res) => {
            if(err){
@@ -96,6 +145,8 @@ describe('Get endpoint', function() {
            expect(res.body[0]).toHaveProperty("image_url")
            expect(res.body[0]).toHaveProperty("price")
            expect(res.body[0]).toHaveProperty("stock")
+           expect(res.body[0]).toHaveProperty("size")
+           expect(res.body[0]).toHaveProperty("category")
            done()
        })
    })
@@ -103,7 +154,7 @@ describe('Get endpoint', function() {
    it('should get one product', function(done) {
        request(app)
        .get('/products/1')
-       .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
+       .set('Authorization', `bearer ${valid_token}` )
        .expect(200)
        .end( (err, res) => {
            if(err){
@@ -117,7 +168,7 @@ describe('Get endpoint', function() {
    it('shoult get error find one product', function(done){
        request(app)
        .get('/products/2')
-       .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
+       .set('Authorization', `bearer ${valid_token}` )
        .expect(404)
        .end( (err, res) => {
            if(err){
@@ -147,7 +198,7 @@ describe('put endpoint', function(){
 
         request(app)
         .put('/products/1')
-        .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
+        .set('Authorization', `bearer ${valid_token}` )
         .send(obj)
         .expect(200)
         .end( (err, res) => {
@@ -177,7 +228,7 @@ describe('put endpoint', function(){
         request(app)
         .put('/products/1')
         .send(obj)
-        .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgyODU3ODE5fQ.vdCCV-ZB7D-kVlu4GCl29KHOLurQZ-cCo3Bl3izzMYI')
+        .set('Authorization', `bearer ${valid_token}` )
         .expect(200)
         .end( (err, res) => {
             if(err){

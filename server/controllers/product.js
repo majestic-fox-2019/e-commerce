@@ -1,6 +1,6 @@
 "use strict"
 
-const { Product } = require("../models")
+const { Product, Size, Category } = require("../models")
 
 class productController {
     static create (req, res, next) {
@@ -8,7 +8,9 @@ class productController {
             name: req.body.name,
             image_url: req.body.image_url,
             price: req.body.price,
-            stock: req.body.stock
+            stock: req.body.stock,
+            SizeId: req.body.size,
+            CategoryId: req.body.category
         })
         .then(result => {
             res.status(201).json(result)
@@ -17,7 +19,18 @@ class productController {
     }
 
     static getAll (req, res, next) {
-        Product.findAll()
+        Product.findAll({
+            include: [
+                {
+                    model: Size,
+                    attributes: ['name']
+                },
+                {
+                    model: Category,
+                    attributes: ['name']
+                }
+            ]
+        })
         .then(result => {
             res.status(200).json(result)
         })
@@ -29,6 +42,8 @@ class productController {
             where:{
                 id: req.params.id
             }
+        },{
+            include: ['Size']
         })
         .then(result => {
             if(!result){

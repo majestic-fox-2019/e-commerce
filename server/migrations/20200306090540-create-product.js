@@ -20,6 +20,20 @@ module.exports = {
       stock: {
         type: Sequelize.INTEGER
       },
+      SizeId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Sizes',
+          key: 'id'
+        }
+      },
+      CategoryId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Categories',
+          key: 'id'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

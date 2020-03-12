@@ -3,7 +3,8 @@ const { verify } = require("../helpers")
 const { Cart, User } = require("../models")
 
 function errorHandler (err, req, res, next) {
-    console.log(err.name)
+    // console.log(err.name)
+    console.log(err)
     const errors = []
     let code = null
     if(err.name === 'SequelizeValidationError'){
@@ -39,6 +40,15 @@ async function authentication(req, res, next){
 
 }
 
+function authorizationCMS(req, res, next){
+    if(req.role === 'admin'){
+        next()
+    } else if(req.role === 'user'){
+
+        next({code: 403, message: "you dont have access"})
+    }
+}
+
 function authorization(req, res, next) {
     if(req.role === 'admin'){
         next()
@@ -71,5 +81,5 @@ function authorization(req, res, next) {
 module.exports= {
     errorHandler,
     authentication,
-    authorization  
+    authorizationCMS 
 }
