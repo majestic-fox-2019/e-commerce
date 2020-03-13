@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
   }, { sequelize });
   Size.associate = function(models) {
     // associations can be defined here
-    Size.belongsTo(models.Product, { foreignKey: 'SizeId'})
   };
   return Size;
 };
