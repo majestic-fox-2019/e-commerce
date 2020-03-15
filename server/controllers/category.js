@@ -13,7 +13,8 @@ class CategoryController {
         .catch(next)
     }
     static getAll ( req, res, next ) {
-        Category.getAll()
+        console.log('masuk')
+        Category.findAll()
         .then(result => {
             res.status(200).json(result)
         })

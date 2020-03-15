@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
   }, { sequelize });
   Category.associate = function(models) {
     // associations can be defined here
-    Category.belongsTo(models.Product, {foreignKey: 'CategoryId'})
   };
   return Category;
 };

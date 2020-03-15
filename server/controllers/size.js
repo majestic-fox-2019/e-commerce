@@ -13,12 +13,7 @@ class SizeController {
         .catch(next)
     }
     static getAll ( req, res, next ) {
-        Size.findAll({},{
-            include: [{
-                model: Product,
-                attributes: ['name']
-            }]
-        })
+        Size.findAll()
         .then(result => {
             res.status(200).json(result)
         })

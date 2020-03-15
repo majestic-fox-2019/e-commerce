@@ -41,10 +41,19 @@ class productController {
         Product.findOne({
             where:{
                 id: req.params.id
-            }
-        },{
-            include: ['Size']
+            },
+            include: [
+                {
+                    model: Size,
+                    attributes: ['name']
+                },
+                {
+                    model: Category,
+                    attributes: ['name']
+                }
+            ]
         })
+        
         .then(result => {
             if(!result){
                 throw {code: 404, message: "item not found"}

@@ -11,9 +11,9 @@ console.log(upload);
 
 route.use(authentication)
 route.post('/', authorizationCMS, upload.single('image_url'), product.create)
-route.get('/', authorizationCMS,product.getAll)
-route.get('/:id', product.getOne)
-route.put('/:id', authorizationCMS,product.update)
+route.get('/', authorizationCMS, product.getAll)
+route.get('/:id', authorizationCMS, product.getOne)
+route.put('/:id', authorizationCMS, product.update)
 route.delete('/:id', authorizationCMS, product.delete)
 
 module.exports = route

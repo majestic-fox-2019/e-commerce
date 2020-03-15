@@ -108,6 +108,9 @@ export default {
           this.form.price= null
           this.form.stock= null
       }
+    },
+    created(){
+
     }
 }
 </script>

@@ -9,7 +9,7 @@ const sizeRoute = require('./size')
 
 route.use('/products', productRoute)
 route.use('/users', userRoute)
-route.use('/category', categoryRoute)
-route.use('/size', sizeRoute)
+route.use('/categories', categoryRoute)
+route.use('/sizes', sizeRoute)
 
 module.exports= route
