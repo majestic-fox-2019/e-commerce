@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: "fullname is require"
+        },
+        len: {
+          args: 3,
+          msg: "min 3 character"
         }
       }
     },
@@ -20,6 +24,19 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: "email is require"
+        },
+        isEmailAlready(value, next) {
+          User.findOne({
+            where: {
+              email: value
+            }
+          })
+          .then(result => {
+            if(result){
+              return next({status:404, message:'email has already take'})
+            }
+            next()
+          })
         }
       }
     },
@@ -51,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
         const hashingPass = hash(user.password)
         user.password = hashingPass 
       }
-  },sequelize });
+  }, sequelize });
   User.associate = function(models) {
     // associations can be defined here
     User.hasMany(models.Cart)

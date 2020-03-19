@@ -61,6 +61,51 @@ response: {
 }
 ```
 
+#### Error Handling User
+----
+- validation register
+```
+Status Code: 400,
+response: {
+	"message": "Fullname is require",
+}
+```
+```
+Status Code : 400,
+response: {
+	"message": "min 3 chraracter"
+}
+```
+```
+status Code: 400,
+response: {
+	"Message": "email is require"
+}
+```
+```
+Status Code: 400,
+response: {
+	"message" : "email is already take"
+}
+```
+```
+Status Code: 400,
+response: {
+	"message": "password is require"
+}
+```
+```
+Status Code: 400,
+response: {
+	"message": "role is require"
+}
+```
+```
+Status Code: 500,
+response: {
+	"message": "internal server error"
+}
+```
 ### Size Endpoint
 #### GET `sizes/`
 ----
@@ -68,12 +113,21 @@ show all size
 ```
 url: 'http://localhost:3000/sizes',
 method: 'GET',
+headers: 'bearer "token"',
 response: [
 	{
 		'id': 'id size',
         'name': 'name size'
 	}
 ]
+```
+#### Error Handling Size
+----
+```
+Status Code: 500,
+response: {
+	"message": "interna; server error"
+}
 ```
 
 ### Category Endpoint
@@ -83,6 +137,7 @@ show all category
 ```
 url: 'http:localhost:3000/categories',
 method: 'GET',
+headers: 'bearer "token"',
 response: [
 	{
 		'id': 'id Category',
@@ -90,15 +145,23 @@ response: [
 	}
 ]
 ```
-
+#### Error Handling Category
+----
+```
+Status Code: 500,
+response: {
+	"message": "interna; server error"
+}
+```
 ### Product Endpoint
 
-##### GET `products/`
+#### GET `products/`
 ----
 return all product
 ```
 url: 'http:localhost:3000/products',
 method: 'GET',
+headers: 'bearer "token"',
 response: [
 	 {
         "id": 1,
@@ -119,13 +182,14 @@ response: [
     }
 ]
 ```
-##### GET `products/:id`
+#### GET `products/:id`
 ----
 return product data based on id product
 
 ```
 url: 'http://localhost:3000/products/:id'
 method: 'GET',
+headers: 'bearer "token"',
 response: {
 		"id": 1,
         "name": "baju baru",
@@ -151,43 +215,14 @@ create new product
 ```
 url: 'http://localhost:3000/products/',
 method: 'POST',
+headers: 'bearer "token"',
 body: {
 	'name': 'name product',
 	'image_url': 'url image',
 	'price': 'price product',
     'stock': 'stock product',
-    'CategoryId': '[
-    	 {
-        "id": 1,
-        "name": "t-shirt"
-        },
-        {
-            "id": 2,
-            "name": "jacket"
-        },
-        {
-            "id": 3,
-            "name": "pants"
-        }
-    ]'
-    'SizeId': '[
-    	 {
-        "id": 1,
-        "name": "S"
-        },
-        {
-            "id": 2,
-            "name": "M"
-        },
-        {
-            "id": 3,
-            "name": "L"
-        },
-        {
-            "id": 4,
-            "name": "XL"
-        }
-    ]',
+    'CategoryId': 'id from data of Category',
+    'SizeId': 'id id from data of Size'
 }
 response: {
 	"id": 1,
@@ -201,3 +236,73 @@ response: {
     "updatedAt": "2020-03-10T14:09:26.823Z",
 }
 ```
+#### PUT `products/:id`
+----
+update product based on id product and return data product
+
+```
+url: 'http://localhost:3000/products/:id'
+method:'POST',
+headers: 'bearer "token"',
+body: {
+	'name': 'name product',
+	'image_url': 'url image',
+	'price': 'price product',
+	'stock' : 'stock product',
+	'CategoryId': 'id from data of Category',
+    'SizeId': 'id id from data of Size'
+}
+response: '{
+        "id": 1,
+        "name": "baju baru",
+        "image_url": "https://habra.com.my/wp-content/uploads/2019/01/Habra-Haute-Kara-Kebaya-Batik-Kebaya-Moden-Kebaya-Modern-Baju-Kurung-Batik-Baju-Kebaya-Malaysia-Batik-Indonesia-Batik-Malaysia-Raya-Koleksi-Raya-2019-KR52-1.jpg",
+        "price": 200000,
+        "stock": 20,
+        "CategoryId": 1,
+        "SizeId": 1,
+        "createdAt": "2020-03-10T14:09:26.823Z",
+        "updatedAt": "2020-03-10T14:09:26.823Z",
+        "Size": {
+            "name": "S"
+        },
+        "Category": {
+            "name": "t-shirt"
+        }
+}'
+```
+#### DELETE `products\:id`
+----
+delete specific product base on id product and return data product
+
+```
+url: 'http://localhost:3000/products/:id'
+method: 'DELETE',
+headers: 'beare "token"',
+response: {
+		"id": 1,
+        "name": "baju baru",
+        "image_url": "https://habra.com.my/wp-content/uploads/2019/01/Habra-Haute-Kara-Kebaya-Batik-Kebaya-Moden-Kebaya-Modern-Baju-Kurung-Batik-Baju-Kebaya-Malaysia-Batik-Indonesia-Batik-Malaysia-Raya-Koleksi-Raya-2019-KR52-1.jpg",
+        "price": 200000,
+        "stock": 20,
+        "CategoryId": 1,
+        "SizeId": 1,
+        "createdAt": "2020-03-10T14:09:26.823Z",
+        "updatedAt": "2020-03-10T14:09:26.823Z",
+        "Size": {
+            "name": "S"
+        },
+        "Category": {
+            "name": "t-shirt"
+        }
+}
+```
+#### Error Handling Product
+----
+```
+Status Code: 500,
+response: {
+	"message": "interna; server error"
+}
+```
+
+
