@@ -30,6 +30,7 @@ async function authentication(req, res, next){
         const token = tokenBearer[1]
         const verifyToken = await verify(token)
         
+        console.log("masuk sebagai user di authentication")
         req.id = verifyToken.id
         req.role = verifyToken.role
 
@@ -42,6 +43,7 @@ async function authentication(req, res, next){
 
 function authorizationCMS(req, res, next){
     if(req.role === 'admin'){
+        console.log("masuk sebagai user di authorization")
         next()
     } else if(req.role === 'user'){
 

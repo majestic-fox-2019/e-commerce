@@ -11,6 +11,7 @@ export default new Vuex.Store({
     role: null,
     errors: null,
     products: null,
+    categories: null,
     loading: false,
   },
   mutations: {
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     },
     products(state, data){
       state.products= data
+    },
+    categories(state, data){
+      state.categories= data
     },
     loading(state){
       if(!state.loading){
@@ -78,6 +82,21 @@ export default new Vuex.Store({
         commit("products", data)
       })
       .catch(err => {
+        commit('loading')
+        commit("error", err.response.data.message)
+      })
+    },
+    fetchCategories({ commit }){
+      commit('loading')
+      config({
+        method:'get',
+        url:'categories',
+      })
+      .then(({ data }) => {
+        commit('loading')
+        commit("error", data)
+      })
+      .err(err => {
         commit('loading')
         commit("error", err.response.data.message)
       })

@@ -19,6 +19,7 @@ class productController {
     }
 
     static getAll (req, res, next) {
+        
         Product.findAll({
             include: [
                 {
