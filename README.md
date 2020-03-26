@@ -1,4 +1,8 @@
 # e-commerce
+akun yang sudah di buat (bisa buat akun admin / customer lain) 
+akun admin = budi@gmail.com 
+akun customer = putra@gmail.com 
+password = 123456
 
 Dokumentasi RESTFUL API my-e-commerce.
 
