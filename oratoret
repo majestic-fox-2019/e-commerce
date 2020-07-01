@@ -1,0 +1,19 @@
+carts{
+id: 1,
+username: blabl,
+carts: [],
+}
+
+transaction {
+id: 1
+username: blabla,
+products: [
+
+]}
+
+UserId,
+ProductId
+
+user {
+ProductId: [],
+
