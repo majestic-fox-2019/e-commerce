@@ -1,0 +1,5 @@
+PORT=3000
+DB_USER=postgres
+DB_PASSWORD=takin230793
+DB_NAME=e-commerce-1
+JWT_KEY=takinecommerce
